@@ -1,0 +1,22 @@
+[user]
+	name = David Lukes
+	email = dafydd.lukes@gmail.com
+[core]
+	# editor = vi
+	excludesfile = ~/.gitignore_global
+[color]
+	ui = auto
+[alias]
+	lol = log --graph --all --decorate --oneline
+	s = status -s
+	unstage = reset HEAD
+	wdiff = diff --word-diff=color --unified=1
+[push]
+	default = simple
+[credential]
+	helper = cache
+[diff "pandoc"]
+  textconv = pandoc --to=markdown
+	prompt = false
+[help]
+	autocorrect = 3
