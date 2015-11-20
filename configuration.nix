@@ -152,7 +152,7 @@ in {
     xserver = {
       enable = true;
       layout = "cz,us,fr";
-      xkbOptions = "grp:alt_shift_toggle";
+      # xkbOptions = "grp:alt_shift_toggle";
       xkbVariant = "qwerty";
 
       # displayManager.gdm.enable = true;
