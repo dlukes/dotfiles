@@ -8,6 +8,7 @@
 
 let
   hostname = "nixos";
+  user = "dvl";
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -206,16 +207,18 @@ in {
 
   # Make sure the only way to add users/groups is to change this file
   users.mutableUsers = false;
+  users.defaultUserShell = "/run/current-system/sw/bin/zsh";
 
   # Add myself as a super user
-    users.extraUsers.dvl = {
-    createHome = true;
-    home = "/home/dvl";
-    description = "David Lukes";
+  users.extraUsers."${user}" = {
+    isNormalUser = true;
+    # createHome = true;
+    # home = "/home/${user}";
+    description = "David Lukeš";
     extraGroups = [ "wheel" "networkmanager" "vboxusers" "docker" ];
-    shell = "/run/current-system/sw/bin/zsh";
-    uid = 1000;
+    # uid = 1000;
     hashedPassword = "$6$88zhfvgkxNg/F$Ns/V98sNZ8gorl9uNaFqOk/Zcp3c1HGT2eP0nVTGsgG.Mz1cHXeZ5gY/Jc89sUS7uXUuVK2WntaKcvFMVxPCG0";
+    # ... and other stuff can also be set here, like SSH keys
   };
 
   # Add fonts
