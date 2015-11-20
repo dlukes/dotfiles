@@ -2,7 +2,7 @@
 	name = David Lukes
 	email = dafydd.lukes@gmail.com
 [core]
-	# editor = vi
+	editor = vi
 	excludesfile = ~/.gitignore_global
 [color]
 	ui = auto
