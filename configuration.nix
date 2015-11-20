@@ -62,6 +62,7 @@ in {
     coreutils
     dmenu
     elfutils
+    editorconfig
     emacs # see below for modifications
     fasd
     firefoxWrapper
@@ -80,6 +81,8 @@ in {
     i3
     i3status
     inkscape
+    # kde4.krusader needs kde4.konsole for embedded terminal
+    kde4.konsole
     kde4.krusader
     kde4.yakuake
     kde5.okular
@@ -87,11 +90,22 @@ in {
     lsof
     nmap
     pcre
+    perlPackages.Appcpanminus
+    perlPackages.DataPrinter
+    perlPackages.Moose
+    # perlPackages.LogFast
     psmisc
     python3
+    python34Packages.flask
+    python34Packages.pew
+    python34Packages.pip
+    python34Packages.virtualenv
+    python34Packages.virtualenvwrapper
+    rlwrap
     ruby
     silver-searcher
     sox
+    sshfsFuse
     subversion
     # texLiveFull
     texlive.combined.scheme-medium
