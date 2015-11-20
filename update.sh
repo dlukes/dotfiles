@@ -6,3 +6,4 @@ git submodule update --recursive
 # then update toplevel submodules to the newest remote version
 git submodule update --remote
 git commit -am "update submodules"
+git push
