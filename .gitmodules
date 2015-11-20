@@ -1,0 +1,18 @@
+[submodule ".i3"]
+	path = .i3
+	url = git@github.com:dlukes/doti3.git
+[submodule ".csl"]
+	path = .csl
+	url = git@github.com:dlukes/dotcsl.git
+[submodule "texmf"]
+	path = texmf
+	url = git@github.com:dlukes/texmf.git
+[submodule ".emacsconf"]
+	path = .emacsconf
+	url = git@github.com:dlukes/dotemacsconf.git
+[submodule ".zprezto"]
+	path = .zprezto
+	url = git@github.com:dlukes/dotzprezto.git
+[submodule ".vim"]
+	path = .vim
+	url = git@github.com:bling/dotvim.git
