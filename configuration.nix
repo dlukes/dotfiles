@@ -95,6 +95,7 @@ in {
     perlPackages.Moose
     # perlPackages.LogFast
     psmisc
+    python
     python3
     python34Packages.flask
     python34Packages.pew
