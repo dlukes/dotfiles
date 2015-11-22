@@ -25,7 +25,7 @@ for my $dotfile (@dotfiles) {
   # check for pre-existing links/files/dirs
   if (-l $home.$dotfile) {
     unlink $home.$dotfile or die "Unable to remove existing symlink: $!";
-  } elsif (-x $home.$dotfile) {
+  } elsif (-e $home.$dotfile) {
     print STDERR "WARNING: a non-symlink file named $dotfile already exists "
       ."in $home. Symlink not created.\n";
     next;
