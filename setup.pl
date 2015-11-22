@@ -33,35 +33,3 @@ for my $dotfile (@dotfiles) {
   print STDERR "Symlinking $dotdir$dotfile to $home$dotfile.\n";
   symlink $dotdir.$dotfile, $home.$dotfile or die "Symlinking failed: $!";
 }
-
-# use Data::Dumper;
-# print Dumper \@dotfiles;
-# SYNOPSIS
-#     setup.sh [-f]
-#
-# DESCRIPTION
-# Set up symbolic links in $HOME for rc files contained in the same directory
-# as this script (following any possible symlinks).
-#
-#     -f      Clobber any existing files in the home directory by the symlinks.
-
-# if [[ "$OSTYPE" == darwin* ]]; then
-#     LN=gln
-# else
-#     LN=ln
-# fi
-#
-# dot="$HOME/Google Drive/dotfiles"
-#
-# cd
-# for file in $dot/.* $dot/texmf $dot/.emacs-conf/.emacs $dot/.zprezto/runcoms/*; do
-#     link=`basename ${file/runcoms\//runcoms\/.}`
-#     echo -n "Adding symbolic link named $link to $file to home directory... "
-#     if [[ ! -f "$HOME/$file" ]]; then
-#         $LN -sf $file $link && echo OK || echo "Error creating link."
-#     elif [[ $1 == -f ]]; then
-#         $LN -sf $file $link && echo "Existing file replaced by link." || echo "Error creating link."
-#     else
-#         echo "Runcom already exists and is a file, not a symlink. Use -f to overwrite it with symlink."
-#     fi
-# done
