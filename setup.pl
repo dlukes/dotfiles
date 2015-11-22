@@ -5,8 +5,14 @@ use strict;
 use warnings;
 use FindBin;
 
-# system "git submodule foreach git submodule init";
-# system "git submodule foreach git submodule update";
+system "git submodule init"
+    and die "Couldn't init submodules: $!";
+system "git submodule update"
+    and die "Couldn't update submodules: $!";
+system "git submodule foreach git submodule init"
+    and die "Couldn't init submodule submodules: $!";
+system "git submodule foreach git submodule update"
+    and die "Couldn't update submodule submodules: $!";
 
 my $dotdir = $FindBin::RealBin.'/';
 my $home = $ENV{'HOME'}.'/';
