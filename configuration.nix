@@ -68,6 +68,7 @@ in {
     emacs # see below for modifications
     fasd
     fbterm
+    file
     firefoxWrapper
     gcc
     ghostscript
