@@ -182,13 +182,13 @@ in {
       # This is the way to activate some Gnome 3 modules
       # desktopManager.gnome3.sessionPath = with pkgs.gnome3_12; [ gpaste pomodoro ];
 
-    # openvpn.enable = true;
+      # openvpn.enable = true;
 
-    # Launch backintime regularly
-    # cron.systemCronJobs = [
-    #   "*/15 * * * * cassou ${pkgs.coreutils}/bin/nice -n 19 ${pkgs.utillinux}/bin/ionice -c2 -n7 ${pkgs.backintime-common}/bin/backintime --profile-id 2 --backup-job"
-    #   "0 * * * *    cassou ${pkgs.coreutils}/bin/nice -n 19 ${pkgs.utillinux}/bin/ionice -c2 -n7 ${pkgs.backintime-common}/bin/backintime --backup-job"
-    # ];
+      # Launch backintime regularly
+      # cron.systemCronJobs = [
+      #   "*/15 * * * * cassou ${pkgs.coreutils}/bin/nice -n 19 ${pkgs.utillinux}/bin/ionice -c2 -n7 ${pkgs.backintime-common}/bin/backintime --profile-id 2 --backup-job"
+      #   "0 * * * *    cassou ${pkgs.coreutils}/bin/nice -n 19 ${pkgs.utillinux}/bin/ionice -c2 -n7 ${pkgs.backintime-common}/bin/backintime --backup-job"
+      # ];
 
     };
   };
