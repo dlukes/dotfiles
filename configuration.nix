@@ -238,6 +238,8 @@ in {
 
   # The wifi broadcom driver
   # networking.enableB43Firmware = true;
+  networking.firewall.allowedTCPPorts = [ 22 80 ];
+  networking.firewall.allowPing = true;
 
   # Make sure the only way to add users/groups is to change this file
   users.mutableUsers = false;
