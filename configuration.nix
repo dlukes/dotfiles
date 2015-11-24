@@ -306,15 +306,15 @@ in {
     description = "Emacs: the extensible, self-documenting text editor";
     restartIfChanged = true;
 
-  serviceConfig = {
-    Type = "forking";
-    ExecStart = "${pkgs.emacs}/bin/emacs --daemon";
-    ExecStop = "${pkgs.emacs}/bin/emacsclient --eval (kill-emacs)";
-    Restart = "always";
-  };
+    serviceConfig = {
+      Type = "forking";
+      ExecStart = "${pkgs.emacs}/bin/emacs --daemon";
+      ExecStop = "${pkgs.emacs}/bin/emacsclient --eval (kill-emacs)";
+      Restart = "always";
+    };
 
-  # I want the emacs service to be started with the rest of the user services
-  wantedBy = [ "default.target" ];
+    # I want the emacs service to be started with the rest of the user services
+    wantedBy = [ "default.target" ];
 
     # Annoyingly, systemd doesn't pass any environment variable to its
     # services. Below, I set some variables that I missed.
