@@ -35,7 +35,9 @@ in {
 
   # Select internationalization properties.
   i18n = {
-    # consoleFont = "Lat2-Terminus16";
+    # remember that you might still need to use `setfont` if graphics initialization
+    # resets the font
+    consoleFont = "Lat2-Terminus16";
     consoleKeyMap = "us";
     defaultLocale = "en_US.UTF-8";
   };
