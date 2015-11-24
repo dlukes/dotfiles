@@ -139,7 +139,7 @@ in {
 
   # List services that you want to enable:
   services = {
-    # openssh.enable = true;
+    openssh.enable = true;
 
     # Locate will update its database everyday at lunch time
     locate.enable = true;
