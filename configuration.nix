@@ -110,6 +110,7 @@ in {
     python34Packages.pip
     python34Packages.virtualenv
     python34Packages.virtualenvwrapper
+    R
     rlwrap
     ruby
     silver-searcher
