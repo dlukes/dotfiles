@@ -247,7 +247,7 @@ in {
     # createHome = true;
     # home = "/home/${user}";
     description = "David Lukeš";
-    extraGroups = [ "wheel" "networkmanager" "vboxusers" "docker" ];
+    extraGroups = [ "wheel" "networkmanager" "vboxusers" "docker" "video" ];
     # uid = 1000;
     hashedPassword = "$6$88zhfvgkxNg/F$Ns/V98sNZ8gorl9uNaFqOk/Zcp3c1HGT2eP0nVTGsgG.Mz1cHXeZ5gY/Jc89sUS7uXUuVK2WntaKcvFMVxPCG0";
     # ... and other stuff can also be set here, like SSH keys
