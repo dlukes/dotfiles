@@ -285,46 +285,46 @@ in {
   # will just have to connect to it through emacs-client. This is a
   # user service. This means I have to pass the "--user" option to
   # systemd when I want to control the service, e.g. `systemctl --user restart emacs`
-  # systemd.user.services.emacs = {
-  #   description = "Emacs: the extensible, self-documenting text editor";
-  #
-  #
-  #   serviceConfig = {
-  #     Type = "forking";
-  #     ExecStart = "${pkgs.emacs}/bin/emacs --daemon";
-  #     ExecStop = "${pkgs.emacs}/bin/emacsclient --eval (kill-emacs)";
-  #     Restart = "always";
-  #   };
-  #
-  #   # I want the emacs service to be started with the rest of the user services
-  #   wantedBy = [ "default.target" ];
-  #
-  #   # Annoyingly, systemd doesn't pass any environment variable to its
-  #   # services. Below, I set some variables that I missed.
-  #   environment = {
-  #     # Give Emacs a chance to use gnome keyring for the ssh-agent
-  #     SSH_AUTH_SOCK = "%t/keyring/ssh";
-  #
-  #     # Some variables for GTK applications I will launch from Emacs
-  #     # (typically evince and the gnome-terminal)
-  #     GTK_DATA_PREFIX = config.system.path;
-  #     # GTK_PATH = "${config.system.path}/lib/gtk-3.0:${config.system.path}/lib/gtk-2.0";
-  #     GTK_RC_FILES = "/etc/gtk/gtkrc:/home/dvl/.gtkrc:/home/dvl/.config/gtkrc";
-  #     GTK2_RC_FILES = "/etc/gtk-2.0/gtkrc:/home/dvl/.gtkrc-2.0:/home/dvl/.config/gtkrc-2.0";
-  #     GTK_PATH = "/home/dvl/.nix-profile/lib/gtk-2.0:/home/dvl/.nix-profile/lib/gtk-3.0:/nix/var/nix/profiles/default/lib/gtk-2.0:/nix/var/nix/profiles/default/lib/gtk-3.0:/run/current-system/sw/lib/gtk-2.0:/run/current-system/sw/lib/gtk-3.0";
-  #
-  #     # Make sure aspell will find its dictionaries
-  #     ASPELL_CONF = "dict-dir /run/current-system/sw/lib/aspell";
-  #
-  #     # Make sure locate will find its database
-  #     LOCATE_PATH = "/var/cache/locatedb";
-  #
-  #     # Either also set TMPDIR to /tmp/username here, or call emacsclient as
-  #     # TMPDIR=/tmp emacsclient -t from the command line, to ensure the use
-  #     # of the correct socket (if you use /tmp/username as your tmpdir).
-  #     TMPDIR = "/tmp/${user}";
-  #   };
-  # };
+  systemd.user.services.emacs = {
+    description = "Emacs: the extensible, self-documenting text editor";
+    restartIfChanged = true;
+
+  serviceConfig = {
+    Type = "forking";
+    ExecStart = "${pkgs.emacs}/bin/emacs --daemon";
+    ExecStop = "${pkgs.emacs}/bin/emacsclient --eval (kill-emacs)";
+    Restart = "always";
+  };
+
+  # I want the emacs service to be started with the rest of the user services
+  wantedBy = [ "default.target" ];
+
+    # Annoyingly, systemd doesn't pass any environment variable to its
+    # services. Below, I set some variables that I missed.
+    environment = {
+      # Give Emacs a chance to use gnome keyring for the ssh-agent
+      SSH_AUTH_SOCK = "%t/keyring/ssh";
+
+      # Some variables for GTK applications I will launch from Emacs
+      # (typically evince and the gnome-terminal)
+      GTK_DATA_PREFIX = config.system.path;
+      # GTK_PATH = "${config.system.path}/lib/gtk-3.0:${config.system.path}/lib/gtk-2.0";
+      GTK_RC_FILES = "/etc/gtk/gtkrc:/home/dvl/.gtkrc:/home/dvl/.config/gtkrc";
+      GTK2_RC_FILES = "/etc/gtk-2.0/gtkrc:/home/dvl/.gtkrc-2.0:/home/dvl/.config/gtkrc-2.0";
+      GTK_PATH = "/home/dvl/.nix-profile/lib/gtk-2.0:/home/dvl/.nix-profile/lib/gtk-3.0:/nix/var/nix/profiles/default/lib/gtk-2.0:/nix/var/nix/profiles/default/lib/gtk-3.0:/run/current-system/sw/lib/gtk-2.0:/run/current-system/sw/lib/gtk-3.0";
+
+      # Make sure aspell will find its dictionaries
+      ASPELL_CONF = "dict-dir /run/current-system/sw/lib/aspell";
+
+      # Make sure locate will find its database
+      LOCATE_PATH = "/var/cache/locatedb";
+
+      # Either also set TMPDIR to /tmp/username here, or call emacsclient as
+      # TMPDIR=/tmp emacsclient -t from the command line, to ensure the use
+      # of the correct socket (if you use /tmp/username as your tmpdir).
+      TMPDIR = "/tmp/${user}";
+    };
+  };
 
   # The NixOS release to be compatible with for stateful data such as databases.
   system.stateVersion = "15.09";
