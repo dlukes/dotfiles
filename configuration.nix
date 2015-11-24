@@ -67,6 +67,7 @@ in {
     editorconfig
     emacs # see below for modifications
     fasd
+    fbterm
     firefoxWrapper
     gcc
     ghostscript
@@ -78,6 +79,7 @@ in {
     gnupg
     go
     gparted
+    # gutenprint
     haskellPackages.pandoc
     htop
     i3
@@ -87,7 +89,11 @@ in {
     kde4.konsole
     kde4.krusader
     kde4.yakuake
+    # kde5.kde-workspace
     kde5.okular
+    # kde5.plasma-workspace
+    kde5.plasma-workspace-wallpapers
+    kde5.print-manager
     libreoffice
     lsof
     nmap
@@ -118,6 +124,7 @@ in {
     #   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/typesetting/tex/texlive-new/pkgs.nix if needed
     # }
     thunderbird
+    tmux
     tree
     unetbootin
     unrar
@@ -126,7 +133,7 @@ in {
     vlc
     wget
     which
-    zip
+    zip unzip
     zsh
   ];
 
