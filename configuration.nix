@@ -179,7 +179,7 @@ in {
       # windowManager.i3.enable = true;
 
       # https://github.com/NixOS/nixpkgs/issues/4416
-      displayManager.desktopManagerHandlesLidAndPower = false;
+      # displayManager.desktopManagerHandlesLidAndPower = false;
 
       # This is the way to activate some Gnome 3 modules
       # desktopManager.gnome3.sessionPath = with pkgs.gnome3_12; [ gpaste pomodoro ];
@@ -255,6 +255,11 @@ in {
     # ... and other stuff can also be set here, like SSH keys
   };
 
+  powerManagement.powerDownCommands = ''
+    cd /home/${user}/Google\ Drive
+    /home/dvl/src/go/bin/drive push
+  '';
+
   # Add fonts
   fonts = {
     enableFontDir = true;
@@ -273,11 +278,19 @@ in {
   #   enableCompletion = true;
   # };
 
-  # Make sure I can use "openvpn" without entering my password
-  # security.sudo.configFile =
-  # ''
-  #   cassou ${hostname} = (root) NOPASSWD: /run/current-system/sw/sbin/openvpn
-  # '';
+  # stuff for which sudo shouldn't ask me passwords; POWER commands should
+  # by default according to the NixOS manual, but they don't -- perhaps
+  # because I'm using zsh instead of bash? (just a wild thought)
+  security.sudo.extraConfig =
+  ''
+    Cmnd_Alias POWER = /run/current-system/sw/bin/systemctl poweroff,\
+      /run/current-system/sw/bin/systemctl reboot,\
+      /run/current-system/sw/bin/systemctl suspend,\
+      /run/current-system/sw/bin/systemctl hibernate,\
+      /run/current-system/sw/bin/shutdown,\
+      /run/current-system/sw/bin/reboot
+    ${user} ${hostname} = (root) NOPASSWD: POWER
+  '';
 
   # Not sure what this is about anymore (nor if it's useful)
   # environment.variables.GIO_EXTRA_MODULES = [ "${pkgs.gnome3.dconf}/lib/gio/modules" ];
