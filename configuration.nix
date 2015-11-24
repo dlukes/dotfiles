@@ -148,9 +148,10 @@ in {
     # Cups
     printing = {
       enable = true;
+      # drivers = [ pkgs.gutenprint ];
       # cupsdConf = ''
-      #   BrowsePoll cups.lille.inria.fr:631
-      #   BrowsePoll prserv.lifl.rf
+      #   BrowsePoll kopirka-barevna.ucnk
+      #   BrowsePoll kopirka.ucnk
       # '';
     };
 
