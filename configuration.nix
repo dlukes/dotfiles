@@ -167,16 +167,17 @@ in {
       xkbVariant = "qwerty";
 
       # displayManager.gdm.enable = true;
-      displayManager.sddm.enable = true;
-      # displayManager.kdm.enable = true;
+      # displayManager.sddm.enable = true;
+      displayManager.kdm.enable = true;
+      # displayManager.slim.enable = true;
 
       # desktopManager.gnome3.enable = true;
       desktopManager.kde5.enable = true;
       # desktopManager.kde4.enable = true;
-      windowManager.i3.enable = true;
+      # windowManager.i3.enable = true;
 
       # https://github.com/NixOS/nixpkgs/issues/4416
-      # displayManager.desktopManagerHandlesLidAndPower = false;
+      displayManager.desktopManagerHandlesLidAndPower = false;
 
       # This is the way to activate some Gnome 3 modules
       # desktopManager.gnome3.sessionPath = with pkgs.gnome3_12; [ gpaste pomodoro ];
