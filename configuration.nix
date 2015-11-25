@@ -93,14 +93,16 @@ in {
     kde4.konsole
     kde4.krusader
     kde4.yakuake
-    # kde5.kde-workspace
+    kde5.kde-workspace
+    kde5.ksnapshot
     kde5.okular
-    # kde5.plasma-workspace
+    kde5.plasma-workspace
     kde5.plasma-workspace-wallpapers
     kde5.print-manager
     libreoffice
     lsof
     nmap
+    pciutils
     pcre
     perlPackages.Appcpanminus
     perlPackages.DataPrinter
