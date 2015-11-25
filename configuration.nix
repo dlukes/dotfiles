@@ -257,10 +257,11 @@ in {
     # ... and other stuff can also be set here, like SSH keys
   };
 
-  powerManagement.powerDownCommands = ''
-    cd /home/${user}/Google\ Drive
-    /home/dvl/src/go/bin/drive push
-  '';
+  # better do this manually in case of any clashes
+  # powerManagement.powerDownCommands = ''
+  #   cd /home/${user}/Google\ Drive
+  #   /home/dvl/src/go/bin/drive push
+  # '';
 
   # Add fonts
   fonts = {
