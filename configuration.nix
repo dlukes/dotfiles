@@ -102,12 +102,16 @@ in {
     libreoffice
     lsof
     nmap
+    openjdk
     pciutils
     pcre
     perlPackages.Appcpanminus
     perlPackages.DataPrinter
+    perlPackages.GetoptArgParse
+    perlPackages.LogFast
     perlPackages.Moose
-    # perlPackages.LogFast
+    perlPackages.MooseXGetopt
+    perlPackages.MooseXGetoptUsage
     psmisc
     python
     python3
@@ -123,7 +127,6 @@ in {
     sox
     sshfsFuse
     subversion
-    # texLiveFull
     texlive.combined.scheme-medium
     # texlive.combine {
     #   inherit (texlive) scheme-medium
