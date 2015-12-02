@@ -122,6 +122,7 @@ in {
     python34Packages.virtualenvwrapper
     R
     rlwrap
+    # rstudio
     ruby
     silver-searcher
     sox
@@ -144,7 +145,6 @@ in {
     wget
     which
     zip unzip
-    zsh
   ];
 
   # List services that you want to enable:
@@ -177,8 +177,9 @@ in {
       xkbVariant = "qwerty";
 
       # displayManager.gdm.enable = true;
-      # displayManager.sddm.enable = true;
-      displayManager.kdm.enable = true;
+      displayManager.sddm.enable = true;
+      displayManager.sddm.theme = "circles";
+      # displayManager.kdm.enable = true;
       # displayManager.slim.enable = true;
 
       # desktopManager.gnome3.enable = true;
@@ -251,11 +252,12 @@ in {
 
   # Make sure the only way to add users/groups is to change this file
   users.mutableUsers = false;
-  users.defaultUserShell = "/run/current-system/sw/bin/zsh";
+  # users.defaultUserShell = "/run/current-system/sw/bin/zsh";
 
   # Add myself as a super user
   users.extraUsers."${user}" = {
     isNormalUser = true;
+    shell = "/run/current-system/sw/bin/zsh";
     # createHome = true;
     # home = "/home/${user}";
     description = "David Lukeš";
@@ -284,10 +286,10 @@ in {
   };
 
   # Fix problem with Emacs tramp (https://github.com/NixOS/nixpkgs/issues/3368)
-  # programs.bash = {
-  #   promptInit = "PS1=\"# \"";
-  #   enableCompletion = true;
-  # };
+  programs.bash = {
+    # promptInit = "PS1=\"# \"";
+    enableCompletion = true;
+  };
 
   # stuff for which sudo shouldn't ask me passwords; POWER commands should
   # by default according to the NixOS manual, but they don't -- perhaps
@@ -328,6 +330,9 @@ in {
     # Annoyingly, systemd doesn't pass any environment variable to its
     # services. Below, I set some variables that I missed.
     environment = {
+      # some of the packages I use need to find e.g. git
+      PATH = "${config.system.path}/bin";
+
       # Give Emacs a chance to use gnome keyring for the ssh-agent
       SSH_AUTH_SOCK = "%t/keyring/ssh";
 
@@ -358,5 +363,5 @@ in {
 }
 
 # Local Variables:
-# mode: conf-unix
+# mode: nix
 # End:
