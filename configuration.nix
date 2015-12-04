@@ -101,6 +101,7 @@ in {
     kde5.print-manager
     libreoffice
     lsof
+    lynx
     nmap
     openjdk
     pciutils
