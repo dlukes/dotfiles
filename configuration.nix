@@ -116,11 +116,26 @@ in {
     psmisc
     python
     python3
+    python34Packages.cycler
+    python34Packages.dateutil
+    python34Packages.flake8
     python34Packages.flask
+    python34Packages.ipython
+    python34Packages.itsdangerous
+    python34Packages.jinja2
+    python34Packages.markupsafe
+    python34Packages.matplotlib
+    python34Packages.numpy
+    python34Packages.pandas
     python34Packages.pew
     python34Packages.pip
+    python34Packages.pyparsing
+    python34Packages.pytz
+    python34Packages.scipy
+    python34Packages.six
     python34Packages.virtualenv
     python34Packages.virtualenvwrapper
+    python34Packages.werkzeug
     R
     rlwrap
     # rstudio
