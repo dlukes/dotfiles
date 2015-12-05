@@ -206,22 +206,131 @@ values."
    dotspacemacs-default-package-repository nil
    ))
 
+(defvar emacs-conf (file-name-as-directory "~/.emacsconf"))
+
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
 It is called immediately after `dotspacemacs/init'.  You are free to put any
 user code."
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  (add-hook 'after-change-major-mode-hook 'auto-fill-mode)
+  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
   )
 
 (defun dotspacemacs/user-config ()
   "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user code."
-  ;; Mode line config.
+  ;;; Visuals.
   ;; (setq powerline-default-separator 'utf-8
   ;;       powerline-utf8-separator-left
   ;;       powerline-utf8-separator-right)
-  (setq powerline-height 20)
+  (setq powerline-height 20
+        ns-use-srgb-colorspace nil)
+  (unless (display-graphic-p)
+    ;; (custom-theme-set-faces
+    ;;  'molokai
+    ;;  '(hl-line ((t (:background "#293739")))))
+    (setq powerline-default-separator nil))
+  (set-frame-parameter (selected-frame) 'alpha
+                       (list dotspacemacs-active-transparency
+                             dotspacemacs-inactive-transparency))
+  ;;; Keyboard.
+  (setq ns-right-alternate-modifier nil)
+  ;; bindings for terminal sessions
+  (global-set-key (kbd "M-[ a") (kbd "C-<up>"))
+  (global-set-key (kbd "M-[ b") (kbd "C-<down>"))
+  ;;; Text-editing.
+  (setq fill-column 79
+        yas-snippet-dirs (list (concat emacs-conf "snippets") 'yas-installed-snippets-dir)
+        scpaste-http-destination "https://trnka.korpus.cz/~lukes"
+        scpaste-scp-destination "trnka:~/public_html")
+  ;;; Org mode.
+  (setq org-directory "~/org"
+        org-archive-location "archive/%s::"
+        agenda "~/org/2015.org"
+        org-agenda-files `(,agenda)
+        org-export-backends '(ascii beamer html icalendar latex md odt freemind)
+        org-log-done '(note)
+        org-publish-project-alist '((:htmlized-source . t))
+        org-default-notes-file agenda
+        org-src-fontify-natively t
+        ;; browse-url-browser-function 'browse-url-generic
+        ;; browse-url-generic-program "google-chrome"
+        org-mobile-inbox-for-pull  "~/org/org-mobile-inbox-for-pull"
+        org-mobile-directory nil)
+  ;; exporting phonetic transcription feedback to html → replace pipes (not done
+  ;; with hooks anymore since org-mode 8.x)
+  (setq org-export-filter-final-output-functions
+        '((lambda (string backend info)
+            (when (org-export-derived-backend-p backend 'html)
+              (replace-regexp-in-string "∣" "|" string)))))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (R . t)
+     (perl . t)
+     (python . t)))
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c b") 'org-iswitchb)
+  (global-set-key (kbd "C-c c") 'org-capture)
 )
+
+;; toggle minimalistic mode
+(defvar minimalistic t)
+(defun toggle-minimalistic ()
+  (interactive)
+  (cond ((equal minimalistic nil)
+         (menu-bar-mode -1)
+         ;; (tool-bar-mode -1)
+         (setq minimalistic t))
+        ((equal minimalistic t)
+         (menu-bar-mode)
+         ;; (tool-bar-mode)
+         (setq minimalistic nil))))
+(global-set-key (kbd "C--") 'toggle-minimalistic)
+
+;; archive UCNK recording entry
+(defun cut-and-archive-line ()
+  (interactive)
+  (move-beginning-of-line nil)
+  (kill-whole-line)
+  (find-file "~/org/archive/sondy_UCNK.org")
+  ;; (switch-to-buffer "archiv_sondy_UCNK.org")
+  (end-of-buffer)
+  (let* ((str (car kill-ring))
+         (len (length str))
+         (from (- len
+                  (or (string-match "\n" (concat (reverse (append str
+                                                                  nil)))
+                                    1)
+                      len)))
+         (ins (substring str from)))
+    (insert ins))
+  (insert "\n")
+  (save-buffer)
+  ;; (save-and-share-to-trnka)
+  ;; (switch-to-buffer nil))
+  (kill-buffer nil)
+  ;; (save-and-share-to-trnka))
+  (save-buffer))
+(global-set-key (kbd "C-á") 'cut-and-archive-line)
+
+;;; FONTIFY HEX COLOR CODES
+(defun syntax-color-hex ()
+  "Syntax color text of the form 「#ff1100」 in current buffer.
+URL `http://ergoemacs.org/emacs/emacs_CSS_colors.html'
+Version 2015-06-11"
+  (interactive)
+  (font-lock-add-keywords
+   nil
+   '(("#[abcdef[:digit:]]\\{6\\}"
+      (0 (put-text-property
+          (match-beginning 0)
+          (match-end 0)
+          'face (list :background (match-string-no-properties 0)))))))
+  (font-lock-fontify-buffer))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
