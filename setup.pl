@@ -19,6 +19,7 @@ my $home = $ENV{'HOME'}.'/';
 my @dotfiles = grep { !/
   ^.git(modules|ignore)?$
  |^\.{1,2}$
+ |disabled
   /x } glob '.* texmf';
 
 for my $dotfile (@dotfiles) {
