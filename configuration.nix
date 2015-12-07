@@ -48,6 +48,14 @@ in {
   # Set your time zone.
   time.timeZone = "Europe/Prague";
 
+  # Prefer custom nixpkgs if available.
+  nix.nixPath = [
+    "/home/${user}/src/"
+    "/nix/var/nix/profiles/per-user/root/channels/nixos"
+    "nixos-config=/etc/nixos/configuration.nix"
+    "/nix/var/nix/profiles/per-user/root/channels"
+  ];
+
   # enable zsh
   programs.zsh.enable = true;
 
