@@ -302,16 +302,16 @@ in {
   # stuff for which sudo shouldn't ask me passwords; POWER commands should
   # by default according to the NixOS manual, but they don't -- perhaps
   # because I'm using zsh instead of bash? (just a wild thought)
-  security.sudo.extraConfig =
-  ''
-    Cmnd_Alias POWER = /run/current-system/sw/bin/systemctl poweroff,\
-      /run/current-system/sw/bin/systemctl reboot,\
-      /run/current-system/sw/bin/systemctl suspend,\
-      /run/current-system/sw/bin/systemctl hibernate,\
-      /run/current-system/sw/bin/shutdown,\
-      /run/current-system/sw/bin/reboot
-    ${user} ${hostname} = (root) NOPASSWD: POWER
-  '';
+  # security.sudo.extraConfig =
+  # ''
+  #   Cmnd_Alias POWER = /run/current-system/sw/bin/systemctl poweroff,\
+  #     /run/current-system/sw/bin/systemctl reboot,\
+  #     /run/current-system/sw/bin/systemctl suspend,\
+  #     /run/current-system/sw/bin/systemctl hibernate,\
+  #     /run/current-system/sw/bin/shutdown,\
+  #     /run/current-system/sw/bin/reboot
+  #   ${user} ${hostname} = (root) NOPASSWD: POWER
+  # '';
 
   # Not sure what this is about anymore (nor if it's useful)
   # environment.variables.GIO_EXTRA_MODULES = [ "${pkgs.gnome3.dconf}/lib/gio/modules" ];
