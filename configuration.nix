@@ -251,28 +251,6 @@ in {
 
     # Enable USB in guest OS
     virtualbox.enableExtensionPack = true;
-
-    packageOverrides = pkgs: {
-        # Define my own Emacs
-        emacs = pkgs.lib.overrideDerivation (pkgs.emacs.override {
-            # Use gtk3 instead of the default gtk2
-            # gtk = pkgs.gtk3;
-            # Make sure imagemgick is a dependency because I regularly
-            # look at pictures from Emacs
-            imagemagick = pkgs.imagemagickBig;
-          }) (attrs: {
-            # Change desktop file to use the emacs server started as a service.
-            # Either with emacsclient directly, or emacs-wrapper (which mainly
-            # takes care of finding the right socket on a system with zsh and
-            # prezto).
-            postInstall = attrs.postInstall + ''
-              # sed -ri 's/emacs %F/emacsclient -c %F/' $out/share/applications/emacs.desktop
-              sed -ri 's/emacs %F/\/home\/${user}\/bin\/emacs-wrapper %F/' $out/share/applications/emacs.desktop
-            '';
-        });
-
-    };
-
   };
 
   # The wifi broadcom driver
