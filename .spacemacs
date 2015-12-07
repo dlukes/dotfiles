@@ -171,7 +171,7 @@ values."
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup t
+   dotspacemacs-maximized-at-startup nil
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -206,15 +206,19 @@ values."
    dotspacemacs-default-package-repository nil
    ))
 
-(defvar emacs-conf (file-name-as-directory "~/.emacsconf"))
+(defvar dlukes/emacs-conf (file-name-as-directory "~/.emacsconf"))
+
+(defun dlukes/toggle-transparency-on (&optional frame)
+  (when (window-system)
+    (let ((frame (if frame frame (selected-frame))))
+      (set-frame-parameter frame 'alpha
+        (list dotspacemacs-active-transparency
+          dotspacemacs-inactive-transparency)))))
 
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
 It is called immediately after `dotspacemacs/init'.  You are free to put any
 user code."
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
-  (add-hook 'after-change-major-mode-hook 'auto-fill-mode)
-  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
   )
 
 (defun dotspacemacs/user-config ()
@@ -232,19 +236,25 @@ layers configuration. You are free to put any user code."
     ;;  'molokai
     ;;  '(hl-line ((t (:background "#293739")))))
     (setq powerline-default-separator nil))
-  (set-frame-parameter (selected-frame) 'alpha
-                       (list dotspacemacs-active-transparency
-                             dotspacemacs-inactive-transparency))
+  (dlukes/toggle-transparency-on)
+  (add-hook 'after-make-frame-functions 'dlukes/toggle-transparency-on)
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
   ;;; Keyboard.
   (setq ns-right-alternate-modifier nil)
+  (global-set-key (kbd "<f2>") 'spacemacs/default-pop-shell)
   ;; bindings for terminal sessions
   (global-set-key (kbd "M-[ a") (kbd "C-<up>"))
   (global-set-key (kbd "M-[ b") (kbd "C-<down>"))
   ;;; Text-editing.
   (setq fill-column 79
-        yas-snippet-dirs (list (concat emacs-conf "snippets") 'yas-installed-snippets-dir)
+        yas-snippet-dirs (list (concat dlukes/emacs-conf "snippets") 'yas-installed-snippets-dir)
         scpaste-http-destination "https://trnka.korpus.cz/~lukes"
         scpaste-scp-destination "trnka:~/public_html")
+  (unless editorconfig-mode
+    (editorconfig-mode))
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  (add-hook 'after-change-major-mode-hook 'auto-fill-mode)
+  (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
   ;;; Org mode.
   (setq org-directory "~/org"
         org-archive-location "archive/%s::"
