@@ -101,9 +101,11 @@ in {
     kde4.konsole
     kde4.krusader
     kde4.yakuake
+    kde5.frameworkintegration
     kde5.kde-workspace
     kde5.ksnapshot
     kde5.okular
+    kde5.plasma-framework
     kde5.plasma-workspace
     kde5.plasma-workspace-wallpapers
     kde5.print-manager
@@ -121,6 +123,7 @@ in {
     perlPackages.Moose
     perlPackages.MooseXGetopt
     perlPackages.MooseXGetoptUsage
+    polkit
     psmisc
     python
     python3
