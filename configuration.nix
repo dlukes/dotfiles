@@ -123,7 +123,6 @@ in {
     perlPackages.Moose
     perlPackages.MooseXGetopt
     perlPackages.MooseXGetoptUsage
-    polkit
     psmisc
     python
     python3
