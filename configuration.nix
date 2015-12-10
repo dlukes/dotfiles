@@ -204,10 +204,10 @@ in {
       xkbVariant = "qwerty";
 
       # displayManager.gdm.enable = true;
-      displayManager.sddm.enable = true;
-      displayManager.sddm.theme = "circles";
+      # displayManager.sddm.enable = true;
+      # displayManager.sddm.theme = "circles";
       # displayManager.kdm.enable = true;
-      # displayManager.slim.enable = true;
+      displayManager.slim.enable = true;
 
       # desktopManager.gnome3.enable = true;
       desktopManager.kde5.enable = true;
