@@ -70,6 +70,7 @@ in {
     aspellDicts.en
     aspellDicts.es
     aspellDicts.fr
+    audacity
     cmake
     chromium
     coreutils
