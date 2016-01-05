@@ -15,8 +15,9 @@ in {
       /etc/nixos/hardware-configuration.nix
     ];
 
-  # put a copy of configuration.nix in /run/current-system
-  system.copySystemConfiguration = true;
+  # put a copy of configuration.nix in /run/current-system -- broken with
+  # symlinks :(
+  # system.copySystemConfiguration = true;
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
