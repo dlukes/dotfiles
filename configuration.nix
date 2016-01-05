@@ -157,12 +157,12 @@ in {
     sox
     sshfsFuse
     subversion
-    texlive.combined.scheme-medium
-    # texlive.combine {
-    #   inherit (texlive) scheme-medium
-    #   # more packages to be found at
-    #   # https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/typesetting/tex/texlive-new/pkgs.nix if needed
-    # }
+    (texlive.combine {
+      inherit (texlive) scheme-medium type1cm wallpaper tcolorbox environ
+      trimspaces;
+      # more packages to be found at
+      # https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/typesetting/tex/texlive-new/pkgs.nix if needed
+    })
     thunderbird
     tmux
     tree
