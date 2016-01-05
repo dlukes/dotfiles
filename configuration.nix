@@ -71,6 +71,7 @@ in {
     aspellDicts.es
     aspellDicts.fr
     audacity
+    bibtex2html
     cmake
     chromium
     coreutils
