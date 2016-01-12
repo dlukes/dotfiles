@@ -129,6 +129,7 @@ in {
     psmisc
     python
     python3
+    python34Packages.click
     python34Packages.cycler
     python34Packages.dateutil
     python34Packages.flake8
