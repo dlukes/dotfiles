@@ -113,6 +113,8 @@ in {
     kde5.plasma-workspace-wallpapers
     kde5.print-manager
     libreoffice
+    libxml2
+    libxslt
     lsof
     lynx
     nmap
@@ -137,6 +139,7 @@ in {
     python34Packages.ipython
     python34Packages.itsdangerous
     python34Packages.jinja2
+    python34Packages.lxml
     python34Packages.markupsafe
     python34Packages.matplotlib
     python34Packages.numpy
