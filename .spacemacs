@@ -237,6 +237,7 @@ layers configuration. You are free to put any user code."
     ;;  '(hl-line ((t (:background "#293739")))))
     (setq powerline-default-separator nil))
   (dlukes/toggle-transparency-on)
+  (global-evil-search-highlight-persist nil)
   (add-hook 'after-make-frame-functions 'dlukes/toggle-transparency-on)
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
   ;;; Keyboard.
