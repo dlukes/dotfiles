@@ -87,9 +87,9 @@
 	<key>NSFontPanelAttributes</key>
 	<string>1, 4</string>
 	<key>NSNavLastRootDirectory</key>
-	<string>~/Copy/dotfiles</string>
+	<string>~/.files</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
-	<string>{712, 448}</string>
+	<string>{712, 459}</string>
 	<key>NSQuotedKeystrokeBinding</key>
 	<string></string>
 	<key>NSRepeatCountBinding</key>
@@ -116,7 +116,7 @@
 	<key>NSWindow Frame NSFontPanel</key>
 	<string>415 33 1024 487 0 0 1920 1057 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>736 485 605 485 0 0 1920 1080 </string>
+	<string>736 485 924 485 0 0 1920 1080 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
 	<string>0 0 1920 1080 0 0 1920 1057 </string>
 	<key>NeverWarnAboutShortLivedSessions_9CA6FAA4-EA3F-47FA-8FF8-74B3822618B6</key>
@@ -1599,7 +1599,7 @@
 	<key>NoSyncTimeOfLastPromo</key>
 	<real>454807529.95887899</real>
 	<key>NoSyncTimeOfLastPromoDownload</key>
-	<real>469582372.84818602</real>
+	<real>476335645.11390001</real>
 	<key>OnlyWhenMoreTabs</key>
 	<false/>
 	<key>OpenArrangementAtStartup</key>
@@ -1648,7 +1648,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/dvl/Google Drive/dotfiles</string>
+	<string>/Users/dvl/.files</string>
 	<key>PromptOnClose</key>
 	<true/>
 	<key>PromptOnQuit</key>
@@ -1668,7 +1668,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2015-11-16T19:36:43Z</date>
+	<date>2016-02-05T03:27:14Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Show Toolbelt</key>
@@ -1676,7 +1676,7 @@
 	<key>ShowBookmarkName</key>
 	<false/>
 	<key>ShowFullScreenTabBar</key>
-	<false/>
+	<true/>
 	<key>ShowPaneTitles</key>
 	<true/>
 	<key>SmartPlacement</key>
