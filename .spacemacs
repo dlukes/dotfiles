@@ -59,7 +59,7 @@ values."
    '(editorconfig
      scpaste)
    ;; A list of packages and/or extensions that will not be install and loaded.
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(evil-search-highlight-persist)
    ;; If non-nil spacemacs will delete any orphan packages, i.e. packages that
    ;; are declared in a layer which is not a member of
    ;; the list `dotspacemacs-configuration-layers'. (default t)
@@ -237,7 +237,6 @@ layers configuration. You are free to put any user code."
     ;;  '(hl-line ((t (:background "#293739")))))
     (setq powerline-default-separator nil))
   (dlukes/toggle-transparency-on)
-  (global-evil-search-highlight-persist nil)
   (add-hook 'after-make-frame-functions 'dlukes/toggle-transparency-on)
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
   ;;; Keyboard.
