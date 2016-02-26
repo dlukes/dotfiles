@@ -82,6 +82,7 @@ in {
     emacs # see below for modifications
     fasd
     fbterm
+    feh
     file
     firefoxWrapper
     gcc
@@ -99,6 +100,7 @@ in {
     htop
     i3
     i3status
+    imagemagick
     inkscape
     # kde4.krusader needs kde4.konsole for embedded terminal
     kde4.konsole
@@ -117,6 +119,8 @@ in {
     libxslt
     lsof
     lynx
+    mosh
+    nix-repl
     nmap
     openjdk
     pciutils
@@ -142,6 +146,7 @@ in {
     python34Packages.lxml
     python34Packages.markupsafe
     python34Packages.matplotlib
+    python34Packages.notebook
     python34Packages.numpy
     python34Packages.pandas
     python34Packages.pew
