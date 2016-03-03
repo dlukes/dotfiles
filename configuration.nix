@@ -66,6 +66,7 @@ in {
     # docker
     # gnome3.vte
     # gnome3.vte-select-text
+    arandr
     aspell
     aspellDicts.cs
     aspellDicts.en
@@ -105,10 +106,9 @@ in {
     # kde4.krusader needs kde4.konsole for embedded terminal
     kde4.konsole
     kde4.krusader
+    kde4.ksnapshot
     kde4.yakuake
     kde5.frameworkintegration
-    kde5.kde-workspace
-    kde5.ksnapshot
     kde5.okular
     kde5.plasma-framework
     kde5.plasma-workspace
@@ -160,7 +160,7 @@ in {
     python34Packages.werkzeug
     R
     rlwrap
-    # rstudio
+    rstudio
     ruby
     silver-searcher
     sox
@@ -191,7 +191,7 @@ in {
 
     # Locate will update its database everyday at lunch time
     locate.enable = true;
-    locate.period = "00 12 * * *";
+    locate.interval = "12:00";
 
     # Cups
     printing = {
@@ -328,7 +328,7 @@ in {
   # '';
 
   # The NixOS release to be compatible with for stateful data such as databases.
-  system.stateVersion = "15.09";
+  system.stateVersion = "16.03";
 
 }
 
