@@ -25,6 +25,11 @@ in {
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/sda";
 
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 5;
+    "vm.min_free_kbytes" = 131072;
+  };
+
   fileSystems = {
     "/" = { label = "nixos-root"; };
     "/home" = { label = "nixos-home"; };
