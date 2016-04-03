@@ -39,6 +39,7 @@ values."
      pandoc
      php
      python
+     rust
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom
@@ -283,6 +284,11 @@ layers configuration. You are free to put any user code."
     (global-set-key (kbd "C-c a") 'org-agenda)
     (global-set-key (kbd "C-c b") 'org-iswitchb)
     (global-set-key (kbd "C-c c") 'org-capture))
+  ;; Rust
+  (setq-default rust-enable-racer t)
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'racer-mode-hook #'company-mode)
 )
 
 ;; toggle minimalistic mode
