@@ -30,14 +30,14 @@ in {
     "vm.min_free_kbytes" = 131072;
   };
 
+  swapDevices = [
+    { label = "nixwap"; }
+  ];
+
   fileSystems = {
     "/" = { label = "nixos-root"; };
     "/home" = { label = "nixos-home"; };
   };
-
-  swapDevices = [
-    { label = "nixwap"; }
-  ];
 
   networking.hostName = hostname; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -125,6 +125,7 @@ in {
     lsof
     lynx
     mosh
+    nix-generate-from-cpan
     nix-repl
     nmap
     openjdk
@@ -134,35 +135,36 @@ in {
     perlPackages.DataPrinter
     perlPackages.GetoptArgParse
     perlPackages.LogFast
+    perlPackages.ModuleBuild
     perlPackages.Moose
     perlPackages.MooseXGetopt
     perlPackages.MooseXGetoptUsage
     psmisc
     python
-    python3
-    python34Packages.click
-    python34Packages.cycler
-    python34Packages.dateutil
-    python34Packages.flake8
-    python34Packages.flask
-    python34Packages.ipython
-    python34Packages.itsdangerous
-    python34Packages.jinja2
-    python34Packages.lxml
-    python34Packages.markupsafe
-    python34Packages.matplotlib
-    python34Packages.notebook
-    python34Packages.numpy
-    python34Packages.pandas
-    python34Packages.pew
-    python34Packages.pip
-    python34Packages.pyparsing
-    python34Packages.pytz
-    python34Packages.scipy
-    python34Packages.six
-    python34Packages.virtualenv
-    python34Packages.virtualenvwrapper
-    python34Packages.werkzeug
+    python35
+    python35Packages.click
+    python35Packages.cycler
+    python35Packages.dateutil
+    python35Packages.flake8
+    python35Packages.flask
+    python35Packages.ipython
+    python35Packages.itsdangerous
+    python35Packages.jinja2
+    python35Packages.lxml
+    python35Packages.markupsafe
+    python35Packages.matplotlib
+    python35Packages.notebook
+    python35Packages.numpy
+    python35Packages.pandas
+    python35Packages.pew
+    python35Packages.pip
+    python35Packages.pyparsing
+    python35Packages.pytz
+    python35Packages.scipy
+    python35Packages.six
+    python35Packages.virtualenv
+    # python35Packages.virtualenvwrapper
+    python35Packages.werkzeug
     R
     rlwrap
     rstudio
