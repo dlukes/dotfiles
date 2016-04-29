@@ -290,7 +290,7 @@ in {
     # createHome = true;
     # home = "/home/${user}";
     description = "David Lukeš";
-    extraGroups = [ "wheel" "networkmanager" "vboxusers" "docker" "video" ];
+    extraGroups = [ "wheel" "networkmanager" "vboxusers" "docker" "video" "vboxusers" ];
     # uid = 1000;
     hashedPassword = "$6$88zhfvgkxNg/F$Ns/V98sNZ8gorl9uNaFqOk/Zcp3c1HGT2eP0nVTGsgG.Mz1cHXeZ5gY/Jc89sUS7uXUuVK2WntaKcvFMVxPCG0";
     # ... and other stuff can also be set here, like SSH keys
@@ -319,6 +319,8 @@ in {
     # promptInit = "PS1=\"# \"";
     enableCompletion = true;
   };
+
+  virtualisation.virtualbox.host.enable = true;
 
   # stuff for which sudo shouldn't ask me passwords; POWER commands should
   # by default according to the NixOS manual, but they don't -- perhaps
