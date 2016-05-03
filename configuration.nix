@@ -99,7 +99,7 @@ in {
     gnome3.dconf
     gnumake
     gnupg
-    go
+    go_1_6
     gparted
     # gutenprint
     haskellPackages.pandoc
