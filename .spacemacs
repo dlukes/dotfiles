@@ -32,6 +32,7 @@ values."
      fasd
      git
      gnus
+     go
      javascript
      markdown
      nixos
