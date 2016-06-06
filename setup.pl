@@ -5,14 +5,16 @@ use strict;
 use warnings;
 use FindBin;
 
-system "git submodule init"
-    and die "Couldn't init submodules: $!";
-system "git submodule update"
-    and die "Couldn't update submodules: $!";
-system "git submodule foreach git submodule init"
-    and die "Couldn't init submodule submodules: $!";
-system "git submodule foreach git submodule update"
-    and die "Couldn't update submodule submodules: $!";
+# perhaps all of this should just be git submodule update --init --recursive,
+# at least that's the way the Prezto folks are recommending to do updates
+# system "git submodule init"
+#     and die "Couldn't init submodules: $!";
+# system "git submodule update"
+#     and die "Couldn't update submodules: $!";
+# system "git submodule foreach git submodule init"
+#     and die "Couldn't init submodule submodules: $!";
+# system "git submodule foreach git submodule update"
+#     and die "Couldn't update submodule submodules: $!";
 
 my $dotdir = $FindBin::RealBin.'/';
 my $home = $ENV{'HOME'}.'/';
@@ -20,6 +22,7 @@ my @dotfiles = grep { !/
   ^.git(modules|ignore)?$
  |^\.{1,2}$
  |disabled
+ |\.DS_Store
   /x } glob '.* texmf';
 
 for my $dotfile (@dotfiles) {
