@@ -129,6 +129,7 @@ in {
     nix-repl
     nmap
     openjdk
+    owncloudclient
     pciutils
     pcre
     perlPackages.Appcpanminus
