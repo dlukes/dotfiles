@@ -1,3 +1,5 @@
+from os.path import join
+
 import xontrib.mpl
 import xontrib.prompt_ret_code
 
@@ -18,22 +20,25 @@ $XONSH_SHOW_TRACEBACK = True
 $XONSH_STORE_STDOUT = True
 
 $PATH = [
-    "/cnk/users/home/lukes/.local/bin",
-    "/cnk/users/home/lukes/bin",
-    "/cnk/users/home/lukes/.linuxbrew/bin",
-    "/cnk/users/home/lukes/.cabal/bin",
-    "/cnk/users/home/lukes/.cargo/bin",
-    "/cnk/users/home/lukes/src/go/bin",
-    "/usr/local/heroku/bin",
-    "/usr/local/cwb-3.4.8/bin",
-    "/usr/local/bin",
-    "/usr/local/sbin",
-    "/cnk/users/home/lukes/perl5/bin",
-    "/usr/local/texlive/2014/bin/x86_64-linux",
-    "/cnk/users/home/lukes/local/bin",
-    "/usr/sbin",
-    "/usr/bin",
-    "/sbin",
-    "/bin",
-    "/usr/games"
+  *[join($HOME, p) for p in [
+    ".local/bin",
+    "bin",
+    ".linuxbrew/bin",
+    ".cabal/bin",
+    ".cargo/bin",
+    "src/go/bin",
+    "perl5/bin",
+    "local/bin"
+    ]
+  ],
+  "/usr/local/heroku/bin",
+  "/usr/local/cwb-3.4.8/bin",
+  "/usr/local/bin",
+  "/usr/local/sbin",
+  "/usr/local/texlive/2014/bin/x86_64-linux",
+  "/usr/sbin",
+  "/usr/bin",
+  "/sbin",
+  "/bin",
+  "/usr/games"
 ]
