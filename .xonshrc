@@ -1,0 +1,37 @@
+import xontrib.mpl
+import xontrib.prompt_ret_code
+
+$PROMPT = "{env_name}{BOLD_GREEN}{user}@{hostname}{BOLD_BLUE} {cwd}{branch_color}{curr_branch}{NO_COLOR}\n"\
+          "{BOLD_BLUE}{ret_code_color}{ret_code}{prompt_end}{NO_COLOR} "
+$MULTILINE_PROMPT = "`·.,¸,.·*¯`·.,¸,.·*¯"
+$XONSH_SHOW_TRACEBACK = True
+$XONSH_STORE_STDOUT = True
+$LS_COLORS = "rs=0:di=01;36:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:"
+AUTO_CD = True
+CASE_SENSITIVE_COMPLETIONS = False
+HISTCONTROL = {"ignoredups"}
+RIGHT_PROMPT = $(date)
+XONSH_COLOR_STYLE = "rrt"
+XONSH_SHOW_TRACEBACK = True
+XONSH_STORE_STDOUT = True
+
+$PATH = [
+    "/cnk/users/home/lukes/.local/bin",
+    "/cnk/users/home/lukes/bin",
+    "/cnk/users/home/lukes/.linuxbrew/bin",
+    "/cnk/users/home/lukes/.cabal/bin",
+    "/cnk/users/home/lukes/.cargo/bin",
+    "/cnk/users/home/lukes/src/go/bin",
+    "/usr/local/heroku/bin",
+    "/usr/local/cwb-3.4.8/bin",
+    "/usr/local/bin",
+    "/usr/local/sbin",
+    "/cnk/users/home/lukes/perl5/bin",
+    "/usr/local/texlive/2014/bin/x86_64-linux",
+    "/cnk/users/home/lukes/local/bin",
+    "/usr/sbin",
+    "/usr/bin",
+    "/sbin",
+    "/bin",
+    "/usr/games"
+]
