@@ -297,6 +297,14 @@ in {
     # ... and other stuff can also be set here, like SSH keys
   };
 
+  users.extraUsers."test" = {
+    isNormalUser = true;
+    createHome = true;
+    description = "Testy McTestface";
+    extraGroups = [ "wheel" "networkmanager" "vboxusers" "docker" "video" "vboxusers" ];
+    hashedPassword = "$6$88zhfvgkxNg/F$Ns/V98sNZ8gorl9uNaFqOk/Zcp3c1HGT2eP0nVTGsgG.Mz1cHXeZ5gY/Jc89sUS7uXUuVK2WntaKcvFMVxPCG0";
+  };
+
   # better do this manually in case of any clashes
   # powerManagement.powerDownCommands = ''
   #   cd /home/${user}/Google\ Drive
