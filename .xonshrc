@@ -20,7 +20,7 @@ $XONSH_SHOW_TRACEBACK = True
 $XONSH_STORE_STDOUT = True
 
 $PATH = [
-  *[join($HOME, p) for p in [
+  *(join($HOME, p) for p in [
     ".local/bin",
     "bin",
     ".linuxbrew/bin",
@@ -29,8 +29,7 @@ $PATH = [
     "src/go/bin",
     "perl5/bin",
     "local/bin"
-    ]
-  ],
+    ]),
   "/usr/local/heroku/bin",
   "/usr/local/cwb-3.4.8/bin",
   "/usr/local/bin",
