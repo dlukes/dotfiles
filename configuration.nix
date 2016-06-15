@@ -142,6 +142,7 @@ in {
     perlPackages.MooseXGetoptUsage
     psmisc
     python
+    python2nix
     python35
     python35Packages.click
     python35Packages.cycler
@@ -161,8 +162,10 @@ in {
     python35Packages.pip
     python35Packages.pyparsing
     python35Packages.pytz
+    python35Packages.regex
     python35Packages.scipy
     python35Packages.six
+    # python35Packages.sortedcontainers
     python35Packages.virtualenv
     # python35Packages.virtualenvwrapper
     python35Packages.werkzeug
