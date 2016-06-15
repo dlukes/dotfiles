@@ -205,6 +205,10 @@ in {
     # locate.enable = true;
     # locate.interval = "hourly";
 
+    # PostgreSQL
+    postgresql.enable = true;
+    postgresql.package = pkgs.postgresql;
+
     # Cups
     printing = {
       enable = true;
