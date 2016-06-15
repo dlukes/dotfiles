@@ -200,9 +200,10 @@ in {
   services = {
     openssh.enable = true;
 
-    # Locate will update its database everyday at lunch time
-    locate.enable = true;
-    locate.interval = "12:00";
+    # NOTE: how to get locate to index files in users' home directories?
+    # Locate will update its database hourly
+    # locate.enable = true;
+    # locate.interval = "hourly";
 
     # Cups
     printing = {
