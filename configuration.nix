@@ -166,7 +166,7 @@ in {
     python35Packages.regex
     python35Packages.scipy
     python35Packages.six
-    # python35Packages.sortedcontainers
+    python35Packages.sortedcontainers
     python35Packages.virtualenv
     # python35Packages.virtualenvwrapper
     python35Packages.werkzeug
