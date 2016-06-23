@@ -338,6 +338,7 @@ in {
   };
 
   virtualisation.virtualbox.host.enable = true;
+  virtualisation.docker.enable = true;
 
   # stuff for which sudo shouldn't ask me passwords; POWER commands should
   # by default according to the NixOS manual, but they don't -- perhaps
