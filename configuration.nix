@@ -140,6 +140,7 @@ in {
     perlPackages.Moose
     perlPackages.MooseXGetopt
     perlPackages.MooseXGetoptUsage
+    praat
     psmisc
     python
     python2nix
