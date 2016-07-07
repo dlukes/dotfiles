@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=Spacemacs
+GenericName=Text Editor
+Comment=The best editor is neither Emacs nor Vim, it's Emacs and Vim!
+MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
+TryExec=/usr/local/bin/spacemacs.sh
+Exec=/usr/local/bin/spacemacs.sh
+Icon=emacs24
+Type=Application
+Terminal=false
+Categories=Utility;Development;TextEditor;
+StartupWMClass=Emacs24
+Keywords=Text;Editor;
