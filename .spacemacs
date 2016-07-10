@@ -272,10 +272,19 @@ layers configuration. You are free to put any user code."
             (replace-regexp-in-string "∣" "|" string)))))
     (org-babel-do-load-languages
       'org-babel-load-languages
-      '((emacs-lisp . t)
-         (R . t)
+      '(
+         (css . t)
+         (emacs-lisp . t)
+         (latex . t)
+         (org . t)
          (perl . t)
-         (python . t)))
+         (python . t)
+         ;; this breaks org for some reason -- it fails to load with message:
+         ;; byte-code: Invalid function: org-babel-header-args-safe-fn
+         ;; (R . t)
+         (shell . t)
+         (sqlite . t)
+      ))
     (global-set-key (kbd "C-c l") 'org-store-link)
     (global-set-key (kbd "C-c a") 'org-agenda)
     (global-set-key (kbd "C-c b") 'org-iswitchb)
