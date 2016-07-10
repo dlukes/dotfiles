@@ -35,7 +35,7 @@ values."
      go
      javascript
      markdown
-     nixos
+     ;; nixos
      org
      pandoc
      php
