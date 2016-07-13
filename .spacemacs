@@ -35,6 +35,7 @@ values."
      git
      gnus
      go
+      html
      javascript
      markdown
      ;; nixos
