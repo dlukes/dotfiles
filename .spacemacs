@@ -28,7 +28,8 @@ values."
      clojure
      common-lisp
      emacs-lisp
-     ess
+      (ess :variables
+        ess-enable-smart-equals t)
      fasd
      git
      gnus
@@ -294,6 +295,10 @@ layers configuration. You are free to put any user code."
   (add-hook 'rust-mode-hook #'racer-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode)
   (add-hook 'racer-mode-hook #'company-mode)
+  ;; R/ESS
+  (add-hook 'ess-mode-hook
+    (lambda ()
+      (ess-toggle-underscore nil)))
 )
 
 ;; toggle minimalistic mode
