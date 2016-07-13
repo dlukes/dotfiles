@@ -301,20 +301,6 @@ layers configuration. You are free to put any user code."
       (ess-toggle-underscore nil)))
 )
 
-;; toggle minimalistic mode
-(defvar minimalistic t)
-(defun toggle-minimalistic ()
-  (interactive)
-  (cond ((equal minimalistic nil)
-         (menu-bar-mode -1)
-         ;; (tool-bar-mode -1)
-         (setq minimalistic t))
-        ((equal minimalistic t)
-         (menu-bar-mode)
-         ;; (tool-bar-mode)
-         (setq minimalistic nil))))
-(global-set-key (kbd "C--") 'toggle-minimalistic)
-
 ;; archive UCNK recording entry
 (defun cut-and-archive-line ()
   (interactive)
