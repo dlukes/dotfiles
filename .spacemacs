@@ -27,6 +27,7 @@ values."
      better-defaults
      clojure
      common-lisp
+      colors
      emacs-lisp
       (ess :variables
         ess-enable-smart-equals t)
@@ -326,21 +327,6 @@ layers configuration. You are free to put any user code."
   ;; (save-and-share-to-trnka))
   (save-buffer))
 (global-set-key (kbd "C-á") 'cut-and-archive-line)
-
-;;; FONTIFY HEX COLOR CODES
-(defun syntax-color-hex ()
-  "Syntax color text of the form 「#ff1100」 in current buffer.
-URL `http://ergoemacs.org/emacs/emacs_CSS_colors.html'
-Version 2015-06-11"
-  (interactive)
-  (font-lock-add-keywords
-   nil
-   '(("#[abcdef[:digit:]]\\{6\\}"
-      (0 (put-text-property
-          (match-beginning 0)
-          (match-end 0)
-          'face (list :background (match-string-no-properties 0)))))))
-  (font-lock-fontify-buffer))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
