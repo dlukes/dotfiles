@@ -35,6 +35,7 @@ values."
        git
        gnus
        go
+       haskell
        html
        javascript
        markdown
