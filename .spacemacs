@@ -28,6 +28,7 @@ values."
        clojure
        common-lisp
        colors
+       csv
        emacs-lisp
        (ess :variables
          ess-enable-smart-equals t)
