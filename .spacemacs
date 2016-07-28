@@ -84,6 +84,9 @@ values."
     ;; uses emacs key bindings for vim's insert mode, but otherwise leaves evil
     ;; unchanged. (default 'vim)
     dotspacemacs-editing-style 'hybrid
+    ;; How to treat messy whitespace in files. `changed' uses ws-butler to be
+    ;; smart about this; `all' and `trailing' use bundled Emacs functionality.
+    dotspacemacs-whitespace-cleanup 'changed
     ;; If non nil output loading progress in `*Messages*' buffer. (default nil)
     dotspacemacs-verbose-loading nil
     ;; Specify the startup banner. Default value is `official', it displays
@@ -252,7 +255,6 @@ layers configuration. You are free to put any user code."
     scpaste-scp-destination "trnka:~/public_html")
   (unless editorconfig-mode
     (editorconfig-mode))
-  (add-hook 'before-save-hook 'delete-trailing-whitespace)
   (add-hook 'after-change-major-mode-hook 'auto-fill-mode)
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
   ;;; Org mode.
