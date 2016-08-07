@@ -45,6 +45,7 @@ values."
        pandoc
        php
        python
+       ruby
        rust
        (shell :variables
          shell-default-height 30
