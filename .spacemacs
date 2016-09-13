@@ -34,11 +34,12 @@ values."
          ess-enable-smart-equals t)
        fasd
        git
-       gnus
+       ;; gnus
        go
        haskell
        html
        javascript
+       json
        markdown
        ;; nixos
        org
@@ -53,7 +54,7 @@ values."
          shell-default-term-shell "zsh"
          shell-enable-smart-eshell t)
        spell-checking
-       spotify
+       ;; spotify
        syntax-checking
        themes-megapack
        version-control
@@ -247,6 +248,8 @@ layers configuration. You are free to put any user code."
   ;;; Keyboard.
   (setq ns-right-alternate-modifier nil)
   (global-set-key (kbd "<f2>") 'spacemacs/default-pop-shell)
+  (with-eval-after-load 'evil-maps
+    (define-key evil-normal-state-map (kbd "C-i") 'evil-jump-forward))
   ;; bindings for terminal sessions
   (global-set-key (kbd "M-[ a") (kbd "C-<up>"))
   (global-set-key (kbd "M-[ b") (kbd "C-<down>"))
