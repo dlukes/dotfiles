@@ -39,7 +39,7 @@ values."
        haskell
        html
        javascript
-       json
+       ;; json
        markdown
        ;; nixos
        org
