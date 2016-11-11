@@ -257,7 +257,7 @@ layers configuration. You are free to put any user code."
   (setq fill-column 79
     yas-snippet-dirs (list (concat dlukes/emacs-conf "snippets") 'yas-installed-snippets-dir)
     scpaste-http-destination "https://trnka.korpus.cz/~lukes/scpaste"
-    scpaste-scp-destination "trnka:~/public_html")
+    scpaste-scp-destination "trnka:~/public_html/scpaste")
   (unless editorconfig-mode
     (editorconfig-mode))
   (add-hook 'after-change-major-mode-hook 'auto-fill-mode)
