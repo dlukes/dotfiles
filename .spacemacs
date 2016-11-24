@@ -53,6 +53,7 @@ values."
      helm
      html
      javascript
+     latex
      markdown
      ;; nixos
      org
