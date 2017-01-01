@@ -412,6 +412,8 @@ you should place your code here."
   (add-hook 'ess-mode-hook
     (lambda ()
       (ess-toggle-underscore nil)))
+  ;; disable prompt for saving abbrevs
+  (setq save-abbrevs 'silently)
   )
 
 ;; archive UCNK recording entry
