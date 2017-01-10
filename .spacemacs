@@ -65,7 +65,7 @@ values."
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom
-            shell-default-term-shell "zsh"
+            shell-default-term-shell "bash"
             shell-enable-smart-eshell t)
      spell-checking
      syntax-checking
@@ -350,7 +350,7 @@ you should place your code here."
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
   ;;; Keyboard.
   (setq ns-right-alternate-modifier nil)
-  (global-set-key (kbd "<f2>") 'spacemacs/default-pop-shell)
+  (global-set-key (kbd "<f9>") 'spacemacs/default-pop-shell)
   (with-eval-after-load 'evil-maps
     (define-key evil-normal-state-map (kbd "C-i") 'evil-jump-forward))
   ;; bindings for terminal sessions
