@@ -70,6 +70,7 @@ values."
      spell-checking
      syntax-checking
      themes-megapack
+     typescript
      version-control
      xkcd
      )
