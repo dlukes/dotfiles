@@ -2,6 +2,7 @@
 #  by Mike Stewart - http://MediaDoneRight.com
 
 export PATH="$HOME/bin:$HOME/local/bin:$HOME/.linuxbrew/bin:$PATH"
+export HISTCONTROL=ignoreboth:erasedups
 
 #  SETUP CONSTANTS
 #  Bunch-o-predefined colors.  Makes reading code easier than escape sequences.
