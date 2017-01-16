@@ -68,6 +68,7 @@ values."
             shell-default-term-shell "bash"
             shell-enable-smart-eshell t)
      spell-checking
+     sql
      syntax-checking
      themes-megapack
      typescript
