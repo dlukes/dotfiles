@@ -12,10 +12,11 @@ my $dotdir = $FindBin::RealBin.'/';
 my $home = $ENV{'HOME'}.'/';
 my @dotfiles = grep { !/
   ^.git(modules|ignore)?$
+ |^\.config$
  |^\.{1,2}$
  |disabled
  |\.DS_Store
-  /x } glob '.* texmf';
+  /x } glob '.* texmf .config/*';
 
 for my $dotfile (@dotfiles) {
   # check for pre-existing links/files/dirs
