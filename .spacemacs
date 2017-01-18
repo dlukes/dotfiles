@@ -359,8 +359,7 @@ you should place your code here."
   (global-set-key (kbd "M-[ a") (kbd "C-<up>"))
   (global-set-key (kbd "M-[ b") (kbd "C-<down>"))
   ;;; Text-editing.
-  (setq fill-column 79
-    yas-snippet-dirs (list (concat dlukes/emacs-conf "snippets") 'yas-installed-snippets-dir)
+  (setq yas-snippet-dirs (list (concat dlukes/emacs-conf "snippets") 'yas-installed-snippets-dir)
     scpaste-http-destination "https://trnka.korpus.cz/~lukes/scpaste"
     scpaste-scp-destination "trnka:~/public_html/scpaste")
   (unless editorconfig-mode
