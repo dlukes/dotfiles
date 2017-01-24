@@ -120,6 +120,9 @@ fi)'
 [[ -f /usr/share/git/git-prompt.sh ]] && \
   . /usr/share/git/git-prompt.sh
 
+# I roll my own virtualenv prompt reminder above
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
 alias 1='cd +1'
 alias 2='cd +2'
 alias 3='cd +3'
