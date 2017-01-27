@@ -119,6 +119,8 @@ fi)'
 #   . /usr/share/git/completion/git-completion.bash
 [[ -f /usr/share/git/git-prompt.sh ]] && \
   . /usr/share/git/git-prompt.sh
+[[ -f /usr/local/etc/bash_completion.d/git-prompt.sh ]] && \
+  . /usr/local/etc/bash_completion.d/git-prompt.sh
 
 # I roll my own virtualenv prompt reminder above
 export VIRTUAL_ENV_DISABLE_PROMPT=1
