@@ -2,7 +2,7 @@
 #  by Mike Stewart - http://MediaDoneRight.com
 
 export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.linuxbrew/bin:/usr/local/bin:$PATH"
-export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+command -v rustc &>/dev/null && export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 export GOPATH="$HOME/src/go"
 export HISTCONTROL=ignoreboth:erasedups
 
