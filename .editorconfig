@@ -14,7 +14,7 @@ indent_size = 4
 [Makefile]
 indent_style = tab
 
-[*.{md,org,txt,rst}]
+[*.{md,org,txt,rst,tex}]
 max_line_length = 79
 
 [COMMIT_EDITMSG]
