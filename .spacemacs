@@ -424,8 +424,11 @@ you should place your code here."
   (add-hook 'ess-mode-hook
     (lambda ()
       (ess-toggle-underscore nil)))
-  ;; disable prompt for saving abbrevs
+  ;; disable prompt for saving abbrevs (still doesn't work when reinstalling packages, but at least
+  ;; I tried...)
   (setq save-abbrevs 'silently)
+  ;; disable global smartparens (makes nXML hang)
+  (show-smartparens-global-mode -1)
   )
 
 ;; archive UCNK recording entry
