@@ -353,6 +353,8 @@ you should place your code here."
   ;;       powerline-utf8-separator-right)
   (setq powerline-height 20
     ns-use-srgb-colorspace nil)
+  ;; override default fallback font
+  (set-fontset-font "fontset-default" 'unicode (font-spec :family "Cantarell"))
   (unless (display-graphic-p)
     ;; (custom-theme-set-faces
     ;;  'molokai
