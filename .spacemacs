@@ -61,7 +61,8 @@ values."
      php
      python
      ruby
-     rust
+     (rust :variables
+           rust-format-on-save t)
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom
