@@ -78,24 +78,24 @@ values."
      xkcd
      yaml
      )
-    ;; List of additional packages that will be installed without being
-    ;; wrapped in a layer. If you need some configuration for these
-    ;; packages, then consider creating a layer. You can also put the
-    ;; configuration in `dotspacemacs/user-config'.
-    dotspacemacs-additional-packages
-    '(editorconfig scpaste vlf web-mode nginx-mode skewer-mode)
-    ;; A list of packages that cannot be updated.
-    dotspacemacs-frozen-packages '()
-    ;; A list of packages that will not be installed and loaded.
-    dotspacemacs-excluded-packages '(evil-search-highlight-persist)
-    ;; Defines the behaviour of Spacemacs when installing packages.
-    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
-    ;; `used-only' installs only explicitly used packages and uninstall any
-    ;; unused packages as well as their unused dependencies.
-    ;; `used-but-keep-unused' installs only the used packages but won't uninstall
-    ;; them if they become unused. `all' installs *all* packages supported by
-    ;; Spacemacs and never uninstall them. (default is `used-only')
-    dotspacemacs-install-packages 'used-only))
+   ;; List of additional packages that will be installed without being
+   ;; wrapped in a layer. If you need some configuration for these
+   ;; packages, then consider creating a layer. You can also put the
+   ;; configuration in `dotspacemacs/user-config'.
+   dotspacemacs-additional-packages
+   '(editorconfig scpaste vlf web-mode nginx-mode skewer-mode)
+   ;; A list of packages that cannot be updated.
+   dotspacemacs-frozen-packages '()
+   ;; A list of packages that will not be installed and loaded.
+   dotspacemacs-excluded-packages '(evil-search-highlight-persist)
+   ;; Defines the behaviour of Spacemacs when installing packages.
+   ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
+   ;; `used-only' installs only explicitly used packages and uninstall any
+   ;; unused packages as well as their unused dependencies.
+   ;; `used-but-keep-unused' installs only the used packages but won't uninstall
+   ;; them if they become unused. `all' installs *all* packages supported by
+   ;; Spacemacs and never uninstall them. (default is `used-only')
+   dotspacemacs-install-packages 'used-only))
 
 (defun dotspacemacs/init ()
   "Initialization function.
