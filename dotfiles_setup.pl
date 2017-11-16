@@ -4,6 +4,7 @@ use utf8;
 use strict;
 use warnings;
 use FindBin;
+use File::Basename;
 
 system "git submodule update --init --recursive"
   and die "Couldn't update/init submodules: $!";
@@ -29,4 +30,9 @@ for my $dotfile (@dotfiles) {
   }
   print STDERR "Symlinking $dotdir$dotfile to $home$dotfile.\n";
   symlink $dotdir.$dotfile, $home.$dotfile or die "Symlinking failed: $!";
+}
+
+for my $snippet_dir (glob $dotdir."snippets/*") {
+  print STDERR "Symlinking $snippet_dir to $dotdir.emacs.d/private/snippets/$snippet_dir.\n";
+  symlink $snippet_dir, $dotdir.".emacs.d/private/snippets/".(basename $snippet_dir) or die "Symlinking failed: $!";
 }

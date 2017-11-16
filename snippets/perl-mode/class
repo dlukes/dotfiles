@@ -1,0 +1,91 @@
+# -*- mode: perl; require-final-newline: nil -*-
+# key: class
+# --
+package ${1:Employee};
+use Moose;
+# remove all imported functions (otherwise, they'd be accessible as methods)
+use namespace::autoclean;
+
+has name => (
+  is => 'ro',
+  isa => 'Str',
+  # or 'Defined' if we just want to disallow undef
+  # or 'Value' if we want to disallow references
+  required => 1,
+);
+
+has title => (
+  is => 'rw',
+  isa => 'Str',
+  required => 1,
+  # a `trigger' gets called on each attribute change
+  trigger => sub {
+    my ($self) = @_;
+    # remove cached salary each time job title changes
+    $self->clear_salary;
+  },
+);
+
+has expense_acct => (
+  is => 'rw',
+  isa => 'Int',
+  # remove attribute (!= set to undef); like delete on a hash
+  clearer => 'clear_expense_acct',
+  # like exists on a hash
+  predicate => 'has_expense_acct',
+);
+
+has salary => (
+  is => 'ro',
+  isa => 'Int',
+  # default can be a sub
+  default => sub {
+    my ($self) = @_;
+    return Salary->for_employee($self);
+  },
+  # you can also use `builder' and pass a method name → easier subclassing
+  # delays computation until requested, then caches it
+  lazy => 1,
+  # or, you can also use `lazy_build', which does it all in one go
+  clearer => 'clear_salary',
+  # prevent salary from being set in the initializer
+  init_arg => undef,
+);
+
+# or equivalently:
+# has name => (
+#   reader => 'name',
+# ),
+# has title => (
+#   accessor => 'title',
+# );
+
+# or
+# has title => (
+#   reader => 'get_title',
+#   writer => 'set_title',
+# );
+
+sub name_and_title {
+  my ($self) = @_;
+
+  my $name = $self->name;
+  my $title = $self->title;
+
+  return "$name, $title";
+}
+
+# METHOD MODIFIERS
+
+# modifier to run `after' a method has run; the first argument can also be an
+# array or a qr/.../, which will be matched against method names
+after name_and_title => sub {
+  my ($self) = @_;
+  say "name_and_title has just been called.";
+};
+
+# other modifiers: `before', `around'
+
+__PACKAGE__->meta->make_immutable;
+
+1;

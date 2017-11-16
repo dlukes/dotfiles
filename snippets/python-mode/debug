@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: debug
+# --
+import ipdb
+ipdb.set_trace()

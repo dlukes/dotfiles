@@ -1,0 +1,24 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: setup
+# expand-env: ((yas-indent-line 'fixed))
+# --
+from setuptools import setup, find_packages
+
+setup(
+    name="${1:package_name}",
+    version="${2:0.0}",
+    author="${3:David Lukeš}",
+    author_email="${4:dafydd.lukes@gmail.com}",
+    description="${5:Short description.}",
+    license="${6:GNU GPLv3}",
+    url="https://github.com/dlukes/$1",
+
+    packages=find_packages(),
+    # install_requires=[
+    #     "Click",
+    # ],
+    # entry_points="""
+    #     [console_scripts]
+    #     scriptname=module:function
+    # """,
+)

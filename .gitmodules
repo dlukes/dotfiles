@@ -7,9 +7,6 @@
 [submodule "texmf"]
 	path = texmf
 	url = git@github.com:dlukes/texmf.git
-[submodule ".emacsconf"]
-	path = .emacsconf
-	url = git@github.com:dlukes/dotemacsconf.git
 [submodule ".zprezto"]
 	path = .zprezto
 	url = git@github.com:dlukes/dotzprezto.git

@@ -1,0 +1,30 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: subclass
+# --
+package ${1:Employee::Former};
+use Moose;
+use namespace::autoclean;
+use MooseX::StrictConstructor;
+
+extends 'Employee';
+
+# remove all imported functions (otherwise, they'd be accessible as methods)
+use namespace::autoclean;
+
+# `has +' specializes attributes
+has '+title' => (
+  default => 'Team Member',
+);
+
+# `override' specializes methods
+override name_and_title => sub {
+  my ($self) = @_;
+
+  my $old = super;
+
+  return "$old (Former)";
+};
+
+__PACKAGE__->meta->make_immutable;
+
+1;

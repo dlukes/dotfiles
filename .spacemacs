@@ -324,8 +324,6 @@ values."
    dotspacemacs-whitespace-cleanup 'changed
    ))
 
-(defvar dlukes/emacs-conf (file-name-as-directory "~/.emacsconf"))
-
 (defun dlukes/toggle-transparency-on (&optional frame)
   (when (window-system)
     (let ((frame (if frame frame (selected-frame))))
@@ -372,7 +370,7 @@ you should place your code here."
   (global-set-key (kbd "M-[ a") (kbd "C-<up>"))
   (global-set-key (kbd "M-[ b") (kbd "C-<down>"))
   ;;; Text-editing.
-  (setq yas-snippet-dirs (list (concat dlukes/emacs-conf "snippets") 'yas-installed-snippets-dir)
+  (setq
     scpaste-http-destination "https://trnka.korpus.cz/~lukes/scpaste"
     scpaste-scp-destination "trnka:~/public_html/scpaste")
   (unless editorconfig-mode
