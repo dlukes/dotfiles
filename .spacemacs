@@ -83,11 +83,29 @@ values."
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
-   '(editorconfig scpaste vlf web-mode nginx-mode skewer-mode)
+   '(
+      editorconfig
+      nginx-mode
+      scpaste
+      skewer-mode
+      vlf
+      web-mode
+      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
-   dotspacemacs-excluded-packages '(evil-search-highlight-persist)
+   dotspacemacs-excluded-packages
+   '(
+      evil-search-highlight-persist
+      ;; the following packages are missing from the repos which slows
+      ;; down startup because of repeated install attempts
+      ess-R-object-popup
+      firebelly-theme
+      niflheim-theme
+      pastels-on-dark-theme
+      tronesque-theme
+      zonokai-theme
+      )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
    ;; `used-only' installs only explicitly used packages and uninstall any
