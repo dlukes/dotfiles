@@ -8,6 +8,7 @@
 
 """
 
+import sys
 import os.path as osp
 import fileinput as fi
 import logging as log
@@ -19,12 +20,7 @@ LOGLEVELS = [s for f, s in sorted(
     (v, k) for k, v in vars(log).items() if k.isupper() and isinstance(v, int))]
 
 
-def parse_arguments(argv):
-    """Return parsed argv.
-
-    If argv is None, .parse_args() looks into sys.argv instead.
-
-    """
+def parse_argv(argv):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input", nargs="*", help="input files, leave empty or - for STDIN")
     parser.add_argument("-s", "--string", help="sample string argument")
@@ -39,8 +35,8 @@ def parse_arguments(argv):
     return args
 
 
-def main(argv=None):
-    args = parse_arguments(argv)
+def main(argv):
+    args = parse_argv(argv)
     input = args.input if args.input else ["-"]
     LOG.fatal("Everything's peachy!")
     for line in fi.input(input):
@@ -50,4 +46,4 @@ def main(argv=None):
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])

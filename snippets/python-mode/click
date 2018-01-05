@@ -18,8 +18,8 @@ LOGLEVELS = [s for f, s in sorted(
 @cli.option("lvl", "--log", help="Set logging level.", type=cli.Choice(LOGLEVELS), default="${1:WARN}")
 @cli.option("--verbose", "-v", help="(Repeatedly) increase logging level.", count=True)
 @cli.option("--quiet", "-q", help="(Repeatedly) decrease logging level.", count=True)
-@cli.argument("input", type=cli.File("rt", encoding="utf-8"), nargs=-1)
-def main(lvl, verbose, quiet, input):
+@cli.argument("files", type=cli.File("rt", encoding="utf-8"), nargs=-1)
+def main(lvl, verbose, quiet, files):
     """${2:CLI docstring.
 
     \b
@@ -27,14 +27,14 @@ def main(lvl, verbose, quiet, input):
     - rewrap
     - this}
 
-    INPUT are the files to process. Leave empty or - for STDIN.
+    FILES are the files to process. Leave empty or - for STDIN.
 
     """
     lvl = getattr(log, lvl) - 10*verbose + 10*quiet
     log.basicConfig(level=lvl, format="[%(asctime)s {}:%(levelname)s] %(message)s".format(NAME))
-    input = input if input else (cli.File("rt", encoding="utf-8")("-"),)
+    files = files if files else (cli.File("rt", encoding="utf-8")("-"),)
     cli.echo("Logging level: {}".format(lvl))
-    cli.echo("Input: {}".format(input))
+    cli.echo("Input: {}".format(files))
     LOG.fatal("Everything's peachy!")
     $0
 
