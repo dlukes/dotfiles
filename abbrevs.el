@@ -242,5 +242,5 @@
 
 ;; disable prompt for saving abbrevs (still doesn't work when reinstalling packages, but at least
 ;; I tried...)
-;; (setq save-abbrevs 'silently)
-(setq save-abbrevs nil)
+(setq save-abbrevs 'silently)
+;; (setq save-abbrevs nil)
