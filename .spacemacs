@@ -39,8 +39,8 @@ values."
      auto-completion
      better-defaults
      bibtex
-     clojure
-     common-lisp
+     ;; clojure
+     ;; common-lisp
      colors
      csv
      emacs-lisp
@@ -50,7 +50,7 @@ values."
      git
      ;; gnus
      go
-     haskell
+     ;; haskell
      helm
      html
      javascript
@@ -89,7 +89,7 @@ values."
       scpaste
       skewer-mode
       vlf
-      web-mode
+      ;; web-mode
       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -97,14 +97,8 @@ values."
    dotspacemacs-excluded-packages
    '(
       evil-search-highlight-persist
-      ;; the following packages are missing from the repos which slows
-      ;; down startup because of repeated install attempts
-      ess-R-object-popup
-      firebelly-theme
-      niflheim-theme
-      pastels-on-dark-theme
-      tronesque-theme
-      zonokai-theme
+      ;; NOTE: add any packages that might be missing from the repos to prevent slow
+      ;; startup because of repeated install attempts
       )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
