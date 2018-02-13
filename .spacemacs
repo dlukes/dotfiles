@@ -438,6 +438,8 @@ you should place your code here."
       (ess-toggle-underscore nil)))
   ;; abbrev setup
   (load "~/.files/abbrevs.el")
+  ;; automatically refine diff in current magit hunk
+  (setq magit-diff-refine-hunk t)
 
   ;; disable global smartparens (makes nXML hang)
   (show-smartparens-global-mode -1)
