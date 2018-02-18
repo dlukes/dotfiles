@@ -394,17 +394,11 @@ you should place your code here."
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
   ;;; Org mode.
   (with-eval-after-load 'org
-    (setq org-directory "~/org"
-      org-archive-location "archive/%s::"
-      agenda "~/org/2015.org"
-      org-agenda-files `(,agenda)
+    (setq org-archive-location "archive/%s::"
       org-export-backends '(ascii beamer html icalendar latex md odt freemind)
       org-log-done '(note)
       org-publish-project-alist '((:htmlized-source . t))
-      org-default-notes-file agenda
-      org-src-fontify-natively t
-      org-mobile-inbox-for-pull  "~/org/org-mobile-inbox-for-pull"
-      org-mobile-directory nil)
+      org-src-fontify-natively t)
     ;; exporting phonetic transcription feedback to html → replace pipes (not done
     ;; with hooks anymore since org-mode 8.x)
     (setq org-export-filter-final-output-functions
@@ -426,10 +420,7 @@ you should place your code here."
          (shell . t)
          (sqlite . t)
          ))
-    (global-set-key (kbd "C-c l") 'org-store-link)
-    (global-set-key (kbd "C-c a") 'org-agenda)
-    (global-set-key (kbd "C-c b") 'org-iswitchb)
-    (global-set-key (kbd "C-c c") 'org-capture))
+    )
   ;; Rust
   (setq-default rust-enable-racer t)
   (add-hook 'rust-mode-hook #'racer-mode)
