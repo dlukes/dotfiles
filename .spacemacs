@@ -86,6 +86,7 @@ values."
    '(
       editorconfig
       nginx-mode
+      olivetti
       scpaste
       skewer-mode
       vlf
@@ -377,6 +378,8 @@ you should place your code here."
   (setq ns-right-alternate-modifier nil)
   (global-set-key (kbd "<f9>") 'spacemacs/default-pop-shell)
   (with-eval-after-load 'evil-maps
+    (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+    (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
     (define-key evil-normal-state-map (kbd "C-i") 'evil-jump-forward))
   ;; bindings for terminal sessions
   (global-set-key (kbd "M-[ a") (kbd "C-<up>"))
@@ -440,6 +443,9 @@ you should place your code here."
   (load "~/.files/abbrevs.el")
   ;; automatically refine diff in current magit hunk
   (setq magit-diff-refine-hunk t)
+  ;; markdown
+  (setq markdown-fontify-code-blocks-natively t
+    markdown-command "pandoc")
 
   ;; disable global smartparens (makes nXML hang)
   (show-smartparens-global-mode -1)
@@ -473,3 +479,9 @@ you should place your code here."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(fixed-pitch ((t nil))))
