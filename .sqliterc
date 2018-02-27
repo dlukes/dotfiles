@@ -1,5 +1,4 @@
 .headers on
 .mode column
-.nullvalue ¤
 .prompt "--> " "--. "
 .timer on
