@@ -437,6 +437,9 @@ you should place your code here."
   ;; markdown
   (setq markdown-fontify-code-blocks-natively t
     markdown-command "pandoc")
+  ;; bibtex
+  (setq org-ref-default-bibliography
+    (directory-files "~/.files/texmf/bibtex/bib/local" t (rx ".bib" eol)))
 
   ;; disable global smartparens (makes nXML hang)
   (show-smartparens-global-mode -1)
