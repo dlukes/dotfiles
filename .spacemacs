@@ -440,6 +440,10 @@ you should place your code here."
   ;; bibtex
   (setq org-ref-default-bibliography
     (directory-files "~/.files/texmf/bibtex/bib/local" t (rx ".bib" eol)))
+  ;; python
+  (setq flycheck-python-flake8-executable "python3"
+    flycheck-python-pylint-executable "python3"
+    flycheck-python-pycompile-executable "python3")
 
   ;; disable global smartparens (makes nXML hang)
   (show-smartparens-global-mode -1)
