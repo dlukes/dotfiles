@@ -19,6 +19,7 @@ BUILD_SCRIPT = r"""
 
 cd ${{0:a:h}}
 pandoc {args} \
+  --number-sections \
   -F pandoc-crossref \
   -V papersize=a4 \
   --bibliography pandoc.bib
@@ -91,8 +92,8 @@ def write_build_script(input, output, pandoc_args):
 @cli.option("lvl", "--log", help="Set logging level.", type=cli.Choice(LOGLEVELS), default="WARN")
 @cli.option("--verbose", "-v", help="(Repeatedly) increase logging level.", count=True)
 @cli.option("--quiet", "-q", help="(Repeatedly) decrease logging level.", count=True)
-@cli.option("--input", "-i", type=cli.Path(dir_okay=False), multiple=True)
-@cli.option("--output", "-o", type=cli.Path(dir_okay=False), multiple=True)
+@cli.option("--input", "-i", type=cli.Path(dir_okay=False), multiple=True, required=True)
+@cli.option("--output", "-o", type=cli.Path(dir_okay=False), multiple=True, required=True)
 @cli.argument("pandoc_args", nargs=-1)
 def main(lvl, verbose, quiet, input, output, pandoc_args):
     """Generate a pandoc build script and run it.
