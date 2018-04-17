@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 # wrapper script and desktop file
-sudo cp spacemacs.sh /usr/local/bin
+sudo cp spacemacs.sh /usr/bin
 sudo cp spacemacs.desktop /usr/share/applications/
 
 cd $TMPDIR
