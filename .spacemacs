@@ -177,7 +177,8 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+                               ;; integer → pixel size, float → point size
+                               :size 11.0
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -361,11 +362,6 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
   ;;; Visuals.
-  ;; (setq powerline-default-separator 'utf-8
-  ;;       powerline-utf8-separator-left
-  ;;       powerline-utf8-separator-right)
-  (setq powerline-height 20
-    ns-use-srgb-colorspace nil)
   (unless (display-graphic-p)
     ;; (custom-theme-set-faces
     ;;  'molokai
