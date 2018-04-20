@@ -394,6 +394,7 @@ you should place your code here."
       org-export-backends '(ascii beamer html icalendar latex md odt freemind)
       org-log-done '(note)
       org-publish-project-alist '((:htmlized-source . t))
+      org-adapt-indentation nil
       org-src-fontify-natively t)
     ;; exporting phonetic transcription feedback to html → replace pipes (not done
     ;; with hooks anymore since org-mode 8.x)
