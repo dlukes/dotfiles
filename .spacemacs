@@ -445,6 +445,9 @@ you should place your code here."
 
   ;; disable global smartparens (makes nXML hang)
   (show-smartparens-global-mode -1)
+  ;; workaround for https://github.com/syl20bnr/spacemacs/issues/10638
+  (with-eval-after-load 'company
+    (add-to-list 'company-backends 'company-anaconda))
   )
 
 ;; archive UCNK recording entry
