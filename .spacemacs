@@ -90,6 +90,7 @@ values."
       scpaste
       skewer-mode
       vlf
+      vue-mode
       ;; web-mode
       )
    ;; A list of packages that cannot be updated.
