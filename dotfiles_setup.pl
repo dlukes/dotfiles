@@ -17,7 +17,8 @@ my @dotfiles = grep { !/
  |\/\.{1,2}$
  |disabled
  |\.DS_Store
-  /x } glob $dotdir.'{.*,texmf/*}';
+ |\.config$
+  /x } glob $dotdir.'{.*,texmf}';
 
 create_symlinks($dotdir, $home, @dotfiles);
 create_symlinks($dotdir.'.config/', $home.'.config/', glob $dotdir.'.config/*');
@@ -37,7 +38,7 @@ sub create_symlinks {
           ."in $to. Symlink not created.\n";
       next;
     }
-    print STDERR "Symlinking $from$target to $to$target.\n";
     symlink $from.$target, $to.$target or die "Symlinking failed: $!";
+    print STDERR "Created symlink $to$target to $from$target.\n";
   }
 }
