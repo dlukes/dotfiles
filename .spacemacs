@@ -440,32 +440,6 @@ you should place your code here."
     (add-to-list 'company-backends 'company-anaconda))
   )
 
-;; archive UCNK recording entry
-(defun cut-and-archive-line ()
-  (interactive)
-  (move-beginning-of-line nil)
-  (kill-whole-line)
-  (find-file "~/org/archive/sondy_UCNK.org")
-  ;; (switch-to-buffer "archiv_sondy_UCNK.org")
-  (end-of-buffer)
-  (let* ((str (car kill-ring))
-          (len (length str))
-          (from (- len
-                  (or (string-match "\n" (concat (reverse (append str
-                                                            nil)))
-                        1)
-                    len)))
-          (ins (substring str from)))
-    (insert ins))
-  (insert "\n")
-  (save-buffer)
-  ;; (save-and-share-to-trnka)
-  ;; (switch-to-buffer nil))
-  (kill-buffer nil)
-  ;; (save-and-share-to-trnka))
-  (save-buffer))
-(global-set-key (kbd "C-á") 'cut-and-archive-line)
-
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
 (custom-set-faces
