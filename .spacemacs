@@ -273,7 +273,7 @@ values."
    ;; If non nil the frame is maximized when Emacs starts up.
    ;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
    ;; (default nil) (Emacs 24.4+ only)
-   dotspacemacs-maximized-at-startup nil
+   dotspacemacs-maximized-at-startup t
    ;; A value from the range (0..100), in increasing opacity, which describes
    ;; the transparency level of a frame when it's active or selected.
    ;; Transparency can be toggled through `toggle-transparency'. (default 90)
@@ -339,13 +339,6 @@ values."
    dotspacemacs-whitespace-cleanup 'changed
    ))
 
-(defun dlukes/toggle-transparency-on (&optional frame)
-  (when (window-system)
-    (let ((frame (if frame frame (selected-frame))))
-      (set-frame-parameter frame 'alpha
-        (list dotspacemacs-active-transparency
-          dotspacemacs-inactive-transparency)))))
-
 (defun dotspacemacs/user-init ()
   "Initialization function for user code.
 It is called immediately after `dotspacemacs/init', before layer configuration
@@ -368,9 +361,6 @@ you should place your code here."
     ;;  'molokai
     ;;  '(hl-line ((t (:background "#293739")))))
     (setq powerline-default-separator nil))
-  (dlukes/toggle-transparency-on)
-  (add-hook 'after-make-frame-functions 'dlukes/toggle-transparency-on)
-  (add-to-list 'default-frame-alist '(fullscreen . maximized))
   ;;; Keyboard.
   (setq ns-right-alternate-modifier nil)
   (global-set-key (kbd "<f9>") 'spacemacs/default-pop-shell)
