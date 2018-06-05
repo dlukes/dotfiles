@@ -14,6 +14,8 @@
 	wdiff = diff --word-diff=color --unified=1
 [push]
 	default = simple
+[pull]
+	rebase = true
 [credential]
 	helper = cache
 [diff "pandoc"]
