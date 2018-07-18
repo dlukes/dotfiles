@@ -107,3 +107,7 @@ _build/
 *.o
 *.bs
 /_eumm/
+
+### VSCode ###
+.vscode
+.mypy_cache
