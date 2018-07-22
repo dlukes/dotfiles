@@ -10,9 +10,6 @@
 [submodule ".zprezto"]
 	path = .zprezto
 	url = git@github.com:dlukes/dotzprezto.git
-[submodule ".vim"]
-	path = .vim
-	url = git@github.com:bling/dotvim.git
 [submodule "spacemacs"]
 	path = .emacs.d
 	url = git@github.com:syl20bnr/spacemacs.git
