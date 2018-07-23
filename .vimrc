@@ -22,6 +22,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'davidhalter/jedi-vim'
+Plug 'ambv/black'
 Plug 'rust-lang/rust.vim'
 call plug#end()
 
@@ -29,8 +30,8 @@ call plug#end()
 
 function! CleanupWhitespace()
   let save_cursor = getpos('.')
-  silent! %s/\s\+$//e
-  silent! %s/\($\n\s*\)\+\%$//e
+  silent %s/\s\+$//e
+  silent %s/\($\n\s*\)\+\%$//e
   call setpos('.', save_cursor)
 endfunction
 
@@ -54,6 +55,13 @@ endfunction
 " Mru command: runs Mru function and uses MruComplete function for completion
 command! -nargs=1 -complete=customlist,MruComplete Mru call Mru(<f-args>)
 
+"------------------------------ Auto commands ------------------------------
+
+" general template for external commands:
+" autocmd BufWritePre *.py silent %!black -q -
+autocmd BufWritePre * call CleanupWhitespace()
+autocmd BufWritePre *.py :Black
+
 "------------------------------ Settings ------------------------------
 
 " allow hiding buffers with changes
@@ -63,6 +71,8 @@ set updatetime=500
 set splitbelow splitright
 " make sure vim knows there are 256 colors
 set t_Co=256
+" don't hard wrap when appending to line which is already longer than textwidth
+set formatoptions+=l
 " persistent undo instead of backups, and swap files tucked away please
 set nobackup
 set undofile
@@ -77,7 +87,6 @@ set directory=~/.vim/swp
 " elflord is a nicely readable default one but seoul256 is better
 " another fairly nice one but harder on the eyes is 'liuchengxu/space-vim-dark'
 colorscheme seoul256
-autocmd BufWritePre * call CleanupWhitespace()
 
 "------------------------------ Key bindings ------------------------------
 
