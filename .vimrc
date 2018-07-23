@@ -1,6 +1,7 @@
 "------------------------------ Plugins ------------------------------
 
 if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !pip3 install --user neovim
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
@@ -14,6 +15,7 @@ Plug 'tpope/vim-sensible'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
+Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/seoul256.vim'
 
@@ -52,7 +54,8 @@ function! MruComplete(ArgLead, CmdLine, CursorPos)
   return filter(copy(v:oldfiles), 'v:val =~ a:ArgLead')
 endfunction
 
-" Mru command: runs Mru function and uses MruComplete function for completion
+" Mru command: runs Mru function and uses MruComplete function for
+" completion
 command! -nargs=1 -complete=customlist,MruComplete Mru call Mru(<f-args>)
 
 "------------------------------ Auto commands ------------------------------
@@ -71,7 +74,8 @@ set updatetime=500
 set splitbelow splitright
 " make sure vim knows there are 256 colors
 set t_Co=256
-" don't hard wrap when appending to line which is already longer than textwidth
+" don't hard wrap when appending to line which is already longer than
+" textwidth
 set formatoptions+=l
 " persistent undo instead of backups, and swap files tucked away please
 set nobackup
@@ -84,8 +88,9 @@ if !isdirectory($HOME . "/.vim/swp")
   call mkdir($HOME . "/.vim/swp", "p", 0700)
 endif
 set directory=~/.vim/swp
-" elflord is a nicely readable default one but seoul256 is better
-" another fairly nice one but harder on the eyes is 'liuchengxu/space-vim-dark'
+" elflord is a nicely readable default one but seoul256 is better;
+" another fairly nice one but harder on the eyes is
+" 'liuchengxu/space-vim-dark'
 colorscheme seoul256
 
 "------------------------------ Key bindings ------------------------------
@@ -99,21 +104,28 @@ let g:jedi#completions_command = "<C-N>"
 
 " # Python
 "
-" By default, jedi-vim uses the most recent Python version found on the system. To override this
-" (even at runtime), do the following:
+" If using Neovim, don't forget to install the module which enables Python
+" support:
+"
+" pip3 install --user neovim
+"
+" By default, jedi-vim uses the most recent Python version found on the
+" system. To override this (even at runtime), do the following:
 "
 " let g:jedi#force_py_version = 2
 "
-" If you want to avoid having to tinker with that, simply start Vim in a virtualenv.
+" If you want to avoid having to tinker with that, simply start Vim in a
+" virtualenv.
 
 " # Tables
 "
-" If it ever turns out I need to edit tables in Vim, this looks like a good mode:
-" <https://github.com/dhruvasagar/vim-table-mode>.
+" If it ever turns out I need to edit tables in Vim, this looks like a
+" good mode: <https://github.com/dhruvasagar/vim-table-mode>.
 
 " # Mouse
 "
-" Mouse support (selection, window resizing) currently only works in Vim, not Neovim.
+" Mouse support (selection, window resizing) currently only works in
+" Vim, not Neovim.
 
 " # Scrolling around
 "
