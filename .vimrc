@@ -1,7 +1,11 @@
+let mapleader = ' '
+
 "------------------------------ Plugins ------------------------------
 
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !pip3 install --user neovim
+  silent !cargo install fd-find
+  silent !cargo install ripgrep
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
@@ -11,6 +15,7 @@ endif
 " :PlugUpdate to update plugins
 " :PlugUpgrade to update vim-plug itself
 call plug#begin()
+" core
 Plug 'tpope/vim-sensible'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-commentary'
@@ -18,6 +23,7 @@ Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
 Plug 'junegunn/seoul256.vim'
 
+" nice to have
 Plug 'junegunn/fzf', { 'dir': '~/.local/fzf', 'do': './install --all && ln -s ../fzf/bin/fzf ../bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
@@ -25,6 +31,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 
+" filetype-specific
 Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
 Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'ambv/black', { 'for': 'python' }
@@ -33,35 +40,58 @@ call plug#end()
 
 "------------------------------ Functions and commands ------------------------------
 
-function! CleanupWhitespace()
+function! s:cleanup_whitespace()
   let save_cursor = getpos('.')
   silent %s/\s\+$//e
   silent %s/\($\n\s*\)\+\%$//e
   call setpos('.', save_cursor)
 endfunction
 
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-command! -bang -nargs=* Ag
-  \ call fzf#vim#ag(<q-args>, fzf#vim#with_preview(), <bang>0)
-
 function! s:find_git_root()
   return systemlist('git rev-parse --show-toplevel')[0]
 endfunction
 
-command! -bang -nargs=* GitGrep
-  \ call fzf#vim#grep(
-  \   'git grep --line-number '.shellescape(<q-args>), 0,
-  \   { 'dir': s:find_git_root() }, <bang>0)
+let fzf_options = '--preview "head -500 {}"'
 
-command! ProjectFiles execute 'Files' s:find_git_root()
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#run(fzf#wrap(
+  \   {
+  \     'source': 'fd --type f .\* '.(empty(<q-args>) ? '' : shellescape(<q-args>)),
+  \     'down': '40%',
+  \     'options': fzf_options
+  \   }, <bang>0))
+
+command! -bang -nargs=? -complete=dir AllFiles
+  \ call fzf#run(fzf#wrap(
+  \   {
+  \     'source': 'fd --type f --hidden --follow --exclude .git .\* '
+  \       .(empty(<q-args>) ? '' : shellescape(<q-args>)),
+  \     'down': '40%',
+  \     'options': fzf_options
+  \   }, <bang>0))
+
+command! -bang -nargs=? -complete=dir Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case "^" '
+  \     .(empty(<q-args>) ? '' : shellescape(<q-args>)),
+  \   1, fzf#vim#with_preview(), <bang>0)
+
+command! -bang -nargs=? -complete=dir RgAll
+  \ call fzf#vim#grep(
+  \   'rg -uu --column --line-number --no-heading --color=always --smart-case "^" '
+  \     .(empty(<q-args>) ? '' : shellescape(<q-args>)),
+  \   1, fzf#vim#with_preview(), <bang>0)
+
+command! -bang -nargs=? -complete=dir GGrep
+  \ call fzf#vim#grep(
+  \   'git grep --line-number "^" -- '.shellescape(<q-args>), 0,
+  \   fzf#vim#with_preview({ 'dir': s:find_git_root() }), <bang>0)
 
 "------------------------------ Auto commands ------------------------------
 
 " general template for external commands:
 " autocmd BufWritePre *.py silent %!black -q -
-autocmd BufWritePre * call CleanupWhitespace()
+autocmd BufWritePre * call s:cleanup_whitespace()
 autocmd BufWritePre *.py :Black
 
 "------------------------------ Settings ------------------------------
@@ -76,6 +106,7 @@ set t_Co=256
 " don't hard wrap when appending to line which is already longer than
 " textwidth
 set formatoptions+=l
+set list
 " more ergonomic completion behavior
 set completeopt=longest,menuone
 " character triggering completion in macros
@@ -98,26 +129,36 @@ set directory=~/.vim/swp
 " liuchengxu/space-vim-dark
 colorscheme seoul256
 
+let g:jedi#completions_command = "<C-N>"
+
 "------------------------------ Key bindings ------------------------------
 
-let mapleader = ' '
 inoremap fd <Esc>
 " avoid having to escape special characters in searches ("very magic")
-nnoremap / /\v
-nnoremap <leader><Tab> <C-^>
-nnoremap <leader>ff :Files<CR>
-nnoremap <leader>fr :History<CR>
-nnoremap <leader>fp :ProjectFiles<CR>
-nnoremap <leader>fg :GitFiles<CR>
-nnoremap <leader>bb :Buffers<CR>
-nnoremap <leader>bw :Windows<CR>
-nnoremap <leader>sa :Ag<CR>
-nnoremap <leader>sg :GitGrep<CR>
-nnoremap <leader>ss :Lines<CR>
-nnoremap <leader>gg :Commits<CR>
-nnoremap <leader>gb :BCommits<CR>
-
-let g:jedi#completions_command = "<C-N>"
+noremap / /\v
+noremap <Right> gt
+noremap <Left> gT
+noremap <Down> :bn<CR>
+noremap <Up> :bp<CR>
+noremap <leader><Space> :
+" execute visual selection of Vimscript code
+vnoremap <leader>x y \| :@"<CR>
+noremap <leader><Tab> <C-^>
+noremap <leader>w <C-w>
+noremap <leader>ff :Files<CR>
+noremap <leader>fg :GFiles<CR>
+noremap <leader>fa :AllFiles<CR>
+noremap <leader>fr :History<CR>
+noremap <leader>bb :Buffers<CR>
+noremap <leader>bw :Windows<CR>
+noremap <leader>sr :Rg<CR>
+noremap <leader>sa :RgAll<CR>
+noremap <leader>sg :GGrep<CR>
+noremap <leader>ss :Lines<CR>
+noremap <leader>gg :Commits<CR>
+noremap <leader>gb :BCommits<CR>
+noremap <leader>dg :diffget \| diffupdate<CR>
+noremap <leader>dp :diffput \| diffupdate<CR>
 
 "------------------------------ Help ------------------------------
 
