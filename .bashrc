@@ -48,3 +48,5 @@ if command -v nvim &>/dev/null; then
 else
   alias vi=vim
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
