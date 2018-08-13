@@ -425,9 +425,6 @@ you should place your code here."
   ;; markdown
   (setq markdown-fontify-code-blocks-natively t
     markdown-command "pandoc")
-  ;; bibtex
-  (setq org-ref-default-bibliography
-    (directory-files "~/.files/texmf/bibtex/bib/local" t (rx ".bib" eol)))
   ;; python
   (setq flycheck-python-flake8-executable "python3"
     flycheck-python-pylint-executable "python3"
