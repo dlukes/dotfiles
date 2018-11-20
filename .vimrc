@@ -41,12 +41,13 @@ call plug#end()
 
 "------------------------------ Functions and commands ------------------------------
 
-function! s:cleanup_whitespace()
-  let save_cursor = getpos('.')
-  silent %s/\s\+$//e
-  silent %s/\($\n\s*\)\+\%$//e
-  call setpos('.', save_cursor)
-endfunction
+" Let the EditorConfig plugin handle this.
+" function! s:cleanup_whitespace()
+"   let save_cursor = getpos('.')
+"   silent %s/\s\+$//e
+"   silent %s/\($\n\s*\)\+\%$//e
+"   call setpos('.', save_cursor)
+" endfunction
 
 function! s:auto_chmod()
   let first_line = getline(1)
@@ -123,7 +124,7 @@ command! -bang JumpBLines call s:jump_buffer_lines(<bang>0)
 
 " general template for external commands:
 " autocmd BufWritePre *.py silent %!black -q -
-autocmd BufWritePre * call s:cleanup_whitespace()
+" autocmd BufWritePre * call s:cleanup_whitespace()
 autocmd BufWritePre *.py :Black
 autocmd BufWritePost * call s:auto_chmod()
 
