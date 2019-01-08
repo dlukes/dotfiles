@@ -81,14 +81,14 @@ function! ZoteroCite()
   return ref
 endfunction
 
-let fzf_options = '--preview "head -500 {}"'
+let s:fzf_options = '--preview "head -500 {}"'
 
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#run(fzf#wrap(
   \   {
   \     'source': 'fd --type f .\* '.(empty(<q-args>) ? '' : shellescape(<q-args>)),
   \     'down': '40%',
-  \     'options': fzf_options
+  \     'options': s:fzf_options
   \   }, <bang>0))
 
 command! -bang -nargs=? -complete=dir AllFiles
@@ -97,7 +97,7 @@ command! -bang -nargs=? -complete=dir AllFiles
   \     'source': 'fd --type f --hidden --follow --exclude .git .\* '
   \       .(empty(<q-args>) ? '' : shellescape(<q-args>)),
   \     'down': '40%',
-  \     'options': fzf_options
+  \     'options': s:fzf_options
   \   }, <bang>0))
 
 command! -bang -nargs=? -complete=dir Rg
@@ -179,7 +179,7 @@ noremap <Right> gt
 noremap <Left> gT
 noremap <Down> :bn<CR>
 noremap <Up> :bp<CR>
-noremap <leader><Space> :
+noremap <leader><leader> :
 " execute visual selection of Vimscript code
 vnoremap <leader>x y \| :@"<CR>
 noremap <leader><Tab> <C-^>
