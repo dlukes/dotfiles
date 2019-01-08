@@ -4,7 +4,7 @@ let mapleader = ' '
 
 " first time setup
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !pip3 install --user neovim
+  silent !pip3 install --user --upgrade --upgrade-strategy eager neovim python-language-server
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
@@ -30,9 +30,25 @@ Plug 'tpope/vim-fugitive'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 
+" ncm2 targets nvim, it seems it can be made to work on Vim 8, but I
+" might as well just install nvim on any machine where I work often
+" enough to justify setting up completion
+if has('nvim')
+  " completion
+  Plug 'roxma/nvim-yarp'
+  Plug 'ncm2/ncm2'
+  Plug 'ncm2/ncm2-bufword'
+  Plug 'ncm2/ncm2-path'
+
+  " LSP
+  Plug 'autozimu/LanguageClient-neovim', {
+      \ 'branch': 'next',
+      \ 'do': 'bash install.sh',
+      \ }
+endif
+
 " filetype-specific
 Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
-Plug 'davidhalter/jedi-vim', { 'for': 'python' }
 Plug 'ambv/black', { 'for': 'python' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
@@ -127,6 +143,15 @@ command! -bang JumpBLines call s:jump_buffer_lines(<bang>0)
 autocmd BufWritePre *.py :Black
 autocmd BufWritePost * call s:auto_chmod()
 
+let s:completeopt_default = 'longest,menuone'
+if has('nvim')
+  " enable completion in all buffers
+  autocmd BufEnter * call ncm2#enable_for_buffer()
+  " cf. :help Ncm2PopupOpen
+  autocmd User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
+  autocmd User Ncm2PopupClose let &completeopt=s:completeopt_default
+endif
+
 "------------------------------ Settings ------------------------------
 
 " allow hiding buffers with changes
@@ -141,7 +166,7 @@ set t_Co=256
 set formatoptions+=l
 set list
 " more ergonomic completion behavior
-set completeopt=longest,menuone
+let &completeopt=s:completeopt_default
 " character triggering completion in macros
 set wildcharm=<Tab>
 " let find search in dir of active buffer and recursively under current
@@ -167,8 +192,12 @@ set modelines=5
 " liuchengxu/space-vim-dark
 colorscheme seoul256
 
-let g:jedi#completions_command = "<C-N>"
 let g:markdown_folding = 1
+
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+    \ 'python': ['pyls'],
+    \ }
 
 "------------------------------ Key bindings ------------------------------
 
@@ -190,6 +219,10 @@ cnoremap <C-n> <Down>
 " without autochdir, this is useful to quickly complete the path of the
 " active buffer
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+
+nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
+nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
 
 noremap <leader>ff :Files<CR>
 noremap <leader>fg :GFiles<CR>
@@ -220,13 +253,12 @@ inoremap <C-z> <C-r>=ZoteroCite()<CR>
 "
 " pip3 install --user neovim
 "
-" By default, jedi-vim uses the most recent Python version found on the
-" system. To override this (even at runtime), do the following:
+" Completion etc. is best provided by the pyls. Use a virtualenv if you
+" want to use a different version than the one available on your path by
+" default.
 "
-" let g:jedi#force_py_version = 2
-"
-" If you want to avoid having to tinker with that, simply start Vim in a
-" virtualenv.
+" Also, errors can often be fixed by updating to a newer version of
+" pyls/jedi.
 
 " # Tables
 "
