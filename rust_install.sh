@@ -22,6 +22,15 @@ rustup component add clippy-preview
 cargo install ripgrep
 cargo install fd-find
 cargo install exa
+cargo install mdbook
+# 12 largest dirs in $DIR: sn sort $DIR -n12
+cargo install tin-summer
+cargo install hexyl
+cargo install xsv
+cargo install bat
+cargo install sd  # or maybe ruplacer?
+# finds duplicate files, but uses hashing, so might be slow...?
+# cargo install --git https://github.com/darakian/ddh ddh
 
 ### Cargo extensions
 
