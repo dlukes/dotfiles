@@ -4,7 +4,7 @@ let mapleader = ' '
 
 " first time setup
 if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !pip3 install --user --upgrade --upgrade-strategy eager neovim python-language-server
+  silent !pip3 install --user --upgrade --upgrade-strategy eager pynvim python-language-server
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
@@ -29,11 +29,16 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
+Plug 'junegunn/vim-easy-align'
 
 " ncm2 targets nvim, it seems it can be made to work on Vim 8, but I
 " might as well just install nvim on any machine where I work often
 " enough to justify setting up completion
 if has('nvim')
+  " core
+  " `:w !sudo tee %` doesn't work in nvim: https://github.com/neovim/neovim/issues/8678
+  Plug 'lambdalisue/suda.vim'
+
   " completion
   Plug 'roxma/nvim-yarp'
   Plug 'ncm2/ncm2'
@@ -50,6 +55,7 @@ endif
 " filetype-specific
 Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
 Plug 'ambv/black', { 'for': 'python' }
+Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 call plug#end()
@@ -187,12 +193,17 @@ set directory=~/.vim/swp
 " allow modelines (some distros disable them)
 set modeline
 set modelines=5
+" disable folds by default (toggle them with zi)
+set nofoldenable
+" default folding method (works e.g. with Rust)
+set foldmethod=syntax
 " elflord is a nicely readable built-in one but seoul256 is better;
 " another fairly nice one but harder on the eyes is
 " liuchengxu/space-vim-dark
 colorscheme seoul256
 
 let g:markdown_folding = 1
+let g:markdown_fenced_languages = ['html', 'python', 'rust', 'sh']
 
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'stable', 'rls'],
@@ -243,6 +254,11 @@ noremap <leader>dp :diffput \| diffupdate<CR>
 noremap <leader>l :Goyo \| Limelight!!<CR>
 noremap <leader>z "=ZoteroCite()<CR>p
 inoremap <C-z> <C-r>=ZoteroCite()<CR>
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
 
 "------------------------------ Help ------------------------------
 
@@ -330,3 +346,9 @@ inoremap <C-z> <C-r>=ZoteroCite()<CR>
 "   lopen and leave it open on the side to have a navigatable overview
 "   of your buffer visible at all times
 " - marks can be placed anywhere with m<char> and jumped to with '<char>
+"
+" # Folding
+"
+" - zi toggles folding on and off
+" - use setlocal foldmethod=... to enable per-buffer folding strategies
+"   (e.g. Rust has syntax folding, Python does not by default)
