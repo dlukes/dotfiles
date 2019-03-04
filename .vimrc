@@ -158,6 +158,9 @@ if has('nvim')
   autocmd User Ncm2PopupClose let &completeopt=s:completeopt_default
 endif
 
+" comment syntax definitions not provided by vim-commentary
+autocmd FileType sql setlocal commentstring=--\ %s
+
 "------------------------------ Settings ------------------------------
 
 " allow hiding buffers with changes
@@ -203,7 +206,7 @@ set foldmethod=syntax
 colorscheme seoul256
 
 let g:markdown_folding = 1
-let g:markdown_fenced_languages = ['html', 'python', 'rust', 'sh']
+let g:markdown_fenced_languages = ['html', 'python', 'rust', 'sh', 'sql']
 
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'stable', 'rls'],

@@ -2,3 +2,4 @@
 .mode column
 .prompt "--> " "--. "
 .timer on
+pragma foreign_keys = on;
