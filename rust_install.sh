@@ -19,16 +19,19 @@ rustup component add clippy-preview
 
 >&2 echo ">>> Installing general Rust-based utils..."
 
-cargo install ripgrep
-cargo install fd-find
-cargo install exa
-cargo install mdbook
-# 12 largest dirs in $DIR: sn sort $DIR -n12
-cargo install tin-summer
-cargo install hexyl
-cargo install xsv
-cargo install bat
-cargo install sd  # or maybe ruplacer?
+utils=(
+  ripgrep
+  fd-find
+  exa
+  mdbook
+  # 12 largest dirs in $DIR: sn sort $DIR -n12
+  tin-summer
+  hexyl
+  xsv
+  bat
+  sd  # or maybe ruplacer?
+)
+cargo install -f $utils
 # finds duplicate files, but uses hashing, so might be slow...?
 # cargo install --git https://github.com/darakian/ddh ddh
 
@@ -36,22 +39,25 @@ cargo install sd  # or maybe ruplacer?
 
 >&2 echo ">>> Installing cargo extensions..."
 
-# keeping track (and pruning) the cache under ~/.cargo
-cargo install cargo-cache
-# updating global binaries (NOTE: the command is cargo install-update)
-cargo install cargo-update
+extensions=(
+  # keeping track (and pruning) the cache under ~/.cargo
+  cargo-cache
+  # updating global binaries (NOTE: the command is cargo install-update)
+  cargo-update
 
-# managing deps from command line (NOTE: the subcommands are add, rm and
-# upgrade)
-cargo install cargo-edit
-# dealing with outdated deps
-cargo install cargo-outdated
-# inspecting dep trees (useful for detecting duplicate deps with -d)
-cargo install cargo-tree
+  # managing deps from command line (NOTE: the subcommands are add, rm and
+  # upgrade)
+  cargo-edit
+  # dealing with outdated deps
+  cargo-outdated
+  # inspecting dep trees (useful for detecting duplicate deps with -d)
+  cargo-tree
 
-# possibly interesting:
-# cargo-readme
-# cargo-benchcmp
+  # possibly interesting:
+  # cargo-readme
+  # cargo-benchcmp
+)
+cargo install -f $extensions
 
 cat <<EOF >&2
 >>> All done. Remember that you can update Rust with:
