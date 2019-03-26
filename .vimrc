@@ -147,6 +147,7 @@ command! -bang JumpBLines call s:jump_buffer_lines(<bang>0)
 " autocmd BufWritePre *.py silent %!black -q -
 " autocmd BufWritePre * call s:cleanup_whitespace()
 autocmd BufWritePre *.py :Black
+autocmd BufWritePre *.rs :RustFmt
 autocmd BufWritePost * call s:auto_chmod()
 
 let s:completeopt_default = 'longest,menuone'
@@ -160,6 +161,7 @@ endif
 
 " comment syntax definitions not provided by vim-commentary
 autocmd FileType sql setlocal commentstring=--\ %s
+autocmd FileType cfg setlocal commentstring=#\ %s
 
 "------------------------------ Settings ------------------------------
 
