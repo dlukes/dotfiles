@@ -1,12 +1,15 @@
 #!/usr/bin/env zsh
 
-set -e
-
 installer_url=$(
   curl -s https://tla.mpi.nl/tools/tla-tools/elan/download/ |
-    grep -oPm1 'http://.*?linux\.bin'
+    grep -oPm1 'https?://.*?linux\.bin'
 )
 installer_basename=${installer_url:t}
+
+if [[ -z $installer_url ]]; then
+  >&2 echo "Unable to determine download URL."
+  exit 1
+fi
 
 # quit if this version is already installed
 version=$( echo $installer_basename | cut -f2 -d_ )
