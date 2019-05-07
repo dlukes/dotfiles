@@ -208,7 +208,12 @@ set foldmethod=syntax
 colorscheme seoul256
 
 let g:markdown_folding = 1
-let g:markdown_fenced_languages = ['html', 'python', 'rust', 'sh', 'sql']
+let g:markdown_fenced_languages = ['python', 'rust',
+    \ 'sh', 'sql', 'r',
+    \ 'html', 'css', 'javascript',
+    \ 'perl', 'ruby', 'c', 'java', 'haskell', 'lisp', 'clojure',
+    \ 'conf', 'xml', 'systemd'
+    \ ]
 
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'stable', 'rls'],
