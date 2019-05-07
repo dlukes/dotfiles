@@ -212,7 +212,7 @@ let g:markdown_fenced_languages = ['python', 'rust',
     \ 'sh', 'sql', 'r',
     \ 'html', 'css', 'javascript',
     \ 'perl', 'ruby', 'c', 'java', 'haskell', 'lisp', 'clojure',
-    \ 'conf', 'xml', 'systemd'
+    \ 'conf', 'diff', 'xml', 'systemd'
     \ ]
 
 let g:LanguageClient_serverCommands = {
