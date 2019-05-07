@@ -29,7 +29,8 @@ utils=(
   hexyl
   xsv
   bat
-  sd  # or maybe ruplacer?
+  ruplacer  # or sd as an alternative, but ruplacer has nicer defaults
+            # for project-wide search and replace
 )
 cargo install -f $utils
 # finds duplicate files, but uses hashing, so might be slow...?
