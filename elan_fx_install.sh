@@ -22,9 +22,10 @@ unpack_dir=$dot_local/ELAN_FX-$major.$minor
 if [[ -d $unpack_dir ]]; then
   >&2 echo "The latest ELAN FX version $major.$minor is already installed, only updating desktop launcher."
 else
+  mkdir -p $unpack_dir
   cd $dot_local
   wget $archive_url
-  tar xvzf $archive_basename -C $unpack_dir --strip-components 1
+  tar xvzf $archive_basename -C $unpack_dir --strip-components 1 && rm -f $archive_basename
 fi
 
 # find the newest available ELAN executable
