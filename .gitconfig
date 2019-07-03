@@ -1,24 +1,25 @@
 [user]
-	name = David Lukes
-	email = dafydd.lukes@gmail.com
+  name = David Lukes
+  email = dafydd.lukes@gmail.com
 [core]
-	excludesfile = ~/.gitignore_global
+  excludesfile = ~/.gitignore_global
+  quotepath = off
 [color]
-	ui = auto
+  ui = auto
 [alias]
-	ll = log --graph --all --decorate --oneline
+  ll = log --graph --all --decorate --oneline
   lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
-	s = status -s
-	unstage = reset HEAD
-	wdiff = diff --word-diff=color --unified=1
+  s = status -s
+  unstage = reset HEAD
+  wdiff = diff --word-diff=color --unified=1
 [push]
-	default = simple
+  default = simple
 [pull]
-	rebase = true
+  rebase = true
 [credential]
-	helper = cache
+  helper = cache
 [diff "pandoc"]
   textconv = pandoc --to=markdown
-	prompt = false
+  prompt = false
 [help]
-	autocorrect = 3
+  autocorrect = 3
