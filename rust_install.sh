@@ -23,18 +23,14 @@ utils=(
   ripgrep
   fd-find
   exa
-  mdbook
   # 12 largest dirs in $DIR: sn sort $DIR -n12
   tin-summer
   hexyl
   xsv
   bat
-  ruplacer  # or sd as an alternative, but ruplacer has nicer defaults
-            # for project-wide search and replace
+  ruplacer
 )
 cargo install -f $utils
-# finds duplicate files, but uses hashing, so might be slow...?
-# cargo install --git https://github.com/darakian/ddh ddh
 
 ### Cargo extensions
 
@@ -53,10 +49,6 @@ extensions=(
   cargo-outdated
   # inspecting dep trees (useful for detecting duplicate deps with -d)
   cargo-tree
-
-  # possibly interesting:
-  # cargo-readme
-  # cargo-benchcmp
 )
 cargo install -f $extensions
 
