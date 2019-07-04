@@ -1,6 +1,0 @@
-graphics_toolkit("gnuplot");
-pkg load signal
-set(0, "defaulttextfontname", "Ubuntu");
-setenv("GNUTERM", "wxt")
-% graphics_toolkit('fltk');
-% set(0, 'defaultlinelinewidth', 1);
