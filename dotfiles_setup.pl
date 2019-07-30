@@ -28,6 +28,7 @@ sub create_symlinks {
   my $from = shift;
   my $to = shift;
   my @targets = @_;
+  mkdir $to;
   for my $target (@targets) {
     $target = basename $target;
     # check for pre-existing links/files/dirs
