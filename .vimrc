@@ -143,6 +143,10 @@ command! -bang JumpBLines call s:jump_buffer_lines(<bang>0)
 
 "------------------------------ Auto commands ------------------------------
 
+" sane behavior when switching buffers -- leave my cursor where it is!
+autocmd BufLeave * let b:winview = winsaveview()
+autocmd BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
+
 " general template for external commands:
 " autocmd BufWritePre *.py silent %!black -q -
 " autocmd BufWritePre * call s:cleanup_whitespace()
