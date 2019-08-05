@@ -41,15 +41,20 @@ extensions=(
   cargo-cache
   # updating global binaries (NOTE: the command is cargo install-update)
   cargo-update
-
-  # managing deps from command line (NOTE: the subcommands are add, rm and
-  # upgrade)
-  cargo-edit
-  # dealing with outdated deps
-  cargo-outdated
-  # inspecting dep trees (useful for detecting duplicate deps with -d)
-  cargo-tree
 )
+
+if read -q "DEVEL?>>> Would you also like to install cargo extensions useful for development?"; then
+  extensions+=(
+    # managing deps from command line (NOTE: the subcommands are add, rm and
+    # upgrade)
+    cargo-edit
+    # dealing with outdated deps
+    cargo-outdated
+    # inspecting dep trees (useful for detecting duplicate deps with -d)
+    cargo-tree
+  )
+fi
+>&2 echo
 cargo install -f $extensions
 
 cat <<EOF >&2
