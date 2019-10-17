@@ -4,16 +4,8 @@
 
 if ! command -v rustup >/dev/null 2>&1; then
   >&2 echo ">>> Installing rustup..."
-  curl https://sh.rustup.rs -sSf | sh
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 fi
-
-### Rustup additional components
-
->&2 echo ">>> Adding rustup components..."
-
-rustup component add rls-preview
-rustup component add rustfmt-preview
-rustup component add clippy-preview
 
 ### Utils
 
@@ -43,7 +35,9 @@ extensions=(
   cargo-update
 )
 
-if read -q "DEVEL?>>> Would you also like to install cargo extensions useful for development?"; then
+read -q "DEVEL?>>> Would you also like to install cargo extensions useful for development? (y/n) ";
+>&2 echo
+if [[ $DEVEL = y || $DEVEL = Y ]]; then
   extensions+=(
     # managing deps from command line (NOTE: the subcommands are add, rm and
     # upgrade)
@@ -53,12 +47,16 @@ if read -q "DEVEL?>>> Would you also like to install cargo extensions useful for
     # inspecting dep trees (useful for detecting duplicate deps with -d)
     cargo-tree
   )
+  cargo install -f $extensions
 fi
->&2 echo
-cargo install -f $extensions
 
 cat <<EOF >&2
->>> All done. Remember that you can update Rust with:
+>>> All done. If you want to modify installed components, profiles are a
+handy shortcut:
+
+rustup set profile minimal/default/complete
+
+Remember that you can update Rust with:
 
 rustup update
 
