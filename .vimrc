@@ -26,10 +26,12 @@ Plug 'junegunn/seoul256.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.local/fzf', 'do': './install --all && ln -s ../fzf/bin/fzf ../bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
+Plug 'jreybert/vimagit'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " ncm2 targets nvim, it seems it can be made to work on Vim 8, but I
 " might as well just install nvim on any machine where I work often
@@ -223,6 +225,9 @@ let g:LanguageClient_serverCommands = {
     \ 'rust': ['rustup', 'run', 'stable', 'rls'],
     \ 'python': ['pyls'],
     \ }
+
+let g:airline_powerline_fonts = 1
+let g:airline_theme = 'bubblegum'
 
 "------------------------------ Key bindings ------------------------------
 
