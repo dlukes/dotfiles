@@ -39,6 +39,7 @@ Plug 'ambv/black', { 'for': 'python' }
 Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
+Plug 'ElmCast/elm-vim', { 'for': 'elm' }
 call plug#end()
 
 "------------------------------ Functions and commands ------------------------------
@@ -211,10 +212,13 @@ let g:deoplete#enable_at_startup = 1
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
     \ 'python': ['pyls'],
+    \ 'elm': ['elm-language-server'],
     \ }
 
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'bubblegum'
+
+let g:elm_format_autosave = 1
 
 lua << EOF
 local iron = require("iron")
