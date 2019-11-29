@@ -2,17 +2,6 @@ let mapleader = ' '
 
 "------------------------------ Plugins ------------------------------
 
-" first time setup
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !pip3 install --user --upgrade --upgrade-strategy eager pynvim python-language-server
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-" :PlugInstall to install plugins
-" :PlugUpdate to update plugins
-" :PlugUpgrade to update vim-plug itself
 call plug#begin()
 " core
 Plug 'tpope/vim-sensible'
@@ -20,7 +9,19 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'jiangmiao/auto-pairs'
+" `:w !sudo tee %` doesn't work in nvim: https://github.com/neovim/neovim/issues/8678
+Plug 'lambdalisue/suda.vim'
 Plug 'junegunn/seoul256.vim'
+
+" completion
+Plug 'roxma/nvim-yarp'
+Plug 'ncm2/ncm2'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
+Plug 'autozimu/LanguageClient-neovim', {
+    \ 'branch': 'next',
+    \ 'do': 'bash install.sh',
+    \ }
 
 " nice to have
 Plug 'junegunn/fzf', { 'dir': '~/.local/fzf', 'do': './install --all && ln -s ../fzf/bin/fzf ../bin' }
@@ -32,27 +33,6 @@ Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
-" ncm2 targets nvim, it seems it can be made to work on Vim 8, but I
-" might as well just install nvim on any machine where I work often
-" enough to justify setting up completion
-if has('nvim')
-  " core
-  " `:w !sudo tee %` doesn't work in nvim: https://github.com/neovim/neovim/issues/8678
-  Plug 'lambdalisue/suda.vim'
-
-  " completion
-  Plug 'roxma/nvim-yarp'
-  Plug 'ncm2/ncm2'
-  Plug 'ncm2/ncm2-bufword'
-  Plug 'ncm2/ncm2-path'
-
-  " LSP
-  Plug 'autozimu/LanguageClient-neovim', {
-      \ 'branch': 'next',
-      \ 'do': 'bash install.sh',
-      \ }
-endif
 
 " filetype-specific
 Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
@@ -157,13 +137,11 @@ autocmd BufWritePre *.rs :RustFmt
 autocmd BufWritePost * call s:auto_chmod()
 
 let s:completeopt_default = 'longest,menuone'
-if has('nvim')
-  " enable completion in all buffers
-  autocmd BufEnter * call ncm2#enable_for_buffer()
-  " cf. :help Ncm2PopupOpen
-  autocmd User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
-  autocmd User Ncm2PopupClose let &completeopt=s:completeopt_default
-endif
+" enable completion in all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
+" cf. :help Ncm2PopupOpen
+autocmd User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
+autocmd User Ncm2PopupClose let &completeopt=s:completeopt_default
 
 " comment syntax definitions not provided by vim-commentary
 autocmd FileType sql setlocal commentstring=--\ %s
@@ -193,14 +171,14 @@ set ignorecase smartcase
 " persistent undo instead of backups, and swap files tucked away please
 set nobackup
 set undofile
-if !isdirectory($HOME . "/.vim/undo")
-  call mkdir($HOME . "/.vim/undo", "p", 0700)
+if !isdirectory($HOME . "/.config/nvim/undo")
+  call mkdir($HOME . "/.config/nvim/undo", "p", 0700)
 endif
-set undodir=~/.vim/undo
-if !isdirectory($HOME . "/.vim/swp")
-  call mkdir($HOME . "/.vim/swp", "p", 0700)
+set undodir=~/.config/nvim/undo
+if !isdirectory($HOME . "/.config/nvim/swp")
+  call mkdir($HOME . "/.config/nvim/swp", "p", 0700)
 endif
-set directory=~/.vim/swp
+set directory=~/.config/nvim/swp
 " allow modelines (some distros disable them)
 set modeline
 set modelines=5
@@ -232,6 +210,8 @@ let g:airline_theme = 'bubblegum'
 "------------------------------ Key bindings ------------------------------
 
 inoremap fd <Esc>
+" switch to normal mode in :terminal
+tnoremap fd <C-\><C-n>
 " avoid having to escape special characters in searches ("very magic")
 noremap / /\v
 noremap <Right> gt
