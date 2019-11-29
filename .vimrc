@@ -222,7 +222,7 @@ let g:markdown_fenced_languages = ['python', 'rust',
     \ ]
 
 let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rustup', 'run', 'stable', 'rls'],
+    \ 'rust': ['rls'],
     \ 'python': ['pyls'],
     \ }
 
