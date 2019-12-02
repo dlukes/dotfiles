@@ -14,10 +14,7 @@ Plug 'lambdalisue/suda.vim'
 Plug 'junegunn/seoul256.vim'
 
 " completion
-Plug 'roxma/nvim-yarp'
-Plug 'ncm2/ncm2'
-Plug 'ncm2/ncm2-bufword'
-Plug 'ncm2/ncm2-path'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
     \ 'do': 'bash install.sh',
@@ -136,13 +133,6 @@ autocmd BufWritePre *.py :Black
 autocmd BufWritePre *.rs :RustFmt
 autocmd BufWritePost * call s:auto_chmod()
 
-let s:completeopt_default = 'longest,menuone'
-" enable completion in all buffers
-autocmd BufEnter * call ncm2#enable_for_buffer()
-" cf. :help Ncm2PopupOpen
-autocmd User Ncm2PopupOpen set completeopt=noinsert,menuone,noselect
-autocmd User Ncm2PopupClose let &completeopt=s:completeopt_default
-
 " comment syntax definitions not provided by vim-commentary
 autocmd FileType sql setlocal commentstring=--\ %s
 autocmd FileType cfg setlocal commentstring=#\ %s
@@ -161,7 +151,7 @@ set t_Co=256
 set formatoptions+=l
 set list
 " more ergonomic completion behavior
-let &completeopt=s:completeopt_default
+set completeopt=longest,menuone
 " character triggering completion in macros
 set wildcharm=<Tab>
 " let find search in dir of active buffer and recursively under current
@@ -198,6 +188,8 @@ let g:markdown_fenced_languages = ['python', 'rust',
     \ 'perl', 'ruby', 'c', 'java', 'haskell', 'lisp', 'clojure',
     \ 'conf', 'diff', 'xml', 'systemd'
     \ ]
+
+let g:deoplete#enable_at_startup = 1
 
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
