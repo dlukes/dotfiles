@@ -10,9 +10,29 @@ if ! uname | grep -q Darwin; then
 fi
 
 pip3 install $user --upgrade --upgrade-strategy eager \
+  ipython \
+  ipdb \
+  \
+  lxml \
+  regex \
+  requests \
+  dill \
+  \
+  numpy \
+  pandas \
+  xlrd \
+  \
+  matplotlib \
+  seaborn \
+  \
+  corpy \
+  \
+  httpie \
+  \
   'python-language-server[rope,pyflakes]' \
   pyls-mypy \
   pyls-black \
+  \
   pip \
   'poetry>=1.0.0a0' \
   pipenv
