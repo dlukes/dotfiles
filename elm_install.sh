@@ -8,6 +8,7 @@ if uname -a | grep -q Linux; then
   os=linux
 else
   os=mac
+  alias grep=ggrep
 fi
 
 cd $NPM_CONFIG_PREFIX/bin
