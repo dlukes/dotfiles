@@ -62,17 +62,6 @@ function! s:find_git_root()
   return systemlist('git rev-parse --show-toplevel')[0]
 endfunction
 
-let s:filetype2jump_query = {
-  \ 'markdown': '^# ',
-  \ 'python': '^def\  | ^class\  ',
-  \ 'rust': '^fn\  | ^type\  | ^struct\  | ^enum\  | ^union\  | ^const\  | ^static\  | ^trait\  | ^impl\  | ^pub\  ',
-  \ }
-
-function! s:jump_buffer_lines(bang)
-  let jump_query = s:filetype2jump_query[&filetype]
-  call fzf#vim#buffer_lines(jump_query, a:bang)
-endfunction
-
 function! ZoteroCite()
   " (La)TeX default: citep is parenthetical, citet is textual, and there
   " are other variations for omitting parts of the citation (e.g.
@@ -120,7 +109,33 @@ command! -bang -nargs=? -complete=dir GGrep
   \   'git grep --line-number "^" -- '.shellescape(<q-args>), 0,
   \   fzf#vim#with_preview({ 'dir': s:find_git_root() }), <bang>0)
 
+let s:filetype2jump_query = {
+  \ 'markdown': '^# ',
+  \ 'python': '^def\  | ^class\  ',
+  \ 'rust': '^fn\  | ^type\  | ^struct\  | ^enum\  | ^union\  | ^const\  | ^static\  | ^trait\  | ^impl\  | ^pub\  ',
+  \ }
+
+function! s:jump_buffer_lines(bang)
+  let jump_query = s:filetype2jump_query[&filetype]
+  call fzf#vim#buffer_lines(jump_query, a:bang)
+endfunction
+
 command! -bang JumpBLines call s:jump_buffer_lines(<bang>0)
+
+function s:list_mappings()
+  let mappings = ""
+  redir =>mappings
+  silent map
+  redir END
+  return split(mappings, "\n")
+endfunction
+
+command! -bang Mappings
+  \ call fzf#run(fzf#wrap(
+  \   {
+  \     'source': s:list_mappings(),
+  \     'down': '40%'
+  \   }, <bang>0))
 
 "------------------------------ Auto commands ------------------------------
 
