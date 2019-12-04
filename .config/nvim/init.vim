@@ -240,6 +240,7 @@ inoremap fd <Esc>
 tnoremap fd <C-\><C-n>
 " avoid having to escape special characters in searches ("very magic")
 noremap / /\v
+noremap ? ?\v
 noremap <Right> gt
 noremap <Left> gT
 noremap <Down> :bn<CR>
