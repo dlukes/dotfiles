@@ -194,6 +194,7 @@ set modelines=5
 set nofoldenable
 " default folding method (works e.g. with Rust)
 set foldmethod=syntax
+set mouse=a
 " elflord is a nicely readable built-in one but seoul256 is better;
 " another fairly nice one but harder on the eyes is
 " liuchengxu/space-vim-dark
