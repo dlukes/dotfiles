@@ -35,7 +35,6 @@ Plug 'vim-airline/vim-airline-themes'
 
 " filetype-specific
 Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
-Plug 'ambv/black', { 'for': 'python' }
 Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
@@ -146,9 +145,7 @@ autocmd BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
 
 " general template for external commands:
 " autocmd BufWritePre *.py silent %!black -q -
-" autocmd BufWritePre * call s:cleanup_whitespace()
-autocmd BufWritePre *.py :Black
-autocmd BufWritePre *.rs :RustFmt
+autocmd BufWritePre * call LanguageClient#textDocument_formatting_sync()
 autocmd BufWritePost * call s:auto_chmod()
 
 " comment syntax definitions not provided by vim-commentary
@@ -214,6 +211,7 @@ let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
     \ 'python': ['pyls'],
     \ 'elm': ['elm-language-server'],
+    \ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
     \ }
 
 let g:airline_powerline_fonts = 1
@@ -258,9 +256,10 @@ cnoremap <C-n> <Down>
 " active buffer
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
+nnoremap <silent> <leader>lm :call LanguageClient_contextMenu()<CR>
 nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> <F2> :call LanguageClient#textDocument_rename()<CR>
+nnoremap <silent> <leader>lr :call LanguageClient#textDocument_rename()<CR>
 
 noremap <leader>ff :Files<CR>
 noremap <leader>fg :GFiles<CR>
@@ -278,7 +277,7 @@ noremap <leader>gg :Commits<CR>
 noremap <leader>gb :BCommits<CR>
 noremap <leader>dg :diffget \| diffupdate<CR>
 noremap <leader>dp :diffput \| diffupdate<CR>
-noremap <leader>l :Goyo \| Limelight!!<CR>
+noremap <leader>ll :Goyo \| Limelight!!<CR>
 noremap <leader>z "=ZoteroCite()<CR>p
 inoremap <C-z> <C-r>=ZoteroCite()<CR>
 
