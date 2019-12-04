@@ -26,6 +26,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.local/fzf', 'do': './install --all && ln -s ..
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'jreybert/vimagit'
+Plug 'Vigemus/iron.nvim'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
@@ -199,6 +200,19 @@ let g:LanguageClient_serverCommands = {
 
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'bubblegum'
+
+lua << EOF
+local iron = require("iron")
+
+iron.core.set_config {
+  -- only one REPL per filetype
+  manager = iron.behavior.manager.singleton,
+  preferred = {
+    python = "ipython",
+  },
+  repl_open_cmd = "topleft vertical 80 split",
+}
+EOF
 
 "------------------------------ Key bindings ------------------------------
 
