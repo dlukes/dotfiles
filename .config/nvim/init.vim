@@ -187,6 +187,9 @@ set directory=~/.config/nvim/swp
 " allow modelines (some distros disable them)
 set modeline
 set modelines=5
+" always showing sign column adds room from screen edge and prevents
+" horizontal shifting when signs are shown/hidden
+set signcolumn=yes
 " disable folds by default (toggle them with zi)
 set nofoldenable
 " default folding method (works e.g. with Rust)
