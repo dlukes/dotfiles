@@ -278,10 +278,14 @@ cnoremap <C-n> <Down>
 " active buffer
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
-nnoremap <silent> <leader>lm :call LanguageClient_contextMenu()<CR>
 nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
 nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
+nnoremap <silent> gr :call LanguageClient#textDocument_references()<CR>
+nnoremap <silent> <leader>lm :call LanguageClient_contextMenu()<CR>
 nnoremap <silent> <leader>lr :call LanguageClient#textDocument_rename()<CR>
+nnoremap <silent> <leader>lh :call LanguageClient#textDocument_documentHighlight()<CR>
+nnoremap <silent> <leader>lH :call LanguageClient#clearDocumentHighlight()<CR>
+nnoremap <silent> <leader>le :call LanguageClient#explainErrorAtPoint()<CR>
 
 noremap <leader>ff :Files<CR>
 noremap <leader>fg :GFiles<CR>
