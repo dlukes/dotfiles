@@ -219,6 +219,22 @@ let g:LanguageClient_serverCommands = {
     \ 'elm': ['elm-language-server'],
     \ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
     \ }
+" we can only override select fields, the settings will be merged with
+" the defaults
+let g:LanguageClient_diagnosticsDisplay = {
+    \ 1: {
+    \   "texthl": "SpellBad",
+    \ },
+    \ 2: {
+    \   "texthl": "SpellRare",
+    \ },
+    \ 3: {
+    \   "texthl": "SpellCap",
+    \ },
+    \ 4: {
+    \   "texthl": "SpellLocal",
+    \ },
+    \ }
 
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'bubblegum'
