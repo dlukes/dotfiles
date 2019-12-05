@@ -210,6 +210,9 @@ let g:markdown_fenced_languages = ['python', 'rust',
 
 let g:deoplete#enable_at_startup = 1
 
+" if pyls gives you grief in virtualenvs, try installing it inside the
+" virtualenv and invoking it with ['python', '-m', 'pyls'], but it
+" shouldn't be necessary
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['rls'],
     \ 'python': ['pyls'],
