@@ -23,3 +23,12 @@
   prompt = false
 [help]
   autocorrect = 3
+[diff]
+  tool = vimdiff
+[difftool "vimdiff"]
+  path = nvim
+[merge]
+  tool = vimdiff
+  conflictstyle = diff3
+[mergetool "vimdiff"]
+  path = nvim
