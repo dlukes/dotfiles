@@ -8,7 +8,7 @@ cd $tmpdir
 >&2 echo "Getting download links and archive names..."
 pandoc_link=$(
   curl -sL https://github.com/jgm/pandoc/releases/latest |
-    grep -oPm 1 '/jgm/.*?/pandoc.*?-linux\.tar\.gz'
+    grep -oPm 1 '/jgm/.*?/pandoc.*?-linux-amd64\.tar\.gz'
            )
 crossref_link=$(
   curl -sL https://github.com/lierdakil/pandoc-crossref/releases/latest |
