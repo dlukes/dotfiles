@@ -39,6 +39,7 @@ Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'ElmCast/elm-vim', { 'for': 'elm' }
+Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 call plug#end()
 
 "------------------------------ Functions and commands ------------------------------
