@@ -1,16 +1,9 @@
 #!/usr/bin/env zsh
 
 set -e
+source ${0:a:h}/util.sh
 
-brew_install_or_upgrade() {
-  if brew ls --versions $1 >/dev/null; then
-    brew upgrade $1
-  else
-    brew install $1
-  fi
-}
-
-if [[ $( uname ) == Darwin ]]; then
+if is_macos; then
   >&2 echo "We're on macOS, so installing with brew..."
   brew_install_or_upgrade pandoc
   brew_install_or_upgrade pandoc-crossref

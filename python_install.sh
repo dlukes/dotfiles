@@ -1,8 +1,9 @@
 #!/usr/bin/env zsh
 
 set -e
+source ${0:a:h}/util.sh
 
-if [[ $( uname ) == Darwin ]]; then
+if is_macos; then
   alias grep=ggrep
 fi
 

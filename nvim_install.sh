@@ -1,9 +1,10 @@
 #!/usr/bin/env zsh
 
 set -e
+source ${0:a:h}/util.sh
 
-if [[ $( uname ) == Darwin ]]; then
-  brew install neovim
+if is_macos; then
+  brew_install_or_upgrade neovim
 else # ------------------------------------------------------ START LINUX BRANCH
 
 # Warn if competing install of nvim found.
