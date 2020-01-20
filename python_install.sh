@@ -3,6 +3,29 @@
 set -e
 source ${0:a:h}/util.sh
 
+cat <<EOF >&2
+########################################################################
+# NOTE: If you want Tkinter and other optional stdlib extras, you may  #
+# have to first install some dependencies. E.g. for Solus:             #
+#                                                                      #
+#   sudo eopkg it tk-devel bzip2-devel                                 #
+#                                                                      #
+# Or Ubuntu:                                                           #
+#                                                                      #
+#   sudo apt build-dep python3-stdlib-extensions                       #
+#                                                                      #
+# Or on macOS with Homebrew:                                           #
+#                                                                      #
+#   brew install tcl-tk                                                #
+#   export PYTHON_CONFIGURE_OPTS="--with-tcltk-includes=               #
+#     '-I/usr/local/opt/tcl-tk/include' --with-tcltk-libs=             #
+#     '-L/usr/local/opt/tcl-tk/lib -ltcl8.6 -ltk8.6'"                  #
+#                                                                      #
+#   (Adapt as needed for different versions, of course.)               #
+#                                                                      #
+########################################################################
+EOF
+
 if is_macos; then
   alias grep=ggrep
 fi
