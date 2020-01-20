@@ -144,9 +144,9 @@ command! -bang Mappings
 autocmd BufLeave * let b:winview = winsaveview()
 autocmd BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
 
-" general template for external commands:
+" general template for external commands (though this particular one is
+" not needed anymore, since we configure format-on-save via LSP below):
 " autocmd BufWritePre *.py silent %!black -q -
-autocmd BufWritePre * call LanguageClient#textDocument_formatting_sync()
 autocmd BufWritePost * call s:auto_chmod()
 
 " comment syntax definitions not provided by vim-commentary
@@ -236,6 +236,15 @@ let g:LanguageClient_diagnosticsDisplay = {
     \   "texthl": "SpellLocal",
     \ },
     \ }
+" for debugging LSP problems
+" let g:LanguageClient_loggingFile = expand('~/LanguageClient.log')
+" let g:LanguageClient_serverStderr = expand('~/LanguageServer.log')
+
+" install a format-on-save hook for every buffer of filetypes we have an
+" LSP command for
+execute 'autocmd FileType '
+  \ . join(keys(g:LanguageClient_serverCommands), ',')
+  \ . ' autocmd BufWritePre <buffer> call LanguageClient#textDocument_formatting_sync()'
 
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'bubblegum'
