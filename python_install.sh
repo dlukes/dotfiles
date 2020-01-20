@@ -44,6 +44,8 @@ pip3 install $user --upgrade --upgrade-strategy eager \
   regex \
   requests \
   dill \
+  trio \
+  asks \
   \
   numpy \
   pandas \
