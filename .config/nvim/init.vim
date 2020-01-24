@@ -254,6 +254,7 @@ execute 'autocmd FileType '
 
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'bubblegum'
+let g:airline#extensions#tabline#enabled = 1
 
 let g:elm_format_autosave = 1
 
