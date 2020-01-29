@@ -46,6 +46,7 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'ElmCast/elm-vim', { 'for': 'elm' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
+Plug 'lervag/vimtex', { 'for': 'tex' }
 call plug#end()
 
 "------------------------------ Functions and commands ------------------------------
@@ -70,11 +71,23 @@ function! s:find_git_root()
 endfunction
 
 function! ZoteroCite()
-  " (La)TeX default: citep is parenthetical, citet is textual, and there
+  " The citation format to use is determined either via a magic comment
+  " containing cayw=format on the first line, or via the filetype.
+  "
+  " LaTeX citation format cheatsheet:
+  "
+  " latex = natbib (citep is parenthetical, citet is textual, and there
   " are other variations for omitting parts of the citation (e.g.
   " citeyearpar is only the year in parens, for when the text already
   " contains the author's name)
-  let format = &filetype =~ '.*tex' ? 'citep' : 'pandoc'
+  "
+  " biblatex = biblatex (cite, parencite, autocite etc.)
+  let matches = matchlist(getline(1), 'cayw=\(\S\+\)')
+  if len(matches) > 1
+    let format = matches[1]
+  else
+    let format = &filetype =~ '.*tex' ? 'biblatex' : 'pandoc'
+  endif
   let api_call = 'http://localhost:23119/better-bibtex/cayw?format='.format.'&brackets=1'
   let ref = system('curl -s '.shellescape(api_call))
   return ref
@@ -257,6 +270,8 @@ let g:airline_theme = 'bubblegum'
 let g:airline#extensions#tabline#enabled = 1
 
 let g:elm_format_autosave = 1
+
+let g:vimtex_format_enabled = 1
 
 lua << EOF
 local iron = require("iron")
