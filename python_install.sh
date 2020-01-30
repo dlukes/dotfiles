@@ -72,7 +72,7 @@ pip3 install $user --upgrade --upgrade-strategy eager \
   \
   numpy \
   pandas \
-  xlrd \
+  openpyxl \
   \
   matplotlib \
   seaborn \
@@ -82,7 +82,6 @@ pip3 install $user --upgrade --upgrade-strategy eager \
   httpie \
   \
   'python-language-server[rope,pyflakes]' \
-  pyls-mypy \
   pyls-black \
   \
   pip \
