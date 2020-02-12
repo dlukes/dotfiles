@@ -271,6 +271,9 @@ let g:airline#extensions#tabline#enabled = 1
 
 let g:elm_format_autosave = 1
 
+" make sure *.tex files are never interpreted as ft=plaintex, so that
+" vimtex is used
+let g:tex_flavor = 'latex'
 let g:vimtex_format_enabled = 1
 
 lua << EOF
