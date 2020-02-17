@@ -47,6 +47,7 @@ Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'ElmCast/elm-vim', { 'for': 'elm' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'lervag/vimtex', { 'for': 'tex' }
+Plug 'dag/vim-fish', { 'for': 'fish' }
 call plug#end()
 
 "------------------------------ Functions and commands ------------------------------
