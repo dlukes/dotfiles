@@ -1,15 +1,43 @@
 #!/usr/bin/env zsh
 
+man_dir=$HOME/.local/share/man/man1
+comp_dir=$HOME/.config/fish/completions
+registry=$HOME/.cargo/registry
+mkdir -p $man_dir $comp_dir
+
 ### Rustup
 
 if ! command -v rustup >/dev/null 2>&1; then
   >&2 echo ">>> Installing rustup..."
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+else
+  rustup update
 fi
+
+rustup completions fish >$comp_dir/rustup.fish
 
 ### Utils
 
 >&2 echo ">>> Installing general Rust-based utils..."
+
+# Copy asset (typically man page or completions) not automatically
+# installed by cargo.
+function copy_asset {
+  util=${@:1:1}
+  build_dir=${@:2:1}
+  target_dir=${@:3:1}
+  find_args=( ${@:4} )
+
+  asset=$( find $build_dir $find_args | sort -Vr | head -n1 )
+  if [[ -z $asset ]]; then
+    asset=$( find $registry $find_args | sort -Vr | head -n1 )
+  fi
+
+  if [[ ! -z $asset ]]; then
+    target=${asset:t:s/completions/$util}
+    cp $asset $target_dir/$target
+  fi
+}
 
 utils=(
   ripgrep
@@ -22,7 +50,12 @@ utils=(
   bat
   ruplacer
 )
-cargo install -f $utils
+for util in $utils; do
+  tmp=$( mktemp -d )
+  CARGO_TARGET_DIR=$tmp cargo install --force $util
+  copy_asset $util $tmp $man_dir -regextype egrep -regex ".*/$util-.*/[[:alnum:]]+\.1(\.gz)?"
+  copy_asset $util $tmp $comp_dir -path "*/$util-*" -name "*.fish"
+done
 
 ### Cargo extensions
 
@@ -63,4 +96,7 @@ rustup update
 And you can update cargo-installed binaries with:
 
 cargo install-update -a
+
+Consider running cargo cache -e from time to time, or manually deleting
+stuff under ~/.cargo to clean up space.
 EOF
