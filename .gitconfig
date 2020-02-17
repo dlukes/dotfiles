@@ -7,11 +7,7 @@
 [color]
   ui = auto
 [alias]
-  ll = log --graph --all --decorate --oneline
-  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %Cblue<%an>%Creset' --abbrev-commit --date=relative --all
-  s = status -s
   unstage = reset HEAD
-  wdiff = diff --word-diff=color --unified=1
 [push]
   default = simple
 [pull]

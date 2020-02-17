@@ -18,12 +18,11 @@ my @dotfiles = grep { !/
  |disabled
  |\.DS_Store
  |\.mypy_cache
- |\.config$
   /x } glob $dotdir.'{.*,texmf}';
 
 create_symlinks($dotdir, $home, @dotfiles);
-create_symlinks($dotdir.'.config/', $home.'.config/', grep { !/nvim/ } glob $dotdir.'.config/*');
-create_symlinks($dotdir.'.config/nvim/', $home.'.config/nvim/', glob $dotdir.'.config/nvim/*');
+create_symlinks($dotdir.'config/', $home.'.config/', glob $dotdir.'config/{fish,flake8}');
+create_symlinks($dotdir.'config/nvim/', $home.'.config/nvim/', glob $dotdir.'config/nvim/*');
 create_symlinks($dotdir.'snippets/', $dotdir.'.emacs.d/private/snippets/', glob $dotdir.'snippets/*');
 
 sub create_symlinks {

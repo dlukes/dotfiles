@@ -67,5 +67,5 @@ fi
 # use only head of init.vim file containing plugin declarations relevant
 # for PlugInstall -- until the plugins are available, the rest might
 # cause errors which will abort the installation process
-nvim -u <( sed '/call plug#end()/q' ${0:a:h}/.config/nvim/init.vim ) \
+nvim -u <( sed '/call plug#end()/q' ${0:a:h}/config/nvim/init.vim ) \
   -c 'PlugInstall --sync | qall'

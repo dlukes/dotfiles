@@ -1,0 +1,3 @@
+# site-specific or external files may live in these directories
+config/fish/completions
+config/fish/conf.d
