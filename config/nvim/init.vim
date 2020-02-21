@@ -28,7 +28,7 @@ Plug 'autozimu/LanguageClient-neovim', {
     \ }
 
 " nice to have
-Plug 'junegunn/fzf', { 'dir': '~/.local/fzf', 'do': './install --all && ln -s ../fzf/bin/fzf ../bin' }
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'jreybert/vimagit'

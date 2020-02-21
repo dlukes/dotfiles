@@ -54,13 +54,14 @@ fi # ---------------------------------------------------------- END LINUX BRANCH
 
 # Install/upgrade pynvim.
 
-pip3 install --user --upgrade --upgrade-strategy eager pynvim
+pip3 install --upgrade --upgrade-strategy eager pynvim
 
 # Install vim-plug and plugins.
 
 plug_vim=$HOME/.config/nvim/autoload/plug.vim
 if [[ ! -f $plug_vim ]]; then
-  curl -fLo $plug_vim --create-dirs \
+  mkdir -p "$( dirname "$plug_vim" )"
+  curl -fLo $plug_vim \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
@@ -69,3 +70,11 @@ fi
 # cause errors which will abort the installation process
 nvim -u <( sed '/call plug#end()/q' ${0:a:h}/config/nvim/init.vim ) \
   -c 'PlugInstall --sync | qall'
+
+plugged_fzf=~/.config/nvim/plugged/fzf
+# currently, the vim-plug do hook for fzf doesn't seem to actually
+# install the fzf binary... oh well.
+"$plugged_fzf/install" --bin
+for bin in "$plugged_fzf/bin/"*; do
+  ln -sft ~/.local/bin "$bin"
+done
