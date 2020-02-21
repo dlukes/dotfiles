@@ -1,6 +1,6 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
-function check_install_R_package {
+check_install_R_package() {
   R --quiet -e "require('$1') || install.packages('$1', repos = 'https://cloud.r-project.org')"
 }
 

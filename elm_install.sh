@@ -1,17 +1,19 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
 set -e
+dirname=$( dirname "$0" )
+. "$dirname/util.sh"
 
-export NPM_CONFIG_PREFIX=$HOME/.local
+export NPM_CONFIG_PREFIX="$HOME/.local"
 alias curl='curl --silent'
-if uname -a | grep -q Linux; then
-  os=linux
-else
+if is_macos; then
   os=mac
   alias grep=ggrep
+else
+  os=linux
 fi
 
-cd $NPM_CONFIG_PREFIX/bin
+cd "$NPM_CONFIG_PREFIX/bin"
 
 >&2 echo 'Installing elm...'
 target=elm.gz

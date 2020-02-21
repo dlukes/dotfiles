@@ -1,7 +1,8 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
 set -e
-source ${0:a:h}/util.sh
+dirname=$( dirname "$0" )
+. "$dirname/util.sh"
 
 cat <<EOF >&2
 ########################################################################
@@ -30,24 +31,24 @@ if is_macos; then
   alias grep=ggrep
 fi
 
-export PYENV_ROOT=$HOME/.local/pyenv
-export PATH=$PYENV_ROOT/bin:$PATH
-if [[ -d $PYENV_ROOT ]]; then
-  git -C $PYENV_ROOT pull
+export PYENV_ROOT="$HOME/.local/pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if [ -d "$PYENV_ROOT" ]; then
+  git -C "$PYENV_ROOT" pull
 else
-  git clone https://github.com/pyenv/pyenv.git $PYENV_ROOT
+  git clone https://github.com/pyenv/pyenv.git "$PYENV_ROOT"
 fi
-eval "$(pyenv init -)"
+eval "$( pyenv init - )"
 
 py3_regex='^3\.\d+\.\d+$'
-curr_ver=$( pyenv versions --bare | grep -P $py3_regex | tail -n1 )
+curr_ver=$( pyenv versions --bare | grep -P "$py3_regex" | tail -n1 )
 new_ver=$(
-  pyenv install --list | tr -d ' ' | grep -P $py3_regex | tail -n1
+  pyenv install --list | tr -d ' ' | grep -P "$py3_regex" | tail -n1
 )
-if [[ $new_ver == $curr_ver ]]; then
+if [ "$new_ver" = "$curr_ver" ]; then
   >&2 echo "Most recent stable Python $curr_ver is already installed."
 else
-  if [[ ! -z $curr_ver ]]; then
+  if [ ! -z "$curr_ver" ]; then
     >&2 echo "Uninstalling old Python $curr_ver"
     pyenv uninstall $curr_ver
   fi
@@ -59,7 +60,7 @@ pyenv global system
 curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
 pyenv global $new_ver
 
-pip3 install $user --upgrade --upgrade-strategy eager \
+pip3 install --upgrade --upgrade-strategy eager \
   ipython \
   ipdb \
   \

@@ -1,14 +1,15 @@
-#!/usr/bin/env zsh
+#!/bin/sh
 
-if [[ $(whoami) != "root" ]]; then
-  >&2 echo "Must be root to run this script!"
+if [ "$( id -u )" -ne 0 ]; then
+  >&2 echo 'Must be root to run this script!'
   exit 1
 fi
 
 # get terminus font
 pacman -S terminus-font
 # get polished modern Czech qwerty keymap for console
-curl https://raw.githubusercontent.com/lahwaacz/keymaps-czech-console/master/cz-qwerty.map >|/usr/share/kbd/keymaps/i386/qwerty/cz-qwerty.map
+curl https://raw.githubusercontent.com/lahwaacz/keymaps-czech-console/master/cz-qwerty.map \
+  >/usr/share/kbd/keymaps/i386/qwerty/cz-qwerty.map
 
 # NOTE: Currently, permanently setting these console preferences (to apply them
 # at boot) is disabled, because it breaks Backspace, Delete, Ctrl+anything (and
