@@ -94,7 +94,7 @@ function! ZoteroCite()
   return ref
 endfunction
 
-let s:fzf_options = '--preview "head -500 {}"'
+let s:fzf_options = '--preview "bat --style numbers,changes --color=always --decorations=always {} | head -500"'
 
 command! -bang -nargs=? -complete=dir Files
   \ call fzf#run(fzf#wrap(
