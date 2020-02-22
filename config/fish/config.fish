@@ -1,3 +1,5 @@
+set -gx LC_ALL en_US.utf-8
+
 set -l path \
   ~/.poetry/bin \
   ~/.local/pyenv/bin \
