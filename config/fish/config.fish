@@ -6,7 +6,7 @@ set -l path \
   /usr/local/Cellar/{coreutils,gnu-tar,grep,gawk,gnu-sed,findutils}/**/gnubin
 for p in $path[-1..1]
   if not contains $p $PATH
-    set PATH $p $PATH
+    set -gxp PATH $p
   end
 end
 
@@ -18,9 +18,9 @@ if type -q fasd
 end
 
 # python
-set -x VIRTUAL_ENV_DISABLE_PROMPT 1
+set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 if not set -q PYENV_ROOT
-  set -x PYENV_ROOT ~/.local/pyenv
+  set -gx PYENV_ROOT ~/.local/pyenv
   pyenv init - | source
 end
 
