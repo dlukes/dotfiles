@@ -1,4 +1,5 @@
 set -gx LC_ALL en_US.utf-8
+set -gx XDG_CONFIG_HOME ~/.config
 
 set -l path \
   ~/.poetry/bin \

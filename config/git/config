@@ -2,7 +2,7 @@
   name = David Lukes
   email = dafydd.lukes@gmail.com
 [core]
-  excludesfile = ~/.gitignore_global
+  excludesfile = ~/.config/git/ignore
   quotepath = off
 [color]
   ui = auto

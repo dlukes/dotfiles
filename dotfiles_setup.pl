@@ -21,7 +21,7 @@ my @dotfiles = grep { !/
   /x } glob $dotdir.'{.*,texmf}';
 
 create_symlinks($dotdir, $home, @dotfiles);
-create_symlinks($dotdir.'config/', $home.'.config/', glob $dotdir.'config/{fish,flake8}');
+create_symlinks($dotdir.'config/', $home.'.config/', glob $dotdir.'config/{fish,flake8,git}');
 create_symlinks($dotdir.'config/nvim/', $home.'.config/nvim/', glob $dotdir.'config/nvim/*');
 create_symlinks($dotdir.'snippets/', $dotdir.'.emacs.d/private/snippets/', glob $dotdir.'snippets/*');
 
