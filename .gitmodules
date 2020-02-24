@@ -1,13 +1,10 @@
 [submodule ".csl"]
-	path = .csl
+	path = csl
 	url = git@github.com:dlukes/dotcsl.git
 [submodule "texmf"]
 	path = texmf
 	url = git@github.com:dlukes/texmf.git
-[submodule ".zprezto"]
-	path = .zprezto
-	url = git@github.com:dlukes/dotzprezto.git
 [submodule "spacemacs"]
-	path = .emacs.d
+	path = emacs/emacs.d
 	url = git@github.com:syl20bnr/spacemacs.git
 	branch = develop

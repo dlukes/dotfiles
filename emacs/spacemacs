@@ -419,7 +419,7 @@ you should place your code here."
     (lambda ()
       (ess-toggle-underscore nil)))
   ;; abbrev setup
-  (load "~/.files/abbrevs.el")
+  (load "~/.files/emacs/abbrevs.el")
   ;; automatically refine diff in current magit hunk
   (setq magit-diff-refine-hunk t)
   ;; markdown

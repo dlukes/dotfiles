@@ -1,6 +1,0 @@
-# With this setup, the sshfs will be mounted by systemd as soon as the
-# directory is requested, but not automatically on boot. NOTE: Don't forget to
-# mount the sshfs share once as root manually, so that the server can be added
-# to root's known_hosts.
-
-<username>@<host>:/path/to/remote/dir	/path/to/local/mountpoint	fuse.sshfs	noauto,x-systemd.automount,_netdev,users,allow_other,follow_symlinks,reconnect,IdentityFile=/path/to/certificate,idmap=user	0 0

@@ -1,0 +1,1 @@
+../fish/fish_install.sh

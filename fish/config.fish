@@ -6,6 +6,7 @@ set -l path \
   ~/.local/pyenv/bin \
   ~/.cargo/bin \
   ~/.local/bin \
+  ~/.files/bin \
   /usr/local/Cellar/{coreutils,gnu-tar,grep,gawk,gnu-sed,findutils}/**/gnubin
 for p in $path[-1..1]
   if not contains $p $PATH
