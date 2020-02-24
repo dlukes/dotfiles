@@ -257,8 +257,8 @@ let g:LanguageClient_diagnosticsDisplay = {
     \ },
     \ }
 " for debugging LSP problems
-" let g:LanguageClient_loggingFile = expand('~/LanguageClient.log')
-" let g:LanguageClient_serverStderr = expand('~/LanguageServer.log')
+let g:LanguageClient_loggingFile = expand('~/LanguageClient.log')
+let g:LanguageClient_serverStderr = expand('~/LanguageServer.log')
 
 " install a format-on-save hook for every buffer of filetypes we have an
 " LSP command for

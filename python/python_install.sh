@@ -78,8 +78,6 @@ pip3 install --upgrade --upgrade-strategy eager \
   matplotlib \
   seaborn \
   \
-  corpy \
-  \
   httpie \
   \
   'python-language-server[rope,pyflakes]' \
