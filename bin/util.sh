@@ -1,7 +1,7 @@
 #!/bin/sh
 
 is_macos() {
-  [ "$( uname )" == Darwin ]
+  [ "$( uname )" = Darwin ]
 }
 
 brew_install_or_upgrade() {

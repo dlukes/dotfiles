@@ -12,7 +12,7 @@ else # ------------------------------------------------------ START LINUX BRANCH
 
 on_path=$( command -v nvim || echo NVIM_NOT_FOUND )
 in_local="$HOME/.local/bin/nvim"
-if [ "$on_path" == NVIM_NOT_FOUND ]; then
+if [ "$on_path" = NVIM_NOT_FOUND ]; then
   echo 'No previous nvim version found.'
 elif [ "$on_path" != "$in_local" ]; then
   read -ep "You're currently using $on_path but installing $in_local, are you sure? (y/n) " yn
@@ -21,7 +21,7 @@ fi
 
 # Compare versions and install / update / keep as is.
 
-if [ "$on_path" == NVIM_NOT_FOUND ]; then
+if [ "$on_path" = NVIM_NOT_FOUND ]; then
   old_version=NVIM_NOT_FOUND
 else
   old_version=$( "$on_path" --version | head -1 | grep -oP '[\d\.]+' )
@@ -42,7 +42,7 @@ install() {
   ln -sf nvim.appimage "$in_local"
 }
 
-if [ "$old_version" == NVIM_NOT_FOUND ]; then
+if [ "$old_version" = NVIM_NOT_FOUND ]; then
   install
   echo "Installed nvim $new_version."
 elif [ "$old_version" != "$new_version" ]; then
@@ -70,7 +70,7 @@ fi
 # use only head of init.vim file containing plugin declarations relevant
 # for PlugInstall -- until the plugins are available, the rest might
 # cause errors which will abort the installation process
-sed '/call plug#end()/q' "$dirname/config/nvim/init.vim" |
+sed '/call plug#end()/q' "$dirname/../nvim/init.vim" |
   nvim -u /dev/stdin -c 'PlugInstall --sync | qall'
 
 plugged_fzf="$HOME/.config/nvim/plugged/fzf"

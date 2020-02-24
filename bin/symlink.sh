@@ -1,7 +1,8 @@
 #!/bin/sh
 
 dirname=$( dirname "$0" )
-root=$( dirname "$dirname" )
+root=$( realpath $( dirname "$dirname" ) )
+cd "$root"
 if [ -n "$DOTFILES_UNLINK" ]; then
   action=delete_links
 else
@@ -21,9 +22,10 @@ get_link_name() {
 
 create_links() {
   directory="$1"; shift
-  targets=( "$@" )
+  # $@ now contains the targets
   mkdir -p "$directory"
-  for target in "${targets[@]}"; do
+  for target in "$@"; do
+    target="$root/$target"
     link_name=$( get_link_name "$directory" "$target" )
     if [ ! -e "$target" ]; then
       >&2 echo "WARNING: Not linking non-existent target: $target"
@@ -38,8 +40,9 @@ create_links() {
 
 delete_links() {
   directory="$1"; shift
-  targets=( "$@" )
-  for target in "${targets[@]}"; do
+  # $@ now contains the targets
+  for target in "$@"; do
+    target="$root/$target"
     link_name=$( get_link_name "$directory" "$target" )
     if [ -L "$link_name" ]; then
       >&2 echo "Removing symlink: $link_name"
@@ -62,20 +65,21 @@ if [ -z "$XDG_CONFIG_HOME" ]; then
   XDG_CONFIG_HOME="$HOME/.config"
 fi
 
-# only init.vim is kept under version control, so it's better to symlink
-# just this one file, to make sure the rest (plugins etc.) are on the
-# local filesystem on CNC servers (for faster access)
-$action "$XDG_CONFIG_HOME" "$root/"{fish,git,nvim/init.vim,python/flake8}
+$action "$XDG_CONFIG_HOME" fish git python/flake8
+# for Neovim, only init.vim is kept under version control, so it's
+# better to symlink just this one file, to make sure the rest (plugins
+# etc.) are on the local filesystem on CNC servers (for faster access)
+$action "$XDG_CONFIG_HOME/nvim" nvim/init.vim
 
 #-----------------------------------------------------------------------
 # Stuff belonging under $HOME
 #-----------------------------------------------------------------------
 
-$action "$HOME" "$root/"{bashrc,csl,editorconfig,sqliterc,texmf,tmux.conf}
+$action "$HOME" bashrc editorconfig sqliterc texmf tmux.conf
 
 #-----------------------------------------------------------------------
 # Emacs/Spacemacs
 #-----------------------------------------------------------------------
 
-$action "$HOME" "$root/emacs/"{spacemacs,emacs.d}
-$action "$root/emacs/emacs.d/private/snippets" "$root/emacs/snippets/"*
+$action "$HOME" emacs/spacemacs emacs/emacs.d
+$action "$root/emacs/emacs.d/private/snippets" emacs/snippets/*
