@@ -3,7 +3,13 @@ function fish_right_prompt --description 'Write out the right prompt'
   # status of the last interactively run command will be overwritten by
   # the previous function-internal command
   set last_pipestatus $pipestatus
-  set prompt_status (__fish_print_pipestatus '[' ']' '|' \
+  set sep (set_color normal)' •'
+
+  if test $CMD_DURATION -gt 3000
+    set duration '⏱  ' (set_color yellow)(date -ud @(math $CMD_DURATION / 1000) +%T)$sep
+  end
+
+  set prompt_status (__fish_print_pipestatus ' ⚡' $sep '|' \
     (set_color $fish_color_status) \
     (set_color --bold $fish_color_status) \
     $last_pipestatus)
@@ -15,10 +21,5 @@ function fish_right_prompt --description 'Write out the right prompt'
   end
   set -g _last_vcs_check (date +%s%N)
 
-  if test $CMD_DURATION -gt 3000
-    set duration (set_color red)'time: '(date -ud @(math $CMD_DURATION / 1000) +%T)
-  end
-
-  set normal (set_color normal)
-  echo -ns $duration $normal $prompt_status $normal $_vcs
+  echo -ns $duration $prompt_status $_vcs
 end
