@@ -2,6 +2,7 @@
 
 dirname=$( dirname "$0" )
 root=$( realpath $( dirname "$dirname" ) )
+user=$( whoami )
 cd "$root"
 if [ -n "$DOTFILES_UNLINK" ]; then
   action=delete_links
@@ -15,6 +16,8 @@ get_link_name() {
   basename=$( basename "$target" )
   if [ "$directory" = "$HOME" ] && [ "$basename" != "texmf" ]; then
     printf "$directory/.$basename"
+  elif [ "$directory" = / ]; then
+    printf "/.$basename"
   else
     printf "$directory/$basename"
   fi
@@ -76,6 +79,17 @@ $action "$XDG_CONFIG_HOME/nvim" nvim/init.vim
 #-----------------------------------------------------------------------
 
 $action "$HOME" bashrc editorconfig sqliterc texmf tmux.conf
+
+#-----------------------------------------------------------------------
+# Editorconfig under / if I'm an admin
+#-----------------------------------------------------------------------
+
+if groups | grep -wq sudo; then
+  orig_owner=$( stat -c %U / )
+  sudo chown "$user" /
+  $action / editorconfig
+  sudo chown "$orig_owner" /
+fi
 
 #-----------------------------------------------------------------------
 # Emacs/Spacemacs
