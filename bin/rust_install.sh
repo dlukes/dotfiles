@@ -50,6 +50,7 @@ utils=(
   xsv
   bat
   ruplacer
+  hyperfine
 )
 for util in ${utils[@]}; do
   tmp=$( mktemp -d )
