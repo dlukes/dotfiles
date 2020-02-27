@@ -19,5 +19,5 @@ function fish_prompt --description 'Write out the prompt'
   end
 
   echo -n (set_color cyan)(prompt_pwd)$venv \
-    (set_color red)'❯'(set_color yellow)'❯'(set_color green)'❯ '
+    (set_color red)'❯'(set_color yellow)'❯'(set_color green)'❯ '(set_color normal)
 end
