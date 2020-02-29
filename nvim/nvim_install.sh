@@ -11,7 +11,8 @@ else # ------------------------------------------------------ START LINUX BRANCH
 # Warn if competing install of nvim found.
 
 on_path=$( command -v nvim || echo NVIM_NOT_FOUND )
-in_local="$HOME/.local/bin/nvim"
+local_bin="$HOME/.local/bin"
+in_local="$local_bin/nvim"
 if [ "$on_path" = NVIM_NOT_FOUND ]; then
   echo 'No previous nvim version found.'
 elif [ "$on_path" != "$in_local" ]; then
@@ -20,6 +21,8 @@ elif [ "$on_path" != "$in_local" ]; then
 fi
 
 # Compare versions and install / update / keep as is.
+
+mkdir -p "$local_bin"
 
 if [ "$on_path" = NVIM_NOT_FOUND ]; then
   old_version=NVIM_NOT_FOUND
