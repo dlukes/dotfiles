@@ -38,45 +38,9 @@ values."
      ;; ----------------------------------------------------------------
      auto-completion
      better-defaults
-     bibtex
-     ;; clojure
-     ;; common-lisp
      colors
-     csv
-     emacs-lisp
-     (ess :variables
-       ess-enable-smart-equals t)
-     fasd
-     git
-     ;; gnus
-     go
-     ;; haskell
      helm
-     html
-     javascript
-     latex
-     markdown
-     ;; nixos
      org
-     pandoc
-     php
-     python
-     ruby
-     (rust :variables
-           rust-format-on-save t)
-     (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom
-            shell-default-term-shell "bash"
-            shell-enable-smart-eshell t)
-     spell-checking
-     sql
-     syntax-checking
-     themes-megapack
-     typescript
-     version-control
-     xkcd
-     yaml
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -84,14 +48,7 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
-      editorconfig
-      nginx-mode
-      olivetti
       scpaste
-      skewer-mode
-      vlf
-      vue-mode
-      ;; web-mode
       )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -375,8 +332,6 @@ you should place your code here."
   (setq
     scpaste-http-destination "https://trnka.korpus.cz/~lukes/scpaste"
     scpaste-scp-destination "trnka:~/public_html/scpaste")
-  (unless editorconfig-mode
-    (editorconfig-mode))
   (add-hook 'after-change-major-mode-hook 'auto-fill-mode)
   (add-hook 'after-save-hook 'executable-make-buffer-file-executable-if-script-p)
   ;;; Org mode.
