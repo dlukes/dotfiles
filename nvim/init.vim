@@ -216,6 +216,10 @@ set nofoldenable
 " default folding method (works e.g. with Rust)
 set foldmethod=syntax
 set mouse=a
+if executable("rg")
+  set grepprg=rg\ --vimgrep\ --no-heading
+  set grepformat=%f:%l:%c:%m,%f:%l:%m
+endif
 " elflord is a nicely readable built-in one but seoul256 is better;
 " another fairly nice one but harder on the eyes is
 " liuchengxu/space-vim-dark
