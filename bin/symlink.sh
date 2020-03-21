@@ -69,10 +69,11 @@ if [ -z "$XDG_CONFIG_HOME" ]; then
 fi
 
 $action "$XDG_CONFIG_HOME" fish git python/flake8
-# for Neovim, only init.vim is kept under version control, so it's
-# better to symlink just this one file, to make sure the rest (plugins
-# etc.) are on the local filesystem on CNC servers (for faster access)
+# for Neovim, don't symlink the whole directory, most of it will be
+# plugins and other auto-generated files, and it makes sense for those
+# to be on the local filesystem on CNC servers (for faster access)
 $action "$XDG_CONFIG_HOME/nvim" nvim/init.vim
+$action "$XDG_CONFIG_HOME/nvim/lua" nvim/init.lua
 
 #-----------------------------------------------------------------------
 # Stuff belonging under $HOME

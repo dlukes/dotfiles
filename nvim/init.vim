@@ -50,6 +50,10 @@ Plug 'lervag/vimtex', { 'for': 'tex' }
 Plug 'dag/vim-fish', { 'for': 'fish' }
 call plug#end()
 
+"------------------------------ Lua ------------------------------
+
+lua require("init")
+
 "------------------------------ Functions and commands ------------------------------
 
 " Let the EditorConfig plugin handle this.
@@ -281,19 +285,6 @@ let g:elm_format_autosave = 1
 let g:tex_flavor = 'latex'
 let g:vimtex_format_enabled = 1
 
-lua << EOF
-local iron = require("iron")
-
-iron.core.set_config {
-  -- only one REPL per filetype
-  manager = iron.behavior.manager.singleton,
-  preferred = {
-    python = "ipython",
-  },
-  repl_open_cmd = "topleft vertical 80 split",
-}
-EOF
-
 "------------------------------ Key bindings ------------------------------
 
 inoremap fd <Esc>
@@ -309,6 +300,7 @@ noremap <Up> :bp<CR>
 noremap <leader><leader> :
 " execute visual selection of Vimscript code
 vnoremap <leader>x y \| :@"<CR>
+nnoremap <silent> <leader>xb :lua execute_markdown_code_block()<CR>
 noremap <leader><Tab> <C-^>
 noremap <leader>w <C-w>
 " enable command history filtering for Ctrl-P and Ctrl-N
