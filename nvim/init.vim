@@ -300,7 +300,10 @@ noremap <Up> :bp<CR>
 noremap <leader><leader> :
 " execute visual selection of Vimscript code
 vnoremap <leader>x y \| :@"<CR>
-nnoremap <silent> <leader>xb :lua execute_markdown_code_block()<CR>
+nnoremap <silent> <leader>xx :lua run_md_block()<CR>
+nnoremap <silent> <leader>xb :lua run_md_blocks("before")<CR>
+nnoremap <silent> <leader>xa :lua run_md_blocks("after")<CR>
+nnoremap <silent> <leader>xf :lua run_md_blocks()<CR>
 noremap <leader><Tab> <C-^>
 noremap <leader>w <C-w>
 " enable command history filtering for Ctrl-P and Ctrl-N
@@ -343,3 +346,7 @@ inoremap <C-z> <C-r>=ZoteroCite()<CR>
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
+
+"------------------------------ Pseudo-snippets ------------------------------
+
+inoremap ;py ```python<CR><CR>```<Up>
