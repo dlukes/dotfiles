@@ -47,7 +47,7 @@ mkdir -p "$local_tree/share/man/man1"
 mv pandoc-* "$local_tree"
 
 >&2 echo 'Creating symlinks...'
-cp -frs "$local_tree/pandoc-*/*" "$local_tree/"
+cp -frs "$local_tree/pandoc-"*/* "$local_tree/"
 
 >&2 echo 'You should now be able to run pandoc, pandoc-citeproc and pandoc-crossref.'
 >&2 echo "If it doesn't work, make sure that:"
