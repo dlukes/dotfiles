@@ -183,6 +183,8 @@ autocmd FileType cfg setlocal commentstring=#\ %s
 set hidden
 set timeoutlen=500
 set updatetime=500
+" don't redraw screen in the middle of a macro (faster)
+set lazyredraw
 set splitbelow splitright
 " make sure vim knows there are 256 colors
 set t_Co=256
@@ -192,6 +194,9 @@ set formatoptions+=l
 set list
 " more ergonomic completion behavior
 set completeopt=longest,menuone
+" shows ex command results preview as you type, only works with :s
+" currently
+set inccommand=nosplit
 " character triggering completion in macros
 set wildcharm=<Tab>
 " let find search in dir of active buffer and recursively under current
