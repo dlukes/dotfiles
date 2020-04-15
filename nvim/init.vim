@@ -233,6 +233,7 @@ endif
 " another fairly nice one but harder on the eyes is
 " liuchengxu/space-vim-dark
 colorscheme seoul256
+highlight Comment cterm=italic
 
 let g:markdown_folding = 1
 let g:markdown_fenced_languages = ['python', 'rust',
