@@ -231,6 +231,8 @@ endif
 " liuchengxu/space-vim-dark
 colorscheme seoul256
 highlight Comment cterm=italic
+" readable background for floating windows
+highlight NormalFloat ctermbg=236
 
 let g:markdown_folding = 1
 let g:markdown_fenced_languages = ['python', 'rust',

@@ -155,6 +155,7 @@ local on_attach = function(client, bufnr)
   local opts = {noremap = true, silent = true}
   -- cf. :help lsp-config for tips on what to map
   api.nvim_buf_set_keymap(bufnr, "n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
+  api.nvim_buf_set_keymap(bufnr, "n", "gH", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
   api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
   api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR><cmd>copen<CR>", opts)
   api.nvim_buf_set_keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
@@ -179,10 +180,22 @@ lsp.callbacks[method] = function(err, method, result, client_id)
   end
 end
 
-servers = {"rls", "pyls_ms", "elmls", "Rls"}
-for _, lsp in ipairs(servers) do
+local servers = {
+  rust_analyzer = {
+    ["rust-analyzer"] = {
+      checkOnSave = {
+        command = "clippy",
+      },
+    },
+  },
+  pyls_ms = {},
+  elmls = {},
+  Rls = {},
+}
+for lsp, settings in pairs(servers) do
   nvim_lsp[lsp].setup {
     on_attach = on_attach,
+    settings = settings,
   }
 end
 

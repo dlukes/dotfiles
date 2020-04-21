@@ -1,5 +1,8 @@
 #!/bin/sh
 
+dirname=$( dirname "$0" )
+. "$dirname/util.sh"
+
 man_dir="$HOME/.local/share/man/man1"
 comp_dir="$HOME/.config/fish/completions"
 registry="$HOME/.cargo/registry"
@@ -11,10 +14,29 @@ if ! command -v rustup >/dev/null 2>&1; then
   >&2 echo '>>> Installing rustup...'
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 else
+  >&2 echo '>>> Updating rustup...'
   rustup update
 fi
 
 rustup completions fish >"$comp_dir/rustup.fish"
+
+### Rust analyzer
+
+>&2 echo '>>> Installing rust-analyzer...'
+
+if is_macos; then
+  suffix=mac
+else
+  suffix=linux
+fi
+rust_analyzer=rust-analyzer-$suffix
+download_url=$( curl -sSf https://api.github.com/repos/rust-analyzer/rust-analyzer/releases/latest |
+  grep browser_download_url |
+  grep -oP "https://.*?$rust_analyzer"
+)
+curl -sSf -LO $download_url
+chmod +x $rust_analyzer
+mv $rust_analyzer ~/.local/bin/rust-analyzer
 
 ### Utils
 
