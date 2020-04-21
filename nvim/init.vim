@@ -169,7 +169,7 @@ augroup Python
   autocmd!
   autocmd BufWritePre *.py Black
   autocmd FileType python setlocal makeprg=pylint\ --output-format=parseable\ --score=no
-  autocmd BufWritePost *.py silent make! <afile> | silent redraw!
+  " autocmd BufWritePost *.py silent make! <afile> | silent redraw!
 augroup END
 
 " auto-open quickfix list if :make et al. yield errors

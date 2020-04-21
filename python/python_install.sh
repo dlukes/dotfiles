@@ -54,10 +54,12 @@ else
   fi
   >&2 echo "Installing most recent stable Python $new_ver"
   pyenv install $new_ver
+  # black's virtualenv is now very probably broken, get rid of it
+  rm -rf ~/.local/share/nvim/black
 fi
 
 pyenv global system
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+curl -sSLf https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
 pyenv global $new_ver
 
 pip3 install --upgrade --upgrade-strategy eager \
@@ -81,6 +83,7 @@ pip3 install --upgrade --upgrade-strategy eager \
   httpie \
   \
   pylint \
+  pylint-venv \
   pip \
   pipenv
 

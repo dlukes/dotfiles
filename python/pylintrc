@@ -1,0 +1,51 @@
+# Run pylint --generate-rcfile to generate a commented rc file according
+# to the current settings + any options passed on the command line
+# before the --generate-rcfile option.
+#
+# See http://pylint.pycqa.org/en/latest/technical_reference/features.html
+# for a list of available lints.
+
+[MASTER]
+# auto-detect the number of processors available to use
+jobs=0
+unsafe-load-any-extension=yes
+init-hook=
+    try: import pylint_venv
+    except ImportError: pass
+    else: pylint_venv.inithook()
+
+[MESSAGES CONTROL]
+# START default pylint settings for Visual Studio Code, cf:
+# https://code.visualstudio.com/docs/python/linting
+disable=all
+enable=F,
+       E,
+       unreachable,
+       duplicate-key,
+       unnecessary-semicolon,
+       global-variable-not-assigned,
+       unused-variable,
+       binary-op-exception,
+       bad-format-string,
+       anomalous-backslash-in-string,
+       bad-open-mode,
+# END default pylint settings for Visual Studio Code
+       unused-argument,
+       undefined-loop-variable,
+       blacklisted-name,
+       invalid-name,
+       deprecated-module,
+       deprecated-method
+
+[BASIC]
+# good variable names which should always be accepted
+good-names=i,
+           j,
+           k,
+           ex,
+           Run,
+           _,
+           x,
+           y,
+           m,
+           N
