@@ -7,7 +7,7 @@ let g:python3_host_prog = trim(system('pyenv root'))
   \ . trim(system('pyenv global'))
   \ . '/bin/python3'
 
-"------------------------------ Plugins ------------------------------
+"--------------------------------------------------------------- Plugins
 
 call plug#begin()
 " core
@@ -19,13 +19,7 @@ Plug 'jiangmiao/auto-pairs'
 " `:w !sudo tee %` doesn't work in nvim: https://github.com/neovim/neovim/issues/8678
 Plug 'lambdalisue/suda.vim'
 Plug 'junegunn/seoul256.vim'
-
-" completion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+Plug 'neovim/nvim-lsp'
 
 " nice to have
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -41,6 +35,7 @@ Plug 'vim-airline/vim-airline-themes'
 
 " filetype-specific
 Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
+Plug 'psf/black', { 'for': 'python', 'tag': '*' }
 Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
@@ -50,11 +45,7 @@ Plug 'lervag/vimtex', { 'for': 'tex' }
 Plug 'dag/vim-fish', { 'for': 'fish' }
 call plug#end()
 
-"------------------------------ Lua ------------------------------
-
-lua require("init")
-
-"------------------------------ Functions and commands ------------------------------
+"------------------------------------------------ Functions and commands
 
 " Let the EditorConfig plugin handle this.
 " function! s:cleanup_whitespace()
@@ -162,22 +153,29 @@ command! -bang Mappings
   \     'down': '40%'
   \   }, <bang>0))
 
-"------------------------------ Auto commands ------------------------------
+"--------------------------------------------------------- Auto commands
 
 " sane behavior when switching buffers -- leave my cursor where it is!
 autocmd BufLeave * let b:winview = winsaveview()
 autocmd BufEnter * if(exists('b:winview')) | call winrestview(b:winview) | endif
 
-" general template for external commands (though this particular one is
-" not needed anymore, since we configure format-on-save via LSP below):
-" autocmd BufWritePre *.py silent %!black -q -
 autocmd BufWritePost * call s:auto_chmod()
 
 " comment syntax definitions not provided by vim-commentary
 autocmd FileType sql setlocal commentstring=--\ %s
 autocmd FileType cfg setlocal commentstring=#\ %s
 
-"------------------------------ Settings ------------------------------
+augroup Python
+  autocmd!
+  autocmd BufWritePre *.py Black
+  autocmd FileType python setlocal makeprg=pylint\ --output-format=parseable\ --score=no
+  autocmd BufWritePost *.py silent make! <afile> | silent redraw!
+augroup END
+
+" auto-open quickfix list if :make et al. yield errors
+autocmd QuickFixCmdPost [^l]* cwindow
+
+"-------------------------------------------------------------- Settings
 
 " allow hiding buffers with changes
 set hidden
@@ -192,8 +190,7 @@ set t_Co=256
 " textwidth
 set formatoptions+=l
 set list
-" more ergonomic completion behavior
-set completeopt=longest,menuone
+set completeopt=menuone,noinsert,noselect
 " shows ex command results preview as you type, only works with :s
 " currently
 set inccommand=nosplit
@@ -243,43 +240,6 @@ let g:markdown_fenced_languages = ['python', 'rust',
     \ 'conf', 'diff', 'xml', 'systemd'
     \ ]
 
-let g:deoplete#enable_at_startup = 1
-
-" if pyls gives you grief in virtualenvs, try installing it inside the
-" virtualenv and invoking it with ['python', '-m', 'pyls'], but it
-" shouldn't be necessary
-let g:LanguageClient_serverCommands = {
-    \ 'rust': ['rls'],
-    \ 'python': ['pyls'],
-    \ 'elm': ['elm-language-server'],
-    \ 'r': ['R', '--slave', '-e', 'languageserver::run()'],
-    \ }
-" we can only override select fields, the settings will be merged with
-" the defaults
-let g:LanguageClient_diagnosticsDisplay = {
-    \ 1: {
-    \   "texthl": "SpellBad",
-    \ },
-    \ 2: {
-    \   "texthl": "SpellRare",
-    \ },
-    \ 3: {
-    \   "texthl": "SpellCap",
-    \ },
-    \ 4: {
-    \   "texthl": "SpellLocal",
-    \ },
-    \ }
-" for debugging LSP problems
-let g:LanguageClient_loggingFile = expand('~/LanguageClient.log')
-let g:LanguageClient_serverStderr = expand('~/LanguageServer.log')
-
-" install a format-on-save hook for every buffer of filetypes we have an
-" LSP command for
-execute 'autocmd FileType '
-  \ . join(keys(g:LanguageClient_serverCommands), ',')
-  \ . ' autocmd BufWritePre <buffer> call LanguageClient#textDocument_formatting_sync()'
-
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'bubblegum'
 let g:airline#extensions#tabline#enabled = 1
@@ -291,7 +251,7 @@ let g:elm_format_autosave = 1
 let g:tex_flavor = 'latex'
 let g:vimtex_format_enabled = 1
 
-"------------------------------ Key bindings ------------------------------
+"---------------------------------------------------------- Key bindings
 
 inoremap fd <Esc>
 " switch to normal mode in :terminal
@@ -319,15 +279,6 @@ cnoremap <C-n> <Down>
 " active buffer
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
-nnoremap <silent> gh :call LanguageClient#textDocument_hover()<CR>
-nnoremap <silent> gd :call LanguageClient#textDocument_definition()<CR>
-nnoremap <silent> gr :call LanguageClient#textDocument_references()<CR>
-nnoremap <silent> <leader>lm :call LanguageClient_contextMenu()<CR>
-nnoremap <silent> <leader>lr :call LanguageClient#textDocument_rename()<CR>
-nnoremap <silent> <leader>lh :call LanguageClient#textDocument_documentHighlight()<CR>
-nnoremap <silent> <leader>lH :call LanguageClient#clearDocumentHighlight()<CR>
-nnoremap <silent> <leader>le :call LanguageClient#explainErrorAtPoint()<CR>
-
 noremap <leader>ff :Files<CR>
 noremap <leader>fg :GFiles<CR>
 noremap <leader>fa :AllFiles<CR>
@@ -353,6 +304,10 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-"------------------------------ Pseudo-snippets ------------------------------
+"------------------------------------------------------- Pseudo-snippets
 
 inoremap ;py ```python<CR><CR>```<Up>
+
+"-------------------------------------------------------------- Lua init
+
+lua init = require("init")

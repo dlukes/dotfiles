@@ -4,9 +4,14 @@ set -e
 dirname=$( dirname "$0" )
 . "$dirname/util.sh"
 
-if is_macos; then
-  brew_install_or_upgrade neovim
-else # ------------------------------------------------------ START LINUX BRANCH
+if [ "$1" = --nightly ]; then
+  api=tags/nightly
+  download=nightly
+else
+  # The latest release should be a stable version, not a pre-release.
+  api=latest
+  download=stable
+fi
 
 # Warn if competing install of nvim found.
 
@@ -27,35 +32,43 @@ mkdir -p "$local_bin"
 if [ "$on_path" = NVIM_NOT_FOUND ]; then
   old_version=NVIM_NOT_FOUND
 else
-  old_version=$( "$on_path" --version | head -1 | grep -oP '[\d\.]+' )
+  old_version=$( "$on_path" --version | grep -Pm1 '^NVIM v' )
 fi
 new_version=$(
-  # The latest release should be a stable version, not a pre-release.
-  curl --silent https://api.github.com/repos/neovim/neovim/releases/latest |
-    grep -oPm1 'NVIM v?[\d\.]+' |
-    cut -d: -f2 |
-    grep -oP '[\d\.]+'
+  curl -sSf https://api.github.com/repos/neovim/neovim/releases/$api |
+    grep -oPm1 'NVIM v[^\\]+'
 )
 
 install() {
-  cd "$( mktemp -d )"
-  wget https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
-  chmod +x nvim.appimage
-  mv -f nvim.appimage "$in_local".appimage
-  ln -sf nvim.appimage "$in_local"
+  github_release=https://github.com/neovim/neovim/releases/download/$download
+  if is_macos; then
+    archive_name=nvim-macos.tar.gz
+    nvim_dirname=nvim-osx64
+    cd "$HOME/.local"
+    rm -rf $nvim_dirname
+    curl -LO $github_release/$archive_name
+    tar xzf $archive_name
+    rm $archive_name
+    cd bin
+    ln -sf ../$nvim_dirname/bin/nvim
+  else
+    cd "$( mktemp -d )"
+    curl -LO $github_release/nvim.appimage
+    chmod +x nvim.appimage
+    mv -f nvim.appimage "$in_local".appimage
+    ln -sf nvim.appimage "$in_local"
+  fi
 }
 
 if [ "$old_version" = NVIM_NOT_FOUND ]; then
   install
-  echo "Installed nvim $new_version."
+  echo "Installed $new_version."
 elif [ "$old_version" != "$new_version" ]; then
   install
-  echo "Updated nvim $old_version to $new_version."
+  echo "Updated $old_version to $new_version."
 else
-  echo "Keeping up-to-date nvim $old_version."
+  echo "Keeping up-to-date $old_version."
 fi
-
-fi # ---------------------------------------------------------- END LINUX BRANCH
 
 # Install/upgrade pynvim.
 
@@ -74,7 +87,7 @@ fi
 # for PlugInstall -- until the plugins are available, the rest might
 # cause errors which will abort the installation process
 sed '/call plug#end()/q' "$dirname/../nvim/init.vim" |
-  nvim -u /dev/stdin -c 'PlugInstall --sync | qall'
+  nvim -u /dev/stdin +'PlugInstall --sync' +qall
 
 plugged_fzf="$HOME/.config/nvim/plugged/fzf"
 # currently, the vim-plug do hook for fzf doesn't seem to actually

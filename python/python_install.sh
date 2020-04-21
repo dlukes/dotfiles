@@ -80,8 +80,12 @@ pip3 install --upgrade --upgrade-strategy eager \
   \
   httpie \
   \
-  'python-language-server[rope,pyflakes]' \
-  pyls-black \
-  \
+  pylint \
   pip \
   pipenv
+
+DOTNET_ROOT="$HOME/.local/dotnet"
+curl -sSLf https://dot.net/v1/dotnet-install.sh |
+  bash -s -- --install-dir "$DOTNET_ROOT"
+ln -sft "$HOME/.local/bin" "$DOTNET_ROOT/dotnet"
+nvim +'LspInstall pyls_ms' +qall
