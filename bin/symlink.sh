@@ -91,10 +91,3 @@ if groups | grep -wq sudo; then
   $action / editorconfig
   sudo chown "$orig_owner" /
 fi
-
-#-----------------------------------------------------------------------
-# Emacs/Spacemacs
-#-----------------------------------------------------------------------
-
-$action "$HOME" emacs/spacemacs emacs/emacs.d
-$action "$root/emacs/emacs.d/private/snippets" emacs/snippets/*
