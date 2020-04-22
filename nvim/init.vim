@@ -268,6 +268,7 @@ noremap <Up> :bp<CR>
 noremap <leader><leader> :
 " execute visual selection of Vimscript code
 vnoremap <leader>x y \| :@"<CR>
+nnoremap <leader>pp :lua print(vim.inspect())<Left><Left>
 nnoremap <silent> <leader>xx :lua run_md_block()<CR>
 nnoremap <silent> <leader>xb :lua run_md_blocks("before")<CR>
 nnoremap <silent> <leader>xa :lua run_md_blocks("after")<CR>
