@@ -1,3 +1,4 @@
+local vim = vim
 local api = vim.api
 
 local M = {}
@@ -71,10 +72,11 @@ function M.run_md_blocks(how)
   local cursor_row = api.nvim_win_get_cursor(0)[1]
   local all_lines = api.nvim_buf_get_lines(0, 0, -1, false)
 
+  local lines
   if how == "before" then
     lines = { unpack(all_lines, 1, cursor_row) }
   elseif how == "after" then
-    run_md_block(cursor_row, all_lines, true)
+    M.run_md_block(cursor_row, all_lines, true)
     lines = { unpack(all_lines, cursor_row) }
   end
 
@@ -96,7 +98,7 @@ function M.run_md_blocks(how)
   end
 
   if how == "before" then
-    run_md_block(cursor_row, all_lines)
+    M.run_md_block(cursor_row, all_lines)
   end
 end
 
@@ -104,10 +106,12 @@ end
 
 local lsp = vim.lsp
 local nvim_lsp = require("nvim_lsp")
+local configs = require("nvim_lsp/configs")
+-- load configs.sumneko_lua
+require("nvim_lsp/sumneko_lua")
 
 -- TODO: get rid of this once an R lang server config is merged into
 -- nvim_lsp
-local configs = require("nvim_lsp/configs")
 configs.Rls = {
   default_config = {
     cmd = {"R", "--slave", "-e", "languageserver::run()"},
@@ -115,7 +119,7 @@ configs.Rls = {
     root_dir = function(fname)
       return nvim_lsp.util.find_git_ancestor(fname) or vim.loop.os_homedir()
     end,
-    log_level = vim.lsp.protocol.MessageType.Warning,
+    log_level = lsp.protocol.MessageType.Warning,
     settings = {},
   }
 }
@@ -133,10 +137,10 @@ function M.formatting_sync(options, timeout)
     options = options;
   }
   -- END lifted from vim.lsp.buf.formatting
-  local result = vim.lsp.buf_request_sync(0, "textDocument/formatting", params, timeout)
+  local result = lsp.buf_request_sync(0, "textDocument/formatting", params, timeout)
   if not result then return end
   result = result[1].result
-  vim.lsp.util.apply_text_edits(result)
+  lsp.util.apply_text_edits(result)
 end
 
 function M.clear_document_highlight()
@@ -191,9 +195,10 @@ local servers = {
   pyls_ms = {},
   elmls = {},
   Rls = {},
+  sumneko_lua = {},
 }
-for lsp, settings in pairs(servers) do
-  nvim_lsp[lsp].setup {
+for ls, settings in pairs(servers) do
+  nvim_lsp[ls].setup {
     on_attach = on_attach,
     settings = settings,
   }
