@@ -24,6 +24,7 @@ Plug 'neovim/nvim-lsp'
 " nice to have
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'liuchengxu/vim-which-key'
 Plug 'airblade/vim-gitgutter'
 Plug 'jreybert/vimagit'
 Plug 'Vigemus/iron.nvim'
@@ -233,6 +234,7 @@ colorscheme seoul256
 highlight Comment cterm=italic
 " readable background for floating windows
 highlight NormalFloat ctermbg=236
+highlight WhichKeyFloating ctermbg=236
 
 let g:markdown_folding = 1
 let g:markdown_fenced_languages = ['python', 'rust',
@@ -265,6 +267,8 @@ noremap <Right> gt
 noremap <Left> gT
 noremap <Down> :bn<CR>
 noremap <Up> :bp<CR>
+
+nnoremap <silent> <leader> :<C-u>WhichKey '<Space>'<CR>
 noremap <leader><leader> :
 " execute visual selection of Vimscript code
 vnoremap <leader>x y \| :@"<CR>
