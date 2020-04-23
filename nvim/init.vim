@@ -218,6 +218,7 @@ set modelines=5
 " always showing sign column adds room from screen edge and prevents
 " horizontal shifting when signs are shown/hidden
 set signcolumn=yes
+set cursorline
 " disable folds by default (toggle them with zi)
 set nofoldenable
 " default folding method (works e.g. with Rust)
