@@ -196,6 +196,7 @@ local servers = {
   elmls = {},
   Rls = {},
   sumneko_lua = {},
+  vimls = {},
 }
 for ls, settings in pairs(servers) do
   nvim_lsp[ls].setup {
