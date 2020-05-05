@@ -107,8 +107,6 @@ end
 local lsp = vim.lsp
 local nvim_lsp = require("nvim_lsp")
 local configs = require("nvim_lsp/configs")
--- load configs.sumneko_lua
-require("nvim_lsp/sumneko_lua")
 
 -- TODO: get rid of this once an R lang server config is merged into
 -- nvim_lsp
