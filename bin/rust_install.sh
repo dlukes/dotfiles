@@ -38,6 +38,13 @@ curl -sSf -LO $download_url
 chmod +x $rust_analyzer
 mv $rust_analyzer ~/.local/bin/rust-analyzer
 
+### Exit early?
+
+read -ep ">>> Exit early, without compiling additional utilities? (y/n) " early
+if [ "$early" = y ] || [ "$early" = Y ]; then
+  exit
+fi
+
 ### Utils
 
 >&2 echo '>>> Installing general Rust-based utils...'
@@ -93,7 +100,7 @@ extensions=(
 )
 
 read -ep ">>> Would you also like to install cargo extensions useful for development? (y/n) " devel
-if [ "$devel" = y || "$devel" = Y ]; then
+if [ "$devel" = y ] || [ "$devel" = Y ]; then
   extensions+=(
     # managing deps from command line (NOTE: the subcommands are add, rm and
     # upgrade)
