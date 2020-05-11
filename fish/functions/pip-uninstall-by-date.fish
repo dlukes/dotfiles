@@ -66,9 +66,15 @@ print(site.getusersitepackages())
     return
   end
 
-  echo >&2 "Uninstalling the following packages:"
+  echo >&2 "Will uninstall the following packages:"
+  set -l last_mtime ""
   for i in (seq 1 (count $packages))
-    echo >&2 "  - $packages[$i], installed on $mtimes[$i]"
+    set -l mtime $mtimes[$i]
+    if test $mtime != $last_mtime
+      echo >&2 "- installed on $mtime:"
+      set last_mtime $mtime
+    end
+    echo >&2 "  - $packages[$i]"
   end
   read -lP "Proceed? [y/N]" proceed
   switch $proceed
