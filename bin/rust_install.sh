@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 dirname=$( dirname "$0" )
 . "$dirname/util.sh"
