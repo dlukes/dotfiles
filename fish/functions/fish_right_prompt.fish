@@ -5,7 +5,7 @@ function fish_right_prompt --description 'Write out the right prompt'
   set last_pipestatus $pipestatus
 
   if test $CMD_DURATION -gt 3000
-    set duration '⏱  '(set_color yellow)(date -ud @(math $CMD_DURATION / 1000) +%T)
+    set duration '⏰ '(set_color yellow)(date -ud @(math $CMD_DURATION / 1000) +%T)
   end
 
   set prompt_status (__fish_print_pipestatus '⚡' '' '|' \
