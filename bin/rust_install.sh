@@ -80,6 +80,7 @@ utils=(
   bat
   ruplacer
   hyperfine
+  tokei
 )
 for util in ${utils[@]}; do
   tmp=$( mktemp -d )
