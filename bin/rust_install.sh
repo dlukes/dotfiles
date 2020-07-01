@@ -73,8 +73,7 @@ utils=(
   ripgrep
   fd-find
   exa
-  # 12 largest dirs in $DIR: sn sort $DIR -n12
-  tin-summer
+  dust
   hexyl
   xsv
   bat
