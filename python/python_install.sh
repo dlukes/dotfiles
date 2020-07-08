@@ -69,23 +69,15 @@ pip3 install --upgrade --upgrade-strategy eager \
   lxml \
   regex \
   requests \
-  dill \
-  trio \
-  asks \
   \
-  numpy \
   pandas \
   openpyxl \
-  \
-  matplotlib \
-  seaborn \
   \
   httpie \
   \
   pylint \
   pylint-venv \
-  pip \
-  pipenv
+  pip
 
 DOTNET_ROOT="$HOME/.local/dotnet"
 curl -sSLf https://dot.net/v1/dotnet-install.sh |
