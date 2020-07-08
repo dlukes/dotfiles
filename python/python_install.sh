@@ -6,8 +6,13 @@ dirname=$( dirname "$0" )
 
 cat <<EOF >&2
 ########################################################################
-# NOTE: If you want Tkinter and other optional stdlib extras, you may  #
-# have to first install some dependencies. E.g. for Solus:             #
+# NOTE: Check out the suggested build environment for your platform    #
+# for the deps to install prior to compilation:                        #
+#                                                                      #
+#   https://github.com/pyenv/pyenv/wiki#suggested-build-environment    #
+#                                                                      #
+# Here are some quick tips if you want Tkinter and other optional      #
+# stdlib extras. E.g. for Solus:                                       #
 #                                                                      #
 #   sudo eopkg it tk-devel bzip2-devel                                 #
 #                                                                      #
