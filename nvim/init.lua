@@ -9,7 +9,7 @@ local iron = require("iron")
 
 iron.core.set_config {
   -- only one REPL per filetype
-  manager = iron.behavior.manager.singleton,
+  manager = iron.behavior.scope.singleton,
   preferred = {
     python = "ipython",
   },
