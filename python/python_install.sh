@@ -38,6 +38,7 @@ fi
 
 export PYENV_ROOT="$HOME/.local/pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
+export PYTHON_CONFIGURE_OPTS=--enable-shared
 if [ -d "$PYENV_ROOT" ]; then
   git -C "$PYENV_ROOT" pull
 else
