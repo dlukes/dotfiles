@@ -1,1 +1,0 @@
-../emacs/spacemacs_setup.sh
