@@ -23,6 +23,7 @@ Plug 'junegunn/seoul256.vim'
 Plug 'neovim/nvim-lsp'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/diagnostic-nvim'
+Plug 'nvim-lua/lsp-status.nvim'
 
 " nice to have
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -261,9 +262,17 @@ let g:markdown_fenced_languages = ['python', 'rust',
     \ 'conf', 'diff', 'xml', 'systemd'
     \ ]
 
+function! LspStatus() abort
+  let status = luaeval('require("lsp-status").status()')
+  return trim(status)
+endfunction
+call airline#parts#define_function('lsp_status', 'LspStatus')
+call airline#parts#define_condition('lsp_status', 'luaeval("#vim.lsp.buf_get_clients() > 0")')
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'bubblegum'
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#nvimlsp#enabled = 0
+let g:airline_section_warning = airline#section#create_right(['lsp_status'])
 
 let g:elm_format_autosave = 1
 

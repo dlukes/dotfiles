@@ -107,6 +107,24 @@ end
 local lsp = vim.lsp
 local nvim_lsp = require("nvim_lsp")
 local configs = require("nvim_lsp/configs")
+local lsp_status = require("lsp-status")
+
+-- use LSP SymbolKinds themselves as the kind labels
+local kind_labels_mt = {__index = function(_, k) return k end}
+local kind_labels = {}
+setmetatable(kind_labels, kind_labels_mt)
+
+lsp_status.register_progress()
+lsp_status.config({
+  kind_labels = kind_labels,
+  indicator_errors = "×",
+  indicator_warnings = "!",
+  indicator_info = "i",
+  indicator_hint = "›",
+  -- the default is a wide codepoint which breaks absolute and relative
+  -- line counts if placed before airline's Z section
+  status_symbol = "",
+})
 
 -- TODO: get rid of this once an R lang server config is merged into
 -- nvim_lsp
@@ -153,6 +171,7 @@ end
 local on_attach = function(client, bufnr)
   require('completion').on_attach(client, bufnr)
   require('diagnostic').on_attach(client, bufnr)
+  lsp_status.on_attach(client, bufnr)
   -- NOTE: uncomment to inspect features supported by language server
   -- print(vim.inspect(client.resolved_capabilities))
   if client.resolved_capabilities.document_formatting then
@@ -212,6 +231,7 @@ for ls, settings in pairs(servers) do
   nvim_lsp[ls].setup {
     on_attach = on_attach,
     settings = settings,
+    capabilities = vim.tbl_extend("keep", configs[ls].capabilities or {}, lsp_status.capabilities),
   }
 end
 
