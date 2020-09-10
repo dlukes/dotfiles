@@ -19,7 +19,10 @@ Plug 'jiangmiao/auto-pairs'
 " `:w !sudo tee %` doesn't work in nvim: https://github.com/neovim/neovim/issues/8678
 Plug 'lambdalisue/suda.vim'
 Plug 'junegunn/seoul256.vim'
+" community-maintained configs for various langs
 Plug 'neovim/nvim-lsp'
+Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/diagnostic-nvim'
 
 " nice to have
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
@@ -228,14 +231,27 @@ if executable("rg")
   set grepprg=rg\ --vimgrep\ --no-heading
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
+
 " elflord is a nicely readable built-in one but seoul256 is better;
 " another fairly nice one but harder on the eyes is
 " liuchengxu/space-vim-dark
 colorscheme seoul256
-highlight Comment cterm=italic
-" readable background for floating windows
-highlight NormalFloat ctermbg=236
-highlight WhichKeyFloating ctermbg=236
+highlight! Comment cterm=italic
+" readable background for whichkey floating windows
+highlight! link WhichKeyFloating NormalFloat
+highlight! link LspDiagnosticsError SpellBad
+highlight! link LspDiagnosticsWarning SpellRare
+highlight! link LspDiagnosticsInformation SpellCap
+highlight! link LspDiagnosticsHint SpellLocal
+highlight! link LspReferenceText Search
+highlight! link LspReferenceRead Search
+highlight! link LspReferenceWrite Search
+call sign_define("LspDiagnosticsErrorSign", {"text" : "×", "texthl" : "LspDiagnosticsError"})
+call sign_define("LspDiagnosticsWarningSign", {"text" : "!", "texthl" : "LspDiagnosticsWarning"})
+call sign_define("LspDiagnosticsInformationSign", {"text" : "i", "texthl" : "LspDiagnosticsInformation"})
+call sign_define("LspDiagnosticsHintSign", {"text" : "›", "texthl" : "LspDiagnosticsHint"})
+
+let g:diagnostic_insert_delay = 1
 
 let g:markdown_folding = 1
 let g:markdown_fenced_languages = ['python', 'rust',
