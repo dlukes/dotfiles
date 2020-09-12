@@ -15,26 +15,27 @@ Plug 'tpope/vim-sensible'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-Plug 'jiangmiao/auto-pairs'
 " `:w !sudo tee %` doesn't work in nvim: https://github.com/neovim/neovim/issues/8678
 Plug 'lambdalisue/suda.vim'
-Plug 'junegunn/seoul256.vim'
 " community-maintained configs for various langs
 Plug 'neovim/nvim-lsp'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/diagnostic-nvim'
 Plug 'nvim-lua/lsp-status.nvim'
+Plug 'airblade/vim-gitgutter'
+
+" visuals
+Plug 'junegunn/seoul256.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " nice to have
 Plug 'liuchengxu/vim-which-key'
-Plug 'airblade/vim-gitgutter'
 Plug 'jreybert/vimagit'
 Plug 'Vigemus/iron.nvim'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 
 " filetype-specific
 Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
