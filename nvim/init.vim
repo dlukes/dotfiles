@@ -26,8 +26,6 @@ Plug 'nvim-lua/diagnostic-nvim'
 Plug 'nvim-lua/lsp-status.nvim'
 
 " nice to have
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vim-which-key'
 Plug 'airblade/vim-gitgutter'
 Plug 'jreybert/vimagit'
@@ -93,70 +91,6 @@ function! ZoteroCite()
   let ref = system('curl -s '.shellescape(api_call))
   return ref
 endfunction
-
-let s:fzf_options = '--preview "bat --style numbers,changes --color=always --decorations=always {} | head -500"'
-
-command! -bang -nargs=? -complete=dir Files
-  \ call fzf#run(fzf#wrap(
-  \   {
-  \     'source': 'fd --type f .\* '.(empty(<q-args>) ? '' : shellescape(<q-args>)),
-  \     'down': '40%',
-  \     'options': s:fzf_options
-  \   }, <bang>0))
-
-command! -bang -nargs=? -complete=dir AllFiles
-  \ call fzf#run(fzf#wrap(
-  \   {
-  \     'source': 'fd --type f --hidden --follow --exclude .git .\* '
-  \       .(empty(<q-args>) ? '' : shellescape(<q-args>)),
-  \     'down': '40%',
-  \     'options': s:fzf_options
-  \   }, <bang>0))
-
-command! -bang -nargs=? -complete=dir Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case "^" '
-  \     .(empty(<q-args>) ? '' : shellescape(<q-args>)),
-  \   1, fzf#vim#with_preview(), <bang>0)
-
-command! -bang -nargs=? -complete=dir RgAll
-  \ call fzf#vim#grep(
-  \   'rg -uu --column --line-number --no-heading --color=always --smart-case "^" '
-  \     .(empty(<q-args>) ? '' : shellescape(<q-args>)),
-  \   1, fzf#vim#with_preview(), <bang>0)
-
-command! -bang -nargs=? -complete=dir GGrep
-  \ call fzf#vim#grep(
-  \   'git grep --line-number "^" -- '.shellescape(<q-args>), 0,
-  \   fzf#vim#with_preview({ 'dir': s:find_git_root() }), <bang>0)
-
-let s:filetype2jump_query = {
-  \ 'markdown': '^# ',
-  \ 'python': '^def\  | ^class\  ',
-  \ 'rust': '^fn\  | ^type\  | ^struct\  | ^enum\  | ^union\  | ^const\  | ^static\  | ^trait\  | ^impl\  | ^pub\  ',
-  \ }
-
-function! s:jump_buffer_lines(bang)
-  let jump_query = s:filetype2jump_query[&filetype]
-  call fzf#vim#buffer_lines(jump_query, a:bang)
-endfunction
-
-command! -bang JumpBLines call s:jump_buffer_lines(<bang>0)
-
-function s:list_mappings()
-  let mappings = ""
-  redir =>mappings
-  silent map
-  redir END
-  return split(mappings, "\n")
-endfunction
-
-command! -bang Mappings
-  \ call fzf#run(fzf#wrap(
-  \   {
-  \     'source': s:list_mappings(),
-  \     'down': '40%'
-  \   }, <bang>0))
 
 "--------------------------------------------------------- Auto commands
 
@@ -312,20 +246,6 @@ cnoremap <C-n> <Down>
 " active buffer
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
-noremap <leader>ff :Files<CR>
-noremap <leader>fg :GFiles<CR>
-noremap <leader>fa :AllFiles<CR>
-noremap <leader>fr :History<CR>
-noremap <leader>bb :Buffers<CR>
-noremap <leader>bw :Windows<CR>
-noremap <leader>sr :Rg<CR>
-noremap <leader>sa :RgAll<CR>
-noremap <leader>sg :GGrep<CR>
-noremap <leader>ss :Lines<CR>
-noremap <leader>sb :BLines<CR>
-noremap <leader>sj :JumpBLines<CR>
-noremap <leader>gg :Commits<CR>
-noremap <leader>gb :BCommits<CR>
 noremap <leader>dg :diffget \| diffupdate<CR>
 noremap <leader>dp :diffput \| diffupdate<CR>
 noremap <leader>ll :Goyo \| Limelight!!<CR>

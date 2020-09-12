@@ -88,11 +88,3 @@ fi
 # cause errors which will abort the installation process
 sed '/call plug#end()/q' "$dirname/../nvim/init.vim" |
   nvim -u /dev/stdin +'PlugInstall --sync' +qall
-
-plugged_fzf="$HOME/.config/nvim/plugged/fzf"
-# currently, the vim-plug do hook for fzf doesn't seem to actually
-# install the fzf binary... oh well.
-"$plugged_fzf/install" --bin
-for bin in "$plugged_fzf/bin/"*; do
-  ln -sft "$HOME/.local/bin" "$bin"
-done
