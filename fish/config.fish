@@ -30,7 +30,7 @@ if not set -q PYENV_ROOT
 end
 
 # fzf
-source ~/.config/nvim/plugged/fzf/shell/key-bindings.fish
+source ~/.local/share/fzf/key-bindings.fish
 fzf_key_bindings
 if type -q fd
   set -gx FZF_CTRL_T_COMMAND 'fd --type f --hidden --follow --exclude .git'
