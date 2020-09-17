@@ -246,6 +246,52 @@ The log path should typically be ~/.local/share/nvim/vim-lsp.log
 -- lsp.set_log_level("info")
 -- print(lsp.get_log_path())
 
+------------------------------------------------------ Treesitter config
+
+local ts = require('nvim-treesitter.configs')
+
+ts.setup {
+  highlight = { enable = true },
+  refactor = {
+    highlight_definitions = { enable = true },
+    -- nice in theory but unfortunately sort of ugly because the
+    -- highlight is ragged; cf. :help syn-pattern: "The highlighted area
+    -- will never be outside of the matched text."
+    -- highlight_current_scope = { enable = true },
+  },
+  textobjects = {
+    select = {
+      enable = true,
+      keymaps = {
+       -- use capture groups from textobjects.scm or define your own
+       ["af"] = "@function.outer",
+       ["if"] = "@function.inner",
+       ["ac"] = "@class.outer",
+       ["ic"] = "@class.inner",
+      }
+    },
+    move = {
+      enable = true,
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = "@class.outer",
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+      },
+    },
+  },
+}
+
 ---------------------------------------------------------- Return module
 
 return M

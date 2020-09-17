@@ -23,6 +23,7 @@ Plug 'neovim/nvim-lsp'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/diagnostic-nvim'
 Plug 'nvim-lua/lsp-status.nvim'
+Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'airblade/vim-gitgutter'
 
 " visuals
@@ -41,8 +42,9 @@ Plug 'junegunn/vim-easy-align'
 " filetype-specific
 Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
 Plug 'psf/black', { 'for': 'python', 'tag': '*' }
-Plug 'tmhedberg/SimpylFold', { 'for': 'python' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+" TODO: get rid of all custom markdown config once TreeSitter support
+" lands
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'ElmCast/elm-vim', { 'for': 'elm' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
@@ -94,6 +96,18 @@ function! ZoteroCite()
   return ref
 endfunction
 
+function! ToggleFolds()
+  if &l:foldenable
+    setlocal nofoldenable
+    setlocal foldcolumn=0
+  else
+    write
+    setlocal foldenable
+    setlocal foldcolumn=auto:9
+    normal! zx
+  endif
+endfunction
+
 "--------------------------------------------------------- Auto commands
 
 " sane behavior when switching buffers -- leave my cursor where it is!
@@ -105,6 +119,7 @@ autocmd BufWritePost * call s:auto_chmod()
 " comment syntax definitions not provided by vim-commentary
 autocmd FileType sql setlocal commentstring=--\ %s
 autocmd FileType cfg setlocal commentstring=#\ %s
+autocmd FileType markdown setlocal foldmethod=syntax
 
 augroup Python
   autocmd!
@@ -161,8 +176,8 @@ set signcolumn=yes
 set cursorline
 " disable folds by default (toggle them with zi)
 set nofoldenable
-" default folding method (works e.g. with Rust)
-set foldmethod=syntax
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
 set mouse=a
 if executable("rg")
   set grepprg=rg\ --vimgrep\ --no-heading
@@ -229,6 +244,7 @@ noremap <Right> gt
 noremap <Left> gT
 noremap <Down> :bn<CR>
 noremap <Up> :bp<CR>
+noremap <silent> zi :call ToggleFolds()<CR>
 
 nnoremap <silent> <leader> :<C-u>WhichKey '<Space>'<CR>
 noremap <leader><leader> :
