@@ -6,7 +6,7 @@ Clone the repo as `~/.files`:
 git clone --recursive git@github.com:dlukes/dotfiles.github ~/.files
 ```
 
-The run the various `bin/*install.sh` scripts as required, and
+Then run the various `bin/*install.sh` scripts as required, and
 `bin/symlink.sh` to create symlinks to the config files in appropriate
 places.
 
