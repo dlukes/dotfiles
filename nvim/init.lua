@@ -201,6 +201,7 @@ local on_attach = function(client, bufnr)
 end
 
 local servers = {
+  -- these don't work with :LspInstall (yet?)
   rust_analyzer = {
     ["rust-analyzer"] = {
       checkOnSave = {
@@ -208,10 +209,12 @@ local servers = {
       },
     },
   },
-  pyls_ms = {},
-  elmls = {},
+  jedi_language_server = {},  -- as in, Python's Jedi
   r_language_server = {},
+
+  elmls = {},
   sumneko_lua = {},
+  tsserver = {},
   vimls = {},
 }
 for ls, settings in pairs(servers) do
