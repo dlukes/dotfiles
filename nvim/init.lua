@@ -126,20 +126,6 @@ lsp_status.config({
   status_symbol = "",
 })
 
--- TODO: get rid of this once an R lang server config is merged into
--- nvim_lsp
-configs.Rls = {
-  default_config = {
-    cmd = {"R", "--slave", "-e", "languageserver::run()"},
-    filetypes = {"r", "rmd"},
-    root_dir = function(fname)
-      return nvim_lsp.util.find_git_ancestor(fname) or vim.loop.os_homedir()
-    end,
-    log_level = lsp.protocol.MessageType.Warning,
-    settings = {},
-  }
-}
-
 local function cmp_diagnostics(a, b)
   return a.range.start.line < b.range.start.line
 end
@@ -224,7 +210,7 @@ local servers = {
   },
   pyls_ms = {},
   elmls = {},
-  Rls = {},
+  r_language_server = {},
   sumneko_lua = {},
   vimls = {},
 }
