@@ -225,6 +225,17 @@ for ls, settings in pairs(servers) do
   }
 end
 
+function M.lsp_clients(verbose)
+  for i, client in ipairs(vim.lsp.buf_get_clients()) do
+    print(i, "::", client.config.name)
+    if verbose == 1 then
+      print(string.rep("=", 72))
+      print(vim.inspect(client))
+      print(string.rep("=", 72))
+    end
+  end
+end
+
 --[[
 Logging/debugging
 

@@ -122,6 +122,8 @@ endfunction
 
 command! BlackReinstall :call s:black_reinstall()
 
+command! -bang LspClients :cal v:lua.init.lsp_clients(<bang>0)
+
 "--------------------------------------------------------- Auto commands
 
 " sane behavior when switching buffers -- leave my cursor where it is!
