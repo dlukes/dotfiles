@@ -8,6 +8,7 @@ SETUVAR _fish_abbr_df:df\x20\x2dkh
 SETUVAR _fish_abbr_du:du\x20\x2dkh
 SETUVAR _fish_abbr_fda:fd\x20\x2dHI
 SETUVAR _fish_abbr_g:git
+SETUVAR _fish_abbr_gap:git\x20add\x20\x2dp
 SETUVAR _fish_abbr_gc:git\x20commit\x20\x2d\x2dverbose
 SETUVAR _fish_abbr_gco:git\x20checkout
 SETUVAR _fish_abbr_gfm:git\x20pull
