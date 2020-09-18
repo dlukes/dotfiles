@@ -41,7 +41,7 @@ Plug 'junegunn/vim-easy-align'
 
 " filetype-specific
 Plug 'Vimjas/vim-python-pep8-indent', { 'for': 'python' }
-Plug 'psf/black', { 'for': 'python', 'tag': '*' }
+Plug 'psf/black', { 'for': 'python', 'branch': 'stable' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 " TODO: get rid of all custom markdown config once TreeSitter support
 " lands
@@ -107,6 +107,20 @@ function! ToggleFolds()
     normal! zx
   endif
 endfunction
+
+function! s:black_reinstall()
+  " black's vim integration is not exactly smooth and I never remember
+  " all the stuff I have to nuke to start afresh
+  call plug#load('black')
+  echom "BlackReinstall: Removing Black's virtualenv in ".g:black_virtualenv.'.'
+  echom repeat('=', 72)
+  call system('rm -rf ' . fnamemodify(g:black_virtualenv, ':p:S'))
+  BlackUpgrade
+  echom repeat('=', 72)
+  echom 'BlackReinstall: If the issue persists, run :PlugUpdate black and retry reinstalling.'
+endfunction
+
+command! BlackReinstall :call s:black_reinstall()
 
 "--------------------------------------------------------- Auto commands
 
