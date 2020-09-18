@@ -259,6 +259,9 @@ noremap <Left> gT
 noremap <Down> :bn<CR>
 noremap <Up> :bp<CR>
 noremap <silent> zi :call ToggleFolds()<CR>
+inoremap <silent><expr> <C-n>
+  \ pumvisible() ? "\<C-n>" :
+  \ completion#trigger_completion()
 
 nnoremap <silent> <leader> :<C-u>WhichKey '<Space>'<CR>
 noremap <leader><leader> :
