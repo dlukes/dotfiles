@@ -3,7 +3,7 @@
 dot_local="$HOME/.local"
 
 archive_url=$(
-  curl -s https://tla.mpi.nl/tools/tla-tools/elan/download/ |
+  curl -fsSL https://tla.mpi.nl/tools/tla-tools/elan/download/ |
     grep -oiPm1 'https?://.*?_linux\.tar\.gz' |
     head -1
 )
@@ -24,7 +24,7 @@ if [ -d "$unpack_dir" ]; then
 else
   mkdir -p "$unpack_dir"
   cd "$dot_local"
-  wget "$archive_url"
+  curl -fLO "$archive_url"
   tar xzf "$archive_basename" -C "$unpack_dir" --strip-components 1 &&
     rm -f "$archive_basename"
 fi
