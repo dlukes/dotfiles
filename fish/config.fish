@@ -3,8 +3,6 @@ set -gx LC_ALL $LANG
 set -gx XDG_CONFIG_HOME ~/.config
 
 set -l path \
-  ~/.poetry/bin \
-  ~/.local/pyenv/bin \
   ~/.cargo/bin \
   ~/.local/bin \
   ~/.files/bin \

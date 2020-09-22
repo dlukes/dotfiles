@@ -44,6 +44,7 @@ if [ -d "$PYENV_ROOT" ]; then
 else
   git clone https://github.com/pyenv/pyenv.git "$PYENV_ROOT"
 fi
+ln -sft "$HOME/.local/bin" "$PYENV_ROOT/libexec/pyenv"
 eval "$( pyenv init - )"
 
 py3_regex='^3\.\d+\.\d+$'
@@ -65,7 +66,9 @@ else
 fi
 
 pyenv global system
-curl -sSLf https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+export POETRY_HOME="$HOME/.local/poetry"
+curl -sSLf https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - --no-modify-path
+ln -sft "$HOME/.local/bin" "$POETRY_HOME/bin/poetry"
 pyenv global $new_ver
 
 pip3 install --upgrade --upgrade-strategy eager \
