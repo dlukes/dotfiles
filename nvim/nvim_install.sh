@@ -87,4 +87,7 @@ fi
 # for PlugInstall -- until the plugins are available, the rest might
 # cause errors which will abort the installation process
 sed '/call plug#end()/q' "$dirname/../nvim/init.vim" |
-  nvim -u /dev/stdin +'PlugUpdate' +'TSInstall all'
+  nvim -u /dev/stdin +'PlugUpdate --sync' +qall
+# tree-sitter plugin has to be installed first for TSInstallSync to be
+# available, so can't do it in one nvim invocation above
+nvim --headless +'TSInstallSync all' +qall
