@@ -74,6 +74,7 @@ pyenv global $new_ver
 pip3 install --upgrade --upgrade-strategy eager \
   ipython \
   ipdb \
+  rich \
   \
   lxml \
   regex \
