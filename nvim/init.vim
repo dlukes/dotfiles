@@ -114,7 +114,7 @@ function! s:black_reinstall()
   call plug#load('black')
   echom "BlackReinstall: Removing Black's virtualenv in ".g:black_virtualenv.'.'
   echom repeat('=', 72)
-  call system('rm -rf ' . fnamemodify(g:black_virtualenv, ':p:S'))
+  python3 import os, shutil, vim; shutil.rmtree(os.path.expanduser(vim.eval("g:black_virtualenv")))
   BlackUpgrade
   echom repeat('=', 72)
   echom 'BlackReinstall: If the issue persists, run :PlugUpdate black and retry reinstalling.'
