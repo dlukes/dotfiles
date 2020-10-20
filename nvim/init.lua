@@ -251,7 +251,10 @@ The log path should typically be ~/.local/share/nvim/vim-lsp.log
 local ts = require('nvim-treesitter.configs')
 
 ts.setup {
+  ensure_installed = "all",
+  -- TODO: use_languagetree = true once it stabilizes
   highlight = { enable = true },
+  indent = { enable = true },
   refactor = {
     highlight_definitions = { enable = true },
     -- nice in theory but unfortunately sort of ugly because the
@@ -291,6 +294,10 @@ ts.setup {
     },
   },
 }
+
+-- TODO: disable buggy Markdown parser, remove once resolved; cf.
+-- https://github.com/nvim-treesitter/nvim-treesitter/issues/602
+require("nvim-treesitter.parsers").get_parser_configs().markdown = nil
 
 ---------------------------------------------------------- Return module
 
