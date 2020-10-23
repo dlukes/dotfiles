@@ -295,10 +295,6 @@ ts.setup {
   },
 }
 
--- TODO: disable buggy Markdown parser, remove once resolved; cf.
--- https://github.com/nvim-treesitter/nvim-treesitter/issues/602
-require("nvim-treesitter.parsers").get_parser_configs().markdown = nil
-
 ---------------------------------------------------------- Return module
 
 return M
