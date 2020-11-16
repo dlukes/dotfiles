@@ -19,7 +19,7 @@ Plug 'ctrlpvim/ctrlp.vim'
 " `:w !sudo tee %` doesn't work in nvim: https://github.com/neovim/neovim/issues/8678
 Plug 'lambdalisue/suda.vim'
 " community-maintained configs for various langs
-Plug 'neovim/nvim-lsp'
+Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/diagnostic-nvim'
 Plug 'nvim-lua/lsp-status.nvim'

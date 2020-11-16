@@ -105,8 +105,8 @@ end
 ------------------------------------------------------------- LSP config
 
 local lsp = vim.lsp
-local nvim_lsp = require("nvim_lsp")
-local configs = require("nvim_lsp/configs")
+local lspconfig = require("lspconfig")
+local configs = require("lspconfig/configs")
 local lsp_status = require("lsp-status")
 
 -- use LSP SymbolKinds themselves as the kind labels
@@ -210,6 +210,7 @@ local servers = {
     },
   },
   jedi_language_server = {},  -- as in, Python's Jedi
+  -- pyright = {},  -- TODO: enable once it settles down
   r_language_server = {},
 
   elmls = {},
@@ -218,7 +219,7 @@ local servers = {
   vimls = {},
 }
 for ls, settings in pairs(servers) do
-  nvim_lsp[ls].setup {
+  lspconfig[ls].setup {
     on_attach = on_attach,
     settings = settings,
     capabilities = vim.tbl_extend("keep", configs[ls].capabilities or {}, lsp_status.capabilities),
