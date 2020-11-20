@@ -20,7 +20,10 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'lambdalisue/suda.vim'
 " community-maintained configs for various langs
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/completion-nvim', { 'commit': 'efd055c41a860637d18112781acca676433ab3b6' }
+" TODO: get rid of diagnostic-nvim, see guide at
+" https://github.com/nvim-lua/diagnostic-nvim/issues/73 and wip
+" migration in branch rm-diagnostic
 Plug 'nvim-lua/diagnostic-nvim'
 Plug 'nvim-lua/lsp-status.nvim', { 'commit': 'e1a26944039040bf0f6e7716d19878ec1907f50a' }
 Plug 'nvim-treesitter/nvim-treesitter'
