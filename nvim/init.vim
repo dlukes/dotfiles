@@ -22,7 +22,7 @@ Plug 'lambdalisue/suda.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/diagnostic-nvim'
-Plug 'nvim-lua/lsp-status.nvim'
+Plug 'nvim-lua/lsp-status.nvim', { 'commit': 'e1a26944039040bf0f6e7716d19878ec1907f50a' }
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
