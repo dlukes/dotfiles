@@ -20,12 +20,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 Plug 'lambdalisue/suda.vim'
 " community-maintained configs for various langs
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim', { 'commit': 'efd055c41a860637d18112781acca676433ab3b6' }
-" TODO: get rid of diagnostic-nvim, see guide at
-" https://github.com/nvim-lua/diagnostic-nvim/issues/73 and wip
-" migration in branch rm-diagnostic
-Plug 'nvim-lua/diagnostic-nvim'
-Plug 'nvim-lua/lsp-status.nvim', { 'commit': 'e1a26944039040bf0f6e7716d19878ec1907f50a' }
+Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/lsp-status.nvim'
 Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -212,19 +208,13 @@ colorscheme seoul256
 highlight! Comment cterm=italic
 " readable background for whichkey floating windows
 highlight! link WhichKeyFloating NormalFloat
-highlight! link LspDiagnosticsError SpellBad
-highlight! link LspDiagnosticsWarning SpellRare
-highlight! link LspDiagnosticsInformation SpellCap
-highlight! link LspDiagnosticsHint SpellLocal
+highlight! link LspDiagnosticsDefaultError SpellBad
+highlight! link LspDiagnosticsDefaultWarning SpellRare
+highlight! link LspDiagnosticsDefaultInformation SpellCap
+highlight! link LspDiagnosticsDefaultHint SpellLocal
 highlight! link LspReferenceText Search
 highlight! link LspReferenceRead Search
 highlight! link LspReferenceWrite Search
-call sign_define("LspDiagnosticsErrorSign", {"text" : "×", "texthl" : "LspDiagnosticsError"})
-call sign_define("LspDiagnosticsWarningSign", {"text" : "!", "texthl" : "LspDiagnosticsWarning"})
-call sign_define("LspDiagnosticsInformationSign", {"text" : "i", "texthl" : "LspDiagnosticsInformation"})
-call sign_define("LspDiagnosticsHintSign", {"text" : "›", "texthl" : "LspDiagnosticsHint"})
-
-let g:diagnostic_insert_delay = 1
 
 let g:markdown_folding = 1
 let g:markdown_fenced_languages = ['python', 'rust',

@@ -126,10 +126,6 @@ lsp_status.config({
   status_symbol = "",
 })
 
-local function cmp_diagnostics(a, b)
-  return a.range.start.line < b.range.start.line
-end
-
 function M.formatting_sync(options, timeout)
   -- START lifted from vim.lsp.buf.formatting
   vim.validate { options = {options, "t", true} }
@@ -156,33 +152,11 @@ end
 
 local on_attach = function(client, bufnr)
   require('completion').on_attach(client, bufnr)
-  require('diagnostic').on_attach(client, bufnr)
   lsp_status.on_attach(client, bufnr)
   -- NOTE: uncomment to inspect features supported by language server
   -- print(vim.inspect(client.resolved_capabilities))
   if client.resolved_capabilities.document_formatting then
     api.nvim_command("autocmd BufWritePre <buffer> lua init.formatting_sync(nil, 1000)")
-  end
-
-  -- TODO: remove quickfix list code below and cmp_diagnostics above if/when
-  -- https://github.com/nvim-lua/diagnostic-nvim/issues/55 gets resolved
-  -- and diagnostics in the location list become usable
-
-  -- populate quickfix list with diagnostics
-  local method = "textDocument/publishDiagnostics"
-  local default_callback = lsp.callbacks[method]
-  lsp.callbacks[method] = function(err, method, result, client_id)
-    default_callback(err, method, result, client_id)
-    if result and result.diagnostics then
-      table.sort(result.diagnostics, cmp_diagnostics)
-      for _, v in ipairs(result.diagnostics) do
-        v.bufnr = client_id
-        v.lnum = v.range.start.line + 1
-        v.col = v.range.start.character + 1
-        v.text = v.message
-      end
-      lsp.util.set_qflist(result.diagnostics)
-    end
   end
 
   local opts = {noremap = true, silent = true}
@@ -191,13 +165,14 @@ local on_attach = function(client, bufnr)
   api.nvim_buf_set_keymap(bufnr, "n", "gH", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
   api.nvim_buf_set_keymap(bufnr, "n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
   api.nvim_buf_set_keymap(bufnr, "n", "gO", "<cmd>lua vim.lsp.buf.references()<CR><cmd>copen<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "[d", "<cmd>PrevDiagnostic<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>NextDiagnostic<CR>", opts)
+  api.nvim_buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev { wrap = false }<CR>", opts)
+  api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next { wrap = false }<CR>", opts)
   api.nvim_buf_set_keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
   api.nvim_buf_set_keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
   api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<cmd>lua vim.lsp.buf.document_highlight()<CR>", opts)
   api.nvim_buf_set_keymap(bufnr, "n", "<leader>lH", "<cmd>lua init.clear_document_highlight()<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "<leader>ld", "<cmd>lua vim.lsp.util.show_line_diagnostics()<CR>", opts)
+  api.nvim_buf_set_keymap(bufnr, "n", "<leader>ld", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
+  api.nvim_buf_set_keymap(bufnr, "n", "<leader>lD", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR><cmd>lopen<CR>", opts)
 end
 
 local servers = {
