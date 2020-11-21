@@ -117,13 +117,14 @@ setmetatable(kind_labels, kind_labels_mt)
 lsp_status.register_progress()
 lsp_status.config({
   kind_labels = kind_labels,
-  indicator_errors = "×",
-  indicator_warnings = "!",
-  indicator_info = "i",
-  indicator_hint = "›",
+  indicator_errors = "E:",
+  indicator_warnings = "W:",
+  indicator_info = "I:",
+  indicator_hint = "H:",
+  indicator_ok = "✓",
   -- the default is a wide codepoint which breaks absolute and relative
   -- line counts if placed before airline's Z section
-  status_symbol = "",
+  status_symbol = "LSP",
 })
 
 function M.formatting_sync(options, timeout)
