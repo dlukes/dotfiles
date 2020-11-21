@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -e
 dirname=$( dirname "$0" )
 . "$dirname/util.sh"
 
@@ -30,11 +31,14 @@ else
   suffix=linux
 fi
 rust_analyzer=rust-analyzer-$suffix
+rust_analyzer_gz=$rust_analyzer.gz
+https_rust_analyzer_gz='https://.*?'$rust_analyzer_gz
 download_url=$( curl -sSf https://api.github.com/repos/rust-analyzer/rust-analyzer/releases/latest |
-  grep browser_download_url |
-  grep -oP "https://.*?$rust_analyzer"
+  grep -oP '"browser_download_url":.*?'"$https_rust_analyzer_gz" |
+  grep -oP "$https_rust_analyzer_gz"
 )
 curl -sSf -LO $download_url
+gunzip $rust_analyzer_gz
 chmod +x $rust_analyzer
 mv $rust_analyzer ~/.local/bin/rust-analyzer
 
