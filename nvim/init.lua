@@ -27,6 +27,8 @@ function M.run_md_block(cursor_row, lines, quiet)
     lines = api.nvim_buf_get_lines(0, 0, -1, false)
   end
 
+  -- TODO: rewrite this parsing code to leverage TreeSitter, once the
+  -- Markdown parser becomes usable, that is
   local from = cursor_row
   local lang, found, line
   while true do
@@ -80,6 +82,8 @@ function M.run_md_blocks(how)
     lines = { unpack(all_lines, cursor_row) }
   end
 
+  -- TODO: rewrite this parsing code to leverage TreeSitter, once the
+  -- Markdown parser becomes usable, that is
   local lang, from, to
   for i, line in ipairs(lines) do
     if not from then
@@ -104,7 +108,6 @@ end
 
 ------------------------------------------------------------- LSP config
 
-local lsp = vim.lsp
 local lspconfig = require("lspconfig")
 local configs = require("lspconfig/configs")
 local lsp_status = require("lsp-status")
@@ -127,25 +130,6 @@ lsp_status.config({
   status_symbol = "LSP",
 })
 
-function M.formatting_sync(options, timeout)
-  -- START lifted from vim.lsp.buf.formatting
-  vim.validate { options = {options, "t", true} }
-  local sts = vim.bo.softtabstop;
-  options = vim.tbl_extend("keep", options or {}, {
-    tabSize = (sts > 0 and sts) or (sts < 0 and vim.bo.shiftwidth) or vim.bo.tabstop;
-    insertSpaces = vim.bo.expandtab;
-  })
-  local params = {
-    textDocument = { uri = vim.uri_from_bufnr(0) };
-    options = options;
-  }
-  -- END lifted from vim.lsp.buf.formatting
-  local result = lsp.buf_request_sync(0, "textDocument/formatting", params, timeout)
-  if not result then return end
-  result = result[1].result
-  lsp.util.apply_text_edits(result)
-end
-
 function M.clear_document_highlight()
   local ns_id = api.nvim_create_namespace("vim_lsp_references")
   api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
@@ -157,7 +141,7 @@ local on_attach = function(client, bufnr)
   -- NOTE: uncomment to inspect features supported by language server
   -- print(vim.inspect(client.resolved_capabilities))
   if client.resolved_capabilities.document_formatting then
-    api.nvim_command("autocmd BufWritePre <buffer> lua init.formatting_sync(nil, 1000)")
+    api.nvim_command("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)")
   end
 
   local opts = {noremap = true, silent = true}
@@ -190,16 +174,30 @@ local servers = {
   r_language_server = {},
 
   elmls = {},
-  sumneko_lua = {},
+  sumneko_lua = {
+    Lua = {
+      runtime = {
+        version = "LuaJIT",
+      },
+    },
+  },
   tsserver = {},
   vimls = {},
 }
 for ls, settings in pairs(servers) do
-  lspconfig[ls].setup {
-    on_attach = on_attach,
-    settings = settings,
-    capabilities = vim.tbl_extend("keep", configs[ls].capabilities or {}, lsp_status.capabilities),
-  }
+  require("lspconfig/" .. ls)
+  local ii = configs[ls].install_info
+  -- skip LspInstallable servers which haven't been installed -- some of
+  -- those I don't need so much, and installing them everywhere all the
+  -- time would be a hassle, but so is getting an error each time I open
+  -- a file they're meant for
+  if ii == nil or ii().is_installed then
+    lspconfig[ls].setup {
+      on_attach = on_attach,
+      settings = settings,
+      capabilities = vim.tbl_extend("keep", configs[ls].capabilities or {}, lsp_status.capabilities),
+    }
+  end
 end
 
 function M.lsp_clients(verbose)
