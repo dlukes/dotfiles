@@ -2,3 +2,4 @@
 # directories
 fish/completions
 fish/conf.d
+plug.lock
