@@ -15,7 +15,6 @@ Plug 'tpope/vim-sensible'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-Plug 'ctrlpvim/ctrlp.vim'
 " `:w !sudo tee %` doesn't work in nvim: https://github.com/neovim/neovim/issues/8678
 Plug 'lambdalisue/suda.vim'
 " community-maintained configs for various langs
@@ -277,11 +276,11 @@ cnoremap <C-n> <Down>
 " without autochdir, this is useful to quickly complete the path of the
 " active buffer
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+" and these are for fuzzy-finding files anywhere in the directory tree
+cnoremap <expr> ** getcmdtype() == ':' ? '**/*' : '**'
+cnoremap <expr> *** getcmdtype() == ':' ? '**/.*' : '***'
+cnoremap <expr> ~~ getcmdtype() == ':' ? '~/' : '~~'
 
-noremap <leader>ff :CtrlP<CR>
-noremap <leader>fr :CtrlPMRU<CR>
-noremap <leader>bb :CtrlPBuffer<CR>
-noremap <leader>fb :CtrlPMixed<CR>
 noremap <leader>dg :diffget \| diffupdate<CR>
 noremap <leader>dp :diffput \| diffupdate<CR>
 noremap <leader>ll :Goyo \| Limelight!!<CR>
