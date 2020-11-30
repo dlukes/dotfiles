@@ -57,8 +57,8 @@ fi
 # installed by cargo.
 copy_asset() {
   local util="$1"; shift
-  local build_dir="$2"; shift
-  local target_dir="$3"; shift
+  local build_dir="$1"; shift
+  local target_dir="$1"; shift
   local find_args=( "$@" )
 
   local asset=$( find "$build_dir" "${find_args[@]}" | sort -Vr | head -n1 )
@@ -77,7 +77,7 @@ utils=(
   ripgrep
   fd-find
   exa
-  dust
+  du-dust
   hexyl
   xsv
   bat
