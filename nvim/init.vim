@@ -2,10 +2,12 @@ let mapleader = ' '
 let maplocalleader = ' '
 " don't use `pyenv which` here, because that can be overridden by `pyenv
 " local`
-let g:python3_host_prog = trim(system('pyenv root'))
-  \ . '/versions/'
-  \ . trim(system('pyenv global'))
-  \ . '/bin/python3'
+if executable('pyenv')
+  let g:python3_host_prog = trim(system('pyenv root'))
+    \ . '/versions/'
+    \ . trim(system('pyenv global'))
+    \ . '/bin/python3'
+endif
 
 "--------------------------------------------------------------- Plugins
 

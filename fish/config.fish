@@ -23,7 +23,7 @@ end
 # python
 set -gx PYTHONBREAKPOINT ipdb.set_trace
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
-if not set -q PYENV_ROOT
+if not set -q PYENV_ROOT; and type -q pyenv
   set -gx PYENV_ROOT ~/.local/pyenv
   pyenv init - | source
 end
