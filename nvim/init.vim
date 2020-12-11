@@ -122,8 +122,9 @@ function! s:update_everything()
   PlugUpgrade
   PlugSnapshot ~/.files/plug.lock
   PlugUpdate --sync
-  BlackUpgrade
   TSUpdate
+  call plug#load('black')
+  BlackUpgrade
 endfunction
 
 command! UpdateEverything :call s:update_everything()
