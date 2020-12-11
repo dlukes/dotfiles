@@ -56,14 +56,6 @@ call plug#end()
 
 "------------------------------------------------ Functions and commands
 
-" Let the EditorConfig plugin handle this.
-" function! s:cleanup_whitespace()
-"   let save_cursor = getpos('.')
-"   silent %s/\s\+$//e
-"   silent %s/\($\n\s*\)\+\%$//e
-"   call setpos('.', save_cursor)
-" endfunction
-
 function! s:auto_chmod()
   let first_line = getline(1)
   if first_line =~ '^#!'
