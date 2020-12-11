@@ -129,6 +129,9 @@ endfunction
 
 command! UpdateEverything :call s:update_everything()
 
+" d2_ is what 2dd remaps to
+command! -nargs=1 -complete=command Redir :enew | put =execute('<args>') | setlocal buftype=nofile bufhidden=hide noswapfile | normal! ggd2_
+
 "--------------------------------------------------------- Auto commands
 
 " sane behavior when switching buffers -- leave my cursor where it is!
@@ -269,6 +272,9 @@ noremap <leader><leader> :
 " execute visual selection of Vimscript code
 vnoremap <leader>x y \| :@"<CR>
 nnoremap <leader>pp :lua print(vim.inspect())<Left><Left>
+" rr stands for redirect (from pager to buffer), even though with recent
+" versions of (Neo)vim, there's a simpler way than using redir
+nnoremap <leader>rr :Redir<Space>
 nnoremap <silent> <leader>xx :lua run_md_block()<CR>
 nnoremap <silent> <leader>xb :lua run_md_blocks("before")<CR>
 nnoremap <silent> <leader>xa :lua run_md_blocks("after")<CR>
