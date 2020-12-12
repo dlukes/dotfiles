@@ -123,8 +123,7 @@ function! s:update_everything()
   PlugSnapshot ~/.files/plug.lock
   PlugUpdate --sync
   TSUpdate
-  call plug#load('black')
-  BlackUpgrade
+  call s:black_reinstall()
 endfunction
 
 command! UpdateEverything :call s:update_everything()

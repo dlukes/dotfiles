@@ -84,8 +84,8 @@ if [ ! -f "$plug_vim" ]; then
 fi
 
 # use only head of init.vim file containing plugin declarations relevant
-# for PlugUpdate (which both installs missing plugins and updates
-# existing ones) -- until the plugins are available, the rest might
+# for PlugInstall -- until the plugins are available, the rest might
 # cause errors which will abort the installation process
 sed '/call plug#end()/q' "$dirname/../nvim/init.vim" |
-  nvim -u /dev/stdin +'PlugUpdate --sync' +qall
+  nvim -u /dev/stdin +'PlugInstall --sync' +qall
+nvim +UpdateEverything
