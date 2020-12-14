@@ -121,7 +121,7 @@ command! -bang LspClients :cal v:lua.init.lsp_clients(<bang>0)
 function! s:update_everything()
   PlugUpgrade
   PlugSnapshot ~/.files/plug.lock
-  PlugUpdate --sync
+  PlugUpdate
   TSUpdate
   call s:black_reinstall()
 endfunction
