@@ -28,6 +28,7 @@ SETUVAR _fish_abbr_gwD:git\x20diff\x20\x2d\x2dno\x2dext\x2ddiff\x20\x2d\x2dword\
 SETUVAR _fish_abbr_gwd:git\x20diff\x20\x2d\x2dno\x2dext\x2ddiff
 SETUVAR _fish_abbr_rga:rg\x20\x2duuu
 SETUVAR _fish_abbr_vi:nvim
+SETUVAR _fish_abbr_vimdiff:nvim\x20\x2ddu\x20NONE\x20\x2b\x27set\x20mouse\x3da\x20et\x20rtp\x2b\x3d\x7e/\x2econfig/nvim/plugged/seoul256\x2evim\x27\x20\x2b\x27syntax\x20on\x27\x20\x2b\x27colorscheme\x20seoul256\x27
 SETUVAR fish_color_autosuggestion:969896
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:b294bb
