@@ -88,4 +88,5 @@ pip3 install --upgrade --upgrade-strategy eager \
   jedi-language-server \
   pylint \
   pylint-venv \
-  pip
+  pip \
+  wheel
