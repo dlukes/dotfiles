@@ -209,6 +209,9 @@ endif
 " another fairly nice one but harder on the eyes is
 " liuchengxu/space-vim-dark
 colorscheme seoul256
+" this might help with the readability of some themes or make them
+" render more 'as intended', but I like seoul256 better without it
+" set termguicolors
 highlight! Comment cterm=italic
 " readable background for whichkey floating windows
 highlight! link WhichKeyFloating NormalFloat
