@@ -163,8 +163,6 @@ set updatetime=500
 " don't redraw screen in the middle of a macro (faster)
 set lazyredraw
 set splitbelow splitright
-" make sure vim knows there are 256 colors
-set t_Co=256
 " don't hard wrap when appending to line which is already longer than
 " textwidth
 set formatoptions+=l
