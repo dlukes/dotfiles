@@ -10,8 +10,12 @@ import regex as re
 
 NAME = Path(__file__).stem
 LOG = log.getLogger(NAME)
-LOGLEVELS = [s for f, s in sorted(
-    (v, k) for k, v in vars(log).items() if k.isupper() and isinstance(v, int))]
+LOGLEVELS = [
+    s
+    for f, s in sorted(
+        (v, k) for k, v in vars(log).items() if k.isupper() and isinstance(v, int)
+    )
+]
 
 BIB_DIR = Path(Path.home(), ".files", "texmf", "bibtex", "bib", "local")
 BUILD_SCRIPT = r"""
@@ -27,7 +31,9 @@ pandoc {args} \
 
 
 def parse_bib(bib_str: str, entries: dict):
-    for m in re.finditer(r"(@.*?\{(.*?),.*?^\}$)", bib_str, flags=re.DOTALL | re.MULTILINE):
+    for m in re.finditer(
+        r"(@.*?\{(.*?),.*?^\}$)", bib_str, flags=re.DOTALL | re.MULTILINE
+    ):
         entry, id_ = m.groups()
         id_ = "@" + id_
         if id_ in entries:
@@ -89,11 +95,21 @@ def write_build_script(input, output, pandoc_args):
 
 
 @cli.command()
-@cli.option("lvl", "--log", help="Set logging level.", type=cli.Choice(LOGLEVELS), default="WARN")
+@cli.option(
+    "lvl",
+    "--log",
+    help="Set logging level.",
+    type=cli.Choice(LOGLEVELS),
+    default="WARN",
+)
 @cli.option("--verbose", "-v", help="(Repeatedly) increase logging level.", count=True)
 @cli.option("--quiet", "-q", help="(Repeatedly) decrease logging level.", count=True)
-@cli.option("--input", "-i", type=cli.Path(dir_okay=False), multiple=True, required=True)
-@cli.option("--output", "-o", type=cli.Path(dir_okay=False), multiple=True, required=True)
+@cli.option(
+    "--input", "-i", type=cli.Path(dir_okay=False), multiple=True, required=True
+)
+@cli.option(
+    "--output", "-o", type=cli.Path(dir_okay=False), multiple=True, required=True
+)
 @cli.argument("pandoc_args", nargs=-1)
 def main(lvl, verbose, quiet, input, output, pandoc_args):
     """Generate a pandoc build script and run it.
@@ -108,8 +124,10 @@ def main(lvl, verbose, quiet, input, output, pandoc_args):
     reference docs to customize output.
 
     """
-    lvl = getattr(log, lvl) - 10*verbose + 10*quiet
-    log.basicConfig(level=lvl, format="[%(asctime)s {}:%(levelname)s] %(message)s".format(NAME))
+    lvl = getattr(log, lvl) - 10 * verbose + 10 * quiet
+    log.basicConfig(
+        level=lvl, format="[%(asctime)s {}:%(levelname)s] %(message)s".format(NAME)
+    )
     bib_entries = load_bibs(BIB_DIR)
     # using this re, extract all matching IDs from input files, then select bib entries based on
     # that
