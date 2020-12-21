@@ -9,7 +9,7 @@ if executable('pyenv')
     \ . '/bin/python3'
 endif
 
-"--------------------------------------------------------------- Plugins
+"--------------------------------------------------------------- Plugins {{{1
 
 call plug#begin()
 " core
@@ -54,7 +54,7 @@ Plug 'lervag/vimtex', { 'for': 'tex' }
 Plug 'dag/vim-fish', { 'for': 'fish' }
 call plug#end()
 
-"------------------------------------------------ Functions and commands
+"------------------------------------------------ Functions and commands {{{1
 
 function! s:auto_chmod()
   let first_line = getline(1)
@@ -131,7 +131,7 @@ command! UpdateEverything :call s:update_everything()
 " d2_ is what 2dd remaps to
 command! -nargs=1 -complete=command Redir :enew | put =execute('<args>') | setlocal buftype=nofile bufhidden=hide noswapfile | normal! ggd2_
 
-"--------------------------------------------------------- Auto commands
+"--------------------------------------------------------- Auto commands {{{1
 
 " sane behavior when switching buffers -- leave my cursor where it is!
 autocmd BufLeave * let b:winview = winsaveview()
@@ -154,7 +154,7 @@ augroup END
 " auto-open quickfix list if :make et al. yield errors
 autocmd QuickFixCmdPost [^l]* cwindow
 
-"-------------------------------------------------------------- Settings
+"-------------------------------------------------------------- Settings {{{1
 
 " allow hiding buffers with changes
 set hidden
@@ -250,7 +250,7 @@ let g:elm_format_autosave = 1
 let g:tex_flavor = 'latex'
 let g:vimtex_format_enabled = 1
 
-"---------------------------------------------------------- Key bindings
+"---------------------------------------------------------- Key bindings {{{1
 
 inoremap fd <Esc>
 " switch to normal mode in :terminal
@@ -303,10 +303,12 @@ xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
 
-"------------------------------------------------------- Pseudo-snippets
+"------------------------------------------------------- Pseudo-snippets {{{1
 
 inoremap ;py ```python<CR><CR>```<Up>
 
-"-------------------------------------------------------------- Lua init
+"-------------------------------------------------------------- Lua init {{{1
 
 lua init = require("init")
+
+" vi: foldmethod=marker

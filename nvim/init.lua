@@ -3,7 +3,7 @@ local api = vim.api
 
 local M = {}
 
-------------------------------------------------------------- Iron REPLs
+------------------------------------------------------------- Iron REPLs {{{1
 
 local iron = require("iron")
 
@@ -16,7 +16,7 @@ iron.core.set_config {
   repl_open_cmd = "topleft vertical 80 split",
 }
 
------------------------------------------- Markdown code block execution
+------------------------------------------ Markdown code block execution {{{1
 
 -- Execute a markdown code block in a REPL appropriate for the language.
 function M.run_md_block(cursor_row, lines, quiet)
@@ -106,7 +106,7 @@ function M.run_md_blocks(how)
   end
 end
 
-------------------------------------------------------------- LSP config
+------------------------------------------------------------- LSP config {{{1
 
 local lspconfig = require("lspconfig")
 local configs = require("lspconfig/configs")
@@ -221,7 +221,7 @@ The log path should typically be ~/.local/share/nvim/vim-lsp.log
 -- lsp.set_log_level("info")
 -- print(lsp.get_log_path())
 
------------------------------------------------------- Treesitter config
+------------------------------------------------------ Treesitter config {{{1
 
 local ts = require('nvim-treesitter.configs')
 
@@ -270,6 +270,8 @@ ts.setup {
   },
 }
 
----------------------------------------------------------- Return module
+---------------------------------------------------------- Return module {{{1
 
 return M
+
+-- vi: foldmethod=marker
