@@ -314,6 +314,12 @@ noremap <leader>dp :diffput \| diffupdate<CR>
 noremap <leader>ll :Goyo \| Limelight!!<CR>
 noremap <leader>z "=ZoteroCite()<CR>p
 inoremap <C-z> <C-r>=ZoteroCite()<CR>
+" Fix spelling mapping from https://castel.dev/post/lecture-notes-1/
+" (there are lots of good tips there, go back for more at some point).
+" <C-g>u groups actions into one undo step; [s jumps to previous
+" spelling mistake, 1z= applies the first suggestion from the list of
+" fixes, `] jumps to the end of the last edit
+inoremap <C-l> <C-g>u<Esc>[s1z=`]a<C-g>u
 
 " Start interactive EasyAlign in visual mode (e.g. vipga)
 xmap ga <Plug>(EasyAlign)
