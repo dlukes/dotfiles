@@ -14,6 +14,10 @@ get_link_name() {
   directory="$1"
   target="$2"
   basename=$( basename "$target" )
+  if [ "$basename" == "snippets" ]; then
+    basename=UltiSnips
+  fi
+
   if [ "$directory" = "$HOME" ] && [ "$basename" != "texmf" ]; then
     printf "$directory/.$basename"
   elif [ "$directory" = / ]; then
@@ -73,6 +77,7 @@ $action "$XDG_CONFIG_HOME" fish git python/flake8 python/pylintrc
 # plugins and other auto-generated files, and it makes sense for those
 # to be on the local filesystem on CNC servers (for faster access)
 $action "$XDG_CONFIG_HOME/nvim" nvim/init.vim
+$action "$XDG_CONFIG_HOME/nvim" snippets
 $action "$XDG_CONFIG_HOME/nvim/lua" nvim/init.lua
 
 #-----------------------------------------------------------------------

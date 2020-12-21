@@ -1,0 +1,13 @@
+global !p
+def sec_prefix(header, textwidth, commentstring):
+    cprefix, csuffix = commentstring.split("%s")
+    cprefix = cprefix.strip()
+    pad = "-" if cprefix == "--" else " "
+    fill = "-" * (int(textwidth) - len(cprefix) - len(header) - 2)
+    csuffix = "{{{1 " + csuffix if csuffix else "{{{1"
+    return f"{cprefix}{pad}{fill}", csuffix
+endglobal
+
+snippet sec "folded section" b
+`!p snip.rv, csuffix = sec_prefix(t[1], snip.opt("&textwidth", 72), snip.opt("&commentstring", "#%s"))` $1 `!p snip.rv = csuffix`
+endsnippet

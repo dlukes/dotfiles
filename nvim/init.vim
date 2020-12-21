@@ -41,6 +41,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'nvim-treesitter/playground'
+Plug 'SirVer/ultisnips'
 
 " filetype-specific
 Plug 'psf/black', { 'for': 'python', 'branch': 'stable' }
@@ -250,6 +251,9 @@ let g:elm_format_autosave = 1
 let g:tex_flavor = 'latex'
 let g:vimtex_format_enabled = 1
 
+let g:UltiSnipsEditSplit = 'context'
+let g:completion_enable_snippet = 'UltiSnips'
+
 "---------------------------------------------------------- Key bindings {{{1
 
 inoremap fd <Esc>
@@ -302,10 +306,6 @@ inoremap <C-z> <C-r>=ZoteroCite()<CR>
 xmap ga <Plug>(EasyAlign)
 " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 nmap ga <Plug>(EasyAlign)
-
-"------------------------------------------------------- Pseudo-snippets {{{1
-
-inoremap ;py ```python<CR><CR>```<Up>
 
 "-------------------------------------------------------------- Lua init {{{1
 
