@@ -168,6 +168,7 @@ set splitbelow splitright
 " don't hard wrap when appending to line which is already longer than
 " textwidth
 set formatoptions+=l
+set nojoinspaces
 set list
 set completeopt=menuone,noinsert,noselect
 set pumheight=10
