@@ -14,7 +14,7 @@ get_link_name() {
   directory="$1"
   target="$2"
   basename=$( basename "$target" )
-  if [ "$basename" == "snippets" ]; then
+  if [ "$basename" = "snippets" ]; then
     basename=UltiSnips
   fi
 
