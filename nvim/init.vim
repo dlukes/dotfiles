@@ -169,6 +169,7 @@ set splitbelow splitright
 set formatoptions+=l
 set list
 set completeopt=menuone,noinsert,noselect
+set pumheight=10
 " shows ex command results preview as you type, only works with :s
 " currently
 set inccommand=nosplit
