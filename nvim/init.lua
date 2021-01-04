@@ -174,6 +174,18 @@ local servers = {
     Lua = {
       runtime = {
         version = "LuaJIT",
+        -- set up Lua path
+        path = vim.split(package.path, ";"),
+      },
+      diagnostics = {
+        globals = {"vim"},
+      },
+      workspace = {
+        -- make the server aware of Neovim runtime files
+        library = {
+          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+        },
       },
     },
   },
