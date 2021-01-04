@@ -161,7 +161,6 @@ local on_attach = function(client, bufnr)
 end
 
 local servers = {
-  -- these don't work with :LspInstall (yet?)
   rust_analyzer = {
     ["rust-analyzer"] = {
       checkOnSave = {
@@ -170,10 +169,7 @@ local servers = {
     },
   },
   jedi_language_server = {},  -- as in, Python's Jedi
-  -- pyright = {},  -- TODO: enable once it settles down
   r_language_server = {},
-
-  elmls = {},
   sumneko_lua = {
     Lua = {
       runtime = {
@@ -181,23 +177,33 @@ local servers = {
       },
     },
   },
-  tsserver = {},
+
+  -- Node-based
+  pyright = {},
+  bashls = {},
+  elmls = {},
   vimls = {},
+  tsserver = {},
 }
+
+local lls = vim.env.HOME .. "/.local/lua-language-server"
 for ls, settings in pairs(servers) do
   require("lspconfig/" .. ls)
-  local ii = configs[ls].install_info
-  -- skip LspInstallable servers which haven't been installed -- some of
-  -- those I don't need so much, and installing them everywhere all the
-  -- time would be a hassle, but so is getting an error each time I open
-  -- a file they're meant for
-  if ii == nil or ii().is_installed then
-    lspconfig[ls].setup {
-      on_attach = on_attach,
-      settings = settings,
-      capabilities = vim.tbl_extend("keep", configs[ls].capabilities or {}, lsp_status.capabilities),
-    }
-  end
+  local cmd = ls == "sumneko_lua" and {lls .. "/bin/lua-language-server", "-E", lls .. "/main.lua"} or nil
+  local capabilities = vim.tbl_extend("keep", configs[ls].capabilities or {}, lsp_status.capabilities)
+  -- TODO: this will show snippets in the completion menu, but I don't
+  -- really have them configured right now, they're very dumb, the text
+  -- just gets inserted into the buffer, but sometimes it should replace
+  -- existing text, use placeholders etc. -- none of that works, it
+  -- first needs support from completion-nvim and possibly UltiSnips
+  -- (search docs/issues for "LSP snippets")
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
+  lspconfig[ls].setup {
+    cmd = cmd,
+    on_attach = on_attach,
+    settings = settings,
+    capabilities = capabilities,
+  }
 end
 
 function M.lsp_clients(verbose)
