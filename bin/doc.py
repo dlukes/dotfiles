@@ -131,7 +131,7 @@ def main(lvl, verbose, quiet, input, output, pandoc_args):
     bib_entries = load_bibs(BIB_DIR)
     # using this re, extract all matching IDs from input files, then select bib entries based on
     # that
-    id_union = "|".join(re.escape(id_) for id_ in bib_entries.keys())
+    id_union = "|".join(re.escape(id_) for id_ in bib_entries.keys())  # type: ignore
     bib_id_re = re.compile(r"(?<![-_\+\d\w])(" + id_union + r")(?![-_\+\d\w])")
     log.info(f"Scanning {input!r} for bibliographical references")
     referenced = extract_references(input, bib_id_re)
