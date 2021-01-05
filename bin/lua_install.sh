@@ -24,7 +24,10 @@ should_update() {
   fi
 }
 
+
+
 # ------------------------------------------------------- Install LuaJIT {{{1
+
 
 repo=LuaJIT
 >&2 echo ">>> Installing $repo..."
@@ -59,13 +62,17 @@ index aa1b84b..8cec688 100644
  uninstall:
 EOF
 
+  export MACOSX_DEPLOYMENT_TARGET=11.1
   make PREFIX="$prefix"
   make install PREFIX="$prefix"
   git reset --hard --quiet
   >&2 echo ">>> Installed $repo."
 fi
 
+
+
 # ------------------------------------------- Install ninja build system {{{1
+
 
 repo=ninja
 if is_macos; then
@@ -86,7 +93,10 @@ unzip -qqo "$archive"
 rm "$archive"
 >&2 echo ">>> Installed $repo."
 
+
+
 # -------------------------------- Install sumneko's Lua language server {{{1
+
 
 repo=lua-language-server
 >&2 echo ">>> Installing $repo..."
