@@ -71,6 +71,45 @@ fi
 
 
 
+# ----------------------------------------------------- Install LuaRocks {{{1
+
+
+install_luarocks() {
+  username=luarocks
+  repo=luarocks
+  ur="$username/$repo"
+  >&2 echo ">>> Installing $repo..."
+
+  installed=v$(luarocks --version | grep -oPm1 '[\d\.]+$')
+  newest=$(curl -sSLf "https://api.github.com/repos/$ur/tags" | grep -oPm1 'v[\d.]+')
+  if [ "$installed" = "$newest" ]; then
+    >&2 echo ">>> $repo: newest version is already installed, aborting."
+    return
+  fi
+
+  tmp=$(mktemp -d)
+  cd "$tmp"
+
+  download_url=$(
+    curl -sSLf "https://api.github.com/repos/$ur/tags" |
+      grep -oPm1 'https://.*?tarball[^"]*'
+  )
+  curl -sSLf "$download_url" -o luarocks.tgz
+  tar xzf luarocks.tgz
+
+  cd "$username"-"$repo"-*
+  ./configure --prefix="$prefix" --with-lua="$prefix"
+  make
+  make install
+
+  cd
+  rm -rf "$tmp"
+}
+
+install_luarocks
+
+
+
 # ------------------------------------------- Install ninja build system {{{1
 
 
