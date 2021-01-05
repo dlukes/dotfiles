@@ -11,7 +11,7 @@ set -euf
 
 install_node() {
   prefix="$HOME"/.local
-  path=$(command -v node)
+  path=$(command -v node || echo "$prefix")
   # check if a separate installation of Node exists somewhere outside
   # the target prefix; if so, maybe we don't want to install Node after
   # all
@@ -28,7 +28,7 @@ install_node() {
   esac
 
   version=lts
-  installed=$(node --version 2>/dev/null || echo none)
+  installed=$(node --version 2>/dev/null || echo '')
   requested=$(curl -sL https://resolve-node.now.sh/$version)
   if [ "$installed" != "$requested" ]; then
     curl -sSfL install-node.now.sh/$version | bash -s -- --prefix="$prefix"

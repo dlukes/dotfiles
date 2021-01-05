@@ -80,7 +80,7 @@ install_luarocks() {
   ur="$username/$repo"
   >&2 echo ">>> Installing $repo..."
 
-  installed=v$(luarocks --version | grep -oPm1 '[\d\.]+$')
+  installed=v$(luarocks --version 2>/dev/null | grep -oPm1 '[\d\.]+$' || echo '')
   newest=$(curl -sSLf "https://api.github.com/repos/$ur/tags" | grep -oPm1 'v[\d.]+')
   if [ "$installed" = "$newest" ]; then
     >&2 echo ">>> $repo: newest version is already installed, aborting."
