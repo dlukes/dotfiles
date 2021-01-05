@@ -254,6 +254,9 @@ let g:vimtex_format_enabled = 1
 
 let g:UltiSnipsEditSplit = 'context'
 let g:completion_enable_snippet = 'UltiSnips'
+" limit width of columns in completion menu
+let g:completion_abbr_length = 15
+let g:completion_menu_length = 15
 
 "---------------------------------------------------------- Key bindings {{{1
 
