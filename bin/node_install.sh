@@ -19,7 +19,7 @@ install_node() {
     "$prefix"*) ;;
     *)
       >&2 echo ">>> Detected Node outside target prefix, as $path."
-      read -ep ">>> Install Node under $prefix alongside this existing installation anyway? (y/n) " yn
+      read -p ">>> Install Node under $prefix alongside this existing installation anyway? (y/n) " yn
       case "$yn" in
         Y*|y*) ;;
         *) return ;;
@@ -62,3 +62,5 @@ install_or_update @elm-tooling/elm-language-server
 install_or_update vim-language-server
 install_or_update typescript
 install_or_update typescript-language-server
+
+# vi: foldmethod=marker

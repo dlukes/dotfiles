@@ -21,7 +21,7 @@ in_local="$local_bin/nvim"
 if [ "$on_path" = NVIM_NOT_FOUND ]; then
   echo 'No previous nvim version found.'
 elif [ "$on_path" != "$in_local" ]; then
-  read -ep "You're currently using $on_path but installing $in_local, are you sure? (y/n) " yn
+  read -p "You're currently using $on_path but installing $in_local, are you sure? (y/n) " yn
   [ "$yn" = 'y' ] || exit
 fi
 
