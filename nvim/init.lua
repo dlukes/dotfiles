@@ -219,13 +219,29 @@ for ls, settings in pairs(servers) do
 end
 
 function M.lsp_clients(verbose)
-  for i, client in ipairs(vim.lsp.buf_get_clients()) do
+  print("TIPS")
+  print("- See also the LSP log for more info:", vim.lsp.get_log_path())
+  print([[
+- And remember there can be more criteria for triggering a server than
+  just the filetype. Some servers, such as pyright, only work inside
+  projects (as determined e.g. by a .git directory, pyproject.toml or
+  similar), so don't be surprised if it's not available for every Python
+  file. Cf. the root_dir attribute in the server's config.
+  ]])
+
+  print()
+  print("CLIENTS")
+  local clients = vim.lsp.buf_get_clients()
+  for i, client in ipairs(clients) do
     print(i, "::", client.config.name)
     if verbose == 1 then
       print(string.rep("=", 72))
       print(vim.inspect(client))
       print(string.rep("=", 72))
     end
+  end
+  if #clients == 0 then
+    print("No clients found.")
   end
 end
 
@@ -234,10 +250,10 @@ Logging/debugging
 
 Log levels by name: "trace", "debug", "info", "warn", "error"
 
-The log path should typically be ~/.local/share/nvim/vim-lsp.log
+The log path should typically be ~/.local/share/nvim/lsp.log
 --]]
--- lsp.set_log_level("info")
--- print(lsp.get_log_path())
+-- vim.lsp.set_log_level("info")
+-- print(vim.lsp.get_log_path())
 
 ------------------------------------------------------ Treesitter config {{{1
 
