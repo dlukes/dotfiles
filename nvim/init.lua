@@ -263,7 +263,7 @@ ts.setup {
   ensure_installed = "all",
   -- TODO: use_languagetree = true once it stabilizes
   highlight = { enable = true },
-  indent = { enable = true },
+  indent = { enable = false },
   refactor = {
     highlight_definitions = { enable = true },
     -- nice in theory but unfortunately sort of ugly because the
