@@ -234,6 +234,11 @@ let g:markdown_fenced_languages = ['python', 'rust',
     \ 'conf', 'diff', 'xml', 'systemd'
     \ ]
 
+" TODO: remove this once I can leave indentation to treesitter; until
+" then, it will prevent the crazy bollocks the default Python
+" indentation does with parens
+let g:pyindent_disable_parentheses_indenting = 1
+
 function! LspStatus() abort
   let status = luaeval('require("lsp-status").status()')
   return trim(status)
