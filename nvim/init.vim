@@ -46,7 +46,7 @@ Plug 'SirVer/ultisnips'
 " filetype-specific
 Plug 'psf/black', { 'for': 'python', 'branch': 'stable' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-" TODO: get rid of all custom markdown config once TreeSitter support
+" TODO: get rid of all custom markdown config once tree-sitter support
 " lands
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'ElmCast/elm-vim', { 'for': 'elm' }
@@ -234,9 +234,11 @@ let g:markdown_fenced_languages = ['python', 'rust',
     \ 'conf', 'diff', 'xml', 'systemd'
     \ ]
 
-" TODO: remove this once I can leave indentation to treesitter; until
-" then, it will prevent the crazy bollocks the default Python
-" indentation does with parens
+" this fixes one of the most egregious issues with Vim's default Python
+" indentation (= ugly and buggy indentation inside parentheses); it's
+" not really necessary as I'll be using tree-sitter indentation going
+" forward, but let's keep it in here for good measure, in case I ever
+" need to fall back to the default indentation algorithm
 let g:pyindent_disable_parentheses_indenting = 1
 
 function! LspStatus() abort
