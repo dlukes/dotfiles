@@ -2,3 +2,16 @@ snippet ifm "if main" b
 if __name__ == "__main__":
 	main($0)
 endsnippet
+
+snippet ifmd "if main with ipdb on exception" b
+if __name__ == "__main__":
+	with __import__("ipdb").launch_ipdb_on_exception():
+		main($0)
+endsnippet
+
+snippet dbg "launch ipdb on exception"
+with __import__("ipdb").launch_ipdb_on_exception():
+	${VISUAL}
+endsnippet
+
+# vi: noet
