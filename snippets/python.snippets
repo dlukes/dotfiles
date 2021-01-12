@@ -18,4 +18,17 @@ snippet gul "update globals with locals"
 globals().update(locals())
 endsnippet
 
+# TODO: add snippets for multiprocessing and threading. For
+# multiprocessing, remember https://pythonspeed.com/articles/python-multiprocessing/
+# and do something like this:
+#
+#     from multiprocessing import get_context
+#
+#     def your_func():
+#         with get_context("spawn").Pool() as pool:
+#             # ... everything else is unchanged
+#
+# NOTE: The spawn method might be slow, you might want to use forkserver
+# instead on OSs which support it.
+
 # vi: noet
