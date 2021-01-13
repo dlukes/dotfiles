@@ -18,17 +18,275 @@ snippet gul "update globals with locals"
 globals().update(locals())
 endsnippet
 
-# TODO: add snippets for multiprocessing and threading. For
-# multiprocessing, remember https://pythonspeed.com/articles/python-multiprocessing/
-# and do something like this:
-#
-#     from multiprocessing import get_context
-#
-#     def your_func():
-#         with get_context("spawn").Pool() as pool:
-#             # ... everything else is unchanged
-#
-# NOTE: The spawn method might be slow, you might want to use forkserver
-# instead on OSs which support it.
+snippet paracft "parallelism with concurrent.futures thread pool"
+import time
+import threading
+import subprocess as sp
+import concurrent.futures as cf
 
-# vi: noet
+def worker(x):
+	# A thread pool allows you to run either IO-bound Python bytecode
+	# concurrently (which means the IO actions themselves will happen in
+	# parallel), or CPU-bound external subprocesses in parallel.
+	sp.run(["sleep", f"{x}s"])
+	return threading.get_ident(), x
+
+def log(tid, x):
+	ts = str(int(time.time()))[-2:]
+	print(f"Worker {tid}, job {x} done at ...{ts}.")
+
+def main():
+	# As of 3.8, the default for 'max_workers' with 'ThreadPoolExecutor'
+	# is 'min(os.cpu_count() + 4, 32)', which is a three-way compromise
+	# between using the pool for IO-bound tasks (where more workers than
+	# CPUs is what you want, so that you can wait in parallel),
+	# CPU-bound tasks (where you want roughly as many workers as you've
+	# got CPUs), and not implicitly hogging all of the resources of
+	# machines with many (> 32) cores.
+	#
+	# Still, if you have a more precise idea of the workload you're
+	# submitting and the machine you'll be running it on, it's worth
+	# tweaking this. E.g. if you want to paralellize subprocesses, which
+	# is CPU-bound, something like 'int(os.cpu_count() * 0.9)' is
+	# reasonable if you can afford to use more than 32 cores on big
+	# machines, while still leaving a bit of headroom.
+	with cf.ThreadPoolExecutor(max_workers=2) as pool:
+		tasks = [5, 0, 4, 3, 2, 1]
+
+		# The '.map()' method yields results as they come in and
+		# preserves the ordering. This means that if the tasks have
+		# uneven execution times, getting the results from quicker tasks
+		# might be blocked behind slower tasks, as demonstrated by the
+		# code below, which prints the first three results
+		# simultaneously, once the first (longest-running) task is done:
+		#
+		#	Worker 139625394366208, job 5 done at ...90.
+		#	Worker 139625385973504, job 0 done at ...90.
+		#	Worker 139625385973504, job 4 done at ...90.
+		#	Worker 139625385973504, job 3 done at ...92.
+		#	Worker 139625394366208, job 2 done at ...92.
+		#	Worker 139625394366208, job 1 done at ...93.
+		#
+		# Remember also that the 'chunksize' argument is ignored with
+		# threads -- its purpose is to alleviate IPC cost, but there's
+		# no IPC with threads, so it clearly makes no sense to chunk
+		# tasks when using 'ThreadPoolExecutor'.
+		#
+		# Exceptions which occurred while performing a task are raised
+		# at the point that its result should be yielded.
+		for tid, x in pool.map(worker, tasks):
+			log(tid, x)
+		print()
+
+		# Receiving results out of order, as soon as they're completed,
+		# is slightly more complicated but possible. Note that
+		# 'as_completed()' has the advantage of being able to juggle
+		# futures driven to completion by different executors at the
+		# same time. The output of the code below is the following:
+		#
+		#	Worker 139625377580800, job 0 done at ...88.
+		#	Worker 139625377580800, job 4 done at ...92.
+		#	Worker 139625385973504, job 5 done at ...93.
+		#	Worker 139625385973504, job 2 done at ...95.
+		#	Worker 139625377580800, job 3 done at ...95.
+		#	Worker 139625385973504, job 1 done at ...96.
+		for fut in cf.as_completed(pool.submit(worker, t) for t in tasks):
+			# Accessing 'fut.result()' might raise an exception if
+			# something went wrong while computing the future.
+			tid, x = fut.result()
+			log(tid, x)
+
+if __name__ == "__main__":
+	main()
+endsnippet
+
+snippet paracfp "parallelism with concurrent.futures process pool"
+import os
+import time
+import multiprocessing as mp
+import concurrent.futures as cf
+
+def worker(x):
+	# A process pool allows you to run CPU-intensive Python bytecode in
+	# parallel.
+	time.sleep(x)
+	return os.getpid(), x
+
+def log(tid, x):
+	ts = str(int(time.time()))[-2:]
+	print(f"Worker {tid}, job {x} done at ...{ts}.")
+
+def main():
+	# The multiprocessing context allows you to specify how processes
+	# are started:
+	#
+	# - "forkserver" is safe to mix with threading and fast, but only
+	#	works on Unix platforms which support passing file descriptors
+	#	over Unix pipes
+	# - "spawn" is safe w.r.t. to threading but slow; it's the default
+	#	on macOS and Windows
+	# - "fork" is fast but can lead to problems with multithreaded code,
+	#	cf. https://pythonspeed.com/articles/python-multiprocessing/;
+	#	only available and default on Unix
+	ctx = mp.get_context("forkserver")
+
+	# The default for 'max_workers' with 'ProcessPoolExecutor' is
+	# 'os.cpu_count()', because it expects CPU-bound tasks, but if you
+	# want to make it easier for your computer to do other stuff at the
+	# same time, then something like 'int(os.cpu_count() * 0.9)' seems
+	# reasonable.
+	with cf.ProcessPoolExecutor(max_workers=2, mp_context=ctx) as pool:
+		tasks = [5, 0, 4, 3, 2, 1]
+
+		# The '.map()' method yields results as they come in and
+		# preserves the ordering. This means that if the tasks have
+		# uneven execution times, getting the results from quicker tasks
+		# might be blocked behind slower tasks, as demonstrated by the
+		# code below, which prints the first three results
+		# simultaneously, once the first (longest-running) task is done:
+		#
+		#	Worker 3264662, job 5 done at ...62.
+		#	Worker 3264659, job 0 done at ...62.
+		#	Worker 3264659, job 4 done at ...62.
+		#	Worker 3264659, job 3 done at ...64.
+		#	Worker 3264662, job 2 done at ...64.
+		#	Worker 3264662, job 1 done at ...65.
+		#
+		# Beware of the 'chunksize' argument, it can be tricky. On the
+		# surface, it seems simple: if I have 2 workers, 6 tasks and a
+		# chunk size of 3, then the first 3 tasks will (probably) be
+		# submitted to the first worker and the rest to the second,
+		# right?
+		#
+		# Right, but since the purpose of 'chunksize' is to limit IPC
+		# overhead, this also means that you *won't get any results
+		# until an entire chunk is done running*. That's not a bug, it's
+		# the whole raison d'etre for 'chunksize': instead of sending
+		# tiny amounts of data between processes all the time, you send
+		# larger amounts of data (= chunks) much less often. However,
+		# that also means that if the chunks take a long time to
+		# compute, you'll be stuck for a long time without any results
+		# to pass on to downstream tasks or log (to make sure things are
+		# running as expected), even though some tasks have already
+		# completed in the child processes.
+		#
+		# So be careful with 'chunksize'. Rule of thumb: with
+		# longer-running tasks and/or more data per task to send via
+		# IPC, the default 'chunksize=1' is probably preferable,
+		# especially if you want to log progress as results are
+		# computed. With shorter-running tasks, especially with a small
+		# amount of IPC data per task, it definitely makes sense to
+		# chunk them to increase performance. When in doubt, benchmark.
+		#
+		# Exceptions which occurred while performing a task are raised
+		# at the point that its result should be yielded.
+		for tid, x in pool.map(worker, tasks):
+			log(tid, x)
+		print()
+
+		# Receiving results out of order, as soon as they're completed,
+		# is slightly more complicated but possible. Note that
+		# 'as_completed()' has the advantage of being able to juggle
+		# futures driven to completion by different executors at the
+		# same time. The output of the code below is the following:
+		#
+		#	Worker 3264662, job 0 done at ...65.
+		#	Worker 3264662, job 4 done at ...69.
+		#	Worker 3264659, job 5 done at ...70.
+		#	Worker 3264659, job 2 done at ...72.
+		#	Worker 3264662, job 3 done at ...72.
+		#	Worker 3264659, job 1 done at ...73.
+		for fut in cf.as_completed(pool.submit(worker, t) for t in tasks):
+			# Accessing 'fut.result()' might raise an exception if
+			# something went wrong while computing the future.
+			tid, x = fut.result()
+			log(tid, x)
+
+if __name__ == "__main__":
+	main()
+endsnippet
+
+snippet paramp "parallelism with multiprocessing"
+import os
+import time
+import multiprocessing as mp
+
+# Cf. the 'ProcessPoolExecutor' snippet for details, this just shows how
+# to achieve equivalent behavior by directly using the 'multiprocessing'
+# module. 'concurrent.futures' is newer and it makes it easier to switch
+# between thread- and process-based parallelism, so it's probably better
+# to use that by default, but it's useful to have a reminder how the
+# features of the two modules map onto each other, because it can be a
+# bit tricky.
+
+def worker(x):
+	time.sleep(x)
+	return os.getpid(), x
+
+def log(tid, x):
+	ts = str(int(time.time()))[-2:]
+	print(f"Worker {tid}, job {x} done at ...{ts}.")
+
+def main():
+	ctx = mp.get_context("forkserver")
+	with ctx.Pool(processes=2) as pool:
+		tasks = [5, 0, 4, 3, 2, 1]
+
+		# Beware! Unlike in 'concurrent.futures', the '.map()' method
+		# waits for all of the results to be done *and only then* yields
+		# them, all at the same time. Sort of like the builtin 'map()'
+		# in Python 2.x.
+		#
+		#	Worker 3266146, job 5 done at ...65.
+		#	Worker 3266147, job 0 done at ...65.
+		#	Worker 3266147, job 4 done at ...65.
+		#	Worker 3266147, job 3 done at ...65.
+		#	Worker 3266146, job 2 done at ...65.
+		#	Worker 3266146, job 1 done at ...65.
+		for pid, x in pool.map(worker, tasks):
+			log(pid, x)
+		print()
+
+		# The counterpart of '.map()' in 'concurrent.futures' is
+		# '.imap()', which yields results as they're available but
+		# preserves ordering, which means results from quicker tasks can
+		# be blocked behind slower ones.
+		#
+		#	Worker 3266147, job 5 done at ...70.
+		#	Worker 3266146, job 0 done at ...70.
+		#	Worker 3266146, job 4 done at ...70.
+		#	Worker 3266146, job 3 done at ...72.
+		#	Worker 3266147, job 2 done at ...72.
+		#	Worker 3266147, job 1 done at ...73.
+		for pid, x in pool.imap(worker, tasks):
+			log(pid, x)
+		print()
+
+		# To get results immediately in the order that they become
+		# available, use '.imap_unordered()'. In 'concurrent.futures',
+		# this is not expressed with a '.map()' method variant, but with
+		# the 'as_completed()' function.
+		#
+		#	Worker 3266147, job 0 done at ...73.
+		#	Worker 3266147, job 4 done at ...77.
+		#	Worker 3266146, job 5 done at ...78.
+		#	Worker 3266146, job 2 done at ...80.
+		#	Worker 3266147, job 3 done at ...80.
+		#	Worker 3266146, job 1 done at ...81.
+		for pid, x in pool.imap_unordered(worker, tasks):
+			log(pid, x)
+
+		# As with 'ProcessPoolExecutor' in 'concurrent.futures', note
+		# that "getting results immediately" might exhibit unintuitive
+		# behavior in practice: both '.imap()' and '.imap_unordered()'
+		# accept 'chunksize' arguments, which means all of the caveats
+		# about this tricky parameter apply here as well. In particular,
+		# it means that a task's result is yielded not as soon as the
+		# task is done, but only once the entire chunk that the task is
+		# part of is done.
+
+if __name__ == "__main__":
+	main()
+endsnippet
+
+# vi: noet ts=4
