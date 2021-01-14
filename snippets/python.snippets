@@ -50,7 +50,7 @@ def main():
 	# is CPU-bound, something like 'int(os.cpu_count() * 0.9)' is
 	# reasonable if you can afford to use more than 32 cores on big
 	# machines, while still leaving a bit of headroom.
-	with cf.ThreadPoolExecutor(max_workers=2) as pool:
+	with cf.ThreadPoolExecutor(max_workers=2) as ex:
 		tasks = [5, 0, 4, 3, 2, 1]
 
 		# The '.map()' method yields results as they come in and
@@ -74,7 +74,7 @@ def main():
 		#
 		# Exceptions which occurred while performing a task are raised
 		# at the point that its result should be yielded.
-		for tid, x in pool.map(worker, tasks):
+		for tid, x in ex.map(worker, tasks):
 			log(tid, x)
 		print()
 
@@ -90,7 +90,7 @@ def main():
 		#	Worker 139625385973504, job 2 done at ...95.
 		#	Worker 139625377580800, job 3 done at ...95.
 		#	Worker 139625385973504, job 1 done at ...96.
-		for fut in cf.as_completed(pool.submit(worker, t) for t in tasks):
+		for fut in cf.as_completed(ex.submit(worker, t) for t in tasks):
 			# Accessing 'fut.result()' might raise an exception if
 			# something went wrong while computing the future.
 			tid, x = fut.result()
@@ -135,7 +135,7 @@ def main():
 	# want to make it easier for your computer to do other stuff at the
 	# same time, then something like 'int(os.cpu_count() * 0.9)' seems
 	# reasonable.
-	with cf.ProcessPoolExecutor(max_workers=2, mp_context=ctx) as pool:
+	with cf.ProcessPoolExecutor(max_workers=2, mp_context=ctx) as ex:
 		tasks = [5, 0, 4, 3, 2, 1]
 
 		# The '.map()' method yields results as they come in and
@@ -180,7 +180,7 @@ def main():
 		#
 		# Exceptions which occurred while performing a task are raised
 		# at the point that its result should be yielded.
-		for tid, x in pool.map(worker, tasks):
+		for tid, x in ex.map(worker, tasks):
 			log(tid, x)
 		print()
 
@@ -196,7 +196,7 @@ def main():
 		#	Worker 3264659, job 2 done at ...72.
 		#	Worker 3264662, job 3 done at ...72.
 		#	Worker 3264659, job 1 done at ...73.
-		for fut in cf.as_completed(pool.submit(worker, t) for t in tasks):
+		for fut in cf.as_completed(ex.submit(worker, t) for t in tasks):
 			# Accessing 'fut.result()' might raise an exception if
 			# something went wrong while computing the future.
 			tid, x = fut.result()
