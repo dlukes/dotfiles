@@ -191,6 +191,10 @@ def main():
 		# amount of IPC data per task, it definitely makes sense to
 		# chunk them to increase performance. When in doubt, benchmark.
 		#
+		# If you want all the gory details on why 'chunksize' is tricky
+		# and parallel scheduling is hard, there's an excellent answer
+		# over on SO: https://stackoverflow.com/a/54032744/1826241
+		#
 		# Exceptions which occurred while performing a task are raised
 		# at the point that its result should be yielded.
 		for tid, x in ex.map(worker, tasks):
