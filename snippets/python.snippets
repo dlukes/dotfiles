@@ -96,6 +96,19 @@ def main():
 			tid, x = fut.result()
 			log(tid, x)
 
+		# Finally, if you'd like to process potentially unbounded
+		# streams of data in real time, it looks like you'll have to use
+		# queues and manage them manually, which can be a bit finicky:
+		# https://stackoverflow.com/questions/41648103/how-would-i-go-about-using-concurrent-futures-and-queues-for-a-real-time-scenari
+		#
+		# See also https://bugs.python.org/issue29842.
+		#
+		# This is one case where you might want to consider using
+		# 'multiprocessing' instead, which provides this ability out of
+		# the box in its high-level API. That is, if you don't mind the
+		# overhead associated with spawning multiple processes that you
+		# don't technically need.
+
 if __name__ == "__main__":
 	main()
 endsnippet
@@ -202,6 +215,18 @@ def main():
 			tid, x = fut.result()
 			log(tid, x)
 
+		# Finally, if you'd like to process potentially unbounded
+		# streams of data in real time, it looks like you'll have to use
+		# queues and manage them manually, which can be a bit finicky:
+		# https://stackoverflow.com/questions/41648103/how-would-i-go-about-using-concurrent-futures-and-queues-for-a-real-time-scenari
+		#
+		# See also https://bugs.python.org/issue29842.
+		#
+		# This is one case where you might want to consider using
+		# 'multiprocessing' instead, which provides this ability out of
+		# the box in its high-level API.
+
+
 if __name__ == "__main__":
 	main()
 endsnippet
@@ -209,15 +234,22 @@ endsnippet
 snippet paramp "parallelism with multiprocessing"
 import os
 import time
+import random
 import multiprocessing as mp
 
 # Cf. the 'ProcessPoolExecutor' snippet for details, this just shows how
 # to achieve equivalent behavior by directly using the 'multiprocessing'
 # module. 'concurrent.futures' is newer and it makes it easier to switch
 # between thread- and process-based parallelism, so it's probably better
-# to use that by default, but it's useful to have a reminder how the
+# to use that by default, but it's useful to have a reminder of how the
 # features of the two modules map onto each other, because it can be a
 # bit tricky.
+#
+# Also, some use cases are simpler with 'multiprocessing', e.g. handling
+# unbounded / real-time streams as they come in is easily done with
+# '.imap()' or '.imap_unordered()' (see below) because they're lazy,
+# whereas with 'concurrent.futures', you'd have to resort to a more
+# complicated setup involving manual management of queues.
 
 def worker(x):
 	time.sleep(x)
@@ -275,6 +307,7 @@ def main():
 		#	Worker 3266146, job 1 done at ...81.
 		for pid, x in pool.imap_unordered(worker, tasks):
 			log(pid, x)
+		print()
 
 		# As with 'ProcessPoolExecutor' in 'concurrent.futures', note
 		# that "getting results immediately" might exhibit unintuitive
@@ -284,6 +317,16 @@ def main():
 		# it means that a task's result is yielded not as soon as the
 		# task is done, but only once the entire chunk that the task is
 		# part of is done.
+
+		# And finally, the one thing that requires a much more involved
+		# setup with 'concurrent.futures', as mentioned above:
+		# processing (potentially) unbounded streams in real time:
+		def infinite():
+			while True:
+				yield random.randint(0, 3)
+
+		for pid, x in pool.imap_unordered(worker, infinite()):
+			log(pid, x)
 
 if __name__ == "__main__":
 	main()
