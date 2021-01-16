@@ -53,7 +53,11 @@ def send_magic_packet(mac, family, addr):
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
     # else:
     #     sock.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_MULTICAST_HOPS, 5)
-    sock.connect(addr)
+    try:
+        sock.connect(addr)
+    except Exception as err:
+        print(err)
+        return
 
     # `12 * "f"` pads the synchronization stream
     packet = bytes.fromhex(12 * "f" + 16 * mac.replace(":", ""))
@@ -81,8 +85,12 @@ def main():
         #
         # There may be multiple network interfaces (cf. `ip link`), you
         # don't know which one of these your target box is reachable on,
-        # better broadcast to all of them except loopback.
-        for scope_id, if_name in socket.if_nameindex()[1:]:
+        # better multicast on all of them. If I ever figure out a way to
+        # find out more info about network interfaces using Python's
+        # stdlib, then maybe restrict it to those where it makes sense.
+        # But even loopback doesn't necessarily come first (e.g. on
+        # Windows), so all of them it is for now.
+        for scope_id, if_name in socket.if_nameindex():
             print(
                 f"Multicasting WoL magic packet with IPv6 to all link-local nodes on interface {if_name}, targeting MAC address {mac}."
             )
