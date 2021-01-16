@@ -135,8 +135,32 @@ function M.clear_document_highlight()
   api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
 end
 
+-- cf. :help lsp-config for tips on what to map
+local lsp_mappings = {
+  {"n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>"},
+  {"n", "gH", "<cmd>lua vim.lsp.buf.signature_help()<CR>"},
+  {"n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>"},
+  {"n", "gO", "<cmd>lua vim.lsp.buf.references()<CR><cmd>copen<CR>"},
+  {"n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev { wrap = false }<CR>"},
+  {"n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next { wrap = false }<CR>"},
+  {"n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>"},
+  {"n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>"},
+  {"", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>"},
+  {"n", "<leader>lh", "<cmd>lua vim.lsp.buf.document_highlight()<CR>"},
+  {"n", "<leader>lH", "<cmd>lua init.clear_document_highlight()<CR>"},
+  {"n", "<leader>ld", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>"},
+  {"n", "<leader>lD", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR><cmd>lopen<CR>"},
+}
+-- NOTE: in order to yield all elements, unpack has to be the last
+-- (or only) expression in a list of expressions, so append the options
+-- to each mapping
+local mapping_opts = {noremap = true, silent = true}
+for _, mapping in ipairs(lsp_mappings) do
+  table.insert(mapping, mapping_opts)
+end
+
 local on_attach = function(client, bufnr)
-  require('completion').on_attach(client, bufnr)
+  require("completion").on_attach(client, bufnr)
   lsp_status.on_attach(client, bufnr)
   -- NOTE: uncomment to inspect features supported by language server
   -- print(vim.inspect(client.resolved_capabilities))
@@ -144,20 +168,9 @@ local on_attach = function(client, bufnr)
     api.nvim_command("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)")
   end
 
-  local opts = {noremap = true, silent = true}
-  -- cf. :help lsp-config for tips on what to map
-  api.nvim_buf_set_keymap(bufnr, "n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "gH", "<cmd>lua vim.lsp.buf.signature_help()<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "gO", "<cmd>lua vim.lsp.buf.references()<CR><cmd>copen<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev { wrap = false }<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next { wrap = false }<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "<leader>lh", "<cmd>lua vim.lsp.buf.document_highlight()<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "<leader>lH", "<cmd>lua init.clear_document_highlight()<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "<leader>ld", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
-  api.nvim_buf_set_keymap(bufnr, "n", "<leader>lD", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR><cmd>lopen<CR>", opts)
+  for _, args in ipairs(lsp_mappings) do
+    api.nvim_buf_set_keymap(bufnr, unpack(args))
+  end
 end
 
 local servers = {
