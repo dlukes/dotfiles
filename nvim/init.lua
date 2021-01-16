@@ -219,15 +219,15 @@ for ls, settings in pairs(servers) do
 end
 
 function M.lsp_clients(verbose)
-  print("TIPS")
-  print("- See also the LSP log for more info:", vim.lsp.get_log_path())
-  print([[
+  print(string.format([[
+TIPS
+- See also the LSP log for more info: %s
 - And remember there can be more criteria for triggering a server than
   just the filetype. Some servers, such as pyright, only work inside
   projects (as determined e.g. by a .git directory, pyproject.toml or
   similar), so don't be surprised if it's not available for every Python
   file. Cf. the root_dir attribute in the server's config.
-  ]])
+  ]], vim.lsp.get_log_path()))
 
   print()
   print("CLIENTS")
