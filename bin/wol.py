@@ -1,10 +1,42 @@
 #!/usr/bin/env python
+"""Broadcast Wake-on-LAN magic packet
 
+Usage: wol.py <host>
+
+<host> must be a key in the global HOST2MAC dict defined as part of
+wol.py. The magic packet will contain the MAC address specified as the
+corresponding value. It will be multicast to all link-local nodes via
+IPv6 (on all available interfaces except loopback), and broadcast via
+IPv4 (on whichever interface the OS decides, as IPv4 doesn't handle
+address ambiguity).
+
+Notes on enabling WoL
+---------------------
+
+Wake on LAN or WLAN from poweroff and/or hibernate is enabled through
+the BIOS. Additionally, you might need to disable some kind of deep
+sleep setting (probably located in the same power management tab as WoL)
+to make sure the NIC stays powered on when the computer is shut down,
+otherwise WoL obviously won't work.
+
+Wake on (W)LAN *from sleep* is controlled by the OS. You can run
+`ethtool enp1s0 | grep Wake-on` to check WoL capabilities. If the
+Supports Wake-on line contains g, then waking via magic packet is
+supported. If the Wake-on line contains g, then it's already enabled; if
+it's d, then you need to enable it with `ethtool -s enp1s0 wol g`, but
+careful, that doesn't persist across reboots.
+
+You can also edit this setting via the Network Manager GUI by setting
+WoL to Magic, but beware, the setting might take a while to register.
+Check with the command above; a surefire way to make it apply seems to
+put the box to sleep and wake it. Setting it like this *does* persist
+across reboots.
+
+"""
 import sys
 import socket
 
-
-BOXES = {
+HOST2MAC = {
     "dlukes.ucnk": "54:BF:64:7C:0B:A1",
 }
 
@@ -30,15 +62,19 @@ def send_magic_packet(mac, family, addr):
 
 
 def main():
-    _, box = sys.argv
-    candidates = [k for k in BOXES if k.startswith(box)]
+    try:
+        _, box = sys.argv
+    except ValueError:
+        print(__doc__.strip(), file=sys.stderr)
+        sys.exit(1)
+    candidates = [k for k in HOST2MAC if k.startswith(box)]
     num_candidates = len(candidates)
 
     if num_candidates == 0:
         raise ValueError(f"Unknown WoL target: {box}")
 
     elif num_candidates == 1:
-        mac = BOXES[candidates[0]]
+        mac = HOST2MAC[candidates[0]]
         port = 9
 
         # IPv6
