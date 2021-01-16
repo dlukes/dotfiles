@@ -162,36 +162,54 @@ end
 
 local servers = {
   rust_analyzer = {
-    ["rust-analyzer"] = {
-      checkOnSave = {
-        command = "clippy",
+    settings = {
+      ["rust-analyzer"] = {
+        checkOnSave = {
+          command = "clippy",
+        },
       },
     },
   },
   jedi_language_server = {},  -- as in, Python's Jedi
   r_language_server = {},
   sumneko_lua = {
-    Lua = {
-      runtime = {
-        version = "LuaJIT",
-        -- set up Lua path
-        path = vim.split(package.path, ";"),
-      },
-      diagnostics = {
-        globals = {"vim"},
-      },
-      workspace = {
-        -- make the server aware of Neovim runtime files
-        library = {
-          [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-          [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+    settings = {
+      Lua = {
+        runtime = {
+          version = "LuaJIT",
+          -- set up Lua path
+          path = vim.split(package.path, ";"),
+        },
+        diagnostics = {
+          globals = {"vim"},
+        },
+        workspace = {
+          -- make the server aware of Neovim runtime files
+          library = {
+            [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+            [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+          },
         },
       },
     },
   },
 
   -- Node-based
-  pyright = {},
+  pyright = {
+    handlers = {
+      -- disable pyright rename so that it doesn't race with jedi. TODO:
+      -- apparently, this should be achievable in a cleaner way by
+      -- disabling the rename capability instead of the handler
+      -- (something like `capabilities.textDocument.rename = false`),
+      -- but when I do that, the LSP log still shows rename as enabled.
+      -- another way that does seem to work is to override
+      -- client.resolved_capabilities in on_attach above.
+      ["textDocument/definition"] = function() end,
+      ["textDocument/hover"] = function() end,
+      ["textDocument/rename"] = function() end,
+      ["textDocument/codeAction"] = function() end,
+    }
+  },
   bashls = {},
   elmls = {},
   vimls = {},
@@ -199,7 +217,7 @@ local servers = {
 }
 
 local lls = vim.env.HOME .. "/.local/lua-language-server"
-for ls, settings in pairs(servers) do
+for ls, config in pairs(servers) do
   require("lspconfig/" .. ls)
   local cmd = ls == "sumneko_lua" and {lls .. "/bin/lua-language-server", "-E", lls .. "/main.lua"} or nil
   local capabilities = vim.tbl_extend("keep", configs[ls].capabilities or {}, lsp_status.capabilities)
@@ -213,8 +231,9 @@ for ls, settings in pairs(servers) do
   lspconfig[ls].setup {
     cmd = cmd,
     on_attach = on_attach,
-    settings = settings,
     capabilities = capabilities,
+    settings = config.settings,
+    handlers = config.handlers,
   }
 end
 
