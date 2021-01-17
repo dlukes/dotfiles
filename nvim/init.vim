@@ -133,6 +133,12 @@ command! UpdateEverything :call s:update_everything()
 " d2_ is what 2dd remaps to
 command! -nargs=1 -complete=command Redir :enew | put =execute('<args>') | setlocal buftype=nofile bufhidden=hide noswapfile | normal! ggd2_
 
+" aliases for when I accidentally keep Shift pressed after entering
+" command mode
+command! Q :q
+command! W :w
+command! X :x
+
 "--------------------------------------------------------- Auto commands {{{1
 
 " sane behavior when switching buffers -- leave my cursor where it is!
