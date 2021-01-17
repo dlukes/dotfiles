@@ -162,6 +162,12 @@ augroup END
 " auto-open quickfix list if :make et al. yield errors
 autocmd QuickFixCmdPost [^l]* cwindow
 
+" automatically put help windows in a vert split
+augroup vim_help
+  autocmd!
+  autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
+augroup END
+
 "-------------------------------------------------------------- Settings {{{1
 
 " allow hiding buffers with changes
