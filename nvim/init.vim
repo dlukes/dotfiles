@@ -169,6 +169,8 @@ augroup vim_help
   autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
 augroup END
 
+autocmd BufWritePre *.md lua init.insert_foldmarkers_after_markdown_headings()
+
 autocmd VimLeave * set guicursor=a:ver25
 
 "-------------------------------------------------------------- Settings {{{1

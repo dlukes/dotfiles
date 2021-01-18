@@ -16,7 +16,9 @@ iron.core.set_config {
   repl_open_cmd = "topleft vertical 80 split",
 }
 
------------------------------------------- Markdown code block execution {{{1
+--------------------------------------------------------------- Markdown {{{1
+
+--------------------------------------------------- Code block execution {{{2
 
 -- Execute a markdown code block in a REPL appropriate for the language.
 function M.run_md_block(cursor_row, lines, quiet)
@@ -103,6 +105,42 @@ function M.run_md_blocks(how)
 
   if how == "before" then
     M.run_md_block(cursor_row, all_lines)
+  end
+end
+
+------------------------- Automatic fold marker insertion after headings {{{2
+
+function M.insert_foldmarkers_after_markdown_headings()
+  local all_lines = api.nvim_buf_get_lines(0, 0, -1, false)
+  local prev_line = ""
+  for i, line in ipairs(all_lines) do
+
+    local fm_line, fm_linum
+    local is_atx_heading, _, fm_lvl = string.find(line, "^(#+)")
+    if is_atx_heading then
+      fm_lvl = string.len(fm_lvl)
+      fm_line = line
+      fm_linum = i - 1
+
+    -- else, we might also have a setext format heading
+    elseif string.match(line, "^[=-]+$") and not string.match(prev_line, "^%s*$") then
+      fm_lvl = string.match(line, "^=") and 1 or 2
+      fm_line = prev_line
+      fm_linum = i - 2
+    end
+
+    if fm_lvl then
+      fm_line = string.gsub(fm_line, "%s*<!%-+ {{{%d %-%->", "")
+      fm_line = string.format(
+        "%s <!--%s {{{%d -->",
+        fm_line,
+        string.rep("-", vim.bo.textwidth - vim.fn.strdisplaywidth(fm_line) - 5),
+        fm_lvl
+      )
+      api.nvim_buf_set_lines(0, fm_linum, fm_linum + 1, true, {fm_line})
+    end
+
+    prev_line = line
   end
 end
 
