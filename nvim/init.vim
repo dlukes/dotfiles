@@ -292,6 +292,7 @@ noremap / /\v
 noremap ? ?\v
 noremap <Right> gt
 noremap <Left> gT
+noremap <silent> gO :call voom#Init(&filetype, 1, 1)<CR>
 noremap <Down> :bn<CR>
 noremap <Up> :bp<CR>
 noremap <silent> zi :call ToggleFolds()<CR>
