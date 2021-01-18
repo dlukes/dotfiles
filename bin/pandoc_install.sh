@@ -21,7 +21,7 @@ pandoc_link=$(
 )
 crossref_link=$(
   curl -sL https://github.com/lierdakil/pandoc-crossref/releases/latest |
-    grep -oPm 1 '/lierdakil/.*?/linux.*?\.tar\.gz'
+    grep -oPm 1 '/lierdakil/.*?/pandoc-crossref-Linux\.tar\.xz'
 )
 pandoc_archive_name=$( basename "$pandoc_link" )
 crossref_archive_name=$( basename "$crossref_link" )
@@ -30,7 +30,7 @@ crossref_archive_name=$( basename "$crossref_link" )
 wget -q "https://github.com$pandoc_link"
 wget -q "https://github.com$crossref_link"
 tar xzf "$pandoc_archive_name"
-tar xzf "$crossref_archive_name"
+tar xJf "$crossref_archive_name"
 
 >&2 echo 'Removing archives...'
 rm -f "$pandoc_archive_name"
