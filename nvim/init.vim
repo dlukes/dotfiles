@@ -42,6 +42,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'nvim-treesitter/playground'
 Plug 'SirVer/ultisnips'
+Plug 'vim-voom/VOoM'
 
 " filetype-specific
 Plug 'psf/black', { 'for': 'python', 'branch': 'stable' }
