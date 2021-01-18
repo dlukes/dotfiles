@@ -337,10 +337,10 @@ inoremap <C-z> <C-r>=ZoteroCite()<CR>
 " fixes, `] jumps to the end of the last edit
 inoremap <C-l> <C-g>u<Esc>[s1z=`]a<C-g>u
 
-" Start interactive EasyAlign in visual mode (e.g. vipga)
-xmap ga <Plug>(EasyAlign)
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
+" Start LiveEasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(LiveEasyAlign)
+" Start LiveEasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(LiveEasyAlign)
 
 "-------------------------------------------------------------- Lua init {{{1
 
