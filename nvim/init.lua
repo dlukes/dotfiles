@@ -139,7 +139,7 @@ end
 local lsp_mappings = {
   {"n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>"},
   {"n", "gH", "<cmd>lua vim.lsp.buf.signature_help()<CR>"},
-  {"n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>"},
+  {"n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>"},
   {"n", "gO", "<cmd>lua vim.lsp.buf.references()<CR><cmd>copen<CR>"},
   {"n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev { wrap = false }<CR>"},
   {"n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next { wrap = false }<CR>"},
