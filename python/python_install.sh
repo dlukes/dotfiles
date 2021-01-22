@@ -57,7 +57,8 @@ if [ "$new_ver" = "$curr_ver" ]; then
 else
   if [ ! -z "$curr_ver" ]; then
     >&2 echo "Uninstalling old Python $curr_ver"
-    pyenv uninstall $curr_ver
+    pyenv uninstall $curr_ver ||
+      >&2 echo "Uninstall aborted; you can run it later manually with 'pyenv uninstall $curr_ver'."
   fi
   >&2 echo "Installing most recent stable Python $new_ver"
   pyenv install $new_ver
