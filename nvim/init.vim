@@ -195,7 +195,7 @@ set wildcharm=<Tab>
 " let find search in dir of active buffer and recursively under current
 " working directory (works better without autochdir)
 set path=.,**
-set ignorecase smartcase
+set ignorecase wildignorecase smartcase
 " persistent undo instead of backups, and swap files tucked away please
 set nobackup
 set undofile
