@@ -73,6 +73,9 @@ ln -sft "$HOME/.local/bin" "$POETRY_HOME/bin/poetry"
 pyenv global $new_ver
 
 pip3 install --upgrade --upgrade-strategy eager \
+  pip \
+  wheel
+pip3 install --upgrade --upgrade-strategy eager \
   ipython \
   ipdb \
   rich \
@@ -88,6 +91,4 @@ pip3 install --upgrade --upgrade-strategy eager \
   \
   jedi-language-server \
   pylint \
-  pylint-venv \
-  pip \
-  wheel
+  pylint-venv
