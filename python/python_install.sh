@@ -92,6 +92,7 @@ pip3 install --upgrade --upgrade-strategy eager \
   openpyxl \
   \
   httpie \
+  glances \
   \
   jedi-language-server \
   pylint \
