@@ -1,4 +1,9 @@
 function fish_prompt --description 'Write out the prompt'
+  # if using WSL, inform Windows Terminal about $PWD
+  if type -q wslpath
+    printf "\e]9;9;%s\e\\" (wslpath -m $PWD)
+  end
+
   test $SSH_TTY
     and printf (set_color red)$USER(set_color brwhite)'@'(set_color yellow)(prompt_hostname)' '
   test $USER = 'root'
