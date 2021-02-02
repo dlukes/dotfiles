@@ -78,3 +78,9 @@ end
 
 # custom key bindings
 bind \cx expand_glob
+
+# TODO: workaround for https://github.com/fish-shell/fish-shell/issues/6270,
+# fix committed but not released as of 3.1.2
+if test (uname) = Darwin
+  function __fish_describe_command; end
+end
