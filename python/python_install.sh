@@ -38,11 +38,14 @@ fi
 
 export PYENV_ROOT="$HOME/.local/pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-export PYTHON_CONFIGURE_OPTS='--enable-shared --enable-optimizations'
-# cf. also https://github.com/pyenv/pyenv/blob/master/plugins/python-build/README.md#special-environment-variables
+export PYTHON_CONFIGURE_OPTS=--enable-optimizations
+# Cf. also https://github.com/pyenv/pyenv/blob/master/plugins/python-build/README.md#special-environment-variables
 # for details on what you can tweak during Python compilation, but apart
-# from shared and optimizations above, there probably isn't anything you
-# need; IPv6 is enabled if available and -O3 is the default
+# from --enable-optimizations above, there probably isn't anything you
+# need. IPv6 is enabled if available and -O3 is the default. And you
+# probably don't want --enable-shared unless you really need to link to
+# an app which embeds Python, because it makes the interpreter slower
+# unless additional precautions are taken, cf. https://pythonspeed.com/articles/faster-python/.
 if [ -d "$PYENV_ROOT" ]; then
   git -C "$PYENV_ROOT" pull
 else
