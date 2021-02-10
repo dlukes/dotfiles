@@ -2,23 +2,28 @@
   name = David Lukes
   email = dafydd.lukes@gmail.com
 [core]
-  excludesfile = ~/.config/git/ignore
   quotepath = off
 [color]
   ui = auto
-[alias]
-  unstage = reset HEAD
 [push]
   default = simple
 [pull]
   rebase = true
 [credential]
   helper = cache
-[diff "pandoc"]
-  textconv = pandoc --to=markdown
-  prompt = false
 [help]
   autocorrect = 3
+
+# Custom diff definitions. If necessary, the cache can be cleared
+# manually with `git update-ref -d refs/notes/textconv/pandoc`.
+[diff "pandoc"]
+  textconv = pandoc --to=markdown
+  cachetextconv = true
+[diff "ipynb"]
+  textconv = jupytext --to markdown -o -
+  cachetextconv = true
+
+# Merging
 [diff]
   tool = vimdiff
 [difftool "vimdiff"]

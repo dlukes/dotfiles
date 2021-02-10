@@ -1,0 +1,3 @@
+*.docx diff=pandoc
+*.odt diff=pandoc
+*.ipynb diff=ipynb
