@@ -95,6 +95,7 @@ pip3 install --upgrade --upgrade-strategy eager \
   openpyxl \
   \
   httpie \
+  bpytop \
   glances \
   \
   jedi-language-server \
