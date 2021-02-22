@@ -3,8 +3,8 @@
 set -e
 
 if command -v doom 2>&2; then
-  doom sync
   doom upgrade
+  doom build
   exit
 fi
 
