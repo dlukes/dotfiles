@@ -14,7 +14,7 @@ cat <<EOF >&2
 # Here are some quick tips if you want Tkinter and other optional      #
 # stdlib extras. E.g. for Solus:                                       #
 #                                                                      #
-#   sudo eopkg it tk-devel bzip2-devel                                 #
+#   sudo eopkg it tk-devel bzip2-devel sqlite3-devel                   #
 #                                                                      #
 # Or Ubuntu:                                                           #
 #                                                                      #
