@@ -484,4 +484,37 @@ if __name__ == "__main__":
 	trio.run(main)
 endsnippet
 
+snippet fifo "fifo + subprocess"
+import os
+import tempfile
+import subprocess as sp
+
+# mktemp is currently considered unsafe as it returns a child of /tmp on
+# Unix, so the path might be hijacked by an attacker (/tmp is world
+# writable and the name is too short to be unguessable in practice).
+# Though if hijacked by a malicious file, mkfifo will fail, so the worst
+# that can happen is a crash (because we don't handle the failure, e.g.
+# retry with a different name). A partial mitigation is to first create
+# a private temp dir, reducing the risk of collision to processes run by
+# the same/super user.
+fifo_path = tempfile.mktemp()
+os.mkfifo(fifo_path, 0o600)
+try:
+	# Opening a FIFO for writing blocks until someone else opens it for
+	# reading, so we can't open for writing first or we'd block forever.
+	# Instead, we first launch the subprocess which will read from the
+	# FIFO. We have to do it in a non-blocking manner though, so that we
+	# can go on to actually write to the FIFO, so no sp.run.
+	proc = sp.Popen(["cat", fifo_path], stdout=sp.PIPE, text=True)
+	with open(fifo_path, "w") as fifo:
+		for c in "Kočka leze dírou, pes oknem.":
+			print(c, file=fifo)
+	proc.wait()
+finally:
+	os.unlink(fifo_path)
+
+for l in proc.stdout:
+	print(l.strip())
+endsnippet
+
 # vi: noet ts=4
