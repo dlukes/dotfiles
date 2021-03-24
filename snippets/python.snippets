@@ -517,4 +517,31 @@ for l in proc.stdout:
 	print(l.strip())
 endsnippet
 
+snippet richlog "logging with rich"
+import logging
+from rich.console import Console
+from rich.logging import RichHandler
+
+logging.basicConfig(
+	level=logging.NOTSET,
+	format="%(message)s",
+	handlers=[
+		RichHandler(console=Console(stderr=True), rich_tracebacks=True, markup=True)
+	],
+)
+
+log = logging.getLogger("rich")
+log.info("Starting up...")
+try:
+	print(1 / 0)
+except Exception:
+	log.exception("Unable to print!")
+log.error("[bold red blink]Server is shutting down![/]")
+
+# markup=True can be problematic according to the docs, so it can also
+# be enabled per-message (which doesn't make it not problematic, it just
+# limits the potential problems to that message):
+# log.error("[bold red blink]Server is shutting down![/]", extra={"markup": True})
+endsnippet
+
 # vi: noet ts=4
