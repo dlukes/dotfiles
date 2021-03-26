@@ -14,6 +14,9 @@
 [help]
   autocorrect = 3
 
+[alias]
+  ll = log --pretty='%C(yellow)%h %C(blue)%ad %Cgreen%aN%C(auto)%d %Creset%s' --date=relative --date-order --graph
+
 # Custom diff definitions. If necessary, the cache can be cleared
 # manually with `git update-ref -d refs/notes/textconv/pandoc`.
 [diff "pandoc"]
