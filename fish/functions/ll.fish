@@ -1,4 +1,5 @@
 function ll --wraps exa
-  ls --long --group --git $argv
+  # TIP: use --grid to fit a long listing on the screen
+  ls --long --group --git --color-scale $argv
 end
 
