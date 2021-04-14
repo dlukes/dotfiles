@@ -22,6 +22,7 @@ end
 
 # python
 set -gx PYTHONBREAKPOINT ipdb.set_trace
+set -gx PYTHONSTARTUP ~/.files/python/startup.py
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 set -gx POETRY_VIRTUALENVS_IN_PROJECT 1
 if not set -q PYENV_ROOT; and type -q pyenv

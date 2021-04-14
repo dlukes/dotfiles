@@ -544,4 +544,16 @@ log.error("[bold red blink]Server is shutting down![/]")
 # log.error("[bold red blink]Server is shutting down![/]", extra={"markup": True})
 endsnippet
 
+snippet richbar "monitoring progress with rich"
+import time
+from rich.console import Console
+from rich.progress import track
+
+console = Console()
+console.log("[bold yellow]Started.[/]")
+for _ in track(list(range(5)), description="Running..."):
+	time.sleep(1)
+console.log("[bold green blink]Done.[/]")
+endsnippet
+
 # vi: noet ts=4
