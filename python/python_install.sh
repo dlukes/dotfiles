@@ -73,18 +73,14 @@ else
   rm -rf ~/.local/share/nvim/black
 fi
 
-pyenv global system
-export POETRY_HOME="$HOME/.local/poetry"
-curl -sSLf https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - --no-modify-path
-ln -sft "$HOME/.local/bin" "$POETRY_HOME/bin/poetry"
-pyenv global $new_ver
-
 pip3 install --upgrade --upgrade-strategy eager \
   pip \
   wheel
 pip3 install --upgrade --upgrade-strategy eager \
   ipython \
   ipdb \
+  poetry \
+  pdm \
   rich \
   \
   lxml \
