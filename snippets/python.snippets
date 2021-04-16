@@ -556,4 +556,18 @@ for _ in track(list(range(5)), description="Running..."):
 console.log("[bold green blink]Done.[/]")
 endsnippet
 
+snippet logbc "logging basic config"
+import logging
+from pathlib import Path
+
+LOG_PATH = Path(__file__).with_suffix(".log")
+
+logging.basicConfig(
+	filename=LOG_PATH,
+	level=logging.INFO,
+	format="%(asctime)s\t%(levelname)s\t%(name)s\t%(message)s",
+	datefmt="%Y-%m-%d %H:%M:%S",
+)
+endsnippet
+
 # vi: noet ts=4
