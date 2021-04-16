@@ -1,3 +1,11 @@
+# See e.g. "GitHub, f*ck your name change." (https://archive.ph/DGJDP).
+# This config change was actually prompted by Git in turn now
+# considering the same switch and spewing a warning each time I init a
+# new repo unless I set this explicitly. But the same commentary
+# applies.
+[init]
+  defaultBranch = master
+
 [user]
   name = David Lukes
   email = dafydd.lukes@gmail.com
