@@ -28,7 +28,9 @@
   ll = log --pretty='%C(yellow)%h %C(blue)%ad %Cgreen%aN%C(auto)%d %Creset%s' --date=relative --date-order --graph
 
 # Custom diff definitions. If necessary, the cache can be cleared
-# manually with `git update-ref -d refs/notes/textconv/pandoc`.
+# manually with `git update-ref -d refs/notes/textconv/pandoc`. Default
+# filetype associations can be set up in ./attributes and disabled via
+# --no-textconv.
 [diff "pandoc"]
   textconv = pandoc --to=markdown
   cachetextconv = true
