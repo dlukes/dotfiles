@@ -29,9 +29,11 @@ Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'airblade/vim-gitgutter'
 
 " visuals
-Plug 'junegunn/seoul256.vim'
+Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+" For quickly picking an Airline theme matching the colorscheme:
+" Plug 'qdddddd/vim-cycle-airline-theme'
 
 " nice to have
 Plug 'liuchengxu/vim-which-key'
@@ -224,13 +226,15 @@ if executable("rg")
   set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-" elflord is a nicely readable built-in one but seoul256 is better;
-" another fairly nice one but harder on the eyes is
-" liuchengxu/space-vim-dark
-colorscheme seoul256
-" this might help with the readability of some themes or make them
-" render more 'as intended', but I like seoul256 better without it
-" set termguicolors
+" Nice colorschemes:
+" - elflord (:set notermguicolors) is a nicely readable built-in one
+" - seoul256 (looks better with :set notermguicolors) is beautiful and I
+"   used it for a long time, but it's low-contrast by design, which
+"   makes it an eye-strain in low-light conditions
+" - tempus_future (requires :set termguicolors) is a bit garish, but was
+"   engineered to have high contrast, which is desirable
+colorscheme tempus_future
+set termguicolors
 highlight! Comment cterm=italic
 " readable background for whichkey floating windows
 highlight! link WhichKeyFloating NormalFloat
@@ -264,7 +268,11 @@ endfunction
 call airline#parts#define_function('lsp_status', 'LspStatus')
 call airline#parts#define_condition('lsp_status', 'luaeval("#vim.lsp.buf_get_clients() > 0")')
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'bubblegum'
+" Some nice Airline themes are: night_owl, monochrome, base16, zenburn,
+" bubblegum, seoul256. But if you change your colorscheme, you might
+" want to re-check all of them, one of the others might match it better.
+" Use qdddddd/vim-cycle-airline-theme for that.
+let g:airline_theme = 'night_owl'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#nvimlsp#enabled = 0
 let g:airline_section_warning = airline#section#create_right(['lsp_status'])
