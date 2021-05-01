@@ -12,7 +12,7 @@ NAME = Path(__file__).stem
 LOG = log.getLogger(NAME)
 LOGLEVELS = [
     s
-    for f, s in sorted(
+    for _, s in sorted(
         (v, k) for k, v in vars(log).items() if k.isupper() and isinstance(v, int)
     )
 ]
