@@ -236,15 +236,18 @@ endif
 colorscheme tempus_future
 set termguicolors
 highlight! Comment cterm=italic
+" The following highlight groups weren't defined in seoul256, so I had
+" to configure them manually. Keeping these definitions as a reference
+" if I ever come across another theme with similar issues.
 " readable background for whichkey floating windows
-highlight! link WhichKeyFloating NormalFloat
-highlight! link LspDiagnosticsDefaultError SpellBad
-highlight! link LspDiagnosticsDefaultWarning SpellRare
-highlight! link LspDiagnosticsDefaultInformation SpellCap
-highlight! link LspDiagnosticsDefaultHint SpellLocal
-highlight! link LspReferenceText Search
-highlight! link LspReferenceRead Search
-highlight! link LspReferenceWrite Search
+" highlight! link WhichKeyFloating NormalFloat
+" highlight! link LspDiagnosticsDefaultError SpellBad
+" highlight! link LspDiagnosticsDefaultWarning SpellRare
+" highlight! link LspDiagnosticsDefaultInformation SpellCap
+" highlight! link LspDiagnosticsDefaultHint SpellLocal
+" highlight! link LspReferenceText Search
+" highlight! link LspReferenceRead Search
+" highlight! link LspReferenceWrite Search
 
 let g:markdown_folding = 1
 let g:markdown_fenced_languages = ['python', 'rust',
