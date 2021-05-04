@@ -235,6 +235,12 @@ endif
 "   engineered to have high contrast, which is desirable
 colorscheme tempus_future
 set termguicolors
+" To show currently defined highlight groups, run :highlight or
+" :highlight GroupName.
+" By default, tempus_future sets a fg color for listchars which is too
+" bright, making it indistinguishable from regular text, which is
+" confusing, so override it:
+highlight! NonText guifg=#595271
 highlight! Comment cterm=italic
 " The following highlight groups weren't defined in seoul256, so I had
 " to configure them manually. Keeping these definitions as a reference
@@ -250,7 +256,8 @@ highlight! Comment cterm=italic
 " highlight! link LspReferenceWrite Search
 
 let g:markdown_folding = 1
-let g:markdown_fenced_languages = ['python', 'rust',
+let g:markdown_fenced_languages = [
+    \ 'python', 'rust',
     \ 'sh', 'sql', 'r',
     \ 'html', 'css', 'javascript',
     \ 'perl', 'ruby', 'c', 'java', 'haskell', 'lisp', 'clojure',
