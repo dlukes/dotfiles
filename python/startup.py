@@ -1,4 +1,7 @@
-from rich import pretty
+try:
+    from rich import pretty
 
-pretty.install()
-del pretty
+    pretty.install()
+    del pretty
+except ImportError:
+    pass
