@@ -38,7 +38,6 @@ Plug 'vim-airline/vim-airline-themes'
 " nice to have
 Plug 'liuchengxu/vim-which-key'
 Plug 'jreybert/vimagit'
-Plug 'Vigemus/iron.nvim'
 Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
@@ -326,10 +325,6 @@ nnoremap <leader>pp :lua print(vim.inspect())<Left><Left>
 " rr stands for redirect (from pager to buffer), even though with recent
 " versions of (Neo)vim, there's a simpler way than using redir
 nnoremap <leader>rr :Redir<Space>
-nnoremap <silent> <leader>xx :lua run_md_block()<CR>
-nnoremap <silent> <leader>xb :lua run_md_blocks("before")<CR>
-nnoremap <silent> <leader>xa :lua run_md_blocks("after")<CR>
-nnoremap <silent> <leader>xf :lua run_md_blocks()<CR>
 noremap <leader><Tab> <C-^>
 noremap <leader>w <C-w>
 " enable command history filtering for Ctrl-P and Ctrl-N
