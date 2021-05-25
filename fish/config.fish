@@ -7,11 +7,6 @@ set -l path \
   ~/.local/bin \
   ~/.files/bin \
   /usr/local/Cellar/{coreutils,gnu-tar,grep,gawk,gnu-sed,findutils}/**/gnubin
-for p in $path[-1..1]
-  if not contains $p $PATH
-    set -gxp PATH $p
-  end
-end
 
 # update database of frecently visited directories/files
 if type -q fasd
@@ -25,10 +20,14 @@ set -gx PYTHONBREAKPOINT ipdb.set_trace
 set -gx PYTHONSTARTUP ~/.files/python/startup.py
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 set -gx POETRY_VIRTUALENVS_IN_PROJECT 1
-if not set -q PYENV_ROOT; and type -q pyenv
-  set -gx PYENV_ROOT ~/.local/pyenv
-  pyenv init - | source
+set -q PYENV_ROOT; or set -gx PYENV_ROOT ~/.local/pyenv
+if test -x $PYENV_ROOT/bin/pyenv
+  set -p path $PYENV_ROOT/shims
+else
+  set -e PYENV_ROOT
 end
+# NOTE: pyenv init is only run towards the end of the config file, once
+# the PATH has been finalized
 
 # fzf
 source ~/.local/share/fzf/key-bindings.fish
@@ -76,6 +75,14 @@ if type -q ssh-agent
     ssh-add ~/.ssh/id_rsa 2>/dev/null
   end
 end
+
+for p in $path[-1..1]
+  if not contains $p $PATH
+    set -gxp PATH $p
+  end
+end
+
+pyenv init - | source
 
 # custom key bindings
 bind \cx expand_glob
