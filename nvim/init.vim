@@ -66,10 +66,6 @@ function! s:auto_chmod()
   endif
 endfunction
 
-function! s:find_git_root()
-  return systemlist('git rev-parse --show-toplevel')[0]
-endfunction
-
 function! ZoteroCite()
   " The citation format to use is determined either via a magic comment
   " containing cayw=format on the first line, or via the filetype.
