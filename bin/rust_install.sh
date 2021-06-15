@@ -9,6 +9,8 @@ comp_dir="$HOME/.config/fish/completions"
 registry="$HOME/.cargo/registry"
 mkdir -p "$man_dir" "$comp_dir"
 
+>&2 echo '>>> HINT: Any options are passed on to the cargo install calls (e.g. --force).'
+
 ### Rustup
 
 if ! command -v rustup >/dev/null 2>&1; then
@@ -88,7 +90,7 @@ utils=(
 )
 for util in ${utils[@]}; do
   tmp=$( mktemp -d )
-  CARGO_TARGET_DIR="$tmp" cargo install --force $util
+  CARGO_TARGET_DIR="$tmp" cargo install "$@" $util
   copy_asset $util "$tmp" "$man_dir" -regextype egrep -regex ".*/$util-.*/[[:alnum:]]+\.1(\.gz)?"
   copy_asset $util "$tmp" "$comp_dir" -path "*/$util-*" -name "*.fish"
 done
@@ -119,7 +121,7 @@ if [ "$devel" = y ] || [ "$devel" = Y ]; then
     # run stuff on file modification: cargo watch -x run
     cargo-watch
   )
-  cargo install -f ${extensions[@]}
+  cargo install "$@" ${extensions[@]}
 fi
 
 cat <<'EOF' >&2
