@@ -26,10 +26,11 @@ rustup completions fish >"$comp_dir/rustup.fish"
 >&2 echo '>>> Installing rust-analyzer...'
 
 if is_macos; then
-  suffix=mac
+  suffix=aarch64-apple-darwin
 else
-  suffix=linux
+  suffix=x86_64-unknown-linux-gnu
 fi
+
 rust_analyzer=rust-analyzer-$suffix
 rust_analyzer_gz=$rust_analyzer.gz
 https_rust_analyzer_gz='https://.*?'$rust_analyzer_gz

@@ -68,10 +68,12 @@ else
       >&2 echo "Uninstall aborted; you can run it later manually with 'pyenv uninstall $curr_ver'."
   fi
   >&2 echo "Installing most recent stable Python $new_ver"
-  pyenv install $new_ver
+  without_gnubin pyenv install $new_ver
   # black's virtualenv is now very probably broken, get rid of it
   rm -rf ~/.local/share/nvim/black
 fi
+
+pyenv shell $new_ver
 
 pip3 install --upgrade --upgrade-strategy eager \
   pip \

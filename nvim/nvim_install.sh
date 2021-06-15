@@ -42,15 +42,21 @@ new_version=$(
 install() {
   github_release=https://github.com/neovim/neovim/releases/download/$download
   if is_macos; then
-    archive_name=nvim-macos.tar.gz
-    nvim_dirname=nvim-osx64
-    cd "$HOME/.local"
-    rm -rf $nvim_dirname
-    curl -LO $github_release/$archive_name
-    tar xzf $archive_name
-    rm $archive_name
-    cd bin
-    ln -sf ../$nvim_dirname/bin/nvim
+    echo '
+
+    Temporarily using Homebrew while waiting for Neovim to provide an Apple Silicon release asset (https://github.com/neovim/neovim/issues/13880).
+
+    '
+    brew upgrade --fetch-HEAD nvim
+    # archive_name=nvim-macos.tar.gz
+    # nvim_dirname=nvim-osx64
+    # cd "$HOME/.local"
+    # rm -rf $nvim_dirname
+    # curl -LO $github_release/$archive_name
+    # tar xzf $archive_name
+    # rm $archive_name
+    # cd bin
+    # ln -sf ../$nvim_dirname/bin/nvim
   else
     cd "$( mktemp -d )"
     curl -LO $github_release/nvim.appimage

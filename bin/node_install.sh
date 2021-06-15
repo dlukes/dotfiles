@@ -27,7 +27,9 @@ install_node() {
       ;;
   esac
 
-  version=lts
+  # TODO: Switch back to lts once there's an LTS Node release which
+  # supports Apple Silicon.
+  version=
   installed=$(node --version 2>/dev/null || echo '')
   requested=$(curl -sL https://resolve-node.now.sh/$version)
   if [ "$installed" != "$requested" ]; then

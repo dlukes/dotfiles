@@ -29,3 +29,14 @@ maybe_fetch_archive() {
     return 10
   fi
 }
+
+# On macOS, GNU coreutils et al. overriding native tooling might have
+# adverse side effects (e.g. Python fails to compile on Apple Silicon).
+# This provides a way to run a command in an environment where they're
+# not accessible.
+without_gnubin() {
+  full_path="$PATH"
+  export PATH=$(echo "$full_path" | sed 's/[^:]\+\/gnubin://g')
+  "$@"
+  export PATH="$full_path"
+}
