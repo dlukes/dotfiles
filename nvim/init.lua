@@ -189,7 +189,7 @@ The log path should typically be ~/.local/share/nvim/lsp.log
 local ts = require('nvim-treesitter.configs')
 
 ts.setup {
-  ensure_installed = "all",
+  ensure_installed = "maintained",
   -- TODO: use_languagetree = true once it stabilizes
   highlight = { enable = true },
   indent = { enable = false },
