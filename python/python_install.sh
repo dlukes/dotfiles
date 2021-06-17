@@ -81,6 +81,7 @@ pip3 install --upgrade --upgrade-strategy eager \
 pip3 install --upgrade --upgrade-strategy eager \
   ipython \
   ipdb \
+  scalene \
   poetry \
   pdm \
   rich \
