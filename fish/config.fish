@@ -27,6 +27,7 @@ end
 
 # --------------------------------------------------------------- Python {{{1
 
+set -gx PYTHONFAULTHANDLER 1
 set -gx PYTHONBREAKPOINT ipdb.set_trace
 set -gx PYTHONSTARTUP ~/.files/python/startup.py
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
