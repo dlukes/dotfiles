@@ -90,8 +90,13 @@ pip3 install --upgrade --upgrade-strategy eager \
   regex \
   requests \
   \
+  jupyterlab \
   pandas \
   openpyxl \
+  sklearn \
+  statsmodels \
+  altair \
+  matplotlib \
   \
   httpie \
   bpytop \
