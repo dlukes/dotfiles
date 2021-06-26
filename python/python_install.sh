@@ -34,10 +34,19 @@ EOF
 
 if is_macos; then
   alias grep=ggrep
+  for brew_pkg in openssl readline sqlite3 xz zlib; do
+    brew_install_or_upgrade $brew_pkg
+  done
+
+  opt=/opt/homebrew/opt
+  for lib in sqlite xz zlib; do
+    export LDFLAGS="$LDFLAGS -L$opt/$lib/lib"
+    export CPPFLAGS="$CPPFLAGS -I$opt/$lib/include"
+    # export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$opt/$lib/lib/pkgconfig"
+  done
 fi
 
 export PYENV_ROOT="$HOME/.local/pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
 export PYTHON_CONFIGURE_OPTS=--enable-optimizations
 # Cf. also https://github.com/pyenv/pyenv/blob/master/plugins/python-build/README.md#special-environment-variables
 # for details on what you can tweak during Python compilation, but apart
@@ -52,26 +61,23 @@ else
   git clone https://github.com/pyenv/pyenv.git "$PYENV_ROOT"
 fi
 ln -sft "$HOME/.local/bin" "$PYENV_ROOT/libexec/pyenv"
-eval "$( pyenv init - )"
+eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
 
 py3_regex='^3\.\d+\.\d+$'
 curr_ver=$( pyenv versions --bare | grep -P "$py3_regex" | tail -n1 )
 new_ver=$(
   pyenv install --list | tr -d ' ' | grep -P "$py3_regex" | tail -n1
 )
-if [ "$new_ver" = "$curr_ver" ]; then
-  >&2 echo "Most recent stable Python $curr_ver is already installed."
-else
-  if [ ! -z "$curr_ver" ]; then
-    >&2 echo "Uninstalling old Python $curr_ver"
-    pyenv uninstall $curr_ver ||
-      >&2 echo "Uninstall aborted; you can run it later manually with 'pyenv uninstall $curr_ver'."
-  fi
-  >&2 echo "Installing most recent stable Python $new_ver"
-  without_gnubin pyenv install $new_ver
-  # black's virtualenv is now very probably broken, get rid of it
-  rm -rf ~/.local/share/nvim/black
-fi
+
+pyenv versions
+# don't abort entire script if user chooses not to uninstall previous
+# version; the subshell is needed on old bash versions (<4) because of
+# https://stackoverflow.com/a/68144864
+(pyenv uninstall $curr_ver) || true
+without_gnubin pyenv install $new_ver
+>&2 echo "Black's virtualenv might be broken now, removing it."
+rm -rf ~/.local/share/nvim/black
 
 pyenv shell $new_ver
 "$dirname"/pip_install.sh
