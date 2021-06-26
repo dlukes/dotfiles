@@ -18,7 +18,7 @@ pip3 install --upgrade --upgrade-strategy eager \
   jupyterlab \
   pandas \
   openpyxl \
-  sklearn \
+  scikit-learn \
   statsmodels \
   altair \
   matplotlib \
