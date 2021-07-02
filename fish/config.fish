@@ -32,12 +32,13 @@ set -gx PYTHONBREAKPOINT ipdb.set_trace
 set -gx PYTHONSTARTUP ~/.files/python/startup.py
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 set -gx POETRY_VIRTUALENVS_IN_PROJECT 1
-if type -q pyenv; and not set -q PYENV_ROOT
-  set -gx PYENV_ROOT ~/.local/pyenv
-  pyenv init --path | source
+if type -q pyenv
+  if not set -q PYENV_ROOT
+    set -gx PYENV_ROOT ~/.local/pyenv
+    pyenv init --path | source
+  end
+  pyenv init - | source
 end
-
-pyenv init - | source
 
 # ----------------------------------------------------------------- fasd {{{1
 
