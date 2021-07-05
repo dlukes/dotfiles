@@ -4,13 +4,12 @@ set -e
 dirname=$( dirname "$0" )
 . "$dirname/util.sh"
 
+api=https://api.github.com/repos/neovim/neovim/releases
 if [ "$1" = --nightly ]; then
-  api=tags/nightly
-  download=nightly
+  api=$api/tags/nightly
 else
   # The latest release should be a stable version, not a pre-release.
-  api=latest
-  download=stable
+  api=$api/latest
 fi
 
 # Warn if competing install of nvim found.
@@ -32,15 +31,18 @@ mkdir -p "$local_bin"
 if [ "$on_path" = NVIM_NOT_FOUND ]; then
   old_version=NVIM_NOT_FOUND
 else
-  old_version=$( "$on_path" --version | grep -Pm1 '^NVIM v' )
+  old_version=$("$on_path" --version | grep -Pm1 '^NVIM v')
 fi
-new_version=$(
-  curl -sSf https://api.github.com/repos/neovim/neovim/releases/$api |
-    grep -oPm1 'NVIM v[^"]+'
-)
+new_version=$(curl -sf $api | grep -oPm1 'NVIM v[^"]+')
+
+get_download_link() {
+  curl -sf $api |
+    grep -oPm1 '"browser_download_url": ".*'"$1" |
+    cut -d' ' -f2 |
+    tr -d \"
+}
 
 install() {
-  github_release=https://github.com/neovim/neovim/releases/download/$download
   if is_macos; then
     echo '
 
@@ -48,6 +50,8 @@ install() {
 
     '
     brew upgrade --fetch-HEAD nvim
+    # TODO: This will need updating along the lines of the else branch
+    # when it gets uncommented.
     # archive_name=nvim-macos.tar.gz
     # nvim_dirname=nvim-osx64
     # cd "$HOME/.local"
@@ -58,11 +62,11 @@ install() {
     # cd bin
     # ln -sf ../$nvim_dirname/bin/nvim
   else
+    asset=nvim.appimage
     cd "$( mktemp -d )"
-    curl -LO $github_release/nvim.appimage
-    chmod +x nvim.appimage
-    mv -f nvim.appimage "$in_local".appimage
-    ln -sf nvim.appimage "$in_local"
+    curl -LO "$(get_download_link $asset)"
+    chmod +x $asset
+    mv -f $asset "$in_local"
   fi
 }
 
