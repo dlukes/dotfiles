@@ -17,7 +17,9 @@ Plug 'tpope/vim-sensible'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
-" `:w !sudo tee %` doesn't work in nvim: https://github.com/neovim/neovim/issues/8678
+Plug 'tpope/vim-eunuch'
+" `:w !sudo tee %` or `:SudoWrite` from vim-eunuch doesn't work in nvim:
+" https://github.com/neovim/neovim/issues/8678
 Plug 'lambdalisue/suda.vim'
 " community-maintained configs for various langs
 Plug 'neovim/nvim-lspconfig'
