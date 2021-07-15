@@ -4,7 +4,7 @@ set -e
 dirname=$( dirname "$0" )
 . "$dirname/util.sh"
 
-if command -v brew &>/dev/null; then
+if command -v brew >/dev/null 2>&1; then
   brew_install_or_upgrade openblas
   brew_install_or_upgrade libjpeg
   export OPENBLAS=$(brew --prefix openblas)
