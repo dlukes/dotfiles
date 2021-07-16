@@ -104,4 +104,115 @@ logging.basicConfig(
 )
 endsnippet
 
+snippet mysql "connect to MySQL database"
+import pandas as pd
+pd.read_sql("${0:show tables}", "mysql://${1:username}:${2:password}@${3:localhost}/${4:dbname}?charset=utf8")
+endsnippet
+
+snippet sqlite "SQLite3 from Python usage overview"
+endsnippet
+
+snippet paramp "parallelism with multiprocessing"
+import time
+import random
+import multiprocessing as mp
+
+def worker(x):
+	# Processes can send each other data via Queues or Pipes,
+	# synchronize via Locks, and share state via shared memory Values /
+	# Arrays (primitive, low-level, ctypes-style data, fast) or Managers
+	# (high-level, proxy objects, slower).
+	$0time.sleep(random.randint(0, 3))
+	return x + 10
+
+def main():
+	ctx = mp.get_context("${1:forkserver}")
+	# Use 1--32 processes, always at least two fewer than the maximum
+	# number of CPUs available. Technically, the number of CPUs
+	# available to the process (as opposed to the number physically
+	# present on the system) is given by 'len(os.sched_getaffinity(0))'.
+	processes = ${2:min(32, max(1, mp.cpu_count() - 2))}
+	print("Using", processes, "processes.")
+	# Worker processes can have an initializer function. They can also
+	# be reaped and replaced with new ones after handling a given number
+	# of tasks, which is handy to prevent runaway resource leaks in
+	# long-lived pools.
+	with ctx.Pool(processes) as pool:
+		for x in pool.imap_unordered(worker, ${3:range(10)}):
+			print(x)
+
+# This guard is mandatory when not using "fork". The module must be
+# importable without running any multiprocessing initialization side
+# effects.
+if __name__ == "__main__":
+	main()
+endsnippet
+
+snippet parath "parallelism with threading"
+import os
+import time
+import random
+import signal
+import threading
+import subprocess as sp
+from queue import Queue
+
+# Use 1--32 threads, always at least two fewer than the maximum number
+# of CPUs available. Technically, the number of CPUs available to the
+# process (as opposed to the number physically present on the system) is
+# given by 'len(os.sched_getaffinity(0))'.
+#
+# This is a reasonable number when the threads run CPU-bound tasks in
+# subprocesses or C extensions. When running I/O-bound tasks in pure
+# Python, e.g. scraping URLs, you might want to make this (much) bigger.
+CONSUMER_WORKERS = ${1:min(32, max(1, os.cpu_count() - 2))}
+# Up to the same number of tasks can be waiting as are being executed.
+# You might want to tweak this depending on the specifics of the job.
+# E.g. if OUTPUTQ grows continuously, but gets emptied in bursts of 100,
+# then it doesn't make sense to limit it e.g. at 10, because it would
+# block too soon, the producing end would wait around idle for the
+# burst, and that burst would only run at 10% efficiency.
+INPUTQ = Queue(${2:CONSUMER_WORKERS})
+OUTPUTQ = Queue(${3:CONSUMER_WORKERS})
+EXIT = False
+
+def handler(signum, _):
+	print(f"caught signal {signal.strsignal(signum)}")
+	global EXIT
+	EXIT = True
+
+signal.signal(signal.SIGINT, handler)
+signal.signal(signal.SIGTERM, handler)
+
+def consumer():
+	while True:
+		${5:job_id, x} = INPUTQ.get()
+		$0ans = sp.run(["sleep", f"{x}s"], stdout=sp.PIPE)
+		assert ans.stdout is not None
+		OUTPUTQ.put(${6:(threading.get_ident(), job_id, x)})
+		INPUTQ.task_done()
+
+def logger():
+	while True:
+		${7:thread_id, job_id, x} = OUTPUTQ.get()
+		ts = str(int(time.time()))[-2:]
+		print(f"Worker {thread_id}, job {job_id} (sleep {x}s) done at ...{ts}.")
+		OUTPUTQ.task_done()
+
+for _ in range(CONSUMER_WORKERS):
+	threading.Thread(target=consumer, daemon=True).start()
+threading.Thread(target=logger, daemon=True).start()
+
+job_id = 0
+while not EXIT:
+	INPUTQ.put(${4:(job_id, random.randint(0, 3))})
+	job_id += 1
+
+print("waiting for queues to empty")
+INPUTQ.join()
+OUTPUTQ.join()
+
+print("exiting gracefully")
+endsnippet
+
 # vi: noet ts=4
