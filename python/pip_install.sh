@@ -34,6 +34,7 @@ without_gnubin pip3 install --upgrade --upgrade-strategy eager \
   matplotlib \
   seaborn \
   \
+  jupytext \
   pyflyby \
   jupyterlab_pyflyby \
   \
