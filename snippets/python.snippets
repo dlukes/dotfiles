@@ -104,4 +104,311 @@ logging.basicConfig(
 )
 endsnippet
 
+snippet mysql "connect to MySQL database"
+import pandas as pd
+pd.read_sql("${0:show tables}", "mysql://${1:username}:${2:password}@${3:localhost}/${4:dbname}?charset=utf8")
+endsnippet
+
+snippet sqlite "SQLite3 from Python usage overview"
+# SQLite3: A crash course
+# -----------------------
+#
+# NOTE: If you keep these foundational aspects in mind, you should have
+# fairly appropriate expectations about how SQLite3 will behave in any
+# given situation and how to use it appropriately and efficiently.
+#
+# There's a special default INTEGER PRIMARY KEY column which you can
+# refer to as rowid / oid / _rowid_ (unless these names are taken up by
+# regular columns), so you don't have to declare one. If you do declare
+# an INTEGER PRIMARY KEY column, it will be an alias to the rowid
+# column. By default, rowids of deleted rows can be subsequently reused,
+# which is simpler and faster. If you need rowids to grow monotonically
+# (not necessarily by increments of 1 though!), add the AUTOINCREMENT
+# keyword.
+#
+# There are 5 storage classes: NULL, INTEGER, REAL, TEXT, BLOB. Any
+# column except INTEGER PRIMARY KEY can store a value of any storage
+# class.
+#
+# Column types define "type affinities", i.e. hints to SQLite3 about the
+# preferred (de)serialization format. There are 5 affinities: TEXT,
+# NUMERIC, INTEGER, REAL, BLOB. For how column types map to affinities,
+# see: <https://www.sqlite.org/datatype3.html#type_affinity>. You can
+# also create tables without specifying column types.
+#
+# Even dates and timestamps are strings. SQLite3 has some special
+# functions which allow you to compute offsets on them and normalize
+# them, but they still return just strings, which you then just compare
+# lexicographically. So if your data is already normalized, you don't
+# need any of these functions. Both SQLite3 and its Python bindings use
+# a space as the separator between the date and time, instead of the ISO
+# 8601 mandated T.
+#
+# Similarly for JSON values -- stored as text (possibly blobs in the
+# future, pending optimizations), but functions are available to
+# manipulate them in sophisticated ways.
+#
+# SQLite3 by default operates in autocommit mode, but the Python
+# bindings do not. By default, they issue a BEGIN statement implicitly
+# before a Data Modification Language (DML) statement (i.e.
+# INSERT/UPDATE/DELETE/REPLACE). So in order for the changes to be
+# written to the database, either explicitly call 'con.commit()' where
+# appropriate, or wrap the transaction with 'with con: ...'.
+#
+# For backwards compatibility reasons, foreign key constraints are only
+# respected if the FOREIGN_KEY pragma is enabled.
+
+import json
+import sqlite3
+
+# *Adapters* serialize values of arbitrary types for storage in SQLite3;
+# *converters* deserialize into values of arbitrary types when reading
+# back into Python. The following ones are available by default:
+
+
+def print_serde(serde):
+	print("=" * 72)
+	print(serde)
+	print("-" * 72)
+	modname, varname = serde.split(".")
+	for k, v in getattr(globals()[modname], varname).items():
+		print(f"- {k}: {v}")
+	print("=" * 72)
+
+
+print_serde("sqlite3.adapters")
+print_serde("sqlite3.converters")
+
+sqlite3.register_adapter(list, lambda l: json.dumps(l, separators=(",", ":")))
+sqlite3.register_adapter(dict, lambda d: json.dumps(d, separators=(",", ":")))
+sqlite3.register_converter("json", lambda s: json.loads(s))
+
+print_serde("sqlite3.adapters")
+print_serde("sqlite3.converters")
+
+# NOTE: This demonstrates all the bells and whistles, including both
+# types of converter triggers (see below), a row factory which allows
+# accessing columns by name, and a trace callback for debugging. In
+# practice, you probably don't need all of this every time.
+con = sqlite3.connect(
+	":memory:",
+	# Adapters are triggered automatically, whenever you try to store a
+	# value of that type in the database. Converters are triggered
+	# either based on the declared type of the column (PARSE_DECLTYPES),
+	# like 'create table x(col type)', or based on an explicitly
+	# requested converter via an AS clause, like 'select col as "col
+	# [type]"' (PARSE_COLNAMES). Both of these need to be enabled first.
+	detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES,
+)
+con.row_factory = sqlite3.Row
+con.set_trace_callback(print)
+
+con.executescript(
+	"""
+-- without the pragma, the invalid person_id below won't trigger an
+-- error; the pragma needs to be enabled for each connection
+pragma foreign_keys = on;
+create table roles(type text);
+create table people(
+	-- an explicit integer primary key column will be an alias to the
+	-- rowid, and in addition, it can be referenced as a foreign key
+	id integer primary key,
+	name text not null,
+	surname text not null,
+	birthday date not null
+);
+create table stuff(
+	person_id integer not null,
+	thing json not null,
+	ts timestamp not null default current_timestamp,
+	-- foreign key constraints on inappropriate columns will raise
+	-- foreign key mismatch errors; in particular, you can't use
+	-- implicit rowid columns as foreign keys
+	foreign key(person_id) references people(id)
+);
+"""
+)
+
+# wrap DML commands in a transaction!
+with con:
+	con.executemany(
+		# specifying column names after the table name -- 'roles(...)'
+		# -- is optional if unambiguous, but recommended if it's
+		# possible the schema might change in the future
+		"insert into roles values(?)",
+		[("user",), ("moderator",), ("admin",)],
+	)
+	con.executemany(
+		# column names necessary here because we're not supplying the id
+		# (auto-incrementing primary key)
+		"insert into people(name, surname, birthday) values(?, ?, ?)",
+		[
+			("Frank", "Zappa", "1940-12-21"),
+			("Moon", "Zappa", "1967-09-28"),
+			("Dweezil", "Zappa", "1969-09-05"),
+		],
+	)
+	con.executemany(
+		# column names necessary here because we're not supplying
+		# timestamp (has default value)
+		"insert into stuff(person_id, thing) values(?, ?)",
+		[
+			(
+				1,
+				dict(
+					first_album="Freak Out!",
+					wife=dict(name="Gail", surname="Zappa", maiden_name="Sloatman"),
+				),
+			),
+			(2, dict(hit_single="Valley Girl", year=1982, composer=1)),
+			(3, ["Ian", "Donald", "Calvin", "Euclid"]),
+		],
+	)
+
+try:
+	with con:
+		con.execute(
+			"insert into stuff(person_id, thing) values(?, ?)",
+			(42, ["Douglas", "Adams"]),
+		)
+except sqlite3.Error as e:
+	print("\033[31mERROR:", e, "\033[0m")
+
+# fix Dweezil's birthday
+with con:
+	id, bday = con.execute(
+		"select id, birthday from people where name = 'Dweezil'"
+	).fetchone()
+	bday = bday.replace(year=1969)
+	con.execute("update people set birthday = ? where id = ?", (bday, id))
+
+
+def print_rows(query):
+	print("=" * 72)
+	cur = con.execute(query)
+	print("-" * 72)
+	for row in cur:
+		print("-", ", ".join(f"{k}: {row[k]!r}" for k in row.keys()))
+	print("=" * 72)
+
+
+print_rows("select rowid, * from roles")
+print_rows("select *, date(birthday, '+100 years') as 'centenary [date]' from people")
+print_rows("select * from stuff")
+# Just a taste of how JSON can be sliced and diced within SQLite3
+# itself:
+print_rows(
+	"select json_extract(thing, '$.wife.name', '$.wife.maiden_name') "
+	"as 'zappas_bride [json]' from stuff where person_id = 1"
+)
+# A demo of how PARSE_COLNAMES works with anything, including literals
+# and magic global variables:
+print_rows("select '[1,2,3]' as 'j [json]', current_date as 'd [date]'")
+
+con.close()
+endsnippet
+
+snippet paramp "parallelism with multiprocessing"
+import time
+import random
+import multiprocessing as mp
+
+def worker(x):
+	# Processes can send each other data via Queues or Pipes,
+	# synchronize via Locks, and share state via shared memory Values /
+	# Arrays (primitive, low-level, ctypes-style data, fast) or Managers
+	# (high-level, proxy objects, slower).
+	$0time.sleep(random.randint(0, 3))
+	return x + 10
+
+def main():
+	ctx = mp.get_context("${1:forkserver}")
+	# Use 1--32 processes, always at least two fewer than the maximum
+	# number of CPUs available. Technically, the number of CPUs
+	# available to the process (as opposed to the number physically
+	# present on the system) is given by 'len(os.sched_getaffinity(0))'.
+	processes = ${2:min(32, max(1, mp.cpu_count() - 2))}
+	print("Using", processes, "processes.")
+	# Worker processes can have an initializer function. They can also
+	# be reaped and replaced with new ones after handling a given number
+	# of tasks, which is handy to prevent runaway resource leaks in
+	# long-lived pools.
+	with ctx.Pool(processes) as pool:
+		for x in pool.imap_unordered(worker, ${3:range(10)}):
+			print(x)
+
+# This guard is mandatory when not using "fork". The module must be
+# importable without running any multiprocessing initialization side
+# effects.
+if __name__ == "__main__":
+	main()
+endsnippet
+
+snippet parath "parallelism with threading"
+import os
+import time
+import random
+import signal
+import threading
+import subprocess as sp
+from queue import Queue
+
+# Use 1--32 threads, always at least two fewer than the maximum number
+# of CPUs available. Technically, the number of CPUs available to the
+# process (as opposed to the number physically present on the system) is
+# given by 'len(os.sched_getaffinity(0))'.
+#
+# This is a reasonable number when the threads run CPU-bound tasks in
+# subprocesses or C extensions. When running I/O-bound tasks in pure
+# Python, e.g. scraping URLs, you might want to make this (much) bigger.
+CONSUMER_WORKERS = ${1:min(32, max(1, os.cpu_count() - 2))}
+# Up to the same number of tasks can be waiting as are being executed.
+# You might want to tweak this depending on the specifics of the job.
+# E.g. if OUTPUTQ grows continuously, but gets emptied in bursts of 100,
+# then it doesn't make sense to limit it e.g. at 10, because it would
+# block too soon, the producing end would wait around idle for the
+# burst, and that burst would only run at 10% efficiency.
+INPUTQ = Queue(${2:CONSUMER_WORKERS})
+OUTPUTQ = Queue(${3:CONSUMER_WORKERS})
+EXIT = False
+
+def handler(signum, _):
+	print(f"caught signal {signal.strsignal(signum)}")
+	global EXIT
+	EXIT = True
+
+signal.signal(signal.SIGINT, handler)
+signal.signal(signal.SIGTERM, handler)
+
+def consumer():
+	while True:
+		${5:job_id, x} = INPUTQ.get()
+		$0ans = sp.run(["sleep", f"{x}s"], stdout=sp.PIPE)
+		assert ans.stdout is not None
+		OUTPUTQ.put(${6:(threading.get_ident(), job_id, x)})
+		INPUTQ.task_done()
+
+def logger():
+	while True:
+		${7:thread_id, job_id, x} = OUTPUTQ.get()
+		ts = str(int(time.time()))[-2:]
+		print(f"Worker {thread_id}, job {job_id} (sleep {x}s) done at ...{ts}.")
+		OUTPUTQ.task_done()
+
+for _ in range(CONSUMER_WORKERS):
+	threading.Thread(target=consumer, daemon=True).start()
+threading.Thread(target=logger, daemon=True).start()
+
+job_id = 0
+while not EXIT:
+	INPUTQ.put(${4:(job_id, random.randint(0, 3))})
+	job_id += 1
+
+print("waiting for queues to empty")
+INPUTQ.join()
+OUTPUTQ.join()
+
+print("exiting gracefully")
+endsnippet
+
 # vi: noet ts=4
