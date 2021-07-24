@@ -74,11 +74,24 @@ pyenv versions
 # don't abort entire script if user chooses not to uninstall previous
 # version; the subshell is needed on old bash versions (<4) because of
 # https://stackoverflow.com/a/68144864
-(pyenv uninstall $curr_ver) || true
-without_gnubin pyenv install $new_ver
->&2 echo "Black's virtualenv might be broken now, removing it."
-rm -rf ~/.local/share/nvim/black
+(pyenv uninstall $curr_ver) && {
+  >&2 echo "Black's virtualenv is broken now, removing it."
+  rm -rf ~/.local/share/nvim/black
+} || true
+without_gnubin pyenv install --keep $new_ver
 
 pyenv shell $new_ver
 "$dirname"/pip_install.sh
+
+# build local copy of docs
+src_dir="$PYENV_ROOT/sources"
+doc_dir="$(pyenv prefix)/share/doc"
+pushd "$src_dir/$new_ver/Python-$new_ver/Doc"
+make venv
+make html
+mkdir -p "$doc_dir"
+mv -T build/html "$doc_dir/python"
+popd
+rm -rf "$src_dir"
+
 pyenv global $new_ver
