@@ -25,6 +25,14 @@ if not set -q CUSTOM_PATHS
   set -gxp PATH ~/.local/bin ~/.files/bin ~/.cargo/bin
 end
 
+# MANPATH is either correctly initiliazed above by Homebrew, or below
+if not set -q MANPATH
+  # empty element is needed so that joined MANPATH ends with :, which
+  # means system-wide locations for man pages will still be searched
+  # even though MANPATH is set (cf. manpath command)
+  set -gx MANPATH ''
+end
+
 # --------------------------------------------------------------- Python {{{1
 
 set -gx PYTHONFAULTHANDLER 1
@@ -36,8 +44,18 @@ if type -q pyenv
   if not set -q PYENV_ROOT
     set -gx PYENV_ROOT ~/.local/pyenv
     pyenv init --path | source
+    set -gxp MANPATH (printf "%s\n" $PYENV_ROOT/versions/*/share/man | sort -Vr)
   end
   pyenv init - | source
+end
+
+# ----------------------------------------------------------------- Rust {{{1
+
+if not set -q RUSTUP_HOME
+  # this is the default value, so setting it is technically redundant,
+  # but I'm using it as a sentinel, so I set it anyway
+  set -gx RUSTUP_HOME ~/.rustup
+  set -gxp MANPATH (printf "%s\n" $RUSTUP_HOME/toolchains/*/share/man | sort -r)
 end
 
 # ----------------------------------------------------------------- fasd {{{1

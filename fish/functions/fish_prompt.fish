@@ -19,13 +19,6 @@ function fish_prompt --description 'Write out the prompt'
     set venv ''
   end
 
-  if type -q rustc
-    # empty element is needed so that joined MANPATH ends with :, which
-    # means system-wide locations for man pages will still be searched
-    # even though MANPATH is set (cf. manpath command)
-    set -gx MANPATH (rustc --print sysroot)/share/man ''
-  end
-
   echo -n (set_color cyan)(prompt_pwd)$venv \
     (set_color red)'❯'(set_color yellow)'❯'(set_color green)'❯ '(set_color normal)
 end
