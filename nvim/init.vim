@@ -25,7 +25,7 @@ Plug 'lambdalisue/suda.vim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/lsp-status.nvim'
-Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'airblade/vim-gitgutter'
@@ -48,7 +48,7 @@ Plug 'SirVer/ultisnips'
 Plug 'vim-voom/VOoM'
 
 " filetype-specific
-Plug 'psf/black', { 'for': 'python', 'branch': 'stable' }
+Plug 'psf/black', { 'for': 'python', 'tag': 'stable' }
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 " TODO: get rid of all custom markdown config once tree-sitter support
 " lands
