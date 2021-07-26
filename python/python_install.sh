@@ -83,15 +83,19 @@ without_gnubin pyenv install --keep $new_ver
 pyenv shell $new_ver
 "$dirname"/pip_install.sh
 
-# build local copy of docs
-src_dir="$PYENV_ROOT/sources"
-doc_dir="$(pyenv prefix)/share/doc"
-pushd "$src_dir/$new_ver/Python-$new_ver/Doc"
-make venv
-make html
-mkdir -p "$doc_dir"
-mv -T build/html "$doc_dir/python"
-popd
-rm -rf "$src_dir"
+# build local copy of docs (only useful on systems with a GUI)
+if is_macos || [ -n "$XDG_CURRENT_DESKTOP" ]; then
+  src_dir="$PYENV_ROOT/sources"
+  doc_dir="$(pyenv prefix)/share/doc"
+  cd "$src_dir/$new_ver/Python-$new_ver/Doc"
+  make venv
+  make html
+  mkdir -p "$doc_dir"
+  mv -T build/html "$doc_dir/python"
+  cd -
+  rm -rf "$src_dir"
+else
+  >&2 echo 'Headless system, not building local copy of docs.'
+fi
 
 pyenv global $new_ver
