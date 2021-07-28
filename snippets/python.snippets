@@ -411,4 +411,9 @@ OUTPUTQ.join()
 print("exiting gracefully")
 endsnippet
 
+snippet digest
+import hashlib
+hashlib.shake_256(${1:bytes}).hexdigest(${2:length})
+endsnippet
+
 # vi: noet ts=4
