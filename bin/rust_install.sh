@@ -114,6 +114,8 @@ if [ "$devel" = y ] || [ "$devel" = Y ]; then
     cargo-edit
     # dealing with outdated deps
     cargo-outdated
+    # check for security vulnerabilities
+    cargo-audit
     # inspecting dep trees (useful for detecting duplicate deps with -d)
     cargo-tree
     # recursive cleanup of build files >30 days old: cargo sweep -r -t30
