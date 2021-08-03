@@ -104,9 +104,14 @@ logging.basicConfig(
 )
 endsnippet
 
-snippet mysql "connect to MySQL database"
-import pandas as pd
-pd.read_sql("${0:show tables}", "mysql://${1:username}:${2:password}@${3:localhost}/${4:dbname}?charset=utf8")
+snippet pdmysql "read MySQL into pandas"
+# make sure you have mysqlclient installed!
+$0pd.read_sql("${1:show tables}", "mysql://${2:username}:${3:password}@${4:localhost}/${5:dbname}?charset=utf8")
+endsnippet
+
+snippet pdsqlite "read SQLite3 into pandas"
+con = sqlite3.connect("${1::memory:}")
+$0pd.read_sql("${2:select * from table}", con)
 endsnippet
 
 snippet sqlite "SQLite3 from Python usage overview"
