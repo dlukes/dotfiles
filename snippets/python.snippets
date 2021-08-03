@@ -1,12 +1,12 @@
 snippet ifm "if main" b
 if __name__ == "__main__":
-	main($0)
+	${VISUAL}
 endsnippet
 
 snippet ifmd "if main with ipdb on exception" b
 if __name__ == "__main__":
 	with __import__("ipdb").launch_ipdb_on_exception():
-		main($0)
+		${VISUAL}
 endsnippet
 
 snippet dbg "launch ipdb on exception"
@@ -416,9 +416,22 @@ OUTPUTQ.join()
 print("exiting gracefully")
 endsnippet
 
-snippet digest
+snippet digest "variable length hex digest"
 import hashlib
 hashlib.shake_256(${1:bytes}).hexdigest(${2:length})
+endsnippet
+
+snippet xmltree "parse XML"
+from lxml import etree
+xml = etree.parse($0)
+endsnippet
+
+snippet xpathstr "concat text nodes to str"
+$0.xpath("string()")
+endsnippet
+
+snippet xpathtext "text nodes as list of str"
+$0.xpath(".//text()")
 endsnippet
 
 # vi: noet ts=4
