@@ -174,7 +174,7 @@ autocmd VimLeave * set guicursor=a:ver25
 
 " allow hiding buffers with changes
 set hidden
-set timeoutlen=500
+set timeoutlen=300
 set updatetime=500
 " don't redraw screen in the middle of a macro (faster)
 set lazyredraw
