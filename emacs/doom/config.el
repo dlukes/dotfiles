@@ -6,8 +6,8 @@
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
-(setq user-full-name "John Doe"
-      user-mail-address "john@doe.com")
+(setq user-full-name "David Lukes"
+      user-mail-address "dafydd.lukes@gmail.com")
 
 ;; Doom exposes five (optional) variables for controlling fonts in Doom. Here
 ;; are the three important ones:
@@ -25,15 +25,15 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-one)
+(setq doom-theme 'doom-palenight)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/Desktop/org/")
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq display-line-numbers-type nil)
 
 
 ;; Here are some additional functions/macros that could help you configure Doom:
@@ -52,3 +52,21 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+(use-package! key-chord
+  :config
+  ;; increase if key chords fail to register, decrease if they trigger
+  ;; even when you don't mean it or when there's a lag when typing
+  ;; normally (!)
+  (setq key-chord-one-keys-delay 0.02
+        key-chord-two-keys-delay 0.1)
+  (key-chord-mode 1))
+
+(after! key-chord
+  (key-chord-define evil-insert-state-map "fd" 'evil-normal-state))
+
+(use-package! ob-ein :after org)
+
+(after! org
+  (org-babel-do-load-languages
+    'org-babel-load-languages
+    '((ein . t))))
