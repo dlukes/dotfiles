@@ -57,6 +57,30 @@ Plug 'ElmCast/elm-vim', { 'for': 'elm' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'lervag/vimtex', { 'for': 'tex' }
 Plug 'dag/vim-fish', { 'for': 'fish' }
+
+" TODO: searching for a fuzzy finder
+" cf. also https://www.reddit.com/r/neovim/comments/lrz8a3/telescope_the_missing_neovim_ui/
+
+" vim-clap: just one package, requires external (Rust) binary for speed
+" but has speed and responsiveness, has ivy-like file explorer  (filer),
+" has cache (good for searching large dirs), doesn't do LSP, doesn't
+" have preview (?)
+Plug 'ryanoasis/vim-devicons'
+Plug 'liuchengxu/vim-clap', { 'do': 'make' }
+
+" telescope.nvim: Lua, can be slow and unresponsive, at least until the
+" Lua work can be offloaded off the main thread, which is not easy but
+" they're working on it, does LSP too, no (custom) external deps but
+" depends on other Vim packages (and on CLI tools you already have
+" installed anyway)
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
+" there's also LeaderF which purports to be fast and is (partially)
+" written and extensible in Python, which means I'd probably have an
+" easier time debugging potential problems
 call plug#end()
 
 "------------------------------------------------ Functions and commands {{{1
@@ -302,6 +326,8 @@ let g:completion_enable_snippet = 'UltiSnips'
 " limit width of columns in completion menu
 let g:completion_abbr_length = 15
 let g:completion_menu_length = 15
+
+let g:clap_theme = 'material_design_dark'
 
 "---------------------------------------------------------- Key bindings {{{1
 
