@@ -314,6 +314,33 @@ noremap <silent> zi :call ToggleFolds()<CR>
 inoremap <silent><expr> <C-n>
   \ pumvisible() ? "\<C-n>" :
   \ completion#trigger_completion()
+" make Y behave like D, C -> perform action from cursor to end of line
+nnoremap Y y$
+" keep cursor centered during various operations
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap J mzJ`z
+" undo break points (useful especially when typing large amounts of
+" prose in one go)
+inoremap . .<C-g>u
+inoremap , ,<C-g>u
+inoremap ; ;<C-g>u
+inoremap ! !<C-g>u
+inoremap ? ?<C-g>u
+inoremap " "<C-g>u
+inoremap - -<C-g>u
+inoremap ( (<C-g>u
+inoremap ) )<C-g>u
+" moving selections around while reindenting properly, without messing
+" up registers (!)
+vnoremap J :move '>+1<CR>gv=gv
+vnoremap K :move '<-2<CR>gv=gv
+" TODO: variations on the above for insert and normal mode, but I can't
+" think of good bindings for those right now
+" inoremap ??? <Esc>:move .+1<CR>==
+" inoremap ??? <Esc>:move .-2<CR>==
+" nnoremap ??? :move .+1<CR>==
+" nnoremap ??? :move .-2<CR>==
 
 nnoremap <silent> <leader> :<C-u>WhichKey '<Space>'<CR>
 noremap <leader><leader> :
