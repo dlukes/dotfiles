@@ -186,9 +186,10 @@ set nojoinspaces
 set list
 set completeopt=menuone,noinsert,noselect
 set pumheight=10
-" shows ex command results preview as you type, only works with :s
+" shows ex command results preview as you type, only works with :s, :sm
+" and :sno
 " currently
-set inccommand=nosplit
+set inccommand=split
 " character triggering completion in macros
 set wildcharm=<Tab>
 " let find search in dir of active buffer and recursively under current
