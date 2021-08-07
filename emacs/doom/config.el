@@ -21,6 +21,9 @@
 ;; font string. You generally only need these two:
 ;; (setq doom-font (font-spec :family "monospace" :size 12 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
+;;
+;; NOTE: See also <https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts>
+(setq doom-font "VictorMono Nerd Font-12")
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -35,6 +38,19 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type nil)
 
+;; NOTE: This is a Custom variable, so set it with setq!, just in case
+;; there are any relevant hooks to trigger. As a general rule, when
+;; figuring out how to set Custom variables from config.el, try to just
+;; lowercase the name from Custom and replace spaces with hyphens. If
+;; that doesn't work, go look at the source code for the package that
+;; defines the Custom variable and search for the relevant defcustom
+;; defining it.
+(setq! writeroom-width 40)
+
+;; NOTE: Word-granularity diffs can be noisy when the algorithm tries
+;; too hard in places where it doesn't make sense. Can be toggled with
+;; "SPC g w" (see below) if needed.
+(setq magit-diff-refine-hunk nil)
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
@@ -54,19 +70,39 @@
 ;; they are implemented.
 (use-package! key-chord
   :config
-  ;; increase if key chords fail to register, decrease if they trigger
-  ;; even when you don't mean it or when there's a lag when typing
-  ;; normally (!)
+  ;; NOTE: Increase if key chords fail to register, decrease if they
+  ;; trigger even when you don't mean it or when there's a lag when
+  ;; typing normally (!)
   (setq key-chord-one-keys-delay 0.02
         key-chord-two-keys-delay 0.1)
+  (key-chord-define evil-insert-state-map "fd" 'evil-normal-state)
   (key-chord-mode 1))
 
-(after! key-chord
-  (key-chord-define evil-insert-state-map "fd" 'evil-normal-state))
+(use-package! hydra)
 
-(use-package! ob-ein :after org)
+(defhydra dlukes/hydra-zen (:timeout 4)
+  "Adjust the width of the zen mode writing area"
+  ("+" writeroom-increase-width "wider")
+  ("-" writeroom-decrease-width "narrower")
+  ("0" writeroom-adjust-width "reset")
+  ("ESC" nil "done" :exit t))
 
-(after! org
-  (org-babel-do-load-languages
-    'org-babel-load-languages
-    '((ein . t))))
+;; NOTE: Cf. 'SPC h f map\!'. Use stuff like :n immediately before a
+;; mapping for Evil state (Vim mode) specific keymaps. Also, glean
+;; inspiration from the official key binding definitions, e.g. in:
+;;
+;; ~/.config/emacs/modules/config/default/+evil-bindings.el
+(map! :leader
+  :desc "Run ex command" "SPC" #'evil-ex
+  :desc "Switch to last buffer" "TAB" #'evil-switch-to-windows-last-buffer
+  (:prefix ("+" . "hydra") "z" #'dlukes/hydra-zen/body)
+  (:prefix ("g" . "git") :desc "Toggle word diff" "w" #'magit-diff-toggle-refine-hunk)
+  (:prefix ("w" . "window") "o" #'delete-other-windows)
+
+  ;; NOTE: Workspaces are also easily manipulated with other default key
+  ;; bindings:
+  ;;
+  ;; - Ctrl/Cmd-T         ->  Create new workspace
+  ;; - Ctrl/Cmd-Shift-T   ->  Display workspace tab bar
+  ;; - Ctrl/Cmd-<number>  ->  Switch to workspace <number>
+  :desc "workspace" "W" doom-leader-workspace-map)

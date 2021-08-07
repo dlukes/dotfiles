@@ -3,3 +3,4 @@
 fish/completions
 fish/conf.d
 plug.lock
+emacs/doom/custom.el
