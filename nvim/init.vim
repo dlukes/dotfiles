@@ -168,6 +168,11 @@ augroup vim_help
   autocmd BufEnter *.txt if &buftype == 'help' | wincmd L | endif
 augroup END
 
+augroup highlight_yank
+  autocmd!
+  autocmd TextYankPost * silent! lua require'vim.highlight'.on_yank({timeout = 300})
+augroup END
+
 autocmd VimLeave * set guicursor=a:ver25
 
 "-------------------------------------------------------------- Settings {{{1
