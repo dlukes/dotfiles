@@ -50,7 +50,8 @@
 ;; NOTE: Word-granularity diffs can be noisy when the algorithm tries
 ;; too hard in places where it doesn't make sense. Can be toggled with
 ;; "SPC g w" (see below) if needed.
-(setq magit-diff-refine-hunk nil)
+(after! magit
+  (setq magit-diff-refine-hunk nil))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
