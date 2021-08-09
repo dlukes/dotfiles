@@ -90,8 +90,12 @@
   ;; typing normally (!)
   (setq key-chord-one-keys-delay 0.02
         key-chord-two-keys-delay 0.1)
-  (key-chord-define evil-insert-state-map "fd" 'evil-normal-state)
   (key-chord-mode 1))
+
+(use-package! key-seq
+  :after key-chord
+  :config
+  (key-seq-define evil-insert-state-map "fd" 'evil-normal-state))
 
 (use-package! hydra)
 
