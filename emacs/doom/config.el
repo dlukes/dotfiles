@@ -51,7 +51,8 @@
 ;; too hard in places where it doesn't make sense. Can be toggled with
 ;; "SPC g w" (see below) if needed.
 (after! magit
-  (setq magit-diff-refine-hunk nil))
+  (setq magit-diff-refine-hunk nil
+        magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")))
 
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
