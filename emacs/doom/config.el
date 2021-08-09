@@ -105,6 +105,41 @@
   ("-" writeroom-decrease-width "narrower")
   ("0" writeroom-adjust-width "reset")
   ("ESC" nil "done" :exit t))
+(defun dlukes/ediff-doom-config (file)
+  "ediff the current config with the examples in doom-emacs-dir
+
+There are multiple config files, so FILE specifies which one to
+diff.
+"
+  (interactive
+    (list (read-file-name "Config file to diff: " doom-private-dir)))
+  (let* ((stem (file-name-base file))
+          (customized-file (format "%s.el" stem))
+          (template-file-regex (format "^%s.example.el$" stem)))
+    (ediff-files
+      (concat doom-private-dir customized-file)
+      ;; NOTE: The templates are in various places unfortunately, so
+      ;; let's do a recursive search on the repo, that should work
+      ;; reliably.
+      (car (directory-files-recursively
+             doom-emacs-dir
+             template-file-regex
+             nil
+             ;; NOTE: The naming of path manipulation in Emacs Lisp is a
+             ;; mess. We want to match against the last part of the
+             ;; path, which is what file-name-nondirectory is for, but
+             ;; only if the path doesn't end with /, because the
+             ;; function is meant for regular files only. So if the last
+             ;; portion of the path is a directory, ending in /, you
+             ;; have to convert to a "directory file name" (I kid you
+             ;; not, that's the language the docs use) with
+             ;; directory-file-name, stripping the / suffix, so that you
+             ;; can use file-name-nondirectory on it. However, the paths
+             ;; that are passed to our predicate lambda, although
+             ;; exclusively directories, do NOT have the / suffix (yay
+             ;; for consistency I guess?), so we can directly call
+             ;; file-name-nondirectory to get the last path element.
+             (lambda (d) (not (string-prefix-p "." (file-name-nondirectory d)))))))))
 
 ;; NOTE: Cf. 'SPC h f map\!'. Use stuff like :n immediately before a
 ;; mapping for Evil state (Vim mode) specific keymaps. Also, glean
@@ -116,6 +151,10 @@
   :desc "Switch to last buffer" "TAB" #'evil-switch-to-windows-last-buffer
   (:prefix ("+" . "hydra") "z" #'dlukes/hydra-zen/body)
   (:prefix ("g" . "git") :desc "Toggle word diff" "w" #'magit-diff-toggle-refine-hunk)
+  (:prefix ("h" . "help")
+    (:prefix ("d" . "doom")
+      "D" #'doom-debug-mode             ; originally under d, let's put it under D...
+      "d" #'dlukes/ediff-doom-config))  ; ... and have the config diff take its place
   (:prefix ("w" . "window") "o" #'delete-other-windows)
 
   ;; NOTE: Workspaces are also easily manipulated with other default key
