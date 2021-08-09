@@ -104,7 +104,8 @@
   ("+" writeroom-increase-width "wider")
   ("-" writeroom-decrease-width "narrower")
   ("0" writeroom-adjust-width "reset")
-  ("ESC" nil "done" :exit t))
+  ("q" nil "done" :exit t))
+
 (defun dlukes/ediff-doom-config (file)
   "ediff the current config with the examples in doom-emacs-dir
 
