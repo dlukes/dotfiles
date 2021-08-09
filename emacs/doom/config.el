@@ -68,6 +68,21 @@
 ;;
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
+
+;; NOTE: Don't try to add Org structure templates with multi-character
+;; triggers, it works with C-c C-, but not with org-tempo <-style
+;; completion, probably because when there are at least two characters,
+;; company completion is triggered instead. Which can probably be
+;; tweaked, but at this point, it may be a better idea to use YASnippet
+;; instead, < is actually quite inconvenient to type. And twisting my
+;; fingers on C-c C-, is of course out of the question.
+;; (after! org
+;;   (dolist (template '(
+;;                        ("ss" . "src shell")
+;;                        ("se" . "src emacs-lisp")
+;;                        ("sp" . "src jupyter-python")))
+;;     (add-to-list 'org-structure-template-alist template)))
+
 (use-package! key-chord
   :config
   ;; NOTE: Increase if key chords fail to register, decrease if they
