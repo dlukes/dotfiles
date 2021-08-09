@@ -116,8 +116,8 @@ diff.
   (interactive
     (list (read-file-name "Config file to diff: " doom-private-dir)))
   (let* ((stem (file-name-base file))
-          (customized-file (format "%s.el" stem))
-          (template-file-regex (format "^%s.example.el$" stem)))
+         (customized-file (format "%s.el" stem))
+         (template-file-regex (format "^%s.example.el$" stem)))
     (ediff-files
       (concat doom-private-dir customized-file)
       ;; NOTE: The templates are in various places unfortunately, so
