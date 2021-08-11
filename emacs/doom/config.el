@@ -4,6 +4,9 @@
 ;; sync' after modifying this file!
 (setq confirm-kill-emacs nil)
 
+;; NOTE: Turn on to get backtraces when calling interactive commands.
+;; (setq debug-on-error t)
+
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name "David Lukes"
