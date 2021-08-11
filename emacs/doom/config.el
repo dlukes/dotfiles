@@ -36,6 +36,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq! org-directory "~/Desktop/org/"
+
        org-indent-indentation-per-level 0
        org-adapt-indentation 'headline-data
        org-indent-mode-turns-off-org-adapt-indentation nil
@@ -46,6 +47,7 @@
           "* %?"
           :if-new (file+head "%<%Y-%m-%d>.org"
                              "#+title: %<%Y-%m-%d>\n"))))
+(add-hook 'org-mode-hook #'visual-fill-column-mode)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
