@@ -43,6 +43,7 @@
        org-indent-indentation-per-level 0
        org-adapt-indentation 'headline-data
        org-indent-mode-turns-off-org-adapt-indentation nil
+       org-pretty-entities t
 
        org-roam-dailies-directory "daily/"
        org-roam-dailies-capture-templates
