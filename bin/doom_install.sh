@@ -1,0 +1,1 @@
+../emacs/doom_install.sh
