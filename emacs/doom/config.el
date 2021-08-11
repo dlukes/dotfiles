@@ -38,7 +38,14 @@
 (setq! org-directory "~/Desktop/org/"
        org-indent-indentation-per-level 0
        org-adapt-indentation 'headline-data
-       org-indent-mode-turns-off-org-adapt-indentation nil)
+       org-indent-mode-turns-off-org-adapt-indentation nil
+
+       org-roam-dailies-directory "daily/"
+       org-roam-dailies-capture-templates
+       '(("d" "default" entry
+          "* %?"
+          :if-new (file+head "%<%Y-%m-%d>.org"
+                             "#+title: %<%Y-%m-%d>\n"))))
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
