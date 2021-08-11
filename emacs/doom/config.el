@@ -2,7 +2,10 @@
 
 ;; Place your private configuration here! Remember, you do not need to run 'doom
 ;; sync' after modifying this file!
-(setq confirm-kill-emacs nil)
+(setq confirm-kill-emacs nil
+      ;; M-SPC is intercepted by GNOME
+      doom-leader-alt-key "S-SPC"
+      doom-localleader-alt-key "S-SPC m")
 
 ;; NOTE: Turn on to get backtraces when calling interactive commands.
 ;; (setq debug-on-error t)
