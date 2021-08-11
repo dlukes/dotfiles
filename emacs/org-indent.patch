@@ -1,0 +1,29 @@
+--- a/org-indent.el	2021-08-11 15:04:00.822293931 +0200
++++ b/org-indent.el	2021-08-11 15:07:29.613386281 +0200
+@@ -128,8 +128,9 @@
+ 	(make-vector org-indent--deepest-level nil))
+   (dotimes (n org-indent--deepest-level)
+     (let ((indentation (if (<= n 1) 0
++			 (max 0
+ 			 (* (1- org-indent-indentation-per-level)
+-			    (1- n)))))
++			    (1- n))))))
+       ;; Headlines line prefixes.
+       (let ((heading-prefix (make-string indentation ?*)))
+ 	(aset org-indent--heading-line-prefixes
+@@ -144,13 +145,14 @@
+ 			     (substring heading-prefix 1)))
+ 		    (t (org-add-props heading-prefix nil 'face 'org-indent)))))
+       ;; Text line prefixes.
++      (if (> org-indent-indentation-per-level 0)
+       (aset org-indent--text-line-prefixes
+ 	    n
+ 	    (org-add-props
+ 		(concat (make-string (+ n indentation) ?\s)
+ 			(and (> n 0)
+ 			     (char-to-string org-indent-boundary-char)))
+-		nil 'face 'org-indent)))))
++		nil 'face 'org-indent))))))
+ 
+ (defsubst org-indent-remove-properties (beg end)
+   "Remove indentations between BEG and END."

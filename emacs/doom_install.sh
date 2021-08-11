@@ -37,3 +37,22 @@ else
   "$emacs_d"/bin/doom install
   ln -sft ~/.local/bin "$emacs_d"/bin/doom
 fi
+
+# Patch org-indent.el to behave correctly when
+# org-indent-indentation-per-level is set to 0. TODO: Get rid of this
+# when/if https://lists.gnu.org/archive/html/emacs-orgmode/2021-08/msg00166.html
+# gets resolved.
+org_indent=$(find "$emacs_d" -type f -name org-indent.el)
+cd "$(dirname "$org_indent")"
+patch -up1 <"$script_dir"/org-indent.patch
+doom build -r
+
+>&2 echo "\
+All done. Remember you might need to run 'doom build' to recompile
+installed packages in certain situations:
+
+- If you change the major version of Emacs, as bytecode is generally not
+  backwards compatible.
+- If you modify the source code of installed packages manually (e.g.
+  while debugging), because packages are loaded from .elc files, not
+  .el. Use '-r' to rebuild only what you've changed."
