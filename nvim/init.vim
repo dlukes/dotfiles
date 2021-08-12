@@ -49,6 +49,11 @@ Plug 'vim-voom/VOoM'
 
 " filetype-specific
 Plug 'psf/black', { 'for': 'python', 'tag': 'stable' }
+" NOTE: (Neo)vim now ships with a Rust filetype plugin, which is typically an old(er)
+" version of rust.vim. Since I'm using LSP for IDE features and Treesitter for
+" highlighting, the only thing this plugin is good for is the commands it defines
+" (Rust*). I'm not really using those right now, but they keep evolving and might be
+" useful, so probably keep this plugin, to have access to up-to-date versions?
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 " TODO: get rid of all custom markdown config once tree-sitter support
 " lands
