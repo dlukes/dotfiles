@@ -96,6 +96,9 @@
 
        :tools
        ;;ansible
+       ;; NOTE: This module has no documentation (yet), but is hopefully on track to
+       ;; adding org-cite support in the near future, so I should probably add it.
+       biblio
        ;;debugger          ; FIXME stepping through code, to help you add bugs
        ;;direnv
        ;;docker
