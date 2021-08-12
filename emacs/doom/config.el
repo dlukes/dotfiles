@@ -73,6 +73,12 @@
   (setq magit-diff-refine-hunk nil
         magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")))
 
+;; NOTE: lsp-mode options for rust-analyzer are detailed at
+;; https://emacs-lsp.github.io/lsp-mode/page/lsp-rust-analyzer
+(setq lsp-rust-analyzer-server-display-inlay-hints t
+      lsp-rust-analyzer-display-chaining-hints t
+      lsp-rust-analyzer-display-parameter-hints t)
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
