@@ -71,15 +71,7 @@ local on_attach = function(client, bufnr)
 end
 
 local servers = {
-  rust_analyzer = {
-    settings = {
-      ["rust-analyzer"] = {
-        checkOnSave = {
-          command = "clippy",
-        },
-      },
-    },
-  },
+  -- Rust support is handled by a separate plugin, see below
   jedi_language_server = {},  -- as in, Python's Jedi
   r_language_server = {},
   sumneko_lua = {
@@ -136,7 +128,9 @@ for ls, config in pairs(servers) do
   -- just gets inserted into the buffer, but sometimes it should replace
   -- existing text, use placeholders etc. -- none of that works, it
   -- first needs support from completion-nvim and possibly UltiSnips
-  -- (search docs/issues for "LSP snippets")
+  -- (search docs/issues for "LSP snippets"). Or possibly switch away
+  -- from completion-nvim to a completion plugin that supports it -- see
+  -- what nvim-lspconfig recommends in its docs/wiki.
   capabilities.textDocument.completion.completionItem.snippetSupport = true
   lspconfig[ls].setup {
     cmd = cmd,
@@ -146,6 +140,19 @@ for ls, config in pairs(servers) do
     handlers = config.handlers,
   }
 end
+
+require("rust-tools").setup {
+  server = {
+    on_attach = on_attach,
+    settings = {
+      ["rust-analyzer"] = {
+        checkOnSave = {
+          command = "clippy",
+        },
+      },
+    },
+  },
+}
 
 function M.lsp_clients(verbose)
   print(string.format([[

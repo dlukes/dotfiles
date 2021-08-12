@@ -55,6 +55,9 @@ Plug 'psf/black', { 'for': 'python', 'tag': 'stable' }
 " (Rust*). I'm not really using those right now, but they keep evolving and might be
 " useful, so probably keep this plugin, to have access to up-to-date versions?
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
+" NOTE: A dedicated LSP config plugin for Rust. Should have support for standalone
+" files, but it's kind of wonky right now. Better create a dummy Cargo project.
+Plug 'simrat39/rust-tools.nvim', { 'for': 'rust' }
 " TODO: get rid of all custom markdown config once tree-sitter support
 " lands
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
