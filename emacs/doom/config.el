@@ -43,7 +43,11 @@
        org-indent-indentation-per-level 0
        org-adapt-indentation 'headline-data
        org-indent-mode-turns-off-org-adapt-indentation nil
+
        org-pretty-entities t
+       ;; NOTE: Don't create a separate section for footnotes, put them at the end of
+       ;; the section they're in.
+       org-footnote-section nil
 
        org-roam-dailies-directory "daily/"
        org-roam-dailies-capture-templates
@@ -173,6 +177,7 @@ diff.
 ;; mapping for Evil state (Vim mode) specific keymaps. Also, glean
 ;; inspiration from the official key binding definitions, e.g. in:
 ;;
+;; ~/.config/emacs/core/core-keybinds.el
 ;; ~/.config/emacs/modules/config/default/+evil-bindings.el
 (map! :leader
   :desc "Run ex command" "SPC" #'evil-ex
@@ -192,3 +197,7 @@ diff.
   ;; - Ctrl/Cmd-Shift-T   ->  Display workspace tab bar
   ;; - Ctrl/Cmd-<number>  ->  Switch to workspace <number>
   :desc "workspace" "W" doom-leader-workspace-map)
+
+(after! org
+  (map! :map org-mode-map :localleader
+    "f" #'org-footnote-action))
