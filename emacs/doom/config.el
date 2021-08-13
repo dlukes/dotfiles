@@ -39,6 +39,7 @@
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
 (setq! org-directory "~/Desktop/org/"
+       org-attach-id-dir (expand-file-name "attach/" org-directory)
 
        org-indent-indentation-per-level 0
        org-adapt-indentation 'headline-data
@@ -48,6 +49,7 @@
        ;; NOTE: Don't create a separate section for footnotes, put them at the end of
        ;; the section they're in.
        org-footnote-section nil
+       org-startup-with-inline-images t
 
        org-roam-dailies-directory "daily/"
        org-roam-dailies-capture-templates
