@@ -14,8 +14,6 @@ fi
 # XDG_CONFIG_HOME, but clutters the home directory).
 export DOOMDIR="$XDG_CONFIG_HOME/doom"
 if [ "$(realpath "$DOOMDIR")" != "$script_dir/doom" ]; then
-  echo debug "$(realpath "$DOOMDIR")"
-  echo debug "$script_dir/doom"
   >&2 echo "Private Doom config not in place, run symlink.sh first."
   exit 1
 fi
