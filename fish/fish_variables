@@ -8,7 +8,6 @@ SETUVAR _fish_abbr_df:df\x20\x2dkh
 SETUVAR _fish_abbr_du:du\x20\x2dkh
 SETUVAR _fish_abbr_fda:fd\x20\x2dHI
 SETUVAR _fish_abbr_g:git
-SETUVAR _fish_abbr_gap:git\x20add\x20\x2dp
 SETUVAR _fish_abbr_gc:git\x20commit\x20\x2d\x2dverbose
 SETUVAR _fish_abbr_gco:git\x20checkout
 SETUVAR _fish_abbr_gfm:git\x20pull
@@ -26,6 +25,7 @@ SETUVAR _fish_abbr_gss:git\x20status
 SETUVAR _fish_abbr_gst:git\x20stash
 SETUVAR _fish_abbr_gwD:git\x20diff\x20\x2d\x2dno\x2dext\x2ddiff\x20\x2d\x2dword\x2ddiff\x3dcolor
 SETUVAR _fish_abbr_gwd:git\x20diff\x20\x2d\x2dno\x2dext\x2ddiff
+SETUVAR _fish_abbr_ip:ip\x20\x2dc
 SETUVAR _fish_abbr_rga:rg\x20\x2duuu
 SETUVAR _fish_abbr_top:bpytop
 SETUVAR _fish_abbr_vi:nvim
