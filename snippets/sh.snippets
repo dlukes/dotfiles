@@ -1,0 +1,15 @@
+snippet sh
+#!/bin/sh
+
+# exit on error; no unset variables; no pathname expansion; trace execution
+set -eufx
+script_dir=$(dirname "$(realpath "\$0")")
+endsnippet
+
+snippet bash
+#!/bin/sh
+
+# exit on error; no unset variables; no pathname expansion; trace execution; no silent errors in the middle of a pipeline
+set -eufxo pipefail
+script_dir=$(dirname "$(realpath "\$0")")
+endsnippet
