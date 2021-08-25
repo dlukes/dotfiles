@@ -45,6 +45,12 @@ cd "$(dirname "$org_indent")"
 patch -up1 <"$script_dir"/org-indent.patch
 doom build -r
 
+# Make sure dead keys work: https://www.emacswiki.org/emacs/DeadKeys
+launcher=/usr/share/applications/emacs.desktop
+if [ -f "$launcher" ]; then
+  sudo sed -i 's/Exec=/Exec=env XMODIFIERS= /' "$launcher"
+fi
+
 >&2 echo "\
 All done. Remember you might need to run 'doom build' to recompile
 installed packages in certain situations:
