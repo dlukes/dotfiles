@@ -29,7 +29,8 @@ rm vscode.tar.gz
 >&2 echo "Setting up symlinks and desktop files..."
 cd bin
 ln -sf ../VSCode-linux-x64/bin/code
-cat <<'EOF' >~/.local/share/applications/code.desktop
+launcher="$HOME/.local/share/applications/code.desktop"
+cat <<'EOF' >
 [Desktop Entry]
 Name=Visual Studio Code
 Comment=Visual Studio Code
@@ -43,3 +44,4 @@ StartupWMClass=Code
 Categories=Development;TextEditor;
 MimeType=text/plain;
 EOF
+dbus-launch gio set "$launcher" metadata::trusted yes

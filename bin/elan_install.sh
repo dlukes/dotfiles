@@ -37,7 +37,8 @@ elan_bin=$(
     cut -f2
 )
 
-cat <<EOF >"$dot_local/share/applications/ELAN.desktop"
+launcher="$dot_local/share/applications/ELAN.desktop"
+cat <<EOF >"$launcher"
 [Desktop Entry]
 Name=ELAN
 Exec=env "_JAVA_OPTIONS=-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Xmx2048m" "$elan_bin" %U
@@ -46,5 +47,4 @@ Terminal=false
 Categories=Office;
 MimeType=text/xml
 EOF
-
->&2 echo "If you haven't used the .desktop launcher before, register it by double clicking it from Files."
+dbus-launch gio set "$launcher" metadata::trusted yes
