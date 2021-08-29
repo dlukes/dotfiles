@@ -45,6 +45,7 @@
        org-adapt-indentation 'headline-data
        org-indent-mode-turns-off-org-adapt-indentation nil
 
+       calendar-week-start-day 1
        org-pretty-entities t
        ;; NOTE: Don't create a separate section for footnotes, put them at the end of
        ;; the section they're in.
