@@ -42,6 +42,7 @@ fi
 # gets resolved.
 org_indent=$(find "$emacs_d" -type f -name org-indent.el)
 cd "$(dirname "$org_indent")"
+git reset --hard
 patch -up1 <"$script_dir"/org-indent.patch
 doom build -r
 
