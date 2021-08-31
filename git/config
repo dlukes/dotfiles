@@ -9,6 +9,17 @@
 [user]
   name = David Lukes
   email = dafydd.lukes@gmail.com
+[sendemail]
+  smtpserver = smtp.gmail.com
+  smtpuser = dafydd.lukes@gmail.com
+  # Create an app password <https://security.google.com/settings/security/apppasswords>,
+  # paste it here, send the patch, revert the paste and *revoke the password*, so that
+  # even if you accidentally commit it, you don't give the keys to your Google account
+  # to anyone on the internet, which is a bad idea™.
+  smtppass = xxx
+  smtpencryption = tls
+  smtpserverport = 587
+
 [core]
   quotepath = off
 [color]
