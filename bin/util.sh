@@ -40,3 +40,12 @@ without_gnubin() {
   "$@"
   export PATH="$full_path"
 }
+
+github_latest_release_tag_name() {
+  local org="$1"; shift
+  local repo="$1"; shift
+  curl -sSfL -H "Accept: application/vnd.github.v3+json" \
+    https://api.github.com/repos/"$org"/"$repo"/releases/latest |
+    grep -oPm1 '"tag_name":\s*"[^"]+?"' |
+    cut -d\" -f4
+}

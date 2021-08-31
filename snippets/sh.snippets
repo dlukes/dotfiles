@@ -13,3 +13,9 @@ snippet bash
 set -eufxo pipefail
 script_dir=$(dirname "$(realpath "\$0")")
 endsnippet
+
+snippet echo
+>&2 echo -n "\
+$0
+"
+endsnippet
