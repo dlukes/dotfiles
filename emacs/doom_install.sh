@@ -27,7 +27,7 @@ fi
 # empty ~/.emacs.d and off you go.
 emacs_d="$XDG_CONFIG_HOME/emacs"
 
-if command -v doom 2>&2; then
+if command -v doom >/dev/null 2>&1; then
   doom upgrade  # = cd ~/.emacs.d; git pull; doom clean, sync, update
 else
   mkdir -p "$XDG_CONFIG_HOME"
