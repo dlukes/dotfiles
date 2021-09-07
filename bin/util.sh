@@ -49,3 +49,8 @@ github_latest_release_tag_name() {
     grep -oPm1 '"tag_name":\s*"[^"]+?"' |
     cut -d\" -f4
 }
+
+# Invoke curl; if that fails because of an SSL certificate error, retry with curl -k.
+curlk() {
+  curl "$@" 2>/dev/null || curl -k "$@"
+}
