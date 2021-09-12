@@ -82,6 +82,7 @@ without_gnubin pyenv install --keep $new_ver
 
 pyenv shell $new_ver
 "$dirname"/pip_install.sh
+"$dirname"/umrk_install.sh
 
 # build local copy of docs (only useful on systems with a GUI)
 if is_macos || [ -n "$XDG_CURRENT_DESKTOP" ]; then
