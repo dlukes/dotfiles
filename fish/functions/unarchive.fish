@@ -5,7 +5,7 @@ function unarchive --description 'Extract archive'
 end
 
 function unarchive_one
-  set -l split (string split -rm1 . $argv)
+  set -l split (string split -rm1 . (string lower $argv))
   set -l cmd
 
   if string match -qr '\.tar$' $split[1]; or string match -qr '^t' $split[2]
