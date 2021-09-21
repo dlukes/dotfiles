@@ -86,6 +86,21 @@
       lsp-rust-analyzer-display-chaining-hints t
       lsp-rust-analyzer-display-parameter-hints t)
 
+;; NOTE: Spell checking should be available, but not enabled by default, so
+;; remove the hooks added in ~/.config/emacs/modules/checkers/spell/config.el
+(remove-hook! '(org-mode-hook
+                markdown-mode-hook
+                TeX-mode-hook
+                rst-mode-hook
+                mu4e-compose-mode-hook
+                message-mode-hook
+                git-commit-mode-hook)
+        #'flyspell-mode)
+(remove-hook! '(yaml-mode-hook
+                conf-mode-hook
+                prog-mode-hook)
+        #'flyspell-prog-mode)
+
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
