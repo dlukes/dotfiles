@@ -216,6 +216,8 @@ diff.
   ;; - Ctrl/Cmd-<number>  ->  Switch to workspace <number>
   :desc "workspace" "W" doom-leader-workspace-map)
 
-(after! org
-  (map! :map org-mode-map :localleader
-    "f" #'org-footnote-action))
+;; NOTE: Not necessary since https://github.com/hlissner/doom-emacs/pull/5371 got
+;; merged, kept for future reference.
+;; (after! org
+;;   (map! :map org-mode-map :localleader
+;;     "f" #'org-footnote-action))
