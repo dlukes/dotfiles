@@ -221,3 +221,6 @@ diff.
 ;; (after! org
 ;;   (map! :map org-mode-map :localleader
 ;;     "f" #'org-footnote-action))
+
+(map! :map doom-leader-toggle-map
+  :desc "Visual fill column" "v" #'visual-fill-column-mode)
