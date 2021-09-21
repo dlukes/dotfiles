@@ -32,21 +32,29 @@ function M.clear_document_highlight()
   api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
 end
 
--- cf. :help lsp-config for tips on what to map
+-- cf. :help lsp-config for tips on what to map; possibly migrate to Telescope
+-- alternatives where available when they've matured (right now for instance, there seem
+-- to be issues with multiple lang servers per buffer)
 local lsp_mappings = {
   {"n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>"},
   {"n", "gH", "<cmd>lua vim.lsp.buf.signature_help()<CR>"},
   {"n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>"},
   {"n", "gO", "<cmd>lua vim.lsp.buf.references()<CR><cmd>copen<CR>"},
+  -- {"n", "gd", "<cmd>lua require'telescope.builtin'.lsp_definitions{}<CR>"},
+  -- {"n", "gO", "<cmd>lua require'telescope.builtin'.lsp_references{}<CR>"},
   {"n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev { wrap = false }<CR>"},
   {"n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next { wrap = false }<CR>"},
+  {"n", "<leader>ls", "<cmd>lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>"},
   {"n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>"},
   {"n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>"},
   {"", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>"},
+  -- {"n", "<leader>la", "<cmd>lua require'telescope.builtin'.lsp_code_actions{}<CR>"},
+  -- {"", "<leader>la", "<cmd>lua require'telescope.builtin'.lsp_range_code_actions{}<CR>"},
   {"n", "<leader>lh", "<cmd>lua vim.lsp.buf.document_highlight()<CR>"},
   {"n", "<leader>lH", "<cmd>lua init.clear_document_highlight()<CR>"},
   {"n", "<leader>ld", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>"},
   {"n", "<leader>lD", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR><cmd>lopen<CR>"},
+  -- {"n", "<leader>lD", "<cmd>lua require'telescope.builtin'.lsp_document_diagnostics{}<CR>"},
 }
 -- NOTE: in order to yield all elements, unpack has to be the last
 -- (or only) expression in a list of expressions, so append the options
@@ -238,6 +246,27 @@ ts.setup {
       },
     },
   },
+}
+
+------------------------------------------------------- Telescope config {{{1
+
+local tactions = require("telescope.actions")
+local tbuiltin = require("telescope.builtin")
+
+local tpickers = {}
+for picker_name, _ in pairs(tbuiltin) do
+  tpickers[picker_name] = {theme = "dropdown"}
+end
+
+require("telescope").setup{
+  defaults = {
+    mappings = {
+      i = {
+        ["<esc>"] = tactions.close
+      },
+    },
+  },
+  pickers = tpickers,
 }
 
 ---------------------------------------------------------- Return module {{{1

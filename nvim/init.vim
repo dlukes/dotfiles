@@ -30,8 +30,14 @@ Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'airblade/vim-gitgutter'
 
+" fuzzy-finder = Telescope + deps
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
 " visuals
 Plug 'https://gitlab.com/protesilaos/tempus-themes-vim.git'
+Plug 'kyazdani42/nvim-web-devicons'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " For quickly picking an Airline theme matching the colorscheme:
@@ -65,30 +71,6 @@ Plug 'ElmCast/elm-vim', { 'for': 'elm' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'lervag/vimtex', { 'for': 'tex' }
 Plug 'dag/vim-fish', { 'for': 'fish' }
-
-" TODO: searching for a fuzzy finder
-" cf. also https://www.reddit.com/r/neovim/comments/lrz8a3/telescope_the_missing_neovim_ui/
-
-" vim-clap: just one package, requires external (Rust) binary for speed
-" but has speed and responsiveness, has ivy-like file explorer  (filer),
-" has cache (good for searching large dirs), doesn't do LSP, doesn't
-" have preview (?)
-Plug 'ryanoasis/vim-devicons'
-Plug 'liuchengxu/vim-clap', { 'do': 'make' }
-
-" telescope.nvim: Lua, can be slow and unresponsive, at least until the
-" Lua work can be offloaded off the main thread, which is not easy but
-" they're working on it, does LSP too, no (custom) external deps but
-" depends on other Vim packages (and on CLI tools you already have
-" installed anyway)
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'nvim-lua/popup.nvim'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-
-" there's also LeaderF which purports to be fast and is (partially)
-" written and extensible in Python, which means I'd probably have an
-" easier time debugging potential problems
 call plug#end()
 
 "------------------------------------------------ Functions and commands {{{1
@@ -335,8 +317,6 @@ let g:completion_enable_snippet = 'UltiSnips'
 let g:completion_abbr_length = 15
 let g:completion_menu_length = 15
 
-let g:clap_theme = 'material_design_dark'
-
 "---------------------------------------------------------- Key bindings {{{1
 
 inoremap fd <Esc>
@@ -381,6 +361,21 @@ vnoremap K :move '<-2<CR>gv=gv
 " inoremap ??? <Esc>:move .-2<CR>==
 " nnoremap ??? :move .+1<CR>==
 " nnoremap ??? :move .-2<CR>==
+
+" Telescope shortcuts; Telescope buffers also have additional key-bindings for
+" navigating the lists, selecting items, sending them to quickfix (M-q / C-q) etc.
+noremap <leader>ff :Telescope file_browser<CR>
+noremap <leader>fp :Telescope git_files<CR>
+noremap <leader>fr :Telescope oldfiles<CR>
+noremap <leader>bb :Telescope buffers<CR>
+noremap <leader>ss :Telescope current_buffer_fuzzy_find<CR>
+noremap <leader>sd :Telescope live_grep<CR>
+noremap <leader>sj :Telescope jumplist<CR>
+noremap <leader>tt :Telescope builtin<CR>
+noremap <leader>t: :Telescope command_history<CR>
+noremap <leader>t/ :Telescope search_history<CR>
+noremap <leader>t" :Telescope registers<CR>
+noremap <leader>tc :Telescope colorscheme<CR>
 
 nnoremap <silent> <leader> :<C-u>WhichKey '<Space>'<CR>
 noremap <leader><leader> :
