@@ -364,18 +364,19 @@ vnoremap K :move '<-2<CR>gv=gv
 
 " Telescope shortcuts; Telescope buffers also have additional key-bindings for
 " navigating the lists, selecting items, sending them to quickfix (M-q / C-q) etc.
-noremap <leader>ff :Telescope file_browser<CR>
-noremap <leader>fp :Telescope git_files<CR>
-noremap <leader>fr :Telescope oldfiles<CR>
-noremap <leader>bb :Telescope buffers<CR>
-noremap <leader>ss :Telescope current_buffer_fuzzy_find<CR>
-noremap <leader>sd :Telescope live_grep<CR>
-noremap <leader>sj :Telescope jumplist<CR>
-noremap <leader>tt :Telescope builtin<CR>
-noremap <leader>t: :Telescope command_history<CR>
-noremap <leader>t/ :Telescope search_history<CR>
-noremap <leader>t" :Telescope registers<CR>
-noremap <leader>tc :Telescope colorscheme<CR>
+noremap <silent> <leader>ff :Telescope file_browser<CR>
+noremap <silent> <leader>fp :Telescope git_files<CR>
+noremap <silent> <leader>fr :Telescope oldfiles<CR>
+noremap <silent> <leader>bb :Telescope buffers<CR>
+noremap <silent> <leader>ss :Telescope current_buffer_fuzzy_find<CR>
+noremap <silent> <leader>sd :Telescope live_grep<CR>
+noremap <silent> <leader>sj :Telescope jumplist<CR>
+noremap <silent> <leader>tt :Telescope builtin<CR>
+noremap <silent> <leader>tr :Telescope resume<CR>
+noremap <silent> <leader>t: :Telescope command_history<CR>
+noremap <silent> <leader>t/ :Telescope search_history<CR>
+noremap <silent> <leader>t" :Telescope registers<CR>
+noremap <silent> <leader>tc :Telescope colorscheme<CR>
 
 nnoremap <silent> <leader> :<C-u>WhichKey '<Space>'<CR>
 noremap <leader><leader> :
