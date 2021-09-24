@@ -1,5 +1,3 @@
-set -gx LANG en_US.utf-8
-set -gx LC_ALL $LANG
 set -gx XDG_CONFIG_HOME ~/.config
 
 # ------------------------------------------------------------- Homebrew {{{1
