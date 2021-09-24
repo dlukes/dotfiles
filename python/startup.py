@@ -1,7 +1,8 @@
 try:
-    from rich import pretty
+    from rich import pretty, traceback
 
     pretty.install()
-    del pretty
+    traceback.install(show_locals=True)
+    del pretty, traceback
 except ImportError:
     pass
