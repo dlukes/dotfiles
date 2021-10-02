@@ -26,6 +26,7 @@ without_gnubin pip3 install --upgrade --upgrade-strategy eager \
   requests \
   \
   jupyterlab \
+  jupytext \
   pandas \
   openpyxl \
   scikit-learn \
@@ -33,10 +34,6 @@ without_gnubin pip3 install --upgrade --upgrade-strategy eager \
   altair \
   matplotlib \
   seaborn \
-  \
-  jupytext \
-  pyflyby \
-  jupyterlab_pyflyby \
   \
   httpie \
   bpytop \
