@@ -16,14 +16,15 @@ without_gnubin pip3 install --upgrade --upgrade-strategy eager \
 without_gnubin pip3 install --upgrade --upgrade-strategy eager \
   ipython \
   ipdb \
-  scalene \
-  poetry \
-  pdm \
   rich \
+  poetry \
+  bpytop \
+  scalene \
+  py-spy \
   \
   lxml \
   regex \
-  requests \
+  httpx --pre \
   \
   jupyterlab \
   jupytext \
@@ -34,10 +35,6 @@ without_gnubin pip3 install --upgrade --upgrade-strategy eager \
   altair \
   matplotlib \
   seaborn \
-  \
-  httpie \
-  bpytop \
-  glances \
   \
   jedi-language-server \
   pylint \
