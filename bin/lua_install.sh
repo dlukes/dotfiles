@@ -144,16 +144,20 @@ cd "$prefix"
 if should_update sumneko "$repo"; then
   git submodule update --init --recursive --depth 1
 
-  if is_macos; then
-    ninja_stem=macos
-  else
-    ninja_stem=linux
-  fi
   cd 3rd/luamake
-  ninja -f ninja/$ninja_stem.ninja
+  ./compile/install.sh
   cd ../..
   ./3rd/luamake/luamake rebuild
 
+  # NOTE: Both "bin"s below are intended to refer to the bin directory under the repo's
+  # root. There are per-platform subdirs, bin/{Linux,macOS,Windows}, of which just one
+  # will exist, depending on which platform you compiled on. We move all binaries from
+  # that one existing subdir up one level to bin, so that we can hardcode the path in
+  # init.lua and not worry about distinguishing between Linux and macOS.
+  #
+  # By contrast, we don't symlink the binaries to ~/.local/bin, the command for this
+  # particular language server has to be configured manually, so it's no use putting it
+  # on the path.
   ln -sft bin "$PWD"/bin/*/*
   >&2 echo ">>> Installed $repo."
 fi
