@@ -24,7 +24,7 @@ without_gnubin pip3 install --upgrade --upgrade-strategy eager \
   \
   lxml \
   regex \
-  httpx --pre \
+  httpx \
   \
   jupyterlab \
   jupytext \
