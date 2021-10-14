@@ -1,94 +1,51 @@
 #!/bin/sh
 
-set -e
-dirname=$( dirname "$0" )
-. "$dirname/util.sh"
+set -euf
+script_dir=$(dirname "$0")
+. "$script_dir/util.sh"
 
-api=https://api.github.com/repos/neovim/neovim/releases
-if [ "$1" = --nightly ]; then
-  api=$api/tags/nightly
+prefix="$HOME/.local"
+org=neovim
+repo=$org
+
+
+
+# ----------------------------------------------------------- Install ninja build system {{{1
+
+
+"$script_dir"/ninja_install.sh
+
+
+
+# ----------------------------------------------------------- Compile Neovim from master {{{1
+
+
+cd "$prefix"
+if should_update $org $repo; then
+  >&2 echo ">>> Compiling Neovim from source..."
+  cd $repo
+  make -j4 CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX="$prefix"
+  make install
+  >&2 echo ">>> Installed $(nvim --version | head -1)."
 else
-  # The latest release should be a stable version, not a pre-release.
-  api=$api/latest
+  >&2 echo ">>> Neovim is up to date at $(nvim --version | head -1)."
 fi
 
-# Warn if competing install of nvim found.
 
-on_path=$( command -v nvim || echo NVIM_NOT_FOUND )
-local_bin="$HOME/.local/bin"
-in_local="$local_bin/nvim"
-if [ "$on_path" = NVIM_NOT_FOUND ]; then
-  echo 'No previous nvim version found.'
-elif [ "$on_path" != "$in_local" ]; then
-  read -p "You're currently using $on_path but installing $in_local, are you sure? (y/n) " yn
-  [ "$yn" = 'y' ] || exit
-fi
 
-# Compare versions and install / update / keep as is.
+# --------------------------------------------------------------- Install/upgrade pynvim {{{1
 
-mkdir -p "$local_bin"
-
-if [ "$on_path" = NVIM_NOT_FOUND ]; then
-  old_version=NVIM_NOT_FOUND
-else
-  old_version=$("$on_path" --version | grep -Pm1 '^NVIM v')
-fi
-new_version=$(curl -sf $api | grep -oPm1 'NVIM v[^"]+')
-
-get_download_link() {
-  curl -sf $api |
-    grep -oPm1 '"browser_download_url": ".*'"$1" |
-    cut -d' ' -f2 |
-    tr -d \"
-}
-
-install() {
-  if is_macos; then
-    echo '
-
-    Temporarily using Homebrew while waiting for Neovim to provide an Apple Silicon release asset (https://github.com/neovim/neovim/issues/13880).
-
-    '
-    brew upgrade --fetch-HEAD nvim
-    # TODO: This will need updating along the lines of the else branch
-    # when it gets uncommented.
-    # archive_name=nvim-macos.tar.gz
-    # nvim_dirname=nvim-osx64
-    # cd "$HOME/.local"
-    # rm -rf $nvim_dirname
-    # curl -LO $github_release/$archive_name
-    # tar xzf $archive_name
-    # rm $archive_name
-    # cd bin
-    # ln -sf ../$nvim_dirname/bin/nvim
-  else
-    asset=nvim.appimage
-    cd "$( mktemp -d )"
-    curl -LO "$(get_download_link $asset)"
-    chmod +x $asset
-    mv -f $asset "$in_local"
-  fi
-}
-
-if [ "$old_version" = NVIM_NOT_FOUND ]; then
-  install
-  echo "Installed $new_version."
-elif [ "$old_version" != "$new_version" ]; then
-  install
-  echo "Updated $old_version to $new_version."
-else
-  echo "Keeping up-to-date $old_version."
-fi
-
-# Install/upgrade pynvim.
 
 pip3 install --upgrade --upgrade-strategy eager pynvim
 
-# Install vim-plug and plugins.
+
+
+# --------------------------------------------------------- Install vim-plug and plugins {{{1
+
 
 plug_vim="$HOME/.config/nvim/autoload/plug.vim"
 if [ ! -f "$plug_vim" ]; then
-  mkdir -p "$( dirname "$plug_vim" )"
+  mkdir -p "$(script_dir "$plug_vim")"
   curl -fLo "$plug_vim" \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
@@ -96,6 +53,6 @@ fi
 # use only head of init.vim file containing plugin declarations relevant
 # for PlugInstall -- until the plugins are available, the rest might
 # cause errors which will abort the installation process
-sed '/call plug#end()/q' "$dirname/../nvim/init.vim" |
+sed '/call plug#end()/q' "$script_dir/../nvim/init.vim" |
   nvim -u /dev/stdin +'PlugInstall --sync' +qall
 nvim +UpdateEverything

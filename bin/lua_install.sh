@@ -5,25 +5,6 @@ prefix="$HOME/.local"
 dirname=$(dirname "$0")
 . "$dirname/util.sh"
 
-should_update() {
-  username="$1"; shift
-  repo="$1"; shift
-
-  if [ -d "$repo" ]; then
-    cd "$repo"
-    git fetch --quiet
-    # @{u} is the current branch's upstream
-    if [ $(git rev-parse HEAD) = $(git rev-parse @{u}) ]; then
-      >&2 echo ">>> $repo: newest version is already installed, aborting."
-      return 1
-    fi
-    git pull
-  else
-    git clone --depth 1 https://github.com/"$username"/"$repo".git
-    cd "$repo"
-  fi
-}
-
 
 
 # ------------------------------------------------------- Install LuaJIT {{{1
@@ -34,6 +15,7 @@ repo=LuaJIT
 
 cd "$prefix"
 if should_update LuaJIT "$repo"; then
+  cd "$repo"
   patch -p1 <<'EOF'
 diff --git a/Makefile b/Makefile
 index aa1b84b..8cec688 100644
@@ -113,24 +95,7 @@ install_luarocks
 # ------------------------------------------- Install ninja build system {{{1
 
 
-repo=ninja
-if is_macos; then
-  os=mac
-else
-  os=linux
-fi
-archive="$repo-$os.zip"
->&2 echo ">>> Installing $repo..."
-
-download_url=$(
-  curl -sSLf "https://api.github.com/repos/ninja-build/$repo/releases/latest" |
-    grep -oPm1 "https://.*?/$archive"
-)
-cd "$prefix"/bin
-curl -sSLfO "$download_url"
-unzip -qqo "$archive"
-rm "$archive"
->&2 echo ">>> Installed $repo."
+"$dirname"/ninja_install.sh
 
 
 
@@ -142,6 +107,7 @@ repo=lua-language-server
 
 cd "$prefix"
 if should_update sumneko "$repo"; then
+  cd "$repo"
   git submodule update --init --recursive --depth 1
 
   cd 3rd/luamake
