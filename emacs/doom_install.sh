@@ -35,15 +35,6 @@ else
   ln -sft ~/.local/bin "$doom"
 fi
 
-# Patch org-indent.el to behave correctly when org-indent-indentation-per-level is set
-# to 0. TODO: Get rid of this when/if
-# https://lists.gnu.org/archive/html/emacs-orgmode/2021-08/msg00166.html gets resolved.
-org_indent=$(find "$emacs_d" -type f -name org-indent.el)
-cd "$(dirname "$org_indent")"
-git reset --hard
-patch -up1 <"$script_dir"/org-indent.patch
-doom build -r
-
 # Make sure dead keys work: https://www.emacswiki.org/emacs/DeadKeys
 launcher=/usr/share/applications/emacs.desktop
 if [ -f "$launcher" ]; then
