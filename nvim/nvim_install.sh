@@ -7,6 +7,7 @@ script_dir=$(dirname "$0")
 prefix="$HOME/.local"
 org=neovim
 repo=$org
+cmd=nvim
 
 
 
@@ -22,7 +23,7 @@ repo=$org
 
 
 cd "$prefix"
-if should_update $org $repo; then
+if should_update $cmd $org $repo; then
   >&2 echo ">>> Compiling Neovim from source..."
   cd $repo
   make -j4 CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX="$prefix"

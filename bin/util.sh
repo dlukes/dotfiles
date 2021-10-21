@@ -54,17 +54,21 @@ curlk() {
 }
 
 should_update() {
-  username="$1"; shift
-  repo="$1"; shift
+  local cmd="$1"; shift
+  local username="$1"; shift
+  local repo="$1"; shift
 
   if [ -d "$repo" ]; then
-    git fetch --quiet
-    # @{u} is the current branch's upstream
-    if [ $(git rev-parse HEAD) = $(git rev-parse @{u}) ]; then
-      >&2 echo ">>> $username/$repo: newest version is already installed, aborting."
-      return 1
-    fi
-    git pull
+    (
+      cd "$repo"
+      git fetch --quiet
+      # @{u} is the current branch's upstream
+      if [ $(git rev-parse HEAD) = $(git rev-parse @{u}) ] && command -v $cmd >/dev/null; then
+        >&2 echo ">>> $username/$repo: newest version is already installed, aborting."
+        return 1
+      fi
+      git pull
+    )
   else
     git clone --depth 1 https://github.com/"$username"/"$repo".git
   fi

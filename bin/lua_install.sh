@@ -14,7 +14,7 @@ repo=LuaJIT
 >&2 echo ">>> Installing $repo..."
 
 cd "$prefix"
-if should_update LuaJIT "$repo"; then
+if should_update luajit $repo $repo; then
   cd "$repo"
   patch -p1 <<'EOF'
 diff --git a/Makefile b/Makefile
@@ -105,8 +105,9 @@ install_luarocks
 repo=lua-language-server
 >&2 echo ">>> Installing $repo..."
 
+cmd="$prefix"/$repo/bin/$repo
 cd "$prefix"
-if should_update sumneko "$repo"; then
+if should_update "$cmd" sumneko "$repo"; then
   cd "$repo"
   git submodule update --init --recursive --depth 1
 
