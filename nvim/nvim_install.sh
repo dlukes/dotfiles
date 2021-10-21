@@ -19,18 +19,36 @@ cmd=nvim
 
 
 
-# ----------------------------------------------------------- Compile Neovim from master {{{1
+# ----------------------------------------------------------------------- Install Neovim {{{1
 
 
-cd "$prefix"
-if should_update $cmd $org $repo; then
-  >&2 echo ">>> Compiling Neovim from source..."
-  cd $repo
-  make -j4 CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX="$prefix"
-  make install
-  >&2 echo ">>> Installed $(nvim --version | head -1)."
+>&2 echo ">>> Installing Neovim..."
+if [ -d "$prefix"/$repo ] && false; then
+  >&2 echo ">>> Detected git repo, compiling from source."
+  cd "$prefix"
+  if should_update $cmd $org $repo; then
+    >&2 echo ">>> Compiling Neovim from source..."
+    cd $repo
+    make -j4 CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX="$prefix"
+    make install
+    >&2 echo ">>> Installed $(nvim --version | head -1)."
+  else
+    >&2 echo ">>> Neovim is up to date at $(nvim --version | head -1)."
+  fi
 else
-  >&2 echo ">>> Neovim is up to date at $(nvim --version | head -1)."
+  >&2 echo ">>> No git repo, downloading appimage."
+  >&2 echo "
+
+Automation of this step is currently blocked on <https://github.com/neovim/neovim/issues/15709>,
+nightlies can't reliably be found at <https://github.com/neovim/neovim/releases/nightly>.
+
+Please go to <https://github.com/neovim/neovim/actions/workflows/release.yml>, click on
+the latest release (even if it's failed), scroll down to Artifacts and download the
+appimage manually. Then press ENTER here to continue.
+
+"
+  read
+  # Something like appimage=$(maybe_fetch_archive nvimm $org/$repo nvim.appimage) etc.
 fi
 
 
