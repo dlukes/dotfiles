@@ -1,4 +1,5 @@
 set -gx XDG_CONFIG_HOME ~/.config
+set -gxp TERMINFO_DIRS /etc/terminfo /lib/terminfo /usr/share/terminfo
 
 # ------------------------------------------------------------- Homebrew {{{1
 

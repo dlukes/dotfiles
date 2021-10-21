@@ -4,6 +4,23 @@ set -e
 dirname=$( dirname "$0" )
 . "$dirname/util.sh"
 
+>&2 echo "
+Worth considering if compiling Python turns out to be a pain: download a pre-compiled
+standalone build from <https://github.com/indygreg/python-build-standalone>, extract it
+with 'tar xvaf' somewhere where zstd is available (grr), rsync the install subdirectory
+to pyenv/versions and rename it according to the version. Pyenv should then be able to
+manage it.
+
+Note that you might have to set the TERMINFO_DIRS variable (and possibly other quirks,
+see <https://python-build-standalone.readthedocs.io/en/latest/quirks.html>). Also, the
+way the Black Vim plugin creates its virtualenv results in a broken virtualenv for some
+reason, even though virtualenv creation otherwise works fine. Solution: create the
+virtualenv and install Black manually (that's what BlackReinstall now does anyway).
+
+Press ENTER to continue with compilation.
+"
+read __ignored_reply
+
 cat <<EOF >&2
 ########################################################################
 # NOTE: Check out the suggested build environment for your platform    #

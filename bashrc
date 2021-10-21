@@ -9,6 +9,7 @@ export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.linuxbrew/bin:/usr/local/bin:$PAT
 command -v rustc &>/dev/null && export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 export GOPATH="$HOME/src/go"
 export HISTCONTROL=ignoreboth:erasedups
+export TERMINFO_DIRS=/etc/terminfo:/lib/terminfo:/usr/share/terminfo
 
 alias cp='cp -i'
 alias crontab='EDITOR=vi crontab'
