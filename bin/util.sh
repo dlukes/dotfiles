@@ -20,7 +20,7 @@ maybe_fetch_archive() {
   local archive_regex="$3"
   if ! command -v "$cmd" >/dev/null; then
     release_link=https://github.com$(
-      curl -sL "https://github.com/$repo/releases" |
+      curl -sfL "https://github.com/$repo/releases" |
         grep -oPm1 '/[^"]+/'"$archive_regex"
     )
     curl -sSfLO "$release_link"
