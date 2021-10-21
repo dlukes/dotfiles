@@ -10,10 +10,11 @@ repo=$org
 
 
 
-# ----------------------------------------------------------- Install ninja build system {{{1
+# ------------------------------------------------ Install cmake and ninja build systems {{{1
 
 
 "$script_dir"/ninja_install.sh
+"$script_dir"/cmake_install.sh
 
 
 
