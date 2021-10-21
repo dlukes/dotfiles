@@ -57,7 +57,9 @@ if not set -q RUSTUP_HOME
   # this is the default value, so setting it is technically redundant,
   # but I'm using it as a sentinel, so I set it anyway
   set -gx RUSTUP_HOME ~/.rustup
-  set -gxp MANPATH (printf "%s\n" $RUSTUP_HOME/toolchains/*/share/man | sort -r)
+  if test -d $RUSTUP_HOME
+    set -gxp MANPATH (printf "%s\n" $RUSTUP_HOME/toolchains/*/share/man | sort -r)
+  end
 end
 
 # ----------------------------------------------------------------- fasd {{{1
