@@ -47,7 +47,7 @@ the latest release (even if it's failed), scroll down to Artifacts and download 
 appimage manually. Then press ENTER here to continue.
 
 "
-  read
+  read __ignored_reply
   # Something like appimage=$(maybe_fetch_archive nvimm $org/$repo nvim.appimage) etc.
 fi
 
@@ -65,7 +65,7 @@ pip3 install --upgrade --upgrade-strategy eager pynvim
 
 plug_vim="$HOME/.config/nvim/autoload/plug.vim"
 if [ ! -f "$plug_vim" ]; then
-  mkdir -p "$(script_dir "$plug_vim")"
+  mkdir -p "$(dirname "$plug_vim")"
   curl -fLo "$plug_vim" \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
