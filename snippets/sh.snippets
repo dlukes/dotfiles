@@ -100,6 +100,10 @@ $0
 "
 endsnippet
 
+snippet sep "print separator line"
+{ printf "${0:=}%.s" $(seq $(tput cols)); echo; } >&2
+endsnippet
+
 snippet curl
 ${1:# -sSf: silent, show error on failure, but no output (e.g. 404 page)
 # -L: follow redirects;
