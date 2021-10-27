@@ -29,6 +29,7 @@ if [ -d "$prefix"/$repo ]; then
   if should_update $cmd $org $repo; then
     >&2 echo ">>> Compiling Neovim from source..."
     cd $repo
+    make distclean
     make -j4 CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX="$prefix"
     make install
     >&2 echo ">>> Installed $(nvim --version | head -1)."
