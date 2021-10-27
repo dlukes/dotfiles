@@ -12,6 +12,10 @@ endif
 "--------------------------------------------------------------- Plugins {{{1
 
 call plug#begin()
+" TODO: try these out some day:
+" https://github.com/bfredl/nvim-ipy
+" https://github.com/bfredl/nvim-luadev
+
 " core
 Plug 'tpope/vim-sensible'
 Plug 'editorconfig/editorconfig-vim'
