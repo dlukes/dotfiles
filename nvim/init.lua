@@ -36,14 +36,16 @@ end
 -- alternatives where available when they've matured (right now for instance, there seem
 -- to be issues with multiple lang servers per buffer)
 local lsp_mappings = {
-  {"n", "gh", "<cmd>lua vim.lsp.buf.hover()<CR>"},
-  {"n", "gH", "<cmd>lua vim.lsp.buf.signature_help()<CR>"},
-  {"n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>"},
+  {"n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>"},
+  {"n", "gh", "<cmd>lua vim.lsp.buf.signature_help()<CR>"},
+  {"n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>"},
   {"n", "gO", "<cmd>lua vim.lsp.buf.references()<CR><cmd>copen<CR>"},
   -- {"n", "gd", "<cmd>lua require'telescope.builtin'.lsp_definitions{}<CR>"},
   -- {"n", "gO", "<cmd>lua require'telescope.builtin'.lsp_references{}<CR>"},
-  {"n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev { wrap = false }<CR>"},
-  {"n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next { wrap = false }<CR>"},
+  -- TODO: The following two bindings used to be [d and ]d, but it looks like the [/]
+  -- prefix is now broken? Revert when it gets fixed.
+  {"n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev { wrap = false }<CR>"},
+  {"n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next { wrap = false }<CR>"},
   {"n", "<leader>ls", "<cmd>lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>"},
   {"n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>"},
   {"n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>"},
@@ -52,20 +54,22 @@ local lsp_mappings = {
   -- {"", "<leader>la", "<cmd>lua require'telescope.builtin'.lsp_range_code_actions{}<CR>"},
   {"n", "<leader>lh", "<cmd>lua vim.lsp.buf.document_highlight()<CR>"},
   {"n", "<leader>lH", "<cmd>lua init.clear_document_highlight()<CR>"},
-  {"n", "<leader>ld", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>"},
-  {"n", "<leader>lD", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR><cmd>lopen<CR>"},
+  {"n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float(0, {scope='cursor'})<CR>"},
+  {"n", "<leader>lD", "<cmd>lua vim.diagnostic.setloclist()<CR><cmd>lopen<CR>"},
   -- {"n", "<leader>lD", "<cmd>lua require'telescope.builtin'.lsp_document_diagnostics{}<CR>"},
 }
 -- NOTE: in order to yield all elements, unpack has to be the last
 -- (or only) expression in a list of expressions, so append the options
 -- to each mapping
-local mapping_opts = {noremap = true, silent = true}
+local mapping_opts = {}--{noremap = true}--, silent = true}
 for _, mapping in ipairs(lsp_mappings) do
   table.insert(mapping, mapping_opts)
 end
 
 local on_attach = function(client, bufnr)
-  require("completion").on_attach(client, bufnr)
+  -- TODO: auto-completion and snippet support -- see what nvim-lspconfig recommends in
+  -- its docs/wiki.
+  api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   lsp_status.on_attach(client, bufnr)
   -- NOTE: uncomment to inspect features supported by language server
   -- print(vim.inspect(client.resolved_capabilities))
@@ -131,15 +135,6 @@ for ls, config in pairs(servers) do
   require("lspconfig/" .. ls)
   local cmd = ls == "sumneko_lua" and {lls .. "/bin/lua-language-server", "-E", lls .. "/main.lua"} or nil
   local capabilities = vim.tbl_extend("keep", configs[ls].capabilities or {}, lsp_status.capabilities)
-  -- TODO: this will show snippets in the completion menu, but I don't
-  -- really have them configured right now, they're very dumb, the text
-  -- just gets inserted into the buffer, but sometimes it should replace
-  -- existing text, use placeholders etc. -- none of that works, it
-  -- first needs support from completion-nvim and possibly UltiSnips
-  -- (search docs/issues for "LSP snippets"). Or possibly switch away
-  -- from completion-nvim to a completion plugin that supports it -- see
-  -- what nvim-lspconfig recommends in its docs/wiki.
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
   lspconfig[ls].setup {
     cmd = cmd,
     on_attach = on_attach,
@@ -161,33 +156,6 @@ require("rust-tools").setup {
     },
   },
 }
-
-function M.lsp_clients(verbose)
-  print(string.format([[
-TIPS
-- See also the LSP log for more info: %s
-- And remember there can be more criteria for triggering a server than
-  just the filetype. Some servers, such as pyright, only work inside
-  projects (as determined e.g. by a .git directory, pyproject.toml or
-  similar), so don't be surprised if it's not available for every Python
-  file. Cf. the root_dir attribute in the server's config.
-  ]], vim.lsp.get_log_path()))
-
-  print()
-  print("CLIENTS")
-  local clients = vim.lsp.buf_get_clients()
-  for i, client in ipairs(clients) do
-    print(i, "::", client.config.name)
-    if verbose == 1 then
-      print(string.rep("=", 72))
-      print(vim.inspect(client))
-      print(string.rep("=", 72))
-    end
-  end
-  if #clients == 0 then
-    print("No clients found.")
-  end
-end
 
 --[[
 Logging/debugging

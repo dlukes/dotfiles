@@ -23,7 +23,6 @@ Plug 'tpope/vim-eunuch'
 Plug 'lambdalisue/suda.vim'
 " community-maintained configs for various langs
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/lsp-status.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
@@ -143,8 +142,6 @@ function! s:black_reinstall() abort
 endfunction
 
 command! BlackReinstall :call s:black_reinstall()
-
-command! -bang LspClients :cal v:lua.init.lsp_clients(<bang>0)
 
 function! s:update_everything()
   PlugUpgrade
@@ -324,10 +321,6 @@ let g:tex_flavor = 'latex'
 let g:vimtex_format_enabled = 1
 
 let g:UltiSnipsEditSplit = 'context'
-let g:completion_enable_snippet = 'UltiSnips'
-" limit width of columns in completion menu
-let g:completion_abbr_length = 15
-let g:completion_menu_length = 15
 
 "---------------------------------------------------------- Key bindings {{{1
 
@@ -343,9 +336,7 @@ noremap <silent> gO :call voom#Init(&filetype, 1, 1)<CR>
 noremap <Down> :bn<CR>
 noremap <Up> :bp<CR>
 noremap <silent> zi :call ToggleFolds()<CR>
-inoremap <silent><expr> <C-n>
-  \ pumvisible() ? "\<C-n>" :
-  \ completion#trigger_completion()
+inoremap <silent><expr> <C-n> pumvisible() ? '<C-n>' : '<C-x><C-o>'
 " make Y behave like D, C -> perform action from cursor to end of line
 nnoremap Y y$
 " keep cursor centered during various operations
