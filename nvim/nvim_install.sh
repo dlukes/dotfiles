@@ -23,7 +23,7 @@ cmd=nvim
 
 
 >&2 echo ">>> Installing Neovim..."
-if [ -d "$prefix"/$repo ] && false; then
+if [ -d "$prefix"/$repo ]; then
   >&2 echo ">>> Detected git repo, compiling from source."
   cd "$prefix"
   if should_update $cmd $org $repo; then
