@@ -84,7 +84,6 @@ end
 
 local servers = {
   -- Rust support is handled by a separate plugin, see below
-  jedi_language_server = {},  -- as in, Python's Jedi
   r_language_server = {},
   sumneko_lua = {
     settings = {
@@ -110,19 +109,13 @@ local servers = {
 
   -- Node-based
   pyright = {
-    handlers = {
-      -- disable pyright rename so that it doesn't race with jedi. TODO:
-      -- apparently, this should be achievable in a cleaner way by
-      -- disabling the rename capability instead of the handler
-      -- (something like `capabilities.textDocument.rename = false`),
-      -- but when I do that, the LSP log still shows rename as enabled.
-      -- another way that does seem to work is to override
-      -- client.resolved_capabilities in on_attach above.
-      ["textDocument/definition"] = function() end,
-      ["textDocument/hover"] = function() end,
-      ["textDocument/rename"] = function() end,
-      ["textDocument/codeAction"] = function() end,
-    }
+    settings = {
+      python = {
+        analysis = {
+          stubPath = vim.env.HOME.."/.files/python/typings",
+        },
+      },
+    },
   },
   bashls = {},
   elmls = {},
