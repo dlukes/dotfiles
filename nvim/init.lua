@@ -3,7 +3,7 @@ local api = vim.api
 
 local M = {}
 
-------------------------------------------------------------- LSP config {{{1
+----------------------------------------------------------------------------- LSP config {{{1
 
 local lspconfig = require("lspconfig")
 local configs = require("lspconfig/configs")
@@ -67,9 +67,6 @@ for _, mapping in ipairs(lsp_mappings) do
 end
 
 local on_attach = function(client, bufnr)
-  -- TODO: auto-completion and snippet support -- see what nvim-lspconfig recommends in
-  -- its docs/wiki.
-  api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   lsp_status.on_attach(client, bufnr)
   -- NOTE: uncomment to inspect features supported by language server
   -- print(vim.inspect(client.resolved_capabilities))
@@ -128,6 +125,7 @@ for ls, config in pairs(servers) do
   require("lspconfig/" .. ls)
   local cmd = ls == "sumneko_lua" and {lls .. "/bin/lua-language-server", "-E", lls .. "/main.lua"} or nil
   local capabilities = vim.tbl_extend("keep", configs[ls].capabilities or {}, lsp_status.capabilities)
+  capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
   lspconfig[ls].setup {
     cmd = cmd,
     on_attach = on_attach,
@@ -160,9 +158,61 @@ The log path should typically be ~/.local/share/nvim/lsp.log
 -- vim.lsp.set_log_level("info")
 -- print(vim.lsp.get_log_path())
 
------------------------------------------------------- Treesitter config {{{1
+----------------------------------------------------------------------------- Completion {{{1
 
-local ts = require('nvim-treesitter.configs')
+-- NOTE: Most of this section is lifted from the nvim-lspconfig wiki, check there for
+-- updates: <https://github.com/neovim/nvim-lspconfig/wiki/Autocompletion>.
+
+local cmp = require("cmp")
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      vim.fn["UltiSnips#Anon"](args.body)
+    end,
+  },
+  mapping = {
+    ["<C-p>"] = cmp.mapping.select_prev_item(),
+    ["<C-n>"] = cmp.mapping.select_next_item(),
+    ["<C-d>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-e>"] = cmp.mapping.close(),
+    ["<CR>"] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ["<Tab>"] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      -- NOTE: Some snippet plugins allow for more clever integration where keys can
+      -- mean even more things based on context. With UltiSnips, you'll have to expand
+      -- using Enter.
+      -- elseif luasnip.expand_or_jumpable() then
+      --   luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end,
+    ["<S-Tab>"] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      -- elseif luasnip.jumpable(-1) then
+      --   luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end,
+  },
+  sources = {
+    { name = "path" },
+    { name = "nvim_lsp" },
+    { name = "ultisnips" },
+  },
+}
+
+---------------------------------------------------------------------- Treesitter config {{{1
+
+local ts = require("nvim-treesitter.configs")
 
 ts.setup {
   ensure_installed = "maintained",
@@ -212,7 +262,7 @@ ts.setup {
   },
 }
 
-------------------------------------------------------- Telescope config {{{1
+----------------------------------------------------------------------- Telescope config {{{1
 
 local tactions = require("telescope.actions")
 local tbuiltin = require("telescope.builtin")
@@ -233,7 +283,7 @@ require("telescope").setup{
   pickers = tpickers,
 }
 
----------------------------------------------------------- Return module {{{1
+-------------------------------------------------------------------------- Return module {{{1
 
 return M
 

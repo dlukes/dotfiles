@@ -56,6 +56,12 @@ Plug 'nvim-treesitter/playground'
 Plug 'SirVer/ultisnips'
 Plug 'vim-voom/VOoM'
 
+" completion
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+
 " filetype-specific
 Plug 'psf/black', { 'for': 'python', 'tag': 'stable' }
 " NOTE: (Neo)vim now ships with a Rust filetype plugin, which is typically an old(er)
@@ -340,7 +346,6 @@ noremap <silent> gO :call voom#Init(&filetype, 1, 1)<CR>
 noremap <Down> :bn<CR>
 noremap <Up> :bp<CR>
 noremap <silent> zi :call ToggleFolds()<CR>
-inoremap <silent><expr> <C-n> pumvisible() ? '<C-n>' : '<C-x><C-o>'
 " make Y behave like D, C -> perform action from cursor to end of line
 nnoremap Y y$
 " keep cursor centered during various operations
