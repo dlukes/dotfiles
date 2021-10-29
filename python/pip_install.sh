@@ -34,8 +34,4 @@ without_gnubin pip3 install --upgrade --upgrade-strategy eager \
   statsmodels \
   altair \
   matplotlib \
-  seaborn \
-  \
-  jedi-language-server \
-  pylint \
-  pylint-venv
+  seaborn
