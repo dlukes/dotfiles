@@ -188,10 +188,13 @@ ts.setup {
       enable = true,
       keymaps = {
        -- use capture groups from textobjects.scm or define your own
+       -- TODO: The comment textobject is currently not that useful, pending
+       -- <https://github.com/nvim-treesitter/nvim-treesitter-textobjects/issues/133>.
+       ["ac"] = "@comment.outer",
        ["af"] = "@function.outer",
        ["if"] = "@function.inner",
-       ["ac"] = "@class.outer",
-       ["ic"] = "@class.inner",
+       ["aC"] = "@class.outer",
+       ["iC"] = "@class.inner",
       }
     },
     move = {
