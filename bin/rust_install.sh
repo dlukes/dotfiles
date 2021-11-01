@@ -132,6 +132,9 @@ handy shortcut:
 
 rustup set profile minimal/default/complete
 
+Or you can use a project-specific toolchain file:
+<https://rust-lang.github.io/rustup/overrides.html#the-toolchain-file>
+
 Remember that you can update Rust with:
 
 rustup update
