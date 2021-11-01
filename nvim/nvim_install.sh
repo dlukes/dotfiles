@@ -38,18 +38,12 @@ if [ -d "$prefix"/$repo ]; then
   fi
 else
   >&2 echo ">>> No git repo, downloading appimage."
-  >&2 echo "
-
-Automation of this step is currently blocked on <https://github.com/neovim/neovim/issues/15709>,
-nightlies can't reliably be found at <https://github.com/neovim/neovim/releases/nightly>.
-
-Please go to <https://github.com/neovim/neovim/actions/workflows/release.yml>, click on
-the latest release (even if it's failed), scroll down to Artifacts and download the
-appimage manually. Then press ENTER here to continue.
-
-"
-  read __ignored_reply
-  # Something like appimage=$(maybe_fetch_archive nvimm $org/$repo nvim.appimage) etc.
+  cd "$prefix"/bin
+  appimage=$(maybe_fetch_archive dummy-cmd-to-force-nvim-to-always-install $org/$repo nvim.appimage)
+  if [ -n "$appimage" ]; then
+    chmod +x "$appimage"
+    ln -sf "$appimage" nvim
+  fi
 fi
 
 

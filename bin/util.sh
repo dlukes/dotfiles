@@ -25,6 +25,8 @@ maybe_fetch_archive() {
     )
     curl -sSfLO "$release_link"
     basename "$release_link"
+  else
+    >&2 echo ">>> $(command -v "$cmd") is already available, skipping installation."
   fi
 }
 
