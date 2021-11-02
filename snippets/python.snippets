@@ -27,6 +27,38 @@ import subprocess as sp
 $0 = sp.run([$1]${2:, input=${3:str_or_bytes}}${4:, capture_output=True}${5:, text=True}${6:, check=True})
 endsnippet
 
+snippet argparse "argparse basics"
+import argparse
+parser = argparse.ArgumentParser(
+	description=__doc__,
+	# Don't rewrap my __doc__, thank you very much.
+	formatter_class=argparse.RawTextHelpFormatter,
+)
+# Mutually exclusive group = fails to parse if both options provided.
+group = parser.add_mutually_exclusive_group()
+group.add_argument("-q", "--quiet", action="store_true")
+group.add_argument("-v", "--verbose", action="count", default=0)
+# Loglevel defaults to 30 (WARNING), can be set to 20 (INFO) with -l, and any level with
+# -l <level>.
+parser.add_argument("-l", "--log-level", nargs="?", type=int, default=30, const=20)
+# Metavar overrides repr in help message; type specifies conversion from string.
+parser.add_argument("paths", metavar="FILE", nargs="+", type=Path, help="input paths")
+# Build lists with append, append_const or extend, and customize under which attribute
+# the values will be stored with dest. The dest can already exist, as here, but doesn't
+# have to.
+parser.add_argument(
+	"-x",
+	"--extra",
+	metavar="FILE",
+	type=Path,
+	action="append",
+	dest="paths",
+	help="more input paths?",
+)
+# Parses sys.argv by default.
+args = parser.parse_args()
+endsnippet
+
 snippet fifo "fifo + subprocess"
 import os
 import tempfile
