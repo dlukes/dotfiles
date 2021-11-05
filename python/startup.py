@@ -1,5 +1,6 @@
-from pathlib import Path
+from __future__ import annotations
 from importlib import import_module
+from pathlib import Path
 
 
 class Importer:
@@ -71,11 +72,19 @@ try:
 except ImportError:
     pass
 
+try:
+    import regex as re
+
+    re.DEFAULT_VERSION = re.VERSION1
+except ImportError:
+    pass
+
 print(
     "startup.py:",
-    ", ".join(
-        f"{key} ({val})"
+    "\n".join(
+        f"  - {key} ({val})"
         for key, val in sorted(globals().items())
         if len(key) < 3 and key.islower()
     ),
+    sep="\n",
 )
