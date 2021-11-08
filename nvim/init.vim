@@ -55,6 +55,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'nvim-treesitter/playground'
 Plug 'SirVer/ultisnips'
 Plug 'vim-voom/VOoM'
+Plug 'chrisbra/unicode.vim'
 
 " completion
 Plug 'hrsh7th/nvim-cmp'
