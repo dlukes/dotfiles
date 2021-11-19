@@ -107,6 +107,10 @@ if is_macos || [ -n "$XDG_CURRENT_DESKTOP" ]; then
   doc_dir="$(pyenv prefix)/share/doc"
   cd "$src_dir/$new_ver/Python-$new_ver/Doc"
   make venv
+  >&2 echo "Upgrading to latest Sphinx to build docs. Downgrade in case of errors. Press ENTER."
+  read __ignored_reply
+  . venv/bin/activate
+  pip install -U sphinx
   make html
   mkdir -p "$doc_dir"
   mv -T build/html "$doc_dir/python"
