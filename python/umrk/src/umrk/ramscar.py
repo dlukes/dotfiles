@@ -1,8 +1,9 @@
+from __future__ import annotations
 from typing import cast
 
+import altair as alt
 import numpy as np
 import pandas as pd
-import altair as alt
 from scipy.optimize import curve_fit
 from sklearn.metrics import r2_score
 

@@ -1,7 +1,8 @@
 """Various association measures."""
 
+from __future__ import annotations
 import math
-from typing import Optional, Union, Sequence
+from typing import Optional, Sequence, Union
 
 from scipy.stats import entropy as _entropy
 
