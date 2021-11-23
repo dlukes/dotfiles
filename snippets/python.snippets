@@ -22,6 +22,10 @@ snippet gul "update globals with locals"
 globals().update(locals())
 endsnippet
 
+snippet open "open with explicit encoding"
+open($0encoding="utf-8")
+endsnippet
+
 snippet sprun "run subprocess"
 import subprocess as sp
 $0 = sp.run([$1]${2:, input=${3:str_or_bytes}}${4:, capture_output=True}${5:, text=True}${6:, check=True})
@@ -74,7 +78,7 @@ try:
 	# FIFO. We have to do it in a non-blocking manner though, so that we
 	# can go on to actually write to the FIFO, so no sp.run.
 	proc = sp.Popen(["cat", fifo_path], stdout=sp.PIPE, text=True)
-	with open(fifo_path, "w") as fifo:
+	with open(fifo_path, "w", encoding="utf-8") as fifo:
 		for c in "Kočka leze dírou, pes oknem.":
 			print(c, file=fifo)
 	proc.wait()

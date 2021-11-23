@@ -44,7 +44,7 @@ def parse_bib(bib_str: str, entries: dict):
 def load_bibs(bib_dir: Path):
     entries = {}
     for bib_path in bib_dir.glob("**/*.bib"):
-        with open(bib_path) as file:
+        with open(bib_path, encoding="utf-8") as file:
             parse_bib(file.read(), entries)
     return entries
 
@@ -59,7 +59,7 @@ def extract_references(input_file_paths, ref_re):
 
 def write_bib_file(entries, referenced):
     referenced = [entries[id_] for id_ in sorted(referenced)]
-    with open("pandoc.bib", "w") as file:
+    with open("pandoc.bib", "w", encoding="utf-8") as file:
         print("\n\n".join(referenced), file=file)
 
 
@@ -88,7 +88,7 @@ def write_build_script(input, output, pandoc_args):
     args.extend(pandoc_args)
     args = " ".join(args)
     script_path = Path("pandoc.sh")
-    with script_path.open("w") as file:
+    with script_path.open("w", encoding="utf-8") as file:
         print(BUILD_SCRIPT.format(args=args), file=file)
     script_path.chmod(0o755)
     return script_path
