@@ -351,6 +351,51 @@ print_rows("select '[1,2,3]' as 'j [json]', current_date as 'd [date]'")
 con.close()
 endsnippet
 
+snippet mysql "MySQL from Python usage overview"
+# Prefer mysqlclient (which imports as MySQLdb) if possible, it has better performance
+# than pure Python implementations (see <https://stackoverflow.com/a/46396881/1826241>).
+# The docs (e.g. <https://mysqlclient.readthedocs.io/user_guide.html#some-examples>) are
+# unfortunately fairly lightly, they mostly tell you to refer to the DB API spec in PEP
+# 249 (<https://www.python.org/dev/peps/pep-0249/>). You can complement that with the
+# sqlite3 docs in the Python stdlib (<https://docs.python.org/3/library/sqlite3.html>),
+# although be aware of differences:
+#
+# - %s instead of ? for params
+# - Can't rely on sqlite3's ergonomic shortcuts being there, stick to vanilla DB API.
+# - Altough connections and cursors can be used as context managers, they just close on
+#   exit AFAICS, so implement transactions (commit / rollback) manually.
+import MySQLdb as mysql
+
+with mysql.connect(
+	user="$1", passwd="$2", db="$3", charset="utf8"
+) as conn:
+	cur = conn.cursor()
+
+	# Make sure table supports transactions. See <https://stackoverflow.com/a/42437200>.
+	table = "$4"
+	cur.execute("show table status where Name = %s", (table,))
+	status = cur.fetchone()
+	if "InnoDB" in status:
+		print(f"Table {table} already has engine set to InnoDB.")
+	else:
+		affected = cur.execute(f"alter table {table} engine = InnoDB")
+		conn.commit()
+		print(f"Set engine of table {table} with {affected} rows to InnoDB.")
+
+	# Recommended structure, see <https://stackoverflow.com/a/2547302>.
+	try:
+		# %s instead of ? because unlike for sqlite3, mysql.paramstyle == "format".
+		# See <https://www.python.org/dev/peps/pep-0249/#paramstyle> for details.
+		$0cur.execute(f"select * from {table} where column = %s", ("query value",))
+	except:
+		conn.rollback()
+		raise
+	else:
+		conn.commit()
+	finally:
+		cur.close()
+endsnippet
+
 snippet paramp "parallelism with multiprocessing"
 import time
 import random
@@ -472,4 +517,4 @@ snippet xpathtext "text nodes as list of str"
 $0.xpath(".//text()")
 endsnippet
 
-# vi: noet ts=4
+# vi: noet ts=4 sw=4
