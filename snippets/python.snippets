@@ -90,11 +90,11 @@ for l in proc.stdout:
 endsnippet
 
 snippet richlog "logging with rich"
-import logging
+import logging as log
 from rich.console import Console
 from rich.logging import RichHandler
 
-logging.basicConfig(
+log.basicConfig(
 	level=logging.NOTSET,
 	format="%(message)s",
 	handlers=[
@@ -102,18 +102,18 @@ logging.basicConfig(
 	],
 )
 
-log = logging.getLogger("rich")
-log.info("Starting up...")
+richlog = log.getLogger("rich")
+richlog.info("Starting up...")
 try:
 	print(1 / 0)
 except Exception:
-	log.exception("Unable to print!")
-log.error("[bold red blink]Server is shutting down![/]")
+	richlog.exception("Unable to print!")
+richlog.error("[bold red blink]Server is shutting down![/]")
 
 # markup=True can be problematic according to the docs, so it can also
 # be enabled per-message (which doesn't make it not problematic, it just
 # limits the potential problems to that message):
-# log.error("[bold red blink]Server is shutting down![/]", extra={"markup": True})
+# richlog.error("[bold red blink]Server is shutting down![/]", extra={"markup": True})
 endsnippet
 
 snippet richbar "monitoring progress with rich"
@@ -129,14 +129,14 @@ console.log("[bold green blink]Done.[/]")
 endsnippet
 
 snippet logbc "logging basic config"
-import logging
+import logging as log
 from pathlib import Path
 
 LOG_PATH = Path(__file__).with_suffix(".log")
 
-logging.basicConfig(
+log.basicConfig(
 	filename=LOG_PATH,
-	level=logging.INFO,
+	level=log.INFO,
 	format="%(asctime)s\t%(levelname)s\t%(name)s\t%(message)s",
 	datefmt="%Y-%m-%d %H:%M:%S",
 )
