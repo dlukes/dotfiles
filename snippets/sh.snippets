@@ -92,6 +92,24 @@ $0
 endsnippet
 
 
+# ----------------------------------------------------------------------- User interface {{{1
+
+snippet yesno "ask for confirmation"
+while true; do
+		>&2 read -p '${1:question} [yes/no]: ' yn
+		case "$yn" in
+				[Yy]*) break;;
+				[Nn]*) exit 1;;
+				*) >&2 echo 'Please answer yes or no.';;
+		esac
+done
+endsnippet
+
+snippet sep "print separator line"
+{ printf "${0:=}%.s" $(seq $(tput cols)); echo; } >&2
+endsnippet
+
+
 # --------------------------------------------------------- Command invocation reminders {{{1
 
 snippet echo
@@ -100,8 +118,9 @@ $0
 "
 endsnippet
 
-snippet sep "print separator line"
-{ printf "${0:=}%.s" $(seq $(tput cols)); echo; } >&2
+snippet trap "kill children on exit"
+trap exit INT TERM HUP
+trap 'kill 0' EXIT
 endsnippet
 
 snippet curl
