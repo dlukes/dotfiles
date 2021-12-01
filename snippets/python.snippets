@@ -123,8 +123,9 @@ from rich.progress import track
 
 console = Console()
 console.log("[bold yellow]Started.[/]")
-for _ in track(list(range(5)), description="Running..."):
+for i in track(list(range(5)), console=console, description="Running..."):
 	time.sleep(1)
+	console.log("Processed", i)
 console.log("[bold green blink]Done.[/]")
 endsnippet
 
