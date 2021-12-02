@@ -6,7 +6,6 @@ local M = {}
 ----------------------------------------------------------------------------- LSP config {{{1
 
 local lspconfig = require("lspconfig")
-local configs = require("lspconfig/configs")
 local lsp_status = require("lsp-status")
 
 -- use LSP SymbolKinds themselves as the kind labels
@@ -122,9 +121,8 @@ local servers = {
 
 local lls = vim.env.HOME .. "/.local/lua-language-server"
 for ls, config in pairs(servers) do
-  require("lspconfig/" .. ls)
   local cmd = ls == "sumneko_lua" and {lls .. "/bin/lua-language-server", "-E", lls .. "/main.lua"} or nil
-  local capabilities = vim.tbl_extend("keep", configs[ls].capabilities or {}, lsp_status.capabilities)
+  local capabilities = vim.tbl_extend("keep", lspconfig[ls].capabilities or {}, lsp_status.capabilities)
   capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
   lspconfig[ls].setup {
     cmd = cmd,
