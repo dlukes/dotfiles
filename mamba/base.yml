@@ -1,0 +1,31 @@
+# NOTE: Mamba is a general-purpose package manager. If you commit to it, you could use
+# to install other things than just Python packages in a cross-platform, reliable way,
+# and get rid of some of your custom installation scripts, e.g. for Pandoc.
+
+name: base
+channels:
+  - conda-forge
+dependencies:
+  # ------------------------------------------------------------------------- Non-Python {{{1
+  - pandoc
+  - ffmpeg
+  # ----------------------------------------------------------------------------- Python {{{1
+  # basics
+  - ipython
+  - ipdb
+  - rich
+  # stdlib replacements
+  - lxml
+  - regex
+  - httpx
+  # Jupyter
+  - jupyterlab
+  - jupytext
+  # data analysis
+  - pandas
+  - openpyxl
+  - scikit-learn
+  - statsmodels
+  - altair
+  - matplotlib
+  - seaborn

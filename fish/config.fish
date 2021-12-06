@@ -52,6 +52,13 @@ if type -q pyenv
   pyenv init - | source
 end
 
+# -------------------------------------------------------- Mamba / Conda {{{1
+
+set -l conda ~/.local/mambaforge/bin/conda
+if test -x $conda
+  $conda shell.fish hook | source
+end
+
 # ----------------------------------------------------------------- Rust {{{1
 
 if not set -q RUSTUP_HOME

@@ -84,7 +84,7 @@ $action "$XDG_CONFIG_HOME/nvim/lua" nvim/init.lua
 # Stuff belonging under $HOME
 #-----------------------------------------------------------------------
 
-$action "$HOME" profile bashrc editorconfig sqliterc texmf tmux.conf
+$action "$HOME" profile bashrc editorconfig sqliterc texmf tmux.conf mamba/condarc
 
 #-----------------------------------------------------------------------
 # Editorconfig under / if I'm an admin
