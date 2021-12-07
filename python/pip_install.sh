@@ -14,6 +14,7 @@ without_gnubin pip3 install --upgrade --upgrade-strategy eager \
   pip \
   wheel
 without_gnubin pip3 install --upgrade --upgrade-strategy eager \
+  pynvim \
   ipython \
   ipdb \
   rich \

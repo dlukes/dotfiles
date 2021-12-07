@@ -12,6 +12,7 @@ dependencies:
   - ffmpeg
   # ----------------------------------------------------------------------------- Python {{{1
   # basics
+  - pynvim
   - ipython
   - ipdb
   - rich
