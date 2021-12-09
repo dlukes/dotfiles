@@ -92,6 +92,63 @@ $0
 endsnippet
 
 
+# ------------------------------------------------------------------ Cleaning up on exit {{{1
+
+# 'if ps then kill' is technically a race condition, but while it can't completely avoid
+# issuing kill to a process that's gone, at least it makes it less likely and the output
+# therefore less noisy. We ignore the error anyway with '|| true', but we want to see
+# stderr in case some unexpected error happens, so '2>/dev/null' instead of 'if ps' is
+# not an option.
+snippet trapfancy "kill children on exit (portable)"
+cleanup() {
+	# NOTE: This only kills direct children still under job control. If you want to kill
+	# the entire process group (except for yourself, so as to finish the cleanup), then
+	# see the commented out alternatives to 'jobs -l' + sed below.
+	local code=$?
+	local sig=\$1
+	jobs=$(mktemp)
+	jobs -l >"$jobs"
+	for pid in $(sed 's/.*\? \([[:digit:]]\+\) .*/\1/' <"$jobs"); do
+	# for pid in $(ps -g $$ -o pid=); do
+		if ps $pid >/dev/null; then
+		# if ps $pid >/dev/null && [ $pid -ne $$ ]; then
+			kill -- $pid || true
+			# You might want to propagate the specific $sig to the children in some cases
+			# instead of just always sending them SIGTERM.
+			# kill -$sig -- $pid || true
+		fi
+	done
+	if [ $sig = EXIT ]; then
+		trap - EXIT
+		exit $code
+	else
+		trap - $sig EXIT
+		kill -$sig $$
+	fi
+}
+for sig in HUP INT QUIT PIPE TERM EXIT; do
+	trap "cleanup $sig" $sig
+done
+endsnippet
+
+snippet trapbash "kill children on exit (Bash)"
+# This is Bash-only but optimal: short, simple, propagates signals correctly, doesn't
+# have to wait for current foreground command to complete before running trap when
+# signal arrives (because no signals are trapped, just EXIT, which also runs on signals
+# in Bash).
+trap 'kill 0' EXIT
+endsnippet
+
+snippet trapdash "kill children on exit (Dash)"
+# This is a poor man's Dash-only alternative to the elegant Bash solution. Signals are
+# converted to regular exits with code 128 + signal number (not in Bash, where the exit
+# is 0, so DO NOT USE IN BASH!). And since you're trapping signals, you can only get
+# interrupted in between foreground commands.
+trap exit HUP INT QUIT PIPE TERM
+trap 'kill 0' EXIT
+endsnippet
+
+
 # ----------------------------------------------------------------------- User interface {{{1
 
 snippet yesno "ask for confirmation"
@@ -116,66 +173,6 @@ snippet echo
 ${1:>&2 }printf "\
 $0
 "
-endsnippet
-
-# NOTE: Terminating child processes on exit is unfortunately extremely finicky,
-# especially if you want to make it work across various shells. Piping 'jobs -p | ...'
-# doesn't work in dash, because pipeline commands run in a subshell, so there are no
-# jobs to report. The workaround would be to save the output of 'jobs' to a file. See
-# details here: <https://bugs.launchpad.net/ubuntu/+source/dash/+bug/243406>.
-#
-# Also, if any of the jobs started any additional processes, it's up to the jobs to
-# clean up after themselves, 'jobs -p | xargs kill' only kills the immediate children.
-# Alternatives like 'kill 0' or 'kill -- -$$' do get them because they kill the entire
-# process group (assuming the children haven't switched process groups, which they can),
-# but they also kill the parent right then and there, which means you lose the exit
-# status...
-#
-# ... unless you're using dash, which seems to preserve the exit status automatically,
-# so you could trap just 'kill 0', without needing to manually preserve 'status=$?'.
-# However, only rely on this when explicitly invoking the script with dash -- remember
-# that /bin/sh can also be bash.
-#
-# In any case, when using one of the two kill-based alternatives, you either need two
-# separate traps, converting INT, TERM, QUIT and HUP to EXIT and only running cleanup on
-# EXIT, or unregister the TERM trap in cleanup with 'trap - TERM', to avoid infinite
-# recursion.
-#
-# And because there's apparently no end to excruciating caveats: 'kill -- -$$' will only
-# work for scripts directly launched from an interactive shell, which become their own
-# process group leaders. But if you call the script from another script, it will be part
-# of the latter script's process group, so there will be no process group with its PID
-# (i.e. no '-$$'). See <https://stackoverflow.com/a/52126776>. Sigh.
-#
-# And just because fuck you for trying to make this work on zsh too, even if you
-# probably don't really need it, 'status' is a specially read-only variable in zsh, so
-# you have to use 'code' instead. And just because fuck you twice, zsh also doesn't have
-# a proper 'jobs -p', so you need 'jobs -l' + sed.
-#
-# 'if ps then kill' is technically a race condition, but while it can't completely avoid
-# issuing kill to a process that's gone, at least it makes it less likely and the output
-# therefore less noisy. We ignore the error anyway with '|| true', but we want to see
-# stderr in case some unexpected error happens, so '2>/dev/null' instead of 'if ps' is
-# not an option.
-#
-# For more discussion on this entire topic, see <https://stackoverflow.com/q/360201>.
-snippet trap "kill children on exit while preserving exit code"
-cleanup() {
-	# NOTE: This only kills direct children still under job control. If you want to kill
-	# the entire process group (except for children who might have changed their process
-	# group), use 'trap - TERM; kill 0', at the expense of losing the exit status, unless
-	# using dash.
-	local code=$?
-	jobs=$(mktemp)
-	jobs -l >"$jobs"
-	for pid in $(sed 's/.*\? \([[:digit:]]\+\) .*/\1/' <"$jobs"); do
-		if ps $pid >/dev/null; then
-			kill -- $pid || true
-		fi
-	done
-	return $code
-}
-trap cleanup INT TERM QUIT HUP EXIT
 endsnippet
 
 snippet wait "wait without breaking set -e"
