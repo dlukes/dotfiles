@@ -1,8 +1,9 @@
 let mapleader = ' '
 let maplocalleader = ' '
-" don't use `pyenv which` here, because that can be overridden by `pyenv
-" local`
-if executable('pyenv')
+if executable('mamba')
+  let g:python3_host_prog = fnamemodify('~/.local/mambaforge/bin/python', ':p')
+elseif executable('pyenv')
+  " don't use `pyenv which` here, because that can be overridden by `pyenv local`
   let g:python3_host_prog = trim(system('pyenv root'))
     \ . '/versions/'
     \ . trim(system('pyenv global'))
