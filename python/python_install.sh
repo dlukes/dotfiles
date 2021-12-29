@@ -12,10 +12,7 @@ to pyenv/versions and rename it according to the version. Pyenv should then be a
 manage it.
 
 Note that you might have to set the TERMINFO_DIRS variable (and possibly other quirks,
-see <https://python-build-standalone.readthedocs.io/en/latest/quirks.html>). Also, the
-way the Black Vim plugin creates its virtualenv results in a broken virtualenv for some
-reason, even though virtualenv creation otherwise works fine. Solution: create the
-virtualenv and install Black manually (that's what BlackReinstall now does anyway).
+see <https://python-build-standalone.readthedocs.io/en/latest/quirks.html>).
 
 Press ENTER to continue with compilation.
 "
@@ -91,10 +88,7 @@ pyenv versions
 # don't abort entire script if user chooses not to uninstall previous
 # version; the subshell is needed on old bash versions (<4) because of
 # https://stackoverflow.com/a/68144864
-(pyenv uninstall $curr_ver) && {
-  >&2 echo "Black's virtualenv is broken now, removing it."
-  rm -rf ~/.local/share/nvim/black
-} || true
+(pyenv uninstall $curr_ver) || true
 without_gnubin pyenv install --keep $new_ver
 
 pyenv shell $new_ver

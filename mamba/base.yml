@@ -15,6 +15,7 @@ dependencies:
   - pynvim
   - ipython
   - ipdb
+  - black
   - rich
   # stdlib replacements
   - lxml

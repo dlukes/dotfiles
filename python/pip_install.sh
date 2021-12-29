@@ -17,6 +17,7 @@ without_gnubin pip3 install --upgrade --upgrade-strategy eager \
   pynvim \
   ipython \
   ipdb \
+  black \
   rich \
   poetry \
   bpytop \

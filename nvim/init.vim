@@ -128,38 +128,11 @@ function! ToggleFolds()
   endif
 endfunction
 
-function! s:black_reinstall() abort
-  " black's vim integration is not exactly smooth and I never remember
-  " all the stuff I have to nuke to start afresh
-  call plug#load('black')
-  let black_virtualenv = get(g:, 'black_virtualenv', '')
-  let black_virtualenv_full = fnamemodify(black_virtualenv, ':p')
-  let black_python = black_virtualenv_full.'/bin/python3'
-  let black_python_not_found = v:false
-  try
-    call system([black_python, '--version'])
-  catch
-    let black_python_not_found = v:true
-  endtry
-  if v:shell_error || black_python_not_found
-    echom "(Re-)creating Black's virtualenv in ".black_virtualenv.'.'
-    call system(['rm', '-rf', black_virtualenv_full])
-    call system(['python3', '-m', 'venv', black_virtualenv_full])
-  endif
-  echom 'Upgrading pip and black.'
-  call system([black_python, '-m', 'pip', 'install', '-U', 'pip'])
-  call system([black_python, '-m', 'pip', 'install', '-U', 'black'])
-  echom 'If the issue persists, run :PlugUpdate black and retry reinstalling.'
-endfunction
-
-command! BlackReinstall :call s:black_reinstall()
-
 function! s:update_everything()
   PlugUpgrade
   PlugSnapshot ~/.files/plug.lock
   PlugUpdate
   TSUpdate
-  call s:black_reinstall()
 endfunction
 
 command! UpdateEverything :call s:update_everything()
@@ -307,6 +280,8 @@ let g:markdown_fenced_languages = [
 " forward, but let's keep it in here for good measure, in case I ever
 " need to fall back to the default indentation algorithm
 let g:pyindent_disable_parentheses_indenting = 1
+" I'm sick of fixing Black's virtualenv, let's just install it globally.
+let g:black_virtualenv = fnamemodify(g:python3_host_prog, ':h:h')
 
 function! LspStatus() abort
   let status = luaeval('require("lsp-status").status()')
