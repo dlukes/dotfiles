@@ -1,0 +1,19 @@
+#!/bin/sh
+
+set -euf
+script_dir=$(dirname "$(realpath "$0")")
+cmd_pattern="${1:-}"
+cd $script_dir
+dotdir=$(git rev-parse --show-toplevel)
+cd $dotdir
+
+find_install() {
+  find . -type f -name \*install.sh | LC_ALL=C sort
+}
+
+if [ -z "$cmd_pattern" ]; then
+  find_install
+else
+  cmd=$(find_install | grep -Fm1 "$cmd_pattern")
+  $cmd
+fi

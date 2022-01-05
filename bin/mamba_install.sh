@@ -1,1 +1,0 @@
-../mamba/install.sh

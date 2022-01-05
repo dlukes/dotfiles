@@ -1,9 +1,9 @@
 #!/bin/sh
 
-set -eufx
-script_dir=$(dirname "$0")
+set -euf
+script_dir=$(dirname "$(realpath "$0")")
+. "$script_dir"/util.sh
 prefix="$HOME"/.local
-. util.sh
 
 >&2 echo '>>> Installing zstd.'
 cd "$(mktemp -d)"

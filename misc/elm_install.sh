@@ -1,8 +1,8 @@
 #!/bin/sh
 
-set -e
-dirname=$( dirname "$0" )
-. "$dirname/util.sh"
+set -euf
+script_dir=$(dirname "$(realpath "$0")")
+. "$script_dir"/util.sh
 
 export NPM_CONFIG_PREFIX="$HOME/.local"
 alias curl='curl --silent'

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-set -e
-dirname=$( dirname "$0" )
-. "$dirname/util.sh"
+set -eufo pipefail
+script_dir=$(dirname "$(realpath "$0")")
+. "$script_dir"/util.sh
 
 man_dir="$HOME/.local/share/man/man1"
 comp_dir="$HOME/.config/fish/completions"

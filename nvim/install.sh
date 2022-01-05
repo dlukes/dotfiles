@@ -1,8 +1,8 @@
 #!/bin/sh
 
 set -euf
-script_dir=$(dirname "$0")
-. "$script_dir/util.sh"
+script_dir=$(dirname "$(realpath "$0")")
+. "$script_dir/../misc/util.sh"
 
 prefix="$HOME/.local"
 org=neovim
@@ -14,8 +14,8 @@ cmd=nvim
 # ------------------------------------------------ Install cmake and ninja build systems {{{1
 
 
-"$script_dir"/ninja_install.sh
-"$script_dir"/cmake_install.sh
+"$script_dir"/../misc/ninja_install.sh
+"$script_dir"/../misc/cmake_install.sh
 
 
 
@@ -51,7 +51,7 @@ fi
 # --------------------------------------------------------------- Install/upgrade pynvim {{{1
 
 
-pip3 install --upgrade --upgrade-strategy eager pynvim
+pip3 install --upgrade pynvim
 
 
 
@@ -68,6 +68,6 @@ fi
 # use only head of init.vim file containing plugin declarations relevant
 # for PlugInstall -- until the plugins are available, the rest might
 # cause errors which will abort the installation process
-sed '/call plug#end()/q' "$script_dir/../nvim/init.vim" |
+sed '/call plug#end()/q' "$script_dir/init.vim" |
   nvim -u /dev/stdin +'PlugInstall --sync' +qall
 nvim +UpdateEverything

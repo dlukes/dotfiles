@@ -1,1 +1,0 @@
-../python/pdm_install.sh

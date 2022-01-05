@@ -1,8 +1,8 @@
 #!/bin/sh
 
-set -e
-dirname=$( dirname "$0" )
-. "$dirname/util.sh"
+set -euf
+script_dir=$(dirname "$(realpath "$0")")
+. "$script_dir/../misc/util.sh"
 
 if command -v brew >/dev/null 2>&1; then
   brew_install_or_upgrade openblas

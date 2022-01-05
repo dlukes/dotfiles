@@ -1,9 +1,9 @@
 #!/bin/sh
 
-set -eu
-prefix="$HOME/.local"
-dirname=$(dirname "$0")
-. "$dirname/util.sh"
+set -euf
+script_dir=$(dirname "$(realpath "$0")")
+. "$script_dir"/util.sh
+prefix="$HOME"/.local
 
 
 
@@ -95,7 +95,7 @@ install_luarocks
 # ------------------------------------------- Install ninja build system {{{1
 
 
-"$dirname"/ninja_install.sh
+"$script_dir"/ninja_install.sh
 
 
 

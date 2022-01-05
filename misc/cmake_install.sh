@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -eu
-script_dir=$(dirname "$0")
+script_dir=$(dirname "$(realpath "$0")")
 . "$script_dir"/util.sh
 repo=Kitware/CMake
 

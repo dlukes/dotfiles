@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+set -euf
 script_dir=$(dirname "$(realpath "$0")")
 
 if [ -z "$XDG_CONFIG_HOME" ]; then

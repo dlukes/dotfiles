@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -euf
-script_dir=$(dirname "$0")
+script_dir=$(dirname "$(realpath "$0")")
 . "$script_dir"/util.sh
 
 if is_macos; then

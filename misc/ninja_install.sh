@@ -1,9 +1,9 @@
 #!/bin/sh
 
 set -euf
-prefix="$HOME/.local"
-script_dir=$(dirname "$0")
-. "$script_dir/util.sh"
+script_dir=$(dirname "$(realpath "$0")")
+. "$script_dir"/util.sh
+prefix="$HOME"/.local
 
 repo=ninja
 if is_macos; then

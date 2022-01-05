@@ -1,1 +1,0 @@
-../python/umrk/install.sh

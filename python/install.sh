@@ -1,8 +1,8 @@
 #!/bin/sh
 
-set -e
-dirname=$( dirname "$0" )
-. "$dirname/util.sh"
+set -euf
+script_dir=$(dirname "$(realpath "$0")")
+. "$script_dir/../misc/util.sh"
 
 >&2 echo "
 Worth considering if compiling Python turns out to be a pain: download a pre-compiled
@@ -92,9 +92,9 @@ pyenv versions
 without_gnubin pyenv install --keep $new_ver
 
 pyenv shell $new_ver
-"$dirname"/pip_install.sh
-"$dirname"/pdm_install.sh
-"$dirname"/umrk_install.sh
+"$script_dir"/pip_install.sh
+"$script_dir"/pdm_install.sh
+"$script_dir"/umrk/install.sh
 
 # build local copy of docs (only useful on systems with a GUI)
 if is_macos || [ -n "$XDG_CURRENT_DESKTOP" ]; then

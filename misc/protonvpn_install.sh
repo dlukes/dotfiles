@@ -1,8 +1,7 @@
 #!/bin/sh
 
-# exit on error; no unset variables; no pathname expansion; trace execution
 set -euf
-script_dir=$(dirname "$0")
+script_dir=$(dirname "$(realpath "$0")")
 . "$script_dir"/util.sh
 
 if ! command -v eopkg >/dev/null; then
