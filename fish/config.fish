@@ -61,6 +61,13 @@ if test -x $conda
     source
 end
 
+# ------------------------------------------------------------------ PDM {{{1
+
+if not set -q PYTHONPATH
+  set -l lib_dir (string replace -r /bin/ /lib/ (realpath (command -v python)))
+  set -gxp PYTHONPATH $lib_dir/site-packages/pdm/pep582
+end
+
 # ----------------------------------------------------------------- Rust {{{1
 
 if not set -q RUSTUP_HOME
