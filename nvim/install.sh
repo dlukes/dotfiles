@@ -48,13 +48,6 @@ fi
 
 
 
-# --------------------------------------------------------------- Install/upgrade pynvim {{{1
-
-
-pip3 install --upgrade pynvim
-
-
-
 # --------------------------------------------------------- Install vim-plug and plugins {{{1
 
 
