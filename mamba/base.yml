@@ -26,9 +26,12 @@ dependencies:
   - jupytext
   # data analysis
   - pandas
-  - openpyxl
   - scikit-learn
   - statsmodels
   - altair
   - matplotlib
   - seaborn
+  # optional Pandas deps
+  - sqlalchemy
+  - mysqlclient
+  - openpyxl
