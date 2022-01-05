@@ -17,21 +17,8 @@ fi
 
 >&2 echo '>>> Installing NPM packages...'
 
-install_or_update() {
-  if command -v "$1" >/dev/null; then
-    cmd=update
-  else
-    cmd=install
-  fi
-  npm $cmd -g "$1"
-}
-
-install_or_update npm
-install_or_update pyright
-install_or_update bash-language-server
-install_or_update @elm-tooling/elm-language-server
-install_or_update vim-language-server
-install_or_update typescript
-install_or_update typescript-language-server
+pkgs='pyright bash-language-server vim-language-server typescript typescript-language-server'
+npm install -g --ignore-scripts $pkgs
+npm update  -g --ignore-scripts $pkgs
 
 # vi: foldmethod=marker
