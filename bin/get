@@ -15,5 +15,7 @@ if [ -z "$cmd_pattern" ]; then
   find_install
 else
   cmd=$(find_install | grep -Fm1 "$cmd_pattern")
+  >&2 echo ">>> '$(basename "$0") $@' ==> $(realpath "$cmd")"
+  { printf "=%.s" $(seq $(tput cols)); echo; } >&2
   $cmd
 fi
