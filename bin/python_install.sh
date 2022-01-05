@@ -1,1 +1,1 @@
-../python/python_install.sh
+../python/install.sh

@@ -1,1 +1,1 @@
-../mamba/mamba_install.sh
+../mamba/install.sh

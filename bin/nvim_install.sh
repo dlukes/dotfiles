@@ -1,1 +1,1 @@
-../nvim/nvim_install.sh
+../nvim/install.sh

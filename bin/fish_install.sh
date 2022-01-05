@@ -1,1 +1,1 @@
-../fish/fish_install.sh
+../fish/install.sh
