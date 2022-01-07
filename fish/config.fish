@@ -54,12 +54,15 @@ end
 
 # -------------------------------------------------------- Mamba / Conda {{{1
 
-set -l conda ~/.local/mambaforge/bin/conda
+set -l conda ~/.local/mambaforge/condabin/conda
 if test -x $conda
   $conda shell.fish hook |
     awk '/^function __conda_add_prompt/{d=1} /^function conda /{d=0} !d' |
     source
 end
+# NOTE: This is the same environment as base, just symlinked into envs to make it
+# stackable.
+conda activate __base__
 
 # ------------------------------------------------------------------ PDM {{{1
 
