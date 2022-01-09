@@ -1,0 +1,14 @@
+# An attempt at setting up an environment in which ffmpeg with hardware acceleration can
+# be compiled. Got stuck at one of the conda-provided libs expecting the wrong version
+# of glibc, I think. So this is very much WIP. Maybe the most hassle-free way to get
+# this working on Solus is via nvidia-docker, which will have all the correct deps.
+
+name: ffmpeg-cuda
+channels:
+  - conda-forge
+  - nvidia
+dependencies:
+  - gcc=10
+  - gxx=10
+  - cudatoolkit-dev
+  - nvidia::libnpp-dev
