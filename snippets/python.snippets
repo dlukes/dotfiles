@@ -95,7 +95,7 @@ from rich.console import Console
 from rich.logging import RichHandler
 
 log.basicConfig(
-	level=logging.NOTSET,
+	level=log.NOTSET,
 	format="%(message)s",
 	handlers=[
 		RichHandler(console=Console(stderr=True), rich_tracebacks=True, markup=True)
