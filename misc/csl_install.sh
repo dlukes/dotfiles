@@ -1,6 +1,6 @@
 #!/bin/sh
 
-csl="$HOME/.csl"
+csl="$HOME/.local/share/csl"
 styles=(
   apa
   chicago-author-date
