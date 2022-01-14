@@ -42,7 +42,8 @@ set -gx PYTHONBREAKPOINT ipdb.set_trace
 set -gx PYTHONSTARTUP ~/.files/python/startup.py
 set -gx PYTHONPYCACHEPREFIX ~/.cache/pycache
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
-set -gx POETRY_VIRTUALENVS_IN_PROJECT 1
+set -q NLTK_DATA; or set -gx NLTK_DATA ~/.local/share/nltk_data
+set -q SEABORN_DATA; or set -gx SEABORN_DATA ~/.local/share/seaborn-data
 if type -q pyenv
   if not set -q PYENV_ROOT
     set -gx PYENV_ROOT ~/.local/pyenv
