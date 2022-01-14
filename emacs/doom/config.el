@@ -52,6 +52,9 @@
        org-footnote-section nil
        org-startup-with-inline-images t
 
+       citar-bibliography '("~/Literature/bib/current.bib")
+       org-cite-csl-styles-dir "~/.local/share/csl"
+
        org-roam-dailies-directory "daily/"
        org-roam-dailies-capture-templates
        '(("d" "default" entry
