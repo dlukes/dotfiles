@@ -8,7 +8,7 @@ dotdir=$(git rev-parse --show-toplevel)
 cd $dotdir
 
 find_install() {
-  find . -type f -name \*install.sh | LC_ALL=C sort
+  find . -type f -name '*install.*' | LC_ALL=C sort
 }
 
 if [ -z "$cmd_pattern" ]; then
