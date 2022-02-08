@@ -79,7 +79,6 @@ Plug 'simrat39/rust-tools.nvim'  " , { 'for': 'rust' }
 " TODO: get rid of all custom markdown config once tree-sitter support
 " lands
 Plug 'tpope/vim-markdown', { 'for': 'markdown' }
-Plug 'ElmCast/elm-vim', { 'for': 'elm' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'lervag/vimtex', { 'for': 'tex' }
 Plug 'dag/vim-fish', { 'for': 'fish' }
@@ -299,8 +298,6 @@ let g:airline_theme = 'night_owl'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#nvimlsp#enabled = 0
 let g:airline_section_warning = airline#section#create_right(['lsp_status'])
-
-let g:elm_format_autosave = 1
 
 " make sure *.tex files are never interpreted as ft=plaintex, so that
 " vimtex is used
