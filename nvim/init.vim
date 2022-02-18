@@ -8,6 +8,8 @@ elseif executable('pyenv')
     \ . '/versions/'
     \ . trim(system('pyenv global'))
     \ . '/bin/python3'
+else
+  let g:python3_host_prog = exepath('python3')
 endif
 
 "--------------------------------------------------------------- Plugins {{{1
