@@ -60,10 +60,10 @@ if test -x $conda
   $conda shell.fish hook |
     awk '/^function __conda_add_prompt/{d=1} /^function conda /{d=0} !d' |
     source
+  # NOTE: This is the same environment as base, just symlinked into envs to make it
+  # stackable.
+  conda activate __base__
 end
-# NOTE: This is the same environment as base, just symlinked into envs to make it
-# stackable.
-conda activate __base__
 
 # ------------------------------------------------------------------ PDM {{{1
 
