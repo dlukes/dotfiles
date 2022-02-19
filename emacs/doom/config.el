@@ -63,6 +63,32 @@
                              "#+title: %<%Y-%m-%d>\n"))))
 (add-hook 'org-mode-hook #'visual-fill-column-mode)
 
+;; When Org-roam tries to render images in the backlinks buffer but can't find them, the
+;; filename gets interpreted as a base64 string, which results in an error and rendering
+;; of the buffer halts, with the remaining backlinks not shown.
+;;
+;; Attachments are looked up via the ID of their parent node. So what are the typical
+;; reasons why an attachment can't be found?
+;;
+;; Maybe the image has been refiled under a different ID and the attachment hasn't been
+;; moved. Automatic moving of attachments on refile may be implemented in Org-roam in
+;; the future, but isn't currently.
+;;
+;; But more generally, maybe the whole mechanism of attachment lookup fails in the
+;; backlinks buffer -- maybe the node ID isn't correctly set in that context. Maybe it's
+;; Doom's fault, Doom customizes the attachment system, using a single global dir.
+;;
+;; At any rate, I don't really care if the backlinks buffer doesn't show images (maybe I
+;; even prefer that it doesn't), but I *do* care if it doesn't show all the backlinks
+;; due to an error. So demote the error to a warning message. This also means that Org
+;; buffers with broken attachment links will still fully initialize, which is also nice.
+(defadvice! no-errors/+org-inline-image-data-fn (_protocol link _description)
+  :override #'+org-inline-image-data-fn
+  "Interpret LINK as base64-encoded image data. Demote errors to warnings."
+  (with-demoted-errors
+    "Error rendering inline image (parent node ID changed or Org-roam backlink buffer?): %S"
+    (base64-decode-string link)))
+
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type nil)
