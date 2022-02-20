@@ -2,6 +2,16 @@ from __future__ import annotations
 from importlib import import_module
 from pathlib import Path
 
+try:
+    ipython = get_ipython()
+    is_ipython = True
+    # This is not necessarily true (there might be no frontend at all, even though the
+    # kernel is attached to a ZMQ), but close enough.
+    is_jupyter = ipython.__class__.__name__ == "ZMQInteractiveShell"
+except NameError:
+    is_ipython = False
+    is_jupyter = False
+
 
 class Importer:
     mod2alias = [("numpy", "np"), ("pandas", "pd"), ("altair", "alt")]
@@ -40,6 +50,9 @@ p = Path
 del Path, Importer, import_module
 
 try:
+    if is_jupyter:
+        raise ImportError
+
     from rich import pretty, traceback
 
     class RichTracebacker:
