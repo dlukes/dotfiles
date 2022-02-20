@@ -54,6 +54,10 @@
 
        citar-bibliography '("~/.cache/zotero/my_library.json")
        org-cite-csl-styles-dir "~/.local/share/csl"
+       ;; NOTE: Citar uses Vertico as its selection engine, and I want selection to be
+       ;; case insensitive. Vertico is compatible with Emacs's default completion system
+       ;; and thus customized using the same variables.
+       completion-ignore-case t
 
        org-roam-dailies-directory "daily/"
        org-roam-dailies-capture-templates
