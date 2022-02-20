@@ -52,7 +52,7 @@
        org-footnote-section nil
        org-startup-with-inline-images t
 
-       citar-bibliography '("~/Literature/bib/current.bib")
+       citar-bibliography '("~/.cache/zotero/my_library.json")
        org-cite-csl-styles-dir "~/.local/share/csl"
 
        org-roam-dailies-directory "daily/"
