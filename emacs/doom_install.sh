@@ -41,8 +41,26 @@ if [ -f "$launcher" ]; then
   sudo sed -i 's/Exec=/Exec=env XMODIFIERS= /' "$launcher"
 fi
 
+# Until https://github.com/justinbarclay/parinfer-rust-mode/issues/43 is resolved,
+# compile the parinfer-rust dylib manually on macOS because of lacking M1 support.
+parinfer_so=$(find "$emacs_d" -name parinfer-rust-darwin.so)
+if [ -f "$parinfer_so" ]; then
+  >&2 echo '>>> Building parinfer-rust manually to make sure it has M1 support.'
+  cd ~/.cache
+  repo_name=parinfer-rust
+  if ! [ -d "$repo_name" ]; then
+    git clone --depth 1 https://github.com/eraserhd/"$repo_name".git
+    cd "$repo_name"
+  else
+    cd "$repo_name"
+    git fetch
+  fi
+  cargo build --release --features emacs
+  cp target/release/libparinfer_rust.dylib "$parinfer_so"
+fi
+
 >&2 echo "\
-All done. Remember you might need to run 'doom build' to recompile
+>>> All done. Remember you might need to run 'doom build' to recompile
 installed packages in certain situations:
 
 - If you change the major version of Emacs, as bytecode is generally not
