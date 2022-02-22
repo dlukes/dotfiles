@@ -51,6 +51,7 @@
        ;; the section they're in.
        org-footnote-section nil
        org-startup-with-inline-images t
+       org-display-remote-inline-images 'cache
 
        citar-bibliography '("~/.cache/zotero/my_library.json")
        org-cite-csl-styles-dir "~/.local/share/csl"
