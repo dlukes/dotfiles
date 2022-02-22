@@ -59,12 +59,36 @@
        ;; and thus customized using the same variables.
        completion-ignore-case t
 
+       org-latex-reference-command "\\cref{%s}"
+       org-latex-tables-booktabs t
+       ;; NOTE: Tweak org-latex-minted-options to customize minted.
+       org-latex-listings 'minted
+       ;; NOTE: Minted needs -shell-escape so that it may call pygments.
+       org-latex-pdf-process
+       '("latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f")
+       org-latex-packages-alist
+       '(("capitalize" "cleveref")
+          ("" "booktabs" t)
+          ("" "tabularx")
+          ("" "minted" t))
+
        org-roam-dailies-directory "daily/"
        org-roam-dailies-capture-templates
        '(("d" "default" entry
           "* %?"
           :if-new (file+head "%<%Y-%m-%d>.org"
                              "#+title: %<%Y-%m-%d>\n"))))
+;; NOTE: If this leads to an error, install TeX Live and update Doom so that it notices
+;; that you have LaTeX support.
+(after! ox-latex
+  (add-to-list 'org-latex-classes
+              '("scrartcl"
+                "\\documentclass{scrartcl}"
+                ("\\section{%s}" . "\\section*{%s}")
+                ("\\subsection{%s}" . "\\subsection*{%s}")
+                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 (add-hook 'org-mode-hook #'visual-fill-column-mode)
 
 ;; When Org-roam tries to render images in the backlinks buffer but can't find them, the
