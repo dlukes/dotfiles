@@ -51,6 +51,7 @@ better_bibtex_db = zotero_dir / "better-bibtex.sqlite"
 synced_storage_dir = lit_dir / "zotero"
 zotfile_dir = lit_dir / "zotfile"
 cache_dir = Path.home() / ".cache" / "zotero"
+my_library_json = str(cache_dir / "my_library.json")
 
 
 # ---------------------------------------------------- Creating directories and symlinks {{{1
@@ -141,28 +142,41 @@ user_pref("extensions.zotfile.tablet.subfolders", "[{{\"label\":\"books\",\"path
 if not better_bibtex_db.is_file():
     eprint("ERROR:", better_bibtex_db, "doesn't exist, can't set up automatic exports.")
     sys.exit(1)
-eprint("Configuring automatic exports in", better_bibtex_db)
-exports = [
-    {
-        "type": "library",
-        "id": 1,
-        "path": str(cache_dir / "my_library.json"),
-        "status": "done",
-        "translatorID": "f4b52ab0-f878-4556-85a0-c7aeedd09dfc",
-        "meta": {"revision": 0, "created": 1645362289004, "version": 0},
-        "$loki": 17,
-    }
-]
+
+# NOTE: Looks like there's more to creating a Zotero export than just adding an entry to
+# the Better BibTeX database. Which sort of makes sense -- exports are a Zotero feature
+# which Better BibTeX extends, so there's probably other stuff to trigger (in
+# particular, that $loki field seems to play an important role). So the best I can do is
+# to warn myself to add the export manually.
+
+# eprint("Configuring automatic exports in", better_bibtex_db)
+# exports = [
+#     {
+#         "type": "library",
+#         "id": 1,
+#         "path": my_library_json,
+#         "status": "done",
+#         "translatorID": "f4b52ab0-f878-4556-85a0-c7aeedd09dfc",
+#         "meta": {"revision": 0, "created": 1645362289004, "version": 0},
+#         "$loki": 17,
+#     }
+# ]
+
 con = sqlite3.connect(better_bibtex_db)
 query = "select data from `better-bibtex` where name = 'better-bibtex.autoexport'"
 autoexport = json.loads(next(con.execute(query))[0])
-autoexport["data"] = []  # TODO: delete
 existing_exports = {export["path"] for export in autoexport["data"]}
-for export in exports:
-    if export["path"] not in existing_exports:
-        autoexport["data"].append(export)
-with con:
-    con.execute(
-        "update `better-bibtex` set data = ? where name = 'better-bibtex.autoexport'",
-        (json.dumps(autoexport),),
+if my_library_json not in existing_exports:
+    eprint(
+        "WARNING: Missing updated Better CSL-JSON export of entire library at",
+        my_library_json,
     )
+
+# for export in exports:
+#     if export["path"] not in existing_exports:
+#         autoexport["data"].append(export)
+# with con:
+#     con.execute(
+#         "update `better-bibtex` set data = ? where name = 'better-bibtex.autoexport'",
+#         (json.dumps(autoexport),),
+#     )
