@@ -22,7 +22,7 @@ else:
     eprint(f"ERROR: Unsupported platform:", sys.platform)
     sys.exit(1)
 
-profiles = list(prof_dir.iterdir())
+profiles = list(p for p in prof_dir.iterdir() if p.name != "profiles.ini")
 if not profiles:
     # fmt: off
     eprint("ERROR: No Zotero profile found. Please install Zotero first and run it at least once.")
