@@ -12,13 +12,17 @@
 [sendemail]
   smtpserver = smtp.gmail.com
   smtpuser = dafydd.lukes@gmail.com
-  # Create an app password <https://security.google.com/settings/security/apppasswords>,
-  # paste it here, send the patch, revert the paste and *revoke the password*, so that
-  # even if you accidentally commit it, you don't give the keys to your Google account
-  # to anyone on the internet, which is a bad idea™.
   smtppass = xxx
   smtpencryption = tls
   smtpserverport = 587
+  # Create an app password <https://security.google.com/settings/security/apppasswords>,
+  # paste it here as smtppass = xxx, send the patch, revert the paste and *revoke the
+  # password*, so that even if you accidentally commit it, you don't give the keys to
+  # your Google account to anyone on the internet, which is a bad idea™. Alternatively,
+  # you can keep it around indefinitely in a separate config file which is included but
+  # kept private:
+[include]
+  path = ~/Desktop/data/git_config_private
 
 [core]
   quotepath = off
@@ -59,3 +63,5 @@
   conflictstyle = diff3
 [mergetool "vimdiff"]
   path = nvim
+
+# vi: ft=gitconfig
