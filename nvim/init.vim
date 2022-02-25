@@ -18,6 +18,11 @@ call plug#begin()
 " TODO: try these out some day:
 " https://github.com/bfredl/nvim-ipy
 " https://github.com/bfredl/nvim-luadev
+" https://github.com/mfussenegger/nvim-dap
+" https://github.com/nvim-telescope/telescope-ui-select.nvim
+"
+" TODO: More tips on setting up Rust support in Neovim:
+" https://sharksforarms.dev/posts/neovim-rust/
 
 " core
 Plug 'tpope/vim-sensible'
@@ -74,9 +79,9 @@ Plug 'psf/black', { 'for': 'python', 'tag': 'stable' }
 " (Rust*). I'm not really using those right now, but they keep evolving and might be
 " useful, so probably keep this plugin, to have access to up-to-date versions?
 Plug 'rust-lang/rust.vim', { 'for': 'rust' }
-" NOTE: A dedicated LSP config plugin for Rust. Should have support for standalone
-" files, but it's kind of wonky right now. Better create a dummy Cargo project. Also,
-" has to be loaded eagerly, otherwise additional setup in init.lua fails.
+" NOTE: A dedicated LSP config plugin for Rust. Supports standalone files, but *not
+" within a git repo*. Also, has to be loaded eagerly, otherwise additional setup in
+" init.lua fails.
 Plug 'simrat39/rust-tools.nvim'  " , { 'for': 'rust' }
 " TODO: get rid of all custom markdown config once tree-sitter support
 " lands
