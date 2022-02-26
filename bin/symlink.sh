@@ -20,8 +20,8 @@ get_link_name() {
 
   if [ "$directory" = "$HOME" ] && [ "$basename" != "texmf" ]; then
     printf "$directory/.$basename"
-  elif [ "$directory" = / ]; then
-    printf "/.$basename"
+  elif [ "$basename" = editorconfig ]; then
+    printf "$directory/.$basename"
   else
     printf "$directory/$basename"
   fi
@@ -90,9 +90,18 @@ $action "$HOME" profile bashrc editorconfig sqliterc texmf tmux.conf mamba/conda
 # Editorconfig under / if I'm an admin
 #-----------------------------------------------------------------------
 
-if groups | grep -wq sudo; then
-  orig_owner=$( stat -c %U / )
-  sudo chown "$user" /
-  $action / editorconfig
-  sudo chown "$orig_owner" /
+if groups | grep -wqP 'sudo|admin'; then
+  if [ "$(uname)" = Darwin ]; then
+    # / is read-only on macOS, Homebrew already has an editorconfig and overwriting it
+    # would complicate pulling, but it can still be useful to have your editorconfig
+    # applied to files in the Cellar. E.g. Elisp files shipped with Emacs will format
+    # nicer thanks to this.
+    target=/opt/homebrew/Cellar
+  else
+    target=/
+  fi
+  orig_owner=$( stat -c %U $target )
+  sudo chown "$user" $target
+  $action $target editorconfig
+  sudo chown "$orig_owner" $target
 fi
