@@ -15,8 +15,10 @@ indent_size = 4
 [*.go]
 indent_style = tab
 
-[*.el]
 # Some Elisp files tend to use a mix of tabs and spaces, where tabs stand for 8 spaces.
+[*.el]
+indent_size = 8
+[*.el.gz]
 indent_size = 8
 
 [Makefile]
