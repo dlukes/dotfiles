@@ -63,14 +63,7 @@
        (evil +everywhere); come to the dark side, we have cookies
        file-templates    ; auto-snippets for empty files
        fold              ; (nigh) universal code folding
-       ;; NOTE: +onsave disabled because it can mess up Org exports via HTML or XML
-       ;; (ODT). These are done via a temporary buffer, which means onsave formatters
-       ;; are run. In the case of HTML / XML, tidy is used, which can always at least
-       ;; mess up whitespace (e.g. footnote placement in ODT), but the old version of
-       ;; shipped with macOS also screws up multi-byte UTF-8 codepoints. Re-enable as
-       ;; needed per buffer with format-all-mode.
-       ;; TODO: Re-enable +onsave if my export buffer protection patch gets merged.
-       (format)  ; automated prettiness
+       (format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
        ;;multiple-cursors  ; editing in many places at once
