@@ -23,6 +23,12 @@
 ;(package! this-package
 ;  :recipe (:host github :repo "username/repo"
 ;           :files ("some-file.el" "src/lisp/*.el")))
+(package! ox-odt
+  :recipe (:host github :repo "kjambunathan/org-mode-ox-odt" :nonrecursive t
+           :files ("lisp/ox-odt.el"
+                   "etc"
+                   "docs"
+                   "contrib/odt/LibreOffice")))
 
 ;; If you'd like to disable a package included with Doom, you can do so here
 ;; with the `:disable' property:
@@ -50,3 +56,4 @@
 ;(unpin! pinned-package another-pinned-package)
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
+(unpin! org)
