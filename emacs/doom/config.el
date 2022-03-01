@@ -73,6 +73,20 @@
           ("" "tabularx")
           ("" "minted" t))
 
+       ;; Don't prefix figure, table etc. numbers with section numbers.
+       org-odt-display-outline-level 0
+       org-latex-to-mathml-convert-command "pandoc -f latex -t html5 --mathml %I -o %o"
+       ;; This can be used to include *any* LaTeX in ODT exports as PNG images.
+       ;; Unfortunately, it can't be used in conjunction with the MathML convert command
+       ;; above as it overrides it and equations are also rendered as PNG, which is
+       ;; suboptimal.
+       ; org-odt-with-latex 'dvipng
+       ;; Use this to convert the resulting ODT to a different format and use that as
+       ;; the result of the export instead. See org-odt-convert-process(es) for how to
+       ;; define the way this conversion should happen. By default, soffice is used, but
+       ;; you could conceivably use Pandoc as well.
+       ; org-odt-preferred-output-format "docx"
+
        org-roam-dailies-directory "daily/"
        org-roam-dailies-capture-templates
        '(("d" "default" entry
