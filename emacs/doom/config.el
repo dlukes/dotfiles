@@ -60,6 +60,8 @@
        ;; and thus customized using the same variables.
        completion-ignore-case t
 
+       org-export-with-creator t
+
        org-latex-reference-command "\\cref{%s}"
        org-latex-tables-booktabs t
        ;; NOTE: Tweak org-latex-minted-options to customize minted.
@@ -93,6 +95,10 @@
           "* %?"
           :if-new (file+head "%<%Y-%m-%d>.org"
                              "#+title: %<%Y-%m-%d>\n"))))
+;; NOTE: Why the hell does this setting default to mailcap of all things, instead of
+;; xdg-open? Anyway...
+(after! org
+  (setcdr (assq 'system org-file-apps-gnu) "xdg-open %s"))
 ;; NOTE: If this leads to an error, install TeX Live and update Doom so that it notices
 ;; that you have LaTeX support.
 (after! ox-latex

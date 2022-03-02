@@ -23,14 +23,12 @@
 ;(package! this-package
 ;  :recipe (:host github :repo "username/repo"
 ;           :files ("some-file.el" "src/lisp/*.el")))
-;; NOTE: If you ever need a feature from the more actively developed fork of ox-odt,
-;; here's how to enable it.
-;(package! ox-odt
-;  :recipe (:host github :repo "kjambunathan/org-mode-ox-odt" :nonrecursive t
-;           :files ("lisp/ox-odt.el"
-;                   "etc"
-;                   "docs"
-;                   "contrib/odt/LibreOffice")))
+(package! ox-odt
+  :recipe (:host github :repo "kjambunathan/org-mode-ox-odt" :nonrecursive t
+           :files ("lisp/ox-odt.el"
+                   "etc"
+                   "docs"
+                   "contrib/odt/LibreOffice")))
 
 ;; If you'd like to disable a package included with Doom, you can do so here
 ;; with the `:disable' property:
