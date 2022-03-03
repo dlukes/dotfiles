@@ -71,9 +71,9 @@
        '("latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f")
        org-latex-packages-alist
        '(("capitalize" "cleveref")
-          ("" "booktabs" t)
-          ("" "tabularx")
-          ("" "minted" t))
+         ("" "booktabs" t)
+         ("" "tabularx")
+         ("" "minted" t))
 
        ;; Don't prefix figure, table etc. numbers with section numbers.
        org-odt-display-outline-level 0
@@ -111,6 +111,25 @@
                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
 (add-hook 'org-mode-hook #'visual-fill-column-mode)
+
+(use-package! websocket
+  :after org-roam)
+
+(use-package! org-roam-ui
+  :after org-roam
+  ;; NOTE: This is just for reference, I can't currently think of a reasonable hook to
+  ;; use. This would open ORUI each time the backlinks buffer is toggled -- no.
+  ; :hook (org-roam-mode . org-roam-ui-open)
+  ;; This would launch the ORUI server when Org Mode is activated -- probably not
+  ;; necessary.
+  ; :hook (org-mode . org-roam-ui-mode)
+  ;; The best thing to do is probably to just have a handy keyboard shortcut to invoke
+  ;; ORUI when I want it (see below).
+  :config
+  (setq org-roam-ui-sync-theme t
+        org-roam-ui-follow t
+        org-roam-ui-update-on-save t
+        org-roam-ui-open-on-start t))
 
 ;; When Org-roam tries to render images in the backlinks buffer but can't find them, the
 ;; filename gets interpreted as a base64 string, which results in an error and rendering
@@ -284,6 +303,9 @@ diff.
     (:prefix ("d" . "doom")
       "D" #'doom-debug-mode             ; originally under d, let's put it under D...
       "d" #'dlukes/ediff-doom-config))  ; ... and have the config diff take its place
+  (:prefix ("n" . "notes")
+    (:prefix ("r" . "roam")
+      :desc "Show graph" "g" #'org-roam-ui-open))
   (:prefix ("w" . "window") "o" #'delete-other-windows)
 
   ;; NOTE: Workspaces are also easily manipulated with other default key
