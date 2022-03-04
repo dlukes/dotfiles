@@ -17,9 +17,9 @@ indent_style = tab
 
 # Some Elisp files tend to use a mix of tabs and spaces, where tabs stand for 8 spaces.
 [*.el]
-indent_size = 8
+tab_width = 8
 [*.el.gz]
-indent_size = 8
+tab_width = 8
 
 [Makefile]
 indent_style = tab
