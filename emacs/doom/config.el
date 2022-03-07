@@ -126,10 +126,12 @@
   ;; The best thing to do is probably to just have a handy keyboard shortcut to invoke
   ;; ORUI when I want it (see below).
   :config
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
+  (setq!
+    org-roam-ui-sync-theme t
+    org-roam-ui-follow t
+    org-roam-ui-update-on-save t
+    org-roam-ui-open-on-start t
+    confirm-kill-processes nil))
 
 ;; When Org-roam tries to render images in the backlinks buffer but can't find them, the
 ;; filename gets interpreted as a base64 string, which results in an error and rendering
