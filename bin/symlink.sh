@@ -64,6 +64,14 @@ delete_links() {
   done
 }
 
+with_sudo() {
+  target="$2"
+  orig_owner=$( stat -c %U $target )
+  sudo chown "$user" "$target"
+  "$@"
+  sudo chown "$orig_owner" "$target"
+}
+
 #-----------------------------------------------------------------------
 # Stuff belonging under $XDG_CONFIG_HOME
 #-----------------------------------------------------------------------
@@ -100,8 +108,20 @@ if groups | grep -wqP 'sudo|admin'; then
   else
     target=/
   fi
-  orig_owner=$( stat -c %U $target )
-  sudo chown "$user" $target
-  $action $target editorconfig
-  sudo chown "$orig_owner" $target
+  with_sudo $action $target editorconfig
+fi
+
+#-----------------------------------------------------------------------
+# Fontconfig
+#-----------------------------------------------------------------------
+
+# Ideally, I'd just symlink the entire directory to ~/.config/fontconfig, but
+# unfortunately, it seems like the settings I need to tweak need to be loaded really
+# early on, earlier than the user config kicks in (triggered by
+# /etc/fonts/conf.d/50-user.conf), so let's symlink directly under /etc/fonts/conf.d
+# instead.
+
+if [ "$(uname)" = Linux ]; then
+  target=/etc/fonts/conf.d
+  with_sudo $action $target fontconfig/00-overrides.conf
 fi
