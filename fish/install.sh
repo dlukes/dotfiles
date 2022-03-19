@@ -5,6 +5,7 @@ set -eu
 mandir="$HOME/.local/share/man/man1"
 bindir="$HOME/.local/bin"
 workdir=$(mktemp -d)
+mkdir -p "$mandir" "$bindir"
 cd "$workdir"
 
 # Just installs fasd for the moment!
