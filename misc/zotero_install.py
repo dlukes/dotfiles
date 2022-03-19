@@ -22,7 +22,9 @@ else:
     eprint(f"ERROR: Unsupported platform:", sys.platform)
     sys.exit(1)
 
-profiles = list(p for p in prof_dir.iterdir() if p.name != "profiles.ini")
+profiles = prof_dir.is_dir() and list(
+    p for p in prof_dir.iterdir() if p.name != "profiles.ini"
+)
 if not profiles:
     # fmt: off
     eprint("ERROR: No Zotero profile found. Please install Zotero first and run it at least once.")
@@ -51,7 +53,7 @@ better_bibtex_db = zotero_dir / "better-bibtex.sqlite"
 synced_storage_dir = lit_dir / "zotero"
 zotfile_dir = lit_dir / "zotfile"
 cache_dir = Path.home() / ".cache" / "zotero"
-my_library_json = str(cache_dir / "my_library.json")
+my_library_json = str(cache_dir / "My Library.json")
 
 
 # ---------------------------------------------------- Creating directories and symlinks {{{1
@@ -73,7 +75,7 @@ default_storage_dir = default_zotero_dir / "storage"
 if default_zotero_dir.is_dir():
     eprint("Deleting default Zotero data dir:", default_zotero_dir)
     delete = True
-    if list(default_storage_dir.iterdir()):
+    if default_storage_dir.is_dir() and list(default_storage_dir.iterdir()):
         eprint("WARNING:", default_storage_dir, "is not empty.")
         delete = input(">>> Still delete? [Y/n] ").casefold().startswith("y")
     if delete:
@@ -140,7 +142,7 @@ user_pref("extensions.zotfile.tablet.subfolders", "[{{\"label\":\"books\",\"path
 
 
 if not better_bibtex_db.is_file():
-    eprint("ERROR:", better_bibtex_db, "doesn't exist, can't set up automatic exports.")
+    eprint("ERROR:", better_bibtex_db, "doesn't exist, can't check automatic exports.")
     sys.exit(1)
 
 # NOTE: Looks like there's more to creating a Zotero export than just adding an entry to

@@ -89,7 +89,7 @@
   ;; Citar uses Vertico as its selection engine, and I want selection to be case
   ;; insensitive. Vertico is compatible with Emacs's default completion system, so this
   ;; is covered by completion-ignore-case above.
-  citar-bibliography '("~/.cache/zotero/my_library.json")
+  citar-bibliography '("~/.cache/zotero/My Library.json")
   org-cite-csl-styles-dir "~/.local/share/csl"
 
   org-export-with-creator t
