@@ -30,6 +30,9 @@
                    "etc"
                    "docs"
                    "contrib/odt/LibreOffice")))
+;; TODO: Maybe start using Zetteldesk.el for turning Org-roam notes into articles?
+;; (package! zetteldesk
+;;   :recipe (:host github :repo "Vidianos-Giannitsis/zetteldesk.el"))
 
 ;; If you'd like to disable a package included with Doom, you can do so here
 ;; with the `:disable' property:
