@@ -51,6 +51,18 @@
 
 
 
+;;;; ----------------------------------------------------- Core functionality extensions {{{1
+
+
+(setq
+  ;; NOTE: This is the default, putting this here mainly to remind myself of embark-act
+  ;; (bound to C-; or SPC a) and of the fact that this setting can be toggled per
+  ;; invocation by using the C-u universal prefix argument (rebound to M-u in my case
+  ;; because of Evil).
+  embark-quit-after-action t)
+
+
+
 ;;;; -------------------------------------------------------------------------- Org Mode {{{1
 
 
@@ -300,6 +312,10 @@ diff.
 ;;
 ;; ~/.config/emacs/core/core-keybinds.el
 ;; ~/.config/emacs/modules/config/default/+evil-bindings.el
+
+(map! :map global-map
+  "M-u" #'universal-argument)
+
 (map! :leader
   :desc "Run ex command" "SPC" #'evil-ex
   :desc "Switch to last buffer" "TAB" #'evil-switch-to-windows-last-buffer

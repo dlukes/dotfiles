@@ -14,10 +14,18 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
-;; NOTE: Make linewise Evil actions (movement, selection, etc.) operate
-;; on visual lines when in visual line mode. This needs to be set before
-;; evil is loaded, so that's why it's here.
-(setq evil-respect-visual-line-mode t)
+;; Evil config. The docs for evil-respect-visual-line-mode explicitly state that it
+;; needs to be set before Evil is loaded, and while I haven't seen it documented on
+;; other Evil variables, in practice, I've found that evil-want-C-u-scroll also requires
+;; it, at least under Doom Emacs. So might as well keep all Evil config here in one
+;; place.
+(setq
+  ;; Make linewise Evil actions (movement, selection, etc.) operate on visual lines when
+  ;; in visual line mode.
+  evil-respect-visual-line-mode t)
+  ;; Keep C-u as universal prefix argument. (For reference; doesn't help with insert
+  ;; mode including minibuffer, so it's best to just remap universal argument to M-u.)
+  ;; evil-want-C-u-scroll nil)
 
 (doom! :input
        ;;chinese
