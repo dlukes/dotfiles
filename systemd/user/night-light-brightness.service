@@ -1,0 +1,9 @@
+[Unit]
+Description=Night Light for monitor brightness
+After=network-online.target
+
+[Service]
+Type=simple
+# Don't generate crash reports.
+Environment="ABRT_IGNORE_PYTHON=1"
+ExecStart=%h/.files/systemd/bin/night-light-brightness.py

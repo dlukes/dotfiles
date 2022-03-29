@@ -1,0 +1,11 @@
+[Unit]
+Description=Update DNF metadata cache (timer)
+Wants=network-online.target
+
+[Timer]
+OnCalendar=*-*-* *:00,30
+Persistent=yes
+Unit=dnf-makecache.service
+
+[Install]
+WantedBy=timers.target

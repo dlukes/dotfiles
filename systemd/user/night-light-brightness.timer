@@ -1,0 +1,11 @@
+[Unit]
+Description=Night Light for monitor brightness (timer)
+Wants=network-online.target
+
+[Timer]
+OnCalendar=*-*-* 00,12:00
+Persistent=yes
+Unit=night-light-brightness.service
+
+[Install]
+WantedBy=timers.target
