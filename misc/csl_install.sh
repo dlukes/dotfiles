@@ -1,6 +1,6 @@
 #!/bin/sh
 
-csl="$HOME/.local/share/csl"
+csl="$HOME/.local/share/zotero/styles"
 styles=(
   apa
   chicago-author-date

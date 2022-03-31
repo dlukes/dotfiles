@@ -102,7 +102,7 @@
   ;; insensitive. Vertico is compatible with Emacs's default completion system, so this
   ;; is covered by completion-ignore-case above.
   citar-bibliography '("~/.cache/zotero/My Library.json")
-  org-cite-csl-styles-dir "~/.local/share/csl"
+  org-cite-csl-styles-dir "~/.local/share/zotero/styles"
 
   org-export-with-creator t
 
