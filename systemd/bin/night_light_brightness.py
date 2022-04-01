@@ -50,7 +50,7 @@ elif 0 < time_to_sunset.total_seconds() < day:
     sleep = time_to_sunset
     cmds = config.sunset_cmds
 else:
-    print("No sunrise or sunset in the next 24 hours, exiting.", file=sys.stderr)
+    print("No upcoming sunrise or sunset today, exiting.", file=sys.stderr)
     sys.exit()
 
 print(f"Sleeping for {sleep}, then running: {cmds}", file=sys.stderr)
