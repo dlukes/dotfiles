@@ -262,6 +262,7 @@ ts.setup {
 
 ----------------------------------------------------------------------- Telescope config {{{1
 
+local telescope = require("telescope")
 local tactions = require("telescope.actions")
 local tbuiltin = require("telescope.builtin")
 
@@ -270,7 +271,7 @@ for picker_name, _ in pairs(tbuiltin) do
   tpickers[picker_name] = {theme = "dropdown"}
 end
 
-require("telescope").setup{
+telescope.setup{
   defaults = {
     mappings = {
       i = {
@@ -279,7 +280,14 @@ require("telescope").setup{
     },
   },
   pickers = tpickers,
+  extensions = {
+    file_browser = {
+      theme = "dropdown",
+    },
+  },
 }
+telescope.load_extension("fzf")
+telescope.load_extension("file_browser")
 
 -------------------------------------------------------------------------- Return module {{{1
 
