@@ -6,4 +6,4 @@ After=network-online.target
 Type=simple
 # Don't generate crash reports.
 Environment="ABRT_IGNORE_PYTHON=1"
-ExecStart=%h/.files/systemd/bin/night-light-brightness.py
+ExecStart=%h/.files/systemd/bin/night_light_brightness.py

@@ -1,0 +1,13 @@
+# Run `ddcutil getvcp known` to get a list of Virtual Control Panel (VCP) codes you can
+# use. Brightness is x10 (you can pass just 10 on the command line). `-d` selects the
+# monitor (1-indexed). If omitted, the action will apply to the primary monitor.
+sunrise_cmds = [
+    ["ddcutil", "-d", "1", "setvcp", "x10", "10"],
+    ["ddcutil", "-d", "2", "setvcp", "x10", "10"],
+]
+sunset_cmds = [
+    ["ddcutil", "-d", "1", "setvcp", "x10", "0"],
+    ["ddcutil", "-d", "2", "setvcp", "x10", "0"],
+]
+
+# vi: ft=python

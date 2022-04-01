@@ -19,6 +19,12 @@ import pytz
 gi.require_version("Geoclue", "2.0")
 from gi.repository import Geoclue
 
+try:
+    from config import night_light_brightness as config
+except ImportError:
+    print("No config found, exiting.", file=sys.stderr)
+    sys.exit()
+
 # The first argument should be the basename of the desktop file of the app requesting
 # the location, but it can just be a dummy value.
 gclue = Geoclue.Simple.new_sync("dummy", Geoclue.AccuracyLevel.NEIGHBORHOOD, None)
@@ -39,14 +45,17 @@ day = 3600 * 24
 
 if 0 < time_to_sunrise.total_seconds() < day:
     sleep = time_to_sunrise
-    cmd = ["ddcutil", "setvcp", "x10", "50"]
+    cmds = config.sunrise_cmds
 elif 0 < time_to_sunset.total_seconds() < day:
     sleep = time_to_sunset
-    cmd = ["ddcutil", "setvcp", "x10", "10"]
+    cmds = config.sunset_cmds
 else:
     print("No sunrise or sunset in the next 24 hours, exiting.", file=sys.stderr)
     sys.exit()
 
-print(f"Sleeping for {sleep}, then running: {cmd}", file=sys.stderr)
+print(f"Sleeping for {sleep}, then running: {cmds}", file=sys.stderr)
 time.sleep(sleep.total_seconds())
-sp.run(cmd, check=True)
+for cmd in cmds:
+    print(f"Running: {cmd}", file=sys.stderr)
+    sp.run(cmd, check=True)
+print("Done. Let monitor brightness be merciful upon thine eyes!", file=sys.stderr)
