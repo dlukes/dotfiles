@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -euf
+set -eu
 script_dir=$(dirname "$(realpath "$0")")
 . "$script_dir"/util.sh
 prefix="$HOME"/.local
