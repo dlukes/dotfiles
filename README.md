@@ -3,12 +3,11 @@
 Clone the repo as `~/.files`:
 
 ```sh
-git clone --recursive git@github.com:dlukes/dotfiles.github ~/.files
+git clone git@github.com:dlukes/dotfiles.github ~/.files
 ```
 
-Then run the various `bin/*install.sh` scripts as required, and
-`bin/symlink.sh` to create symlinks to the config files in appropriate
-places.
+Run `bin/symlink.sh` to create symlinks to the config files in appropriate places. If
+the `DOTFILES_UNLINK` env var is set, the symlinks will instead be removed.
 
-If the `DOTFILES_UNLINK` env var is set, the symlinks will instead be
-removed.
+`bin/get` lists the various `*_install.sh` scripts available, `bin/get substring` will
+run the first such script containing `substring` in its name.
