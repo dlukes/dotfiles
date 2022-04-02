@@ -18,7 +18,7 @@ get_link_name() {
     basename=UltiSnips
   fi
 
-  if [ "$directory" = "$HOME" ] && [ "$basename" != "texmf" ]; then
+  if [ "$directory" = "$HOME" ]; then
     printf "$directory/.$basename"
   elif [ "$basename" = editorconfig ]; then
     printf "$directory/.$basename"
@@ -92,7 +92,7 @@ $action "$XDG_CONFIG_HOME/nvim/lua" nvim/init.lua
 # Stuff belonging under $HOME
 #-----------------------------------------------------------------------
 
-$action "$HOME" profile bashrc editorconfig sqliterc texmf tmux.conf mamba/condarc
+$action "$HOME" profile bashrc editorconfig sqliterc tmux.conf mamba/condarc
 
 #-----------------------------------------------------------------------
 # Editorconfig under / if I'm an admin
