@@ -26,6 +26,19 @@ snippet open "open with explicit encoding"
 open($0encoding="utf-8")
 endsnippet
 
+snippet bstd "writing bytes to standard streams"
+# or: open(sys.stdout.fileno(), "wb", closefd=False)
+sys.${1:stdout}.buffer
+endsnippet
+
+snippet bpe "handle broken pipe"
+except BrokenPipeError:
+	# Python flushes standard streams on exit; redirect remaining output to devnull to
+	# avoid a weird ignored BrokenPipeError at shutdown
+	devnull = os.open(os.devnull, os.O_WRONLY)
+	os.dup2(devnull, sys.stdout.fileno())
+endsnippet
+
 snippet sprun "run subprocess"
 import subprocess as sp
 $0 = sp.run([$1]${2:, input=${3:str_or_bytes}}${4:, capture_output=True}${5:, text=True}${6:, check=True})
