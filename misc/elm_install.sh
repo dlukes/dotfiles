@@ -24,3 +24,9 @@ rm -f $target
 pkgs='@elm-tooling/elm-language-server elm-format elm-test'
 npm install -g --ignore-scripts $pkgs
 npm update  -g --ignore-scripts $pkgs
+
+# TODO: More Elm tooling to consider using -- though note that as of 2022, these are
+# still considered experimental and probably not needed for vanilla uses of Elm:
+#
+# https://github.com/mdgriffith/elm-optimize-level-2
+# https://github.com/zwilias/elm-json
