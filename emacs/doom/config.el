@@ -90,9 +90,19 @@
 ;;                        ("sp" . "src jupyter-python")))
 ;;     (add-to-list 'org-structure-template-alist template)))
 
-;; Soft-wrapping by default.
-(add-hook 'org-mode-hook #'visual-fill-column-mode)
+;; Soft wrapping with line breaks allowed at more characters than just space or tab.
+(setq dlukes/org-category-table (copy-category-table))
+(dolist (char '(?- ?+ ?_ ?/ ?| ?\ ?. ?,))
+  (modify-category-entry char ?| dlukes/org-category-table))
 
+(defun dlukes/org-soft-wrap ()
+  (set-category-table dlukes/org-category-table)
+  (setq-local word-wrap-by-category t)
+  (visual-fill-column-mode))
+
+(add-hook 'org-mode-hook #'dlukes/org-soft-wrap)
+
+;; Main settings:
 (setq!
   org-directory "~/Desktop/org/"
   org-attach-id-dir (expand-file-name "attach/" org-directory)
