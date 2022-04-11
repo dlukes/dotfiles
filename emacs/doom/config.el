@@ -42,7 +42,17 @@
 
 
 (setq
-  ;; M-SPC is intercepted by GNOME
+  ;; M-SPC is used by GNOME, so I set alt leader keys based on S-SPC. But Under GNOME +
+  ;; Emacs --with-pgtk, input methods have to be disabled for S-SPC to work, see bug
+  ;; report at https://debbugs.gnu.org/cgi/bugreport.cgi?bug=49211. Except that running
+  ;; (pgtk-use-im-context nil) is useless when run during startup, it gets overridden,
+  ;; even when deferred as late as until emacs-startup-hook. I assume you're supposed to
+  ;; tweak pgtk-use-im-context-on-new-connection instead. Another way to do this might
+  ;; be setting GTK_IM_MODULE, see https://wiki.archlinux.org/title/Input_method.
+  ;;
+  ;; Input methods are handy if you often have to type accented characters that aren't
+  ;; directly on your keyboard, or for CJK languages. You need neither.
+  pgtk-use-im-context-on-new-connection nil
   doom-leader-alt-key "S-SPC"
   doom-localleader-alt-key "S-SPC m"
   ;; See also <https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts>
