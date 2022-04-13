@@ -109,9 +109,19 @@ user_pref("extensions.zotero.translators.better-bibtex.biblatexExtendedNameForma
 user_pref("extensions.zotero.translators.better-bibtex.caching", true);
 user_pref("extensions.zotero.translators.better-bibtex.citeCommand", "cite");
 user_pref("extensions.zotero.translators.better-bibtex.citekeyFold", true);
+// For the citekey format, you can use | to specify fallback formats, should the first
+// one yield an empty key. There's a default random fallback which is always applied.
 // This is my old, extremely terse citekey format, optimized for hardwrapped documents:
 // user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "[authors1:replace=EtAl,+:lower:ascii][shortyear]");
-user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "[auth:lower][shorttitle3_3][year]");
+// This is the default camelCase citekey format.
+// user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "[auth:lower][shorttitle3_3][year]");
+// This is your new kebab-case citekey format, which takes advantage of tweaked
+// soft-wrapping in Emacs 28.1+ to avoid ugly ragged right margins. It uses a substring
+// prefix of the title for more predictable length, removing short tokens at the end if
+// any.
+user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "[authors2:condense=_:postfix=_:replace=_EtAl_$,+,regex][year:postfix=_][Title:lower:skipwords:nopunct:condense=_:substring=1,25:replace=(_\[^_\]{{0\,2}})+$,,regex]");
+// Use only a few skipwords to keep title prefixes recognizable.
+user_pref("extensions.zotero.translators.better-bibtex.skipWords", "a,an,and,et,le,la,les,the,un,une");
 // Citekey search can slow down startup on large libraries, and I don't think I've ever
 // used it.
 user_pref("extensions.zotero.translators.better-bibtex.citekeySearch", false);
