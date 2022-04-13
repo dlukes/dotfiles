@@ -2,9 +2,38 @@
 
 set -euf
 script_dir=$(dirname "$(realpath "$0")")
+. "$script_dir"/../misc/util.sh
 
 if [ -z "$XDG_CONFIG_HOME" ]; then
   export XDG_CONFIG_HOME="$HOME/.config"
+fi
+
+# Install / update Emacs.
+if is_macos; then
+  brew tap railwaycat/emacsmacport
+  brew install --cask emacs-mac-spacemacs-icon
+
+  # This tap already provides Emacs compiled --with-native-comp, but as of mid-April
+  # 2022, the builds feel a bit janky and actually slower than railwaycat's. Maybe just
+  # wait for https://github.com/railwaycat/homebrew-emacsmacport/issues/274.
+  # brew tap jimeh/emacs-builds
+  # brew update --cask emacs-app || brew install --cask emacs-app
+elif command -v dnf >/dev/null &2>&1; then
+  export PYTHONWARNDEFAULTENCODING=
+  sudo dnf copr enable deathwish/emacs-pgtk-nativecomp
+  sudo dnf install emacs || dnf update emacs
+fi
+
+# Make sure dead keys work: https://www.emacswiki.org/emacs/DeadKeys
+launcher=/usr/share/applications/emacs.desktop
+if [ -f "$launcher" ]; then
+  sudo sed -i 's/Exec=/Exec=env XMODIFIERS= /' "$launcher"
+fi
+
+# Remove unwanted emacsclient launcher.
+launcher=/usr/share/applications/emacsclient.desktop
+if [ -f "$launcher" ]; then
+  sudo rm "$launcher"
 fi
 
 # This is one of the *standard* DOOMDIR locations expected by Doom. If XDG_CONFIG_HOME
@@ -33,12 +62,6 @@ else
   doom="$emacs_d"/bin/doom
   "$doom" install
   ln -sft ~/.local/bin "$doom"
-fi
-
-# Make sure dead keys work: https://www.emacswiki.org/emacs/DeadKeys
-launcher=/usr/share/applications/emacs.desktop
-if [ -f "$launcher" ]; then
-  sudo sed -i 's/Exec=/Exec=env XMODIFIERS= /' "$launcher"
 fi
 
 # Until https://github.com/justinbarclay/parinfer-rust-mode/issues/43 is resolved,
