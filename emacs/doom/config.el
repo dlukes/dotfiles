@@ -152,20 +152,28 @@
   ;; define the way this conversion should happen. By default, soffice is used, but
   ;; you could conceivably use Pandoc as well.
   ; org-odt-preferred-output-format "docx"
-  )
 
-(after! org-roam
-  ;; I'm using default settings for org-roam-dailies-* variables, so better not re-set
-  ;; them explicitly here, even as a reminder, because when upstream changes, my setup
-  ;; gets unnecessarily broken (it happened with capture templates).
-  ;;
-  ;; Instead, let's add a custom non-daily capture template for tagged notes:
-  (setq org-roam-capture-templates
-    (append org-roam-capture-templates
-      '(("t" "tagged" item "- tags :: %?"
-          :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
-          :empty-lines-before 1
-          :unnarrowed t)))))
+  org-roam-capture-templates
+  '(
+    ;; Should be same as stock, with different key.
+    ("n" "default" plain nil
+      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+      :unnarrowed t)
+    ("t" "tagged" item "- tags :: %?"
+      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+      :empty-lines-before 1
+      :unnarrowed t)
+    ("d" "date" entry "* %^u\n%?"
+      ;; There's also a file+datetree target, but that feels unnecessarily verbose --
+      ;; hierarchical, always adds an ID.
+      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+      :empty-lines-before 1
+      :unnarrowed t))
+  org-roam-dailies-capture-templates
+  '(("d" "default" entry "* %U %?"
+      :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>")
+      :empty-lines-before 1
+      :unnarrowed t)))
 
 ;; Why the hell does this setting default to mailcap of all things, instead of xdg-open?
 ;; Anyway...
