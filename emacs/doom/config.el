@@ -83,12 +83,10 @@
 (dolist (char '(?- ?+ ?_ ?/ ?| ?\ ?. ?,))
   (modify-category-entry char ?| dlukes/org-category-table))
 
-(defun dlukes/org-soft-wrap ()
+(add-hook! 'org-mode-hook
   (set-category-table dlukes/org-category-table)
   (setq-local word-wrap-by-category t)
   (visual-fill-column-mode))
-
-(add-hook 'org-mode-hook #'dlukes/org-soft-wrap)
 
 ;; Main settings:
 (setq!
