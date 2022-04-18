@@ -88,6 +88,9 @@
   (setq-local word-wrap-by-category t)
   (visual-fill-column-mode))
 
+;; In Doom Emacs, it's not necessary to configure Babel manually with org-babel-do-load-languages.
+;; See https://discourse.doomemacs.org/t/common-config-anti-patterns/.
+
 ;; Main settings:
 (setq!
   org-directory "~/Desktop/org/"
