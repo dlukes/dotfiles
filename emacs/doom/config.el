@@ -61,18 +61,6 @@
 
 
 
-;;;; ----------------------------------------------------- Core functionality extensions {{{1
-
-
-(setq
-  ;; NOTE: This is the default, putting this here mainly to remind myself of embark-act
-  ;; (bound to C-; or SPC a) and of the fact that this setting can be toggled per
-  ;; invocation by using the C-u universal prefix argument (rebound to M-u in my case
-  ;; because of Evil).
-  embark-quit-after-action t)
-
-
-
 ;;;; -------------------------------------------------------------------------- Org Mode {{{1
 
 
@@ -241,6 +229,13 @@
 
 ;;;; -------------------------------------------------------------------- Other packages {{{1
 
+
+(setq
+  ;; NOTE: This is the default, putting this here mainly to remind myself of embark-act
+  ;; (bound to C-; or SPC a) and of the fact that this setting can be toggled per
+  ;; invocation by using the C-u universal prefix argument (rebound to M-u in my case
+  ;; because of Evil).
+  embark-quit-after-action t)
 
 ;; NOTE: This is a Custom variable, so set it with setq!, just in case there are any
 ;; relevant hooks to trigger. As a general rule, when figuring out how to set Custom
