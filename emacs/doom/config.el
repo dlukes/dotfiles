@@ -317,17 +317,11 @@ diff.
 ;;;; ----------------------------------------------------------------- Keyboard mappings {{{1
 
 
-(use-package! key-chord
-  :config
-  ;; Increase if key chords fail to register, decrease if they trigger even when you
-  ;; don't mean it or when there's a lag when typing normally (!)
-  (setq key-chord-one-keys-delay 0.02
-   key-chord-two-keys-delay 0.1)
-  (key-chord-mode 1))
-(use-package! key-seq
-  :after key-chord
-  :config
-  (key-seq-define evil-insert-state-map "fd" 'evil-normal-state))
+(after! evil-escape
+  (setq evil-escape-key-sequence "fd"))
+
+(map! :map global-map
+  "M-u" #'universal-argument)
 
 (use-package! hydra)
 (defhydra dlukes/hydra-zen (:timeout 4)
@@ -343,9 +337,6 @@ diff.
 ;;
 ;; ~/.config/emacs/core/core-keybinds.el
 ;; ~/.config/emacs/modules/config/default/+evil-bindings.el
-
-(map! :map global-map
-  "M-u" #'universal-argument)
 
 (map! :leader
   :desc "Run ex command" "SPC" #'evil-ex
