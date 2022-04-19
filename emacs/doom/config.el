@@ -96,6 +96,10 @@
 (setq!
   org-directory "~/Desktop/org/"
   org-attach-id-dir (expand-file-name "attach/" org-directory)
+  ;; If you want Org file links to work in exports, you need to use IDs, not the default
+  ;; path + text search flavor. This setting automatically generates an ID on link
+  ;; creation (if necessary).
+  ;; org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
 
   org-indent-indentation-per-level 0
   org-adapt-indentation 'headline-data
