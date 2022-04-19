@@ -16,7 +16,6 @@ export PATH="$prefix/bin:$PATH"
 mamba env update --name base --file "$script_dir"/base.yml
 
 >&2 echo ">>> Running additional Pip installs with $(command -v python3)."
-"$script_dir"/../python/pdm_install.sh
 "$script_dir"/../python/umrk/install.sh
 
 >&2 echo ">>> Running additional NPM installs with $(command -v npm)."

@@ -93,7 +93,6 @@ without_gnubin pyenv install --keep $new_ver
 
 pyenv shell $new_ver
 "$script_dir"/pip_install.sh
-"$script_dir"/pdm_install.sh
 "$script_dir"/umrk/install.sh
 
 # build local copy of docs (only useful on systems with a GUI)

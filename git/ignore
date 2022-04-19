@@ -57,9 +57,6 @@ venv
 .venv
 __pypackages__
 
-# Local PDM config (might be machine-specific)
-.pdm.toml
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
