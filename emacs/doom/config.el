@@ -57,7 +57,8 @@
   doom-localleader-alt-key "S-SPC m"
   ;; See also <https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts>
   doom-font "VictorMono Nerd Font-12"
-  doom-theme 'doom-palenight)
+  doom-theme 'doom-palenight
+  doom-themes-neotree-file-icons t)
 
 
 
