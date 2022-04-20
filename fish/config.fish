@@ -36,8 +36,9 @@ end
 
 set -gx PYTHONFAULTHANDLER 1
 # See <https://www.python.org/dev/peps/pep-0597/>. If you explicitly want to use the
-# current locale encoding, specify encoding="locale".
-set -gx PYTHONWARNDEFAULTENCODING 1
+# current locale encoding, specify encoding="locale". Currently though, too many tools
+# I often use scream at me, so let's leave this off for a while.
+# set -gx PYTHONWARNDEFAULTENCODING 1
 set -gx PYTHONBREAKPOINT ipdb.set_trace
 set -gx PYTHONSTARTUP ~/.files/python/startup.py
 set -gx PYTHONPYCACHEPREFIX ~/.cache/pycache
