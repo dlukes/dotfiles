@@ -77,6 +77,20 @@ if not set -q RUSTUP_HOME
   end
 end
 
+# --------------------------------------------------------------------------------- Perl {{{1
+
+# These would be nice and strict, see, https://stackoverflow.com/a/6163129, but they
+# break too much third-party code. And as I'm not planning to write any first-party Perl
+# code, just grudgingly use good tools that happen to be written in Perl, they're
+# a no-go.
+# set -gx PERL_UNICODE SAD
+# set -gx PERL5OPTS '-Mv5.14 -Mutf8 -Mwarnings -Mwarnings=FATAL,utf8'
+# So let's set them as an abbrev instead?
+set -l local_lib ~/.local/perl5
+if test -d $local_lib
+  perl -I"$local_lib"/lib/perl5 -Mlocal::lib="$local_lib" | source
+end
+
 # ----------------------------------------------------------------- fasd {{{1
 
 # update database of frecently visited directories/files

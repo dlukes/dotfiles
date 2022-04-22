@@ -30,6 +30,7 @@ SETUVAR _fish_abbr_ip:ip\x20\x2dc
 SETUVAR _fish_abbr_mm:mamba
 SETUVAR _fish_abbr_mma:conda\x20activate
 SETUVAR _fish_abbr_mmd:conda\x20deactivate
+SETUVAR _fish_abbr_perl:perl\x20\x2dCSAD\x20\x2dMv5\x2e14\x20\x2dMutf8\x20\x2dMwarnings\x20\x2dMwarnings\x3dFATAL\x2cutf8
 SETUVAR _fish_abbr_psl:ps\x20\x2d\x2dforest\x20\x2douser\x2cpid\x2cpgid\x2ctpgid\x2csid\x2cstat\x2ctty\x2cignored\x2c\x25cpu\x2c\x25mem\x2cwchan\x2ccmd
 SETUVAR _fish_abbr_rga:rg\x20\x2duuu
 SETUVAR _fish_abbr_top:bpytop
