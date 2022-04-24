@@ -41,10 +41,8 @@ local lsp_mappings = {
   {"n", "gO", "<cmd>lua vim.lsp.buf.references()<CR><cmd>copen<CR>"},
   -- {"n", "gd", "<cmd>lua require'telescope.builtin'.lsp_definitions{}<CR>"},
   -- {"n", "gO", "<cmd>lua require'telescope.builtin'.lsp_references{}<CR>"},
-  -- TODO: The following two bindings used to be [d and ]d, but it looks like the [/]
-  -- prefix is now broken? Revert when it gets fixed.
-  {"n", "<leader>lk", "<cmd>lua vim.diagnostic.goto_prev { wrap = false }<CR>"},
-  {"n", "<leader>lj", "<cmd>lua vim.diagnostic.goto_next { wrap = false }<CR>"},
+  {"n", "[d", "<cmd>lua vim.diagnostic.goto_prev { wrap = false }<CR>"},
+  {"n", "]d", "<cmd>lua vim.diagnostic.goto_next { wrap = false }<CR>"},
   {"n", "<leader>ls", "<cmd>lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>"},
   {"n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>"},
   {"n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>"},
