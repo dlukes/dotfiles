@@ -211,10 +211,32 @@ cmp.setup {
 local ts = require("nvim-treesitter.configs")
 
 ts.setup {
-  ensure_installed = "maintained",
-  -- TODO: use_languagetree = true once it stabilizes
+  ensure_installed = {
+    -- Everything...
+    "bash", "bibtex", "c", "comment", "cpp", "css", "dockerfile", "elm", "fish", "go",
+    "help", "html", "java", "javascript", "json", "latex", "lua", "make", "markdown",
+    "perl", "php", "python", "r", "regex", "rst", "ruby", "rust", "toml", "typescript",
+    "vim", "yaml", "zig",
+    -- ... and the kitchen sink.
+    "clojure", "cmake","commonlisp", "dot", "fennel", "fortran", "gomod", "gowork",
+    "haskell", "hjson", "http", "jsdoc", "json5", "julia", "kotlin", "llvm", "ninja",
+    "nix", "norg", "ocaml", "org", "pascal", "scala", "scheme", "scss", "supercollider",
+    "swift", "svelte", "teal", "tlaplus", "tsx", "vala", "vue",
+  },
   highlight = { enable = true },
+  -- Currently only affects the = operator and labeled as experimental, so not worth
+  -- enabling?
   indent = { enable = false },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "gnn",
+      -- These only become active after init_selection has been started.
+      node_incremental = "n",
+      node_decremental = "N",
+      scope_incremental = "s",
+    },
+  },
   refactor = {
     highlight_definitions = { enable = true },
     -- nice in theory but unfortunately sort of ugly because the
