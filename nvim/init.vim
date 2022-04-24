@@ -20,6 +20,8 @@ call plug#begin()
 " https://github.com/bfredl/nvim-luadev
 " https://github.com/mfussenegger/nvim-dap
 " https://github.com/nvim-telescope/telescope-ui-select.nvim
+" https://github.com/nvim-neorg/neorg
+" https://github.com/nvim-orgmode/orgmode
 "
 " TODO: More tips on setting up Rust support in Neovim:
 " https://sharksforarms.dev/posts/neovim-rust/
