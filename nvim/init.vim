@@ -64,7 +64,6 @@ Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
 Plug 'nvim-treesitter/playground'
 Plug 'SirVer/ultisnips'
-Plug 'vim-voom/VOoM'
 Plug 'chrisbra/unicode.vim'
 
 " completion
@@ -85,9 +84,6 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 " within a git repo*. Also, has to be loaded eagerly, otherwise additional setup in
 " init.lua fails.
 Plug 'simrat39/rust-tools.nvim'  " , { 'for': 'rust' }
-" TODO: get rid of all custom markdown config once tree-sitter support
-" lands
-Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
 Plug 'lervag/vimtex', { 'for': 'tex' }
 Plug 'dag/vim-fish', { 'for': 'fish' }
@@ -166,7 +162,6 @@ autocmd BufWritePost * call s:auto_chmod()
 " comment syntax definitions not provided by vim-commentary
 autocmd FileType sql setlocal commentstring=--\ %s
 autocmd FileType cfg setlocal commentstring=#\ %s
-autocmd FileType markdown setlocal foldmethod=syntax
 
 augroup Python
   autocmd!
@@ -273,15 +268,6 @@ highlight! Comment cterm=italic
 " highlight! link LspReferenceText Search
 " highlight! link LspReferenceRead Search
 " highlight! link LspReferenceWrite Search
-
-let g:markdown_folding = 1
-let g:markdown_fenced_languages = [
-    \ 'python', 'rust',
-    \ 'sh', 'sql', 'r',
-    \ 'html', 'css', 'javascript',
-    \ 'perl', 'ruby', 'c', 'java', 'haskell', 'lisp', 'clojure',
-    \ 'conf', 'diff', 'xml', 'systemd'
-    \ ]
 
 " this fixes one of the most egregious issues with Vim's default Python
 " indentation (= ugly and buggy indentation inside parentheses); it's

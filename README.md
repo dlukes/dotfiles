@@ -2,7 +2,7 @@
 
 Clone the repo as `~/.files`:
 
-```sh
+```bash
 git clone git@github.com:dlukes/dotfiles.github ~/.files
 ```
 
