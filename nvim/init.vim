@@ -155,6 +155,10 @@ command! W :w
 command! X :x
 
 "--------------------------------------------------------- Auto commands {{{1
+" See :help events for the various kinds of events you can hook into.
+" These also determine what the next argument, the pattern, will be
+" matched against -- the buffer name for Buf events, the filetype for
+" FileType events, etc.
 
 " sane behavior when switching buffers -- leave my cursor where it is!
 autocmd BufLeave * let b:winview = winsaveview()
