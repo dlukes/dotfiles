@@ -13,6 +13,8 @@ find_install() {
 
 if [ -z "$cmd_pattern" ]; then
   find_install
+elif [ "$cmd_pattern" = dot ]; then
+  git pull
 else
   cmd=$(find_install | grep -Fm1 "$cmd_pattern")
   >&2 echo ">>> '$(basename "$0") $@' ==> $(realpath "$cmd")"
