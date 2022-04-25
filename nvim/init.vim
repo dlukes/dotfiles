@@ -302,6 +302,7 @@ let g:airline_section_warning = airline#section#create_right(['lsp_status'])
 let g:tex_flavor = 'latex'
 let g:vimtex_format_enabled = 1
 
+let g:UltiSnipsSnippetStorageDirectoryForUltiSnipsEdit = '~/.files/snippets'
 let g:UltiSnipsEditSplit = 'context'
 
 "---------------------------------------------------------- Key bindings {{{1
