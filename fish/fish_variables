@@ -33,6 +33,17 @@ SETUVAR _fish_abbr_mmd:conda\x20deactivate
 SETUVAR _fish_abbr_perl:perl\x20\x2dCSAD\x20\x2dMv5\x2e14\x20\x2dMutf8\x20\x2dMwarnings\x20\x2dMwarnings\x3dFATAL\x2cutf8
 SETUVAR _fish_abbr_psl:ps\x20\x2d\x2dforest\x20\x2douser\x2cpid\x2cpgid\x2ctpgid\x2csid\x2cstat\x2ctty\x2cignored\x2c\x25cpu\x2c\x25mem\x2cwchan\x2ccmd
 SETUVAR _fish_abbr_rga:rg\x20\x2duuu
+SETUVAR _fish_abbr_sj:sudo\x20journalctl
+SETUVAR _fish_abbr_sje:sudo\x20journalctl\x20\x2dexu
+SETUVAR _fish_abbr_sjf:sudo\x20journalctl\x20\x2dfxu
+SETUVAR _fish_abbr_ss:sudo\x20systemctl
+SETUVAR _fish_abbr_ssD:sudo\x20systemctl\x20disable\x20\x2d\x2dnow
+SETUVAR _fish_abbr_ssR:sudo\x20systemctl\x20reload
+SETUVAR _fish_abbr_ssd:sudo\x20systemctl\x20daemon\x2dreload
+SETUVAR _fish_abbr_sse:sudo\x20systemctl\x20enable\x20\x2d\x2dnow
+SETUVAR _fish_abbr_ssr:sudo\x20systemctl\x20restart
+SETUVAR _fish_abbr_sss:sudo\x20systemctl\x20status
+SETUVAR _fish_abbr_sst:sudo\x20systemctl\x20stop
 SETUVAR _fish_abbr_top:bpytop
 SETUVAR _fish_abbr_vi:nvim
 SETUVAR _fish_abbr_vimdiff:nvim\x20\x2ddu\x20NONE\x20\x2b\x27set\x20mouse\x3da\x20et\x20rtp\x2b\x3d\x7e/\x2econfig/nvim/plugged/seoul256\x2evim\x27\x20\x2b\x27syntax\x20on\x27\x20\x2b\x27colorscheme\x20seoul256\x27
