@@ -66,8 +66,8 @@ end
 local on_attach = function(client, bufnr)
   lsp_status.on_attach(client, bufnr)
   -- NOTE: uncomment to inspect features supported by language server
-  -- print(vim.inspect(client.resolved_capabilities))
-  if client.resolved_capabilities.document_formatting then
+  -- print(vim.inspect(client.server_capabilities))
+  if client.server_capabilities.documentFormattingProvider then
     api.nvim_command("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)")
   end
 
