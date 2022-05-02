@@ -31,6 +31,9 @@ if not set -q MANPATH
   # even though MANPATH is set (cf. manpath command)
   set -gx MANPATH ''
 end
+# TODO: Maybe you don't have to muck around with MANPATH, or at least not as much, some
+# of it should be inferred from PATH. Check if that's the case and trim down MANPATH
+# edits. See: https://github.com/rust-lang/cargo/issues/2729#issuecomment-1017881732
 
 # --------------------------------------------------------------- Python {{{1
 
