@@ -1,25 +1,16 @@
-site_profile=/usr/share/defaults/etc/profile
-if [ -s "$site_profile" ]; then
-  . "$site_profile"
+# ~/.profile: executed by the command interpreter for login shells.
+# This file is not read by bash(1), if ~/.bash_profile or ~/.bash_login exists.
+
+export main=en_US.utf8
+export alt=en_GB.utf8
+if ! locale -a | grep $alt >/dev/null 2>&1; then
+  alt=C.UTF-8
 fi
+. "$HOME/.files/locale"
+unset main alt
 
-us=en_US.utf-8
-gb=en_GB.utf-8
-
-export LANG=$us
-
-export LC_CTYPE=$us
-export LC_NUMERIC=$us
-export LC_COLLATE=$us
-export LC_MONETARY=$us
-export LC_MESSAGES=$us
-export LC_NAME=$us
-export LC_ADDRESS=$us
-export LC_TELEPHONE=$us
-export LC_IDENTIFICATION=$us
-
-export LC_TIME=$gb
-export LC_PAPER=$gb
-export LC_MEASUREMENT=$gb
+if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
+  . "$HOME/.bashrc"
+fi
 
 # vi: set ft=sh:

@@ -1,6 +1,14 @@
 set -gx XDG_CONFIG_HOME ~/.config
 set -gxp TERMINFO_DIRS /etc/terminfo /lib/terminfo /usr/share/terminfo
 
+set -x main en_US.utf8
+set -x alt en_GB.utf8
+if ! locale -a | grep $alt &>/dev/null
+  set -x alt C.UTF-8
+end
+source ~/.files/locale
+set -e alt main
+
 # ------------------------------------------------------------- Homebrew {{{1
 
 if not set -q HOMEBREW_PREFIX

@@ -1,0 +1,21 @@
+# See man 7 locale for a description of the options. You can check what actual settings
+# any given LC_* option maps to with locale -k, e.g. locale -k LC_PAPER to check that it
+# really is A4.
+
+export LANG=$main
+
+export LC_CTYPE=$main
+export LC_NUMERIC=$main
+export LC_COLLATE=$main
+export LC_MONETARY=$main
+export LC_MESSAGES=$main
+export LC_NAME=$main
+export LC_ADDRESS=$main
+export LC_TELEPHONE=$main
+export LC_IDENTIFICATION=$main
+
+export LC_TIME=$alt
+export LC_PAPER=$alt
+export LC_MEASUREMENT=$alt
+
+# vi: set ft=sh:
