@@ -1,8 +1,11 @@
 function fish_prompt --description 'Write out the prompt'
-  # if using WSL, inform Windows Terminal about $PWD
+  # if using WSL, inform Windows Terminal about PWD
   if type -q wslpath
     printf '\e]9;9;%s\e\\' (wslpath -m $PWD)
   end
+
+  # inform tmux about PWD
+  printf "\e]7;$PWD\e\\"
 
   # make sure cursor is bar
   printf '\e[5 q'
