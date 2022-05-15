@@ -31,3 +31,9 @@ function fish_prompt --description 'Write out the prompt'
   echo -n (set_color cyan)(prompt_pwd)$cenv$venv \
     (set_color red)'❯'(set_color yellow)'❯'(set_color green)'❯ '(set_color normal)
 end
+
+# Reset cursor to block before executing a command (primarily because of Vim, which is
+# hard to use with a bar cursor).
+function set_cursor_to_block --on-event fish_preexec
+  printf '\e[2 q'
+end
