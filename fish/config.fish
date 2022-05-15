@@ -1,10 +1,11 @@
 set -gx XDG_CONFIG_HOME ~/.config
 set -gxp TERMINFO_DIRS /etc/terminfo /lib/terminfo /usr/share/terminfo
 
-set -x main en_US.utf8
-set -x alt en_GB.utf8
-if ! locale -a | grep $alt &>/dev/null
-  set -x alt C.UTF-8
+set -l locales (locale -a)
+set -x main (string match -ri 'en_us.utf-?8' $locales)
+set -x alt (string match -ri 'en_gb.utf-?8' $locales)
+if test -z $alt
+  set -x alt $main
 end
 source ~/.files/locale
 set -e alt main
