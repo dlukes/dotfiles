@@ -8,5 +8,5 @@ function tth --wraps ssh --description 'ssh + tmux'
       set -a ssh_argv $arg
     end
   end
-  ssh -t $ssh_argv "SHELL=~/.local/bin/fish tmux new -AD -s $tmux_session_name"
+  ssh -t $ssh_argv "SHELL=~/.local/bin/fish tmux -u new -AD -s $tmux_session_name"
 end
