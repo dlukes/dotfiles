@@ -32,8 +32,10 @@ function fish_prompt --description 'Write out the prompt'
     (set_color red)'❯'(set_color yellow)'❯'(set_color green)'❯ '(set_color normal)
 end
 
-# Reset cursor to block before executing a command (primarily because of Vim, which is
-# hard to use with a bar cursor).
+# Reset cursor to block before entering Vim, which is hard to use with a bar cursor.
 function set_cursor_to_block --on-event fish_preexec
-  printf '\e[2 q'
+  set -l prg (string split -r -m1 / (string split ' ' $argv)[1])[-1]
+  if string match -r '^vim?$' $prg &>/dev/null
+    printf '\e[2 q'
+  end
 end
