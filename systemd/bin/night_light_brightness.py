@@ -20,10 +20,11 @@ gi.require_version("Geoclue", "2.0")
 from gi.repository import Geoclue
 
 try:
-    from config import night_light_brightness as config
+    from config.night_light_brightness import sunrise_cmds, sunset_cmds
 except ImportError:
-    print("No config found, exiting.", file=sys.stderr)
-    sys.exit()
+    print("No config found, using defaults.", file=sys.stderr)
+    sunrise_cmds = [["ddcutil", "setvcp", "x10", "10"]]
+    sunset_cmds = [["ddcutil", "setvcp", "x10", "0"]]
 
 # The first argument should be the basename of the desktop file of the app requesting
 # the location, but it can just be a dummy value.
@@ -45,10 +46,10 @@ day = 3600 * 24
 
 if 0 < time_to_sunrise.total_seconds() < day:
     sleep = time_to_sunrise
-    cmds = config.sunrise_cmds
+    cmds = sunrise_cmds
 elif 0 < time_to_sunset.total_seconds() < day:
     sleep = time_to_sunset
-    cmds = config.sunset_cmds
+    cmds = sunset_cmds
 else:
     print("No upcoming sunrise or sunset today, exiting.", file=sys.stderr)
     sys.exit()
