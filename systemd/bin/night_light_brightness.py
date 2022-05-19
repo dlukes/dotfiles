@@ -7,6 +7,31 @@
 # (gclue_simple_new_sync -> Geoclue.Simple.new_sync), the C bindings are *much* simpler
 # to use, so I'm going with those.
 
+# TODO: time.sleep is the wrong API to use here, as the counter only increments when the
+# computer itself is running. So if the computer sleeps, the sleep is paused, and then
+# resumed where it left off then the computer wakes up. If you invoke time.sleep(60) and
+# then immediately put the computer to sleep, then wake it 8 hourse later, Python will
+# wait for another 60s and then wake up. That's not what you want here.
+#
+# Instead, you should probably use `systemd-run --on-calendar=...` to schedule a one-off
+# timer, either calling ddcutil directly, or this script (distinguish via sys.argv[1],
+# which could be either e.g. schedule or apply?).
+#
+# However, there are additional complications. What happens when the computer is asleep
+# when the timer triggers? Should it be Persistent? What happens when multiple
+# Persistent timers accumulate over a long period of sleep?
+#
+# Probably not worth spending the time and energy to get all of this right at this
+# point, because since I've started using the GNOME extension what allows me to set
+# monitor brightness via a keyboard shortcut or the top panel[1], changing it is much
+# less of a pain. So better just completely disable this for now.
+#
+# [1]: https://extensions.gnome.org/extension/2645/brightness-control-using-ddcutil/
+
+import sys
+
+sys.exit()
+
 from datetime import datetime
 import subprocess as sp
 import sys
