@@ -27,6 +27,12 @@
 # less of a pain. So better just completely disable this for now.
 #
 # [1]: https://extensions.gnome.org/extension/2645/brightness-control-using-ddcutil/
+#
+# Or maybe even simpler: don't use systemd timers at all, just have a long-running
+# service that wakes up every few minutes to check whether it should toggle itself from
+# day mode to night mode or back? That would make it straightforward to use a
+# level-triggered approach, since you can keep state around, as opposed to an
+# edge-triggered one, which is always trickier to get right.
 
 import sys
 
