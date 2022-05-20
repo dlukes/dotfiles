@@ -89,6 +89,13 @@
   (setq-local word-wrap-by-category t)
   (visual-fill-column-mode))
 
+;; Make sure error output via emacs-jupyter has ANSI color sequences fontified, in spite
+;; of https://github.com/nnicandro/emacs-jupyter/issues/366.
+(defun dlukes/display-ansi-colors ()
+  (ansi-color-apply-on-region (point-min) (point-max)))
+
+(add-hook 'org-babel-after-execute-hook #'dlukes/display-ansi-colors)
+
 ;; In Doom Emacs, it's not necessary to configure Babel manually with org-babel-do-load-languages.
 ;; See https://discourse.doomemacs.org/t/common-config-anti-patterns/.
 
