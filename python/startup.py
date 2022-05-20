@@ -50,38 +50,39 @@ p = Path
 del Path, Importer, import_module
 
 try:
-    if is_jupyter:
-        raise ImportError
+    # if is_jupyter:
+    #     raise ImportError
 
-    from rich import pretty, traceback
+    # from rich import pretty, traceback
+    from rich import inspect as i
 
-    class RichTracebacker:
-        """A convenient toggle for ``show_locals`` in rich tracebacks.
+    # class RichTracebacker:
+    #     """A convenient toggle for ``show_locals`` in rich tracebacks.
 
-        ``show_locals`` is neat but can unfortunately be very noisy, making it
-        impossible to fit the traceback into your terminal history. So don't enable it
-        by default.
+    #     ``show_locals`` is neat but can unfortunately be very noisy, making it
+    #     impossible to fit the traceback into your terminal history. So don't enable it
+    #     by default.
 
-        """
+    #     """
 
-        def __init__(self):
-            self._show_locals = False
-            self._traceback = traceback
+    #     def __init__(self):
+    #         self._show_locals = False
+    #         self._traceback = traceback
 
-        def __repr__(self) -> str:
-            self._show_locals = not self._show_locals
-            self._traceback.install(show_locals=self._show_locals)
-            return (
-                "Enabled" if self._show_locals else "Disabled"
-            ) + " show_locals in rich tracebacks."
+    #     def __repr__(self) -> str:
+    #         self._show_locals = not self._show_locals
+    #         self._traceback.install(show_locals=self._show_locals)
+    #         return (
+    #             "Enabled" if self._show_locals else "Disabled"
+    #         ) + " show_locals in rich tracebacks."
 
-        def __str__(self):
-            return "toggle show_locals in rich tracebacks"
+    #     def __str__(self):
+    #         return "toggle show_locals in rich tracebacks"
 
-    sl = RichTracebacker()
-    pretty.install()
-    traceback.install()
-    del pretty, traceback, RichTracebacker
+    # sl = RichTracebacker()
+    # pretty.install()
+    # traceback.install()
+    # del pretty, traceback, RichTracebacker
 except ImportError:
     pass
 
@@ -101,3 +102,5 @@ print(
     ),
     sep="\n",
 )
+if is_ipython:
+    print("  - %load_ext rich to enable prettier output and tracebacks")
