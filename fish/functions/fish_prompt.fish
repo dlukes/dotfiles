@@ -4,8 +4,15 @@ function fish_prompt --description 'Write out the prompt'
     printf '\e]9;9;%s\e\\' (wslpath -m $PWD)
   end
 
-  # inform tmux about PWD
-  printf "\e]7;$PWD\e\\"
+  # Inform tmux about PWD via OSC 7. NOTE: Fish already sets OSC 7 for the benefit of
+  # VTE-based and other terminal emulators in __fish_config_interactive.fish, but that's
+  # conditioned on some env vars that might not be set in SSH sessions, plus it uses
+  # a file:// URL which tmux currently doesn't seem to understand. On the other hand,
+  # the non-URL variant doesn't seem to do it for VTE-based terminals like Tilix. So
+  # make sure to override it in tmux, and only there.
+  if string match -qr tmux $TERM
+    printf "\e]7;$PWD\e\\"
+  end
 
   # make sure cursor is bar
   printf '\e[5 q'
