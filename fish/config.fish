@@ -1,3 +1,30 @@
+# Fish shell startup can be profiled using the following command:
+#
+#   fish --profile-startup /tmp/fish.profile -i -c exit
+#
+# After a cursory look, the slowest part seems to be Anaconda configuration, which is
+# not really surprising.
+
+if getent passwd $USER | string match -qr '/fish$'
+  echo >&2 -n "\
+WARNING: Don't use Fish as your login shell, you have tons of configuration, it might
+lead to slowdowns or even hangs. For instance, on Wayland, login hangs because the
+ssh-add command below waits forever for the SSH key passphrase. So instead, use a shell
+which you have only minimal config for, e.g. Bash, and set a custom command in the
+terminal emulator apps you use.
+
+Exiting early without performing any additional configuration, to avoid any potential
+issues. Run the command below and log out, then back in:
+
+  chsh -s /bin/bash
+"
+  exit
+else
+  # We don't want to use Fish as login shell, but we *do* want to let subprocesses know
+  # that they're running inside fish (e.g. Perl local::lib setup, Anaconda etc.).
+  set -gx SHELL (type -p fish)
+end
+
 set -gx XDG_CONFIG_HOME ~/.config
 set -gxp TERMINFO_DIRS /etc/terminfo /lib/terminfo /usr/share/terminfo
 
