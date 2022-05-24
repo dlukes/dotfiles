@@ -6,7 +6,7 @@ function without-gnubin
 
   set -l --path path
   for p in $PATH
-    if not string match -r '/gnubin$' $p >/dev/null
+    if not string match -qr '/gnubin$' $p
       set -a path $p
     end
   end

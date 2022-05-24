@@ -42,7 +42,7 @@ end
 # Reset cursor to block before entering Vim, which is hard to use with a bar cursor.
 function set_cursor_to_block --on-event fish_preexec
   set -l prg (string split -r -m1 / (string split ' ' $argv)[1])[-1]
-  if string match -r '^vim?$' $prg &>/dev/null
+  if string match -qr '^vim?$' $prg &>/dev/null
     printf '\e[2 q'
   end
 end

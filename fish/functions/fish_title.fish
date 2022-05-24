@@ -1,6 +1,6 @@
 function fish_title
   # if in tmux, sets the active pane title...
-  if string match -rq 'screen|tmux' $TERM
+  if string match -qr 'screen|tmux' $TERM
     prompt_pwd
   # ... otherwise, the terminal title
   else

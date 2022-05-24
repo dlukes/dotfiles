@@ -2,7 +2,7 @@ function tth --wraps ssh --description 'ssh + tmux'
   set -l ssh_argv
   set -l tmux_session_name default
   for arg in $argv
-    if string match ':*' -- $arg >/dev/null
+    if string match -q ':*' -- $arg
       set tmux_session_name (string sub -s 2 $arg)
     else
       set -a ssh_argv $arg
