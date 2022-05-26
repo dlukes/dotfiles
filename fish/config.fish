@@ -35,7 +35,8 @@ if test -z $alt
   set -x alt $main
 end
 source ~/.files/locale
-set -e alt main
+set -e main
+set -e alt
 
 # ------------------------------------------------------------- Homebrew {{{1
 
