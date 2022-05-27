@@ -9,7 +9,7 @@ local lspconfig = require("lspconfig")
 local lsp_status = require("lsp-status")
 
 -- use LSP SymbolKinds themselves as the kind labels
-local kind_labels_mt = {__index = function(_, k) return k end}
+local kind_labels_mt = { __index = function(_, k) return k end }
 local kind_labels = {}
 setmetatable(kind_labels, kind_labels_mt)
 
@@ -35,30 +35,30 @@ end
 -- alternatives where available when they've matured (right now for instance, there seem
 -- to be issues with multiple lang servers per buffer)
 local lsp_mappings = {
-  {"n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>"},
-  {"n", "gh", "<cmd>lua vim.lsp.buf.signature_help()<CR>"},
-  {"n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>"},
-  {"n", "gO", "<cmd>lua vim.lsp.buf.references()<CR><cmd>copen<CR>"},
+  { "n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>" },
+  { "n", "gh", "<cmd>lua vim.lsp.buf.signature_help()<CR>" },
+  { "n", "<C-]>", "<cmd>lua vim.lsp.buf.definition()<CR>" },
+  { "n", "gO", "<cmd>lua vim.lsp.buf.references()<CR><cmd>copen<CR>" },
   -- {"n", "gd", "<cmd>lua require'telescope.builtin'.lsp_definitions{}<CR>"},
   -- {"n", "gO", "<cmd>lua require'telescope.builtin'.lsp_references{}<CR>"},
-  {"n", "[d", "<cmd>lua vim.diagnostic.goto_prev { wrap = false }<CR>"},
-  {"n", "]d", "<cmd>lua vim.diagnostic.goto_next { wrap = false }<CR>"},
-  {"n", "<leader>ls", "<cmd>lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>"},
-  {"n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>"},
-  {"n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>"},
-  {"", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>"},
+  { "n", "[d", "<cmd>lua vim.diagnostic.goto_prev { wrap = false }<CR>" },
+  { "n", "]d", "<cmd>lua vim.diagnostic.goto_next { wrap = false }<CR>" },
+  { "n", "<leader>ls", "<cmd>lua require'telescope.builtin'.lsp_workspace_symbols{}<CR>" },
+  { "n", "<leader>lr", "<cmd>lua vim.lsp.buf.rename()<CR>" },
+  { "n", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>" },
+  { "", "<leader>la", "<cmd>lua vim.lsp.buf.code_action()<CR>" },
   -- {"n", "<leader>la", "<cmd>lua require'telescope.builtin'.lsp_code_actions{}<CR>"},
   -- {"", "<leader>la", "<cmd>lua require'telescope.builtin'.lsp_range_code_actions{}<CR>"},
-  {"n", "<leader>lh", "<cmd>lua vim.lsp.buf.document_highlight()<CR>"},
-  {"n", "<leader>lH", "<cmd>lua init.clear_document_highlight()<CR>"},
-  {"n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float(0, {scope='cursor'})<CR>"},
-  {"n", "<leader>lD", "<cmd>lua vim.diagnostic.setloclist()<CR><cmd>lopen<CR>"},
+  { "n", "<leader>lh", "<cmd>lua vim.lsp.buf.document_highlight()<CR>" },
+  { "n", "<leader>lH", "<cmd>lua init.clear_document_highlight()<CR>" },
+  { "n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float(0, {scope='cursor'})<CR>" },
+  { "n", "<leader>lD", "<cmd>lua vim.diagnostic.setloclist()<CR><cmd>lopen<CR>" },
   -- {"n", "<leader>lD", "<cmd>lua require'telescope.builtin'.lsp_document_diagnostics{}<CR>"},
 }
 -- NOTE: in order to yield all elements, unpack has to be the last
 -- (or only) expression in a list of expressions, so append the options
 -- to each mapping
-local mapping_opts = {}--{noremap = true}--, silent = true}
+local mapping_opts = {} --{noremap = true}--, silent = true}
 for _, mapping in ipairs(lsp_mappings) do
   table.insert(mapping, mapping_opts)
 end
@@ -88,7 +88,7 @@ local servers = {
           path = vim.split(package.path, ";"),
         },
         diagnostics = {
-          globals = {"vim"},
+          globals = { "vim" },
         },
         workspace = {
           -- make the server aware of Neovim runtime files
@@ -106,7 +106,7 @@ local servers = {
     settings = {
       python = {
         analysis = {
-          stubPath = vim.env.HOME.."/.files/python/typings",
+          stubPath = vim.env.HOME .. "/.files/python/typings",
         },
       },
     },
@@ -119,7 +119,7 @@ local servers = {
 
 local lls = vim.env.HOME .. "/.local/lua-language-server"
 for ls, config in pairs(servers) do
-  local cmd = ls == "sumneko_lua" and {lls .. "/bin/lua-language-server", "-E", lls .. "/main.lua"} or nil
+  local cmd = ls == "sumneko_lua" and { lls .. "/bin/lua-language-server", "-E", lls .. "/main.lua" } or nil
   local capabilities = vim.tbl_extend("keep", lspconfig[ls].capabilities or {}, lsp_status.capabilities)
   capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
   lspconfig[ls].setup {
@@ -180,11 +180,11 @@ cmp.setup {
     ["<Tab>"] = function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
-      -- NOTE: Some snippet plugins allow for more clever integration where keys can
-      -- mean even more things based on context. With UltiSnips, you'll have to expand
-      -- using Enter.
-      -- elseif luasnip.expand_or_jumpable() then
-      --   luasnip.expand_or_jump()
+        -- NOTE: Some snippet plugins allow for more clever integration where keys can
+        -- mean even more things based on context. With UltiSnips, you'll have to expand
+        -- using Enter.
+        -- elseif luasnip.expand_or_jumpable() then
+        --   luasnip.expand_or_jump()
       else
         fallback()
       end
@@ -192,8 +192,8 @@ cmp.setup {
     ["<S-Tab>"] = function(fallback)
       if cmp.visible() then
         cmp.select_prev_item()
-      -- elseif luasnip.jumpable(-1) then
-      --   luasnip.jump(-1)
+        -- elseif luasnip.jumpable(-1) then
+        --   luasnip.jump(-1)
       else
         fallback()
       end
@@ -218,7 +218,7 @@ ts.setup {
     "perl", "php", "python", "r", "regex", "rst", "ruby", "rust", "toml", "typescript",
     "vim", "yaml", "zig",
     -- ... and the kitchen sink.
-    "clojure", "cmake","commonlisp", "dot", "fennel", "fortran", "gomod", "gowork",
+    "clojure", "cmake", "commonlisp", "dot", "fennel", "fortran", "gomod", "gowork",
     "haskell", "hjson", "http", "jsdoc", "json5", "jsonc", "julia", "kotlin", "llvm",
     "ninja", "nix", "ocaml", "org", "pascal", "query", "scala", "scheme", "scss",
     "supercollider", "swift", "svelte", "tlaplus", "tsx", "vala", "vue",
@@ -248,14 +248,14 @@ ts.setup {
     select = {
       enable = true,
       keymaps = {
-       -- use capture groups from textobjects.scm or define your own
-       -- TODO: The comment textobject is currently not that useful, pending
-       -- <https://github.com/nvim-treesitter/nvim-treesitter-textobjects/issues/133>.
-       ["ac"] = "@comment.outer",
-       ["af"] = "@function.outer",
-       ["if"] = "@function.inner",
-       ["aC"] = "@class.outer",
-       ["iC"] = "@class.inner",
+        -- use capture groups from textobjects.scm or define your own
+        -- TODO: The comment textobject is currently not that useful, pending
+        -- <https://github.com/nvim-treesitter/nvim-treesitter-textobjects/issues/133>.
+        ["ac"] = "@comment.outer",
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["aC"] = "@class.outer",
+        ["iC"] = "@class.inner",
       }
     },
     move = {
@@ -288,10 +288,10 @@ local tbuiltin = require("telescope.builtin")
 
 local tpickers = {}
 for picker_name, _ in pairs(tbuiltin) do
-  tpickers[picker_name] = {theme = "dropdown"}
+  tpickers[picker_name] = { theme = "dropdown" }
 end
 
-telescope.setup{
+telescope.setup {
   defaults = {
     mappings = {
       i = {
