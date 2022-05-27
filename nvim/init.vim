@@ -233,6 +233,10 @@ set directory=~/.config/nvim/swp
 " allow modelines (some distros disable them)
 set modeline
 set modelines=5
+" just one global statusline...
+set laststatus=3
+" ... so display modified info + filename at top right
+set winbar=%=%m\ %f
 " always showing sign column adds room from screen edge and prevents
 " horizontal shifting when signs are shown/hidden
 set signcolumn=yes
@@ -298,6 +302,10 @@ let g:airline_powerline_fonts = 1
 " Use qdddddd/vim-cycle-airline-theme for that.
 let g:airline_theme = 'night_owl'
 let g:airline#extensions#tabline#enabled = 1
+" only use tabline for tabs (which I rarely use), make space for winbar instead
+let g:airline#extensions#tabline#tab_min_count = 2
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#nvimlsp#enabled = 0
 let g:airline_section_warning = airline#section#create_right(['lsp_status'])
 
