@@ -6,25 +6,11 @@ local M = {}
 ----------------------------------------------------------------------------- LSP config {{{1
 
 local lspconfig = require("lspconfig")
-local lsp_status = require("lsp-status")
 
 -- use LSP SymbolKinds themselves as the kind labels
 local kind_labels_mt = { __index = function(_, k) return k end }
 local kind_labels = {}
 setmetatable(kind_labels, kind_labels_mt)
-
-lsp_status.register_progress()
-lsp_status.config({
-  kind_labels = kind_labels,
-  indicator_errors = "E:",
-  indicator_warnings = "W:",
-  indicator_info = "I:",
-  indicator_hint = "H:",
-  indicator_ok = "✓",
-  -- the default is a wide codepoint which breaks absolute and relative
-  -- line counts if placed before airline's Z section
-  status_symbol = "LSP",
-})
 
 function M.clear_document_highlight()
   local ns_id = api.nvim_create_namespace("vim_lsp_references")
@@ -52,8 +38,8 @@ local lsp_mappings = {
   { "n", "<leader>lh", "<cmd>lua vim.lsp.buf.document_highlight()<CR>" },
   { "n", "<leader>lH", "<cmd>lua init.clear_document_highlight()<CR>" },
   { "n", "<leader>ld", "<cmd>lua vim.diagnostic.open_float(0, {scope='cursor'})<CR>" },
-  { "n", "<leader>lD", "<cmd>lua vim.diagnostic.setloclist()<CR><cmd>lopen<CR>" },
-  -- {"n", "<leader>lD", "<cmd>lua require'telescope.builtin'.lsp_document_diagnostics{}<CR>"},
+  -- { "n", "<leader>lD", "<cmd>lua vim.diagnostic.setloclist()<CR><cmd>lopen<CR>" },
+  { "n", "<leader>lD", "<cmd>lua require'telescope.builtin'.diagnostics{}<CR>" },
 }
 -- NOTE: in order to yield all elements, unpack has to be the last
 -- (or only) expression in a list of expressions, so append the options
@@ -64,7 +50,6 @@ for _, mapping in ipairs(lsp_mappings) do
 end
 
 local on_attach = function(client, bufnr)
-  lsp_status.on_attach(client, bufnr)
   -- NOTE: uncomment to inspect features supported by language server
   -- print(vim.inspect(client.server_capabilities))
   if client.server_capabilities.documentFormattingProvider then
@@ -117,11 +102,11 @@ local servers = {
   tsserver = {},
 }
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 local lls = vim.env.HOME .. "/.local/lua-language-server"
 for ls, config in pairs(servers) do
   local cmd = ls == "sumneko_lua" and { lls .. "/bin/lua-language-server", "-E", lls .. "/main.lua" } or nil
-  local capabilities = vim.tbl_extend("keep", lspconfig[ls].capabilities or {}, lsp_status.capabilities)
-  capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
   lspconfig[ls].setup {
     cmd = cmd,
     on_attach = on_attach,

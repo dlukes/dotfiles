@@ -38,7 +38,6 @@ Plug 'tpope/vim-eunuch'
 Plug 'lambdalisue/suda.vim'
 " community-maintained configs for various langs
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/lsp-status.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -289,12 +288,6 @@ let g:pyindent_disable_parentheses_indenting = 1
 " I'm sick of fixing Black's virtualenv, let's just install it globally.
 let g:black_virtualenv = fnamemodify(g:python3_host_prog, ':h:h')
 
-function! LspStatus() abort
-  let status = luaeval('require("lsp-status").status()')
-  return trim(status)
-endfunction
-call airline#parts#define_function('lsp_status', 'LspStatus')
-call airline#parts#define_condition('lsp_status', 'luaeval("#vim.lsp.buf_get_clients() > 0")')
 let g:airline_powerline_fonts = 1
 " Some nice Airline themes are: night_owl, monochrome, base16, zenburn,
 " bubblegum, seoul256. But if you change your colorscheme, you might
@@ -306,8 +299,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#tab_min_count = 2
 let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_splits = 0
-let g:airline#extensions#nvimlsp#enabled = 0
-let g:airline_section_warning = airline#section#create_right(['lsp_status'])
+let g:airline#extensions#nvimlsp#enabled = 1
 
 " make sure *.tex files are never interpreted as ft=plaintex, so that
 " vimtex is used
