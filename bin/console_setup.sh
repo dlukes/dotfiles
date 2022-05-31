@@ -13,7 +13,8 @@ curl https://raw.githubusercontent.com/lahwaacz/keymaps-czech-console/master/cz-
 
 # NOTE: Currently, permanently setting these console preferences (to apply them
 # at boot) is disabled, because it breaks Backspace, Delete, Ctrl+anything (and
-# perhaps other things?).
+# perhaps other things?). (It's now a few years later and you're using Fedora,
+# you might want to revisit this. See man vconsole.conf.)
 # update vconsole settings
 # cat <<END >/etc/vconsole.conf
 # KEYMAP=cz-qwerty
