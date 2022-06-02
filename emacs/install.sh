@@ -20,14 +20,20 @@ if is_macos; then
   # brew update --cask emacs-app || brew install --cask emacs-app
 elif command -v dnf >/dev/null &2>&1; then
   export PYTHONWARNDEFAULTENCODING=
-  sudo dnf copr enable deathwish/emacs-pgtk-nativecomp
-  sudo dnf install emacs || dnf update emacs
+  sudo dnf copr enable -y deathwish/emacs-pgtk-nativecomp
+  if dnf list --installed emacs >/dev/null 2>&1; then
+    sudo dnf update emacs
+  else
+    sudo dnf install emacs
+  fi
 fi
 
-# Make sure dead keys work: https://www.emacswiki.org/emacs/DeadKeys
+# Make sure dead keys work: https://www.emacswiki.org/emacs/DeadKeys TODO: This doesn't
+# seem to be necessary for the PGTK branch, as long as input methods are enabled. Once
+# that branch stabilizes, you can remove it.
 launcher=/usr/share/applications/emacs.desktop
 if [ -f "$launcher" ]; then
-  sudo sed -i 's/Exec=/Exec=env XMODIFIERS= /' "$launcher"
+  sudo sed -i 's/Exec=emacs/Exec=env XMODIFIERS= emacs/' "$launcher"
 fi
 
 # Remove unwanted emacsclient launcher.
