@@ -36,6 +36,16 @@
   display-line-numbers-type nil
   calendar-week-start-day 1)
 
+(if (not (fboundp #'pixel-scroll-precision-mode))
+  ;; then
+  (setq mac-mouse-wheel-smooth-scroll t)
+  ;; else
+  (setq
+    pixel-scroll-precision-use-momentum t
+    pixel-scroll-precision-large-scroll-height 40.0
+    pixel-scroll-precision-interpolation-factor 30)
+  (pixel-scroll-precision-mode))
+
 
 
 ;;;; ------------------------------------------------------- Doom-specific configuration {{{ 1
