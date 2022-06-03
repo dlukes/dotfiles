@@ -5,6 +5,17 @@ script_dir=$(dirname "$(realpath "$0")")
 . "$script_dir"/util.sh
 prefix="$HOME"/.local
 
+if is_macos; then
+  brew_install_or_upgrade luajit-openresty
+  brew link --force luajit-openresty
+  brew_install_or_upgrade luarocks
+  brew_install_or_upgrade lua-language-server
+  exit
+elif command -v dnf >/dev/null 2>&1; then
+  >&2 echo 'Please figure out a better way to install Lua stuff on Fedora!'
+  exit 1
+fi
+
 
 
 # ------------------------------------------------------- Install LuaJIT {{{1
