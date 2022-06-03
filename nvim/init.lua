@@ -69,18 +69,13 @@ local servers = {
       Lua = {
         runtime = {
           version = "LuaJIT",
-          -- set up Lua path
-          path = vim.split(package.path, ";"),
         },
         diagnostics = {
           globals = { "vim" },
         },
         workspace = {
           -- make the server aware of Neovim runtime files
-          library = {
-            [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-            [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-          },
+          library = vim.api.nvim_get_runtime_file("", true),
         },
       },
     },
@@ -104,11 +99,8 @@ local servers = {
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
-local lls = vim.env.HOME .. "/.local/lua-language-server"
 for ls, config in pairs(servers) do
-  local cmd = ls == "sumneko_lua" and { lls .. "/bin/lua-language-server", "-E", lls .. "/main.lua" } or nil
   lspconfig[ls].setup {
-    cmd = cmd,
     on_attach = on_attach,
     capabilities = capabilities,
     settings = config.settings,
