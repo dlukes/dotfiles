@@ -5,7 +5,13 @@
 # After a cursory look, the slowest part seems to be Anaconda configuration, which is
 # not really surprising.
 
-if getent passwd $USER | string match -qr '/fish$'
+set -l shell
+if type -q getent
+  set shell (getent passwd $USER)
+else
+  set shell (dscl . -read ~ UserShell)
+end
+if string match -qr '/fish$' $shell
   echo >&2 -n "\
 WARNING: Don't use Fish as your login shell, you have tons of configuration, it might
 lead to slowdowns or even hangs. For instance, on Wayland, login hangs because the
@@ -19,10 +25,6 @@ issues. Run the command below and log out, then back in:
   chsh -s /bin/bash
 "
   exit
-else
-  # We don't want to use Fish as login shell, but we *do* want to let subprocesses know
-  # that they're running inside fish (e.g. Perl local::lib setup, Anaconda etc.).
-  set -gx SHELL (type -p fish)
 end
 
 set -gx XDG_CONFIG_HOME ~/.config
@@ -71,6 +73,10 @@ end
 # TODO: Maybe you don't have to muck around with MANPATH, or at least not as much, some
 # of it should be inferred from PATH. Check if that's the case and trim down MANPATH
 # edits. See: https://github.com/rust-lang/cargo/issues/2729#issuecomment-1017881732
+
+# We don't want to use Fish as login shell, but we *do* want to let subprocesses know
+# that they're running inside fish (e.g. Perl local::lib setup, Anaconda etc.).
+set -gx SHELL (type -p fish)
 
 # --------------------------------------------------------------- Python {{{1
 
