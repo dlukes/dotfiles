@@ -278,6 +278,7 @@ highlight! Comment cterm=italic
 " highlight! link LspReferenceText Search
 " highlight! link LspReferenceRead Search
 " highlight! link LspReferenceWrite Search
+highlight! link TelescopeSelection Search
 
 " this fixes one of the most egregious issues with Vim's default Python
 " indentation (= ugly and buggy indentation inside parentheses); it's
