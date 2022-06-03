@@ -11,20 +11,16 @@ cmd=nvim
 
 
 
-# ------------------------------------------------ Install cmake and ninja build systems {{{1
-
-
-"$script_dir"/../misc/ninja_install.sh
-"$script_dir"/../misc/cmake_install.sh
-
-
-
 # ----------------------------------------------------------------------- Install Neovim {{{1
 
 
 >&2 echo ">>> Installing Neovim..."
-if [ -d "$prefix"/$repo ]; then
-  >&2 echo ">>> Detected git repo, compiling from source."
+if is_macos; then
+  brew_install_or_upgrade nvim --head
+elif [ -d "$prefix"/$repo ]; then
+  >&2 echo ">>> Detected git repo, will compile from source."
+  "$script_dir"/../misc/ninja_install.sh
+  "$script_dir"/../misc/cmake_install.sh
   cd "$prefix"
   if should_update $cmd $org $repo; then
     >&2 echo ">>> Compiling Neovim from source..."

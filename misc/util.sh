@@ -6,10 +6,24 @@ is_macos() {
 
 brew_install_or_upgrade() {
   package="$1"
+  upgrade='brew upgrade'
+  install='brew install'
+  case "${2:-}" in
+    "")
+      ;;
+    --head)
+      upgrade="$upgrade --fetch-HEAD"
+      install="$install --fetch-HEAD --HEAD"
+      ;;
+    *)
+      >&2 echo "brew_install_or_upgrade: invalid arg $2"
+      exit 1
+      ;;
+  esac
   if brew ls --versions "$package" >/dev/null; then
-    brew upgrade "$package"
+    $upgrade "$package"
   else
-    brew install "$package"
+    $install "$package"
   fi
 }
 

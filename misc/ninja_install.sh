@@ -7,7 +7,8 @@ prefix="$HOME"/.local
 
 repo=ninja
 if is_macos; then
-  os=mac
+  brew_install_or_upgrade ninja
+  exit
 else
   os=linux
 fi

@@ -5,6 +5,11 @@ script_dir=$(dirname "$(realpath "$0")")
 . "$script_dir"/util.sh
 repo=Kitware/CMake
 
+if is_macos; then
+  brew_install_or_upgrade cmake
+  exit
+fi
+
 >&2 echo ">>> Installing $repo..."
 cmake_installer=$(maybe_fetch_archive cmake $repo 'cmake-[\d.]+-linux-x86_64\.sh')
 if [ -n "$cmake_installer" ]; then
