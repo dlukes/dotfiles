@@ -19,7 +19,6 @@ without_gnubin pip3 install --upgrade --upgrade-strategy eager \
   ipdb \
   black \
   rich \
-  bpytop \
   scalene \
   py-spy \
   \
