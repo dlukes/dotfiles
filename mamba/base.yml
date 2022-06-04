@@ -32,3 +32,5 @@ dependencies:
   - sqlalchemy
   - mysqlclient
   - openpyxl
+  # CLI tools
+  - tldr
