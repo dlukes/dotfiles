@@ -9,6 +9,9 @@ repo=ninja
 if is_macos; then
   brew_install_or_upgrade ninja
   exit
+elif is_fedora; then
+  sudo dnf in -by ninja-build
+  exit
 else
   os=linux
 fi

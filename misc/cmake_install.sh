@@ -8,6 +8,9 @@ repo=Kitware/CMake
 if is_macos; then
   brew_install_or_upgrade cmake
   exit
+elif is_fedora; then
+  sudo dnf in -by cmake
+  exit
 fi
 
 >&2 echo ">>> Installing $repo..."

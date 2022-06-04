@@ -5,29 +5,19 @@ script_dir=$(dirname "$(realpath "$0")")
 . "$script_dir"/util.sh
 prefix="$HOME"/.local
 
-if is_macos; then
-  brew_install_or_upgrade luajit-openresty
-  brew link --force luajit-openresty
-  brew_install_or_upgrade luarocks
-  brew_install_or_upgrade lua-language-server
-  exit
-elif command -v dnf >/dev/null 2>&1; then
-  >&2 echo 'Please figure out a better way to install Lua stuff on Fedora!'
-  exit 1
-fi
 
 
+# ------------------------------------- Functions for installing without package manager {{{1
 
-# ------------------------------------------------------- Install LuaJIT {{{1
 
+install_luajit() {
+  repo=LuaJIT
+  >&2 echo ">>> Installing $repo..."
 
-repo=LuaJIT
->&2 echo ">>> Installing $repo..."
-
-cd "$prefix"
-if should_update luajit $repo $repo; then
-  cd "$repo"
-  patch -p1 <<'EOF'
+  cd "$prefix"
+  if should_update luajit $repo $repo; then
+    cd "$repo"
+    patch -p1 <<'EOF'
 diff --git a/Makefile b/Makefile
 index aa1b84b..8cec688 100644
 --- a/Makefile
@@ -55,16 +45,13 @@ index aa1b84b..8cec688 100644
  uninstall:
 EOF
 
-  export MACOSX_DEPLOYMENT_TARGET=11.1
-  make PREFIX="$prefix"
-  make install PREFIX="$prefix"
-  git reset --hard --quiet
-  >&2 echo ">>> Installed $repo."
-fi
-
-
-
-# ----------------------------------------------------- Install LuaRocks {{{1
+    export MACOSX_DEPLOYMENT_TARGET=11.1
+    make PREFIX="$prefix"
+    make install PREFIX="$prefix"
+    git reset --hard --quiet
+    >&2 echo ">>> Installed $repo."
+  fi
+}
 
 
 install_luarocks() {
@@ -99,45 +86,59 @@ install_luarocks() {
   rm -rf "$tmp"
 }
 
-install_luarocks
+
+install_lua_language_server() {
+  username=sumneko
+  repo=lua-language-server
+  >&2 echo ">>> Installing $repo..."
+
+  lls_prefix="$prefix"/lua-language-server
+  rm -rf "$lls_prefix"
+  mkdir -p "$lls_prefix"
+  cd "$lls_prefix"
+
+  ver=$(github_latest_release_tag_name $username $repo)
+  archive=lua-language-server-$ver-linux-x64.tar.gz
+  curl -sSLfOJ https://github.com/$username/$repo/releases/download/$ver/$archive
+  tar xzf $archive
+  rm $archive
+
+  wrapper="$prefix"/bin/$repo
+  cat <<EOF >"$wrapper"
+#!/bin/sh
+exec "$lls_prefix/bin/lua-language-server" "\$@"
+EOF
+  chmod +x "$wrapper"
+}
 
 
 
-# ------------------------------------------- Install ninja build system {{{1
+# --------------------------------------------------------------------------------- Main {{{1
 
 
-"$script_dir"/ninja_install.sh
-
-
-
-# -------------------------------- Install sumneko's Lua language server {{{1
-
-
-repo=lua-language-server
->&2 echo ">>> Installing $repo..."
-
-cmd="$prefix"/$repo/bin/$repo
-cd "$prefix"
-if should_update "$cmd" sumneko "$repo"; then
-  cd "$repo"
-  git submodule update --init --recursive --depth 1
-
-  cd 3rd/luamake
-  ./compile/install.sh
-  cd ../..
-  ./3rd/luamake/luamake rebuild
-
-  # NOTE: Both "bin"s below are intended to refer to the bin directory under the repo's
-  # root. There are per-platform subdirs, bin/{Linux,macOS,Windows}, of which just one
-  # will exist, depending on which platform you compiled on. We move all binaries from
-  # that one existing subdir up one level to bin, so that we can hardcode the path in
-  # init.lua and not worry about distinguishing between Linux and macOS.
-  #
-  # By contrast, we don't symlink the binaries to ~/.local/bin, the command for this
-  # particular language server has to be configured manually, so it's no use putting it
-  # on the path.
-  ln -sft bin "$PWD"/bin/*/*
-  >&2 echo ">>> Installed $repo."
+if is_macos; then
+  brew_install_or_upgrade luajit-openresty
+  brew link --force luajit-openresty
+  brew_install_or_upgrade luarocks
+  brew_install_or_upgrade lua-language-server
+else
+  if is_fedora; then
+    sudo dnf in -by luajit luarocks
+  else
+    while true; do
+        >&2 read -p 'Install standalone LuaJIT and LuaRocks too? [yes/no]: ' yn
+        case "$yn" in
+            [Yy]*)
+              install_luajit
+              install_luarocks
+              ;;
+            [Nn]*)
+              ;;
+            *) >&2 echo 'Please answer yes or no.';;
+        esac
+    done
+  fi
+  install_lua_language_server
 fi
 
 # vi: foldmethod=marker

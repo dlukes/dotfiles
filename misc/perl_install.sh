@@ -1,6 +1,8 @@
 #!/bin/sh
 
 set -euf
+script_dir=$(dirname "$(realpath "$0")")
+. "$script_dir"/util.sh
 
 
 
@@ -9,9 +11,12 @@ set -euf
 
 if ! command -v cpan >/dev/null 2>&1; then
   >&2 echo '>>> CPAN not found, but it is a requirement for local::lib.'
-  if command -v dnf >/dev/null 2>&1; then
+  if is_macos; then
+    >&2 echo 'Installing Perl including CPAN with brew.'
+    brew_install_or_upgrade perl
+  elif is_fedora; then
     >&2 echo '>>> Installing CPAN with dnf.'
-    sudo dnf install -y perl-CPAN
+    sudo dnf in -by perl-CPAN
   else
     >&2 echo ">>> Don't know how to install CPAN in this context, aborting."
     exit 1
