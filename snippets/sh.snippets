@@ -200,10 +200,10 @@ grep0() {
 endsnippet
 
 snippet curl
-${1:# -sSf: silent, show error on failure, but no output (e.g. 404 page)
+${1:# -sSf: silent, show error on failure (incl. failed writing body when piping), but no output (e.g. 404 page)
 # -L: follow redirects;
-# -O: determine output filename from URL}
-curl -sSfLO $0
+# -OJ: determine output filename from URL or header (if available)}
+curl -sSfLOJ $0
 ${2:# -o <filename>: specify output filename
 # -k: ignore expired SSL certificates}
 endsnippet
