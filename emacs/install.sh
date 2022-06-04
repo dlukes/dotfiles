@@ -21,11 +21,7 @@ if is_macos; then
 elif command -v dnf >/dev/null &2>&1; then
   export PYTHONWARNDEFAULTENCODING=
   sudo dnf copr enable -y deathwish/emacs-pgtk-nativecomp
-  if dnf list --installed emacs >/dev/null 2>&1; then
-    sudo dnf update emacs
-  else
-    sudo dnf install emacs
-  fi
+  sudo dnf in -by emacs
 fi
 
 # Make sure dead keys work: https://www.emacswiki.org/emacs/DeadKeys TODO: This doesn't
