@@ -1,5 +1,17 @@
 #!/bin/sh
 
+# Sets ID, as in distro ID, and other distro-info-related variables.
+os_release=/etc/os-release
+[ -r "$os_release" ] && . "$os_release"
+
+is_fedora() {
+  [ "$ID" = fedora ]
+}
+
+is_ubuntu() {
+  [ "$ID" = ubuntu ]
+}
+
 is_macos() {
   [ "$( uname )" = Darwin ]
 }
