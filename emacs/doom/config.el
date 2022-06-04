@@ -55,6 +55,9 @@
   ;; See also <https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts>
   doom-font "VictorMono Nerd Font-12"
   doom-theme 'doom-one
+  ;; NOTE: GNOME Shell might be stubborn in reverting back to using M-SPC as a keyboard
+  ;; layout switching shortcut. If it does, just explicitly switch it to Win-SPC in
+  ;; GNOME Tweaks, so that you can use Doom's default (local)leader alt key bindings.
   doom-themes-neotree-file-icons t)
 
 
