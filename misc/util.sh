@@ -16,6 +16,12 @@ is_macos() {
   [ "$( uname )" = Darwin ]
 }
 
+am_admin() {
+  # sudo -v is normally used to extend the sudo password timeout, but just exits 1 if
+  # the user doesn't have any sudo privileges.
+  sudo -v
+}
+
 brew_install_or_upgrade() {
   package="$1"
   upgrade='brew upgrade'

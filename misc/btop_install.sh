@@ -18,7 +18,7 @@ else
   tar xjf "$archive"
   rm "$archive"
   make install PREFIX="$prefix"
-  if sudo -v; then
+  if am_admin; then
     sudo make setuid PREFIX="$prefix"
   else
     >&2 echo ">>> No sudo privileges on this box, can't setuid on the binary."
