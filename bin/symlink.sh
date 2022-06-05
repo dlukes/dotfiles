@@ -1,19 +1,22 @@
 #!/bin/sh
 
+set -euf
 dirname=$( dirname "$0" )
 root=$( realpath $( dirname "$dirname" ) )
 user=$( whoami )
+. "$root"/misc/util.sh
 cd "$root"
-if [ -n "$DOTFILES_UNLINK" ]; then
+
+if [ -n "${DOTFILES_UNLINK:-}" ]; then
   action=delete_links
 else
   action=create_links
 fi
 
 get_link_name() {
-  directory="$1"
-  target="$2"
-  basename=$( basename "$target" )
+  local directory="$1"
+  local target="$2"
+  local basename=$( basename "$target" )
   if [ "$basename" = "snippets" ]; then
     basename=UltiSnips
   fi
@@ -28,12 +31,13 @@ get_link_name() {
 }
 
 create_links() {
-  directory="$1"; shift
+  local directory="$1"; shift
   # $@ now contains the targets
   mkdir -p "$directory"
+  local target
   for target in "$@"; do
     target="$root/$target"
-    link_name=$( get_link_name "$directory" "$target" )
+    local link_name=$( get_link_name "$directory" "$target" )
     if [ ! -e "$target" ]; then
       >&2 echo "WARNING: Not linking non-existent target: $target"
     elif [ ! -e "$link_name" ] || [ -L "$link_name" ]; then
@@ -46,11 +50,12 @@ create_links() {
 }
 
 delete_links() {
-  directory="$1"; shift
+  local directory="$1"; shift
   # $@ now contains the targets
+  local target
   for target in "$@"; do
     target="$root/$target"
-    link_name=$( get_link_name "$directory" "$target" )
+    local link_name=$( get_link_name "$directory" "$target" )
     if [ -L "$link_name" ]; then
       >&2 echo "Removing symlink: $link_name"
       rm "$link_name"
@@ -65,11 +70,14 @@ delete_links() {
 }
 
 with_sudo() {
-  target="$2"
-  orig_owner=$( stat -c %U $target )
+  local target="$2"
+  local orig_owner=$( stat -c %U "$target" )
+  local orig_perms=$( stat -c %a "$target" )
   sudo chown "$user" "$target"
+  sudo chmod +w "$target"
   "$@"
   sudo chown "$orig_owner" "$target"
+  sudo chmod $orig_perms "$target"
 }
 
 #-----------------------------------------------------------------------
@@ -98,7 +106,7 @@ $action "$HOME" profile bashrc editorconfig sqliterc tmux.conf mamba/condarc
 # Editorconfig under / if I'm an admin
 #-----------------------------------------------------------------------
 
-if groups | grep -wqP 'sudo|admin'; then
+if am_admin; then
   if [ "$(uname)" = Darwin ]; then
     # / is read-only on macOS, Homebrew already has an editorconfig and overwriting it
     # would complicate pulling, but it can still be useful to have your editorconfig
@@ -121,7 +129,7 @@ fi
 # /etc/fonts/conf.d/50-user.conf), so let's symlink directly under /etc/fonts/conf.d
 # instead.
 
-if [ "$(uname)" = Linux ]; then
+if am_admin && [ "$(uname)" = Linux ]; then
   target=/etc/fonts/conf.d
   with_sudo $action $target fontconfig/00-overrides.conf
 fi
