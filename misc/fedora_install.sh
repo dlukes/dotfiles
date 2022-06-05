@@ -43,6 +43,9 @@ sudo dnf in -by \
 # - gnome-shell-extension-netspeed for a dedicated network speed indicator, but the
 #   system monitor applet has this too and it looks less distracting
 
+# TODO: Possibly auto-enable extensions with gnome-extensions enable? But since you need
+# to install some of them manually anyway, maybe not worth the hassle.
+
 
 
 # ----------------------------------------------------------------------- Media playback {{{1
