@@ -40,6 +40,12 @@ source ~/.files/locale
 set -e main
 set -e alt
 
+if type -q nvim
+  set -gx EDITOR nvim
+else
+  set -gx EDITOR vim
+end
+
 # ------------------------------------------------------------- Homebrew {{{1
 
 if not set -q HOMEBREW_PREFIX
