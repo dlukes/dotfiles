@@ -131,8 +131,10 @@ else
             [Yy]*)
               install_luajit
               install_luarocks
+              break
               ;;
             [Nn]*)
+              break
               ;;
             *) >&2 echo 'Please answer yes or no.';;
         esac
