@@ -65,3 +65,10 @@ sudo dnf in -by \
   --exclude=lame-devel \
   mozilla-openh264
 sudo dnf grp install -by --with-optional Multimedia
+
+
+
+# --------------------------------------------------------------------- Various software {{{1
+
+
+sudo dnf in -by tilix tilix-nautilus
