@@ -23,6 +23,7 @@ dependencies:
   - jupytext
   # data analysis
   - pandas
+  - polars
   - scikit-learn
   - statsmodels
   - altair
