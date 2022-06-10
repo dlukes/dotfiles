@@ -126,6 +126,11 @@
   org-cite-csl-styles-dir "~/.local/share/zotero/styles"
 
   org-export-with-creator t
+  ;; Don't abort export because of broken links, just mark them. Don't enable this by
+  ;; default, you probably want to be warned about broken links before possibly forcing
+  ;; the export anyway.  Also, ID links can be fixed with org-id-update-id-locations or
+  ;; org-roam-update-org-id-locations, so try that first.
+  ;; org-export-with-broken-links 'mark
 
   org-latex-reference-command "\\cref{%s}"
   org-latex-tables-booktabs t
