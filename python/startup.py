@@ -14,7 +14,7 @@ except NameError:
 
 
 class Importer:
-    mod2alias = [("numpy", "np"), ("pandas", "pd"), ("altair", "alt")]
+    mod2alias = [("numpy", "np"), ("pandas", "pd"), ("altair", "alt"), ("polars", "pl")]
 
     def __init__(self):
         self._import_module = import_module
