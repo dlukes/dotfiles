@@ -23,6 +23,7 @@
   # kept private:
 [include]
   path = ~/Desktop/data/git_config_private
+  path = ~/.config/git/local
 
 [core]
   quotepath = off

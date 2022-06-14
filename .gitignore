@@ -1,7 +1,8 @@
+emacs/doom/custom.el
 # site-specific or externally provided files may live in these
 # directories
 fish/completions
 fish/conf.d
+git/local
 plug.lock
-emacs/doom/custom.el
 systemd/bin/config/*.py
