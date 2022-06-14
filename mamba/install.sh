@@ -22,4 +22,4 @@ mamba env update --name base --file "$script_dir"/base.yml
 "$script_dir"/../misc/npm_install.sh
 
 >&2 echo '>>> Symlinking base environment as __base__ to make it stackable.'
-ln -sf .. "$prefix"/envs/__base__
+ln -sfT .. "$prefix"/envs/__base__
