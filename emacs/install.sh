@@ -12,6 +12,7 @@ fi
 if is_macos; then
   brew tap railwaycat/emacsmacport
   brew install --cask emacs-mac-spacemacs-icon
+  brew upgrade --cask emacs-mac-spacemacs-icon
 
   # This tap already provides Emacs compiled --with-native-comp, but as of mid-April
   # 2022, the builds feel a bit janky and actually slower than railwaycat's. Maybe just
