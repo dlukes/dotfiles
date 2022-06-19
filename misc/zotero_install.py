@@ -131,7 +131,7 @@ user_pref("extensions.zotero.translators.better-bibtex.workers", 4);
 
 // Zotfile
 user_pref("extensions.zotfile.authors_delimiter", ",");
-user_pref("extensions.zotfile.etal", ",et_al");
+user_pref("extensions.zotfile.etal", "_et_al");
 user_pref("extensions.zotfile.renameFormat", "{{%a}}-{{%y}}-{{%t}}");
 user_pref("extensions.zotfile.renameFormat_patent", "{{%a}}-{{%y}}-{{%t}}");
 user_pref("extensions.zotfile.replace_blanks", true);
