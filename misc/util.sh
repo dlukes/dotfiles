@@ -76,8 +76,13 @@ without_gnubin() {
 github_latest_release_tag_name() {
   local org="$1"; shift
   local repo="$1"; shift
-  curl -sfL -H "Accept: application/vnd.github.v3+json" \
-    https://api.github.com/repos/"$org"/"$repo"/releases/latest |
+  # Read full response into variable to avoid error exit code 23 from curl (failed
+  # writing body).
+  local response=$(
+    curl -sSfL -H "Accept: application/vnd.github.v3+json" \
+      https://api.github.com/repos/"$org"/"$repo"/releases/latest
+  )
+  echo "$response" |
     grep -oPm1 '"tag_name":\s*"[^"]+?"' |
     cut -d\" -f4
 }
