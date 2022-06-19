@@ -35,11 +35,8 @@ fi
 
 rust_analyzer=rust-analyzer-$suffix
 rust_analyzer_gz=$rust_analyzer.gz
-https_rust_analyzer_gz='https://.*?'$rust_analyzer_gz
-download_url=$( curl -sSf https://api.github.com/repos/rust-analyzer/rust-analyzer/releases/latest |
-  grep -oP '"browser_download_url":.*?'"$https_rust_analyzer_gz" |
-  grep -oP "$https_rust_analyzer_gz"
-)
+latest_tag=$(github_latest_release_tag_name rust-analyzer rust-analyzer)
+download_url=https://github.com/rust-lang/rust-analyzer/releases/download/$latest_tag/$rust_analyzer_gz
 curl -sSf -LO $download_url
 gunzip $rust_analyzer_gz
 chmod +x $rust_analyzer
@@ -77,7 +74,7 @@ copy_asset() {
 }
 
 utils=(
-  ripgrep
+  ripgrep+--features=pcre2
   fd-find
   exa
   du-dust
@@ -90,6 +87,7 @@ utils=(
 )
 for util in ${utils[@]}; do
   tmp=$( mktemp -d )
+  util=$( echo "$util" | sed -e 's/+/ /g')
   CARGO_TARGET_DIR="$tmp" cargo install "$@" $util
   copy_asset $util "$tmp" "$man_dir" -regextype egrep -regex ".*/$util-.*/[[:alnum:]]+\.1(\.gz)?"
   copy_asset $util "$tmp" "$comp_dir" -path "*/$util-*" -name "*.fish"
