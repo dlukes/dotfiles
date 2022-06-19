@@ -232,6 +232,8 @@ set directory=~/.config/nvim/swp
 " allow modelines (some distros disable them)
 set modeline
 set modelines=5
+" hide cmdline when not using it (TODO: enable once teething pains are resolved)
+" set cmdheight=0
 " just one global statusline...
 set laststatus=3
 " ... so display modified info + filename at top right
