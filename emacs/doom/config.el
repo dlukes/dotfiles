@@ -111,6 +111,7 @@
   org-indent-indentation-per-level 0
   org-adapt-indentation 'headline-data
   org-indent-mode-turns-off-org-adapt-indentation nil
+  org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
 
   org-pretty-entities t
   org-startup-with-inline-images t
