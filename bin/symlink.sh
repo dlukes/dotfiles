@@ -133,3 +133,6 @@ if am_admin && [ "$(uname)" = Linux ]; then
   target=/etc/fonts/conf.d
   with_sudo $action $target fontconfig/00-overrides.conf
 fi
+
+>&2 echo 'All done. Double-check that / is owned by root:root and has 755 permissions:'
+ls -ld /
