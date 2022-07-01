@@ -192,8 +192,8 @@ ts.setup {
     -- Everything...
     "bash", "bibtex", "c", "comment", "cpp", "css", "dockerfile", "elm", "fish", "go",
     "help", "html", "java", "javascript", "json", "latex", "lua", "make", "markdown",
-    "perl", "php", "python", "r", "regex", "rst", "ruby", "rust", "toml", "typescript",
-    "vim", "yaml", "zig",
+    "markdown_inline", "perl", "php", "python", "r", "regex", "rst", "ruby", "rust",
+    "toml", "typescript", "vim", "yaml", "zig",
     -- ... and the kitchen sink.
     "clojure", "cmake", "commonlisp", "dot", "fennel", "fortran", "gomod", "gowork",
     "haskell", "hjson", "http", "jsdoc", "json5", "jsonc", "julia", "kotlin", "llvm",
