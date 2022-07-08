@@ -184,6 +184,12 @@ set -g __fish_git_prompt_showstashstate
 
 set -gx BAT_CONFIG_PATH ~/.files/bat.conf
 
+# ---------------------------------------------------------------- Broot {{{1
+
+if type -q broot
+  broot --print-shell-function fish | source
+end
+
 # ------------------------------------------------------------------ SSH {{{1
 
 # pre-load ssh keys
