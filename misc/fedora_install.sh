@@ -71,4 +71,4 @@ sudo dnf grp install -by --with-optional Multimedia
 # --------------------------------------------------------------------- Various software {{{1
 
 
-sudo dnf in -by tilix tilix-nautilus
+sudo dnf in -by tilix tilix-nautilus nextcloud-client nextcloud-client-nautilus
