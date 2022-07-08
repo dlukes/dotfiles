@@ -42,17 +42,6 @@ gunzip $rust_analyzer_gz
 chmod +x $rust_analyzer
 mv $rust_analyzer ~/.local/bin/rust-analyzer
 
-### Exit early?
-
-while true; do
-    >&2 read -p '>>> Exit early, without compiling additional utilities? [yes/no]: ' yn
-    case "$yn" in
-        [Yy]*) exit 1;;
-        [Nn]*) break;;
-        *) >&2 echo 'Please answer yes or no.';;
-    esac
-done
-
 ### Utils
 
 >&2 echo '>>> Installing general Rust-based utils...'
