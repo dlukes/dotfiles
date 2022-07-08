@@ -185,7 +185,8 @@
 ;; Why the hell does this setting default to mailcap of all things, instead of xdg-open?
 ;; Anyway...
 (after! org
-  (setcdr (assq 'system org-file-apps-gnu) "xdg-open %s"))
+  (setcdr (assq 'system org-file-apps-gnu) "xdg-open %s")
+  (setcdr (assq t org-file-apps-gnu) "xdg-open %s"))
 
 ;; If this leads to an error, install TeX Live and update Doom so that it notices that
 ;; you have LaTeX support.
