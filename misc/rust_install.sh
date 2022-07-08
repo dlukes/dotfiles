@@ -81,18 +81,20 @@ utils=(
   ripgrep+--features=pcre2
   fd-find
   exa
-  du-dust
+  # Probably use broot, i.e. br -w, instead, which is interactive?
+  # du-dust
   hexyl
-  xsv
+  # xsv
   bat
-  ruplacer
+  # ruplacer
   hyperfine
-  tokei
+  # tokei
+  broot
 )
 for util in ${utils[@]}; do
   tmp=$( mktemp -d )
   util=$( echo "$util" | sed -e 's/+/ /g')
-  CARGO_TARGET_DIR="$tmp" cargo install "$@" $util
+  CARGO_TARGET_DIR="$tmp" cargo install --locked "$@" $util
   copy_asset $util "$tmp" "$man_dir" -regextype egrep -regex ".*/$util-.*/[[:alnum:]]+\.1(\.gz)?"
   copy_asset $util "$tmp" "$comp_dir" -path "*/$util-*" -name "*.fish"
 done
@@ -107,50 +109,6 @@ extensions=(
   # updating global binaries (NOTE: the command is cargo install-update)
   cargo-update
 )
+cargo install --locked "$@" ${extensions[@]}
 
-while true; do
-    >&2 read -p '>>> Would you also like to install cargo extensions useful for development? [yes/no]: ' yn
-    case "$yn" in
-        [Yy]*)
-          extensions+=(
-            # managing deps from command line (NOTE: the subcommands are add, rm and
-            # upgrade)
-            cargo-edit
-            # dealing with outdated deps
-            cargo-outdated
-            # check for security vulnerabilities
-            cargo-audit
-            # inspecting dep trees (useful for detecting duplicate deps with -d)
-            cargo-tree
-            # recursive cleanup of build files >30 days old: cargo sweep -r -t30
-            cargo-sweep
-            # run stuff on file modification: cargo watch -x run
-            cargo-watch
-          )
-          break;;
-        [Nn]*) exit 1;;
-        *) >&2 echo 'Please answer yes or no.';;
-    esac
-done
-cargo install "$@" ${extensions[@]}
-
-cat <<'EOF' >&2
->>> All done. If you want to modify installed components, profiles are a
-handy shortcut:
-
-rustup set profile minimal/default/complete
-
-Or you can use a project-specific toolchain file:
-<https://rust-lang.github.io/rustup/overrides.html#the-toolchain-file>
-
-Remember that you can update Rust with:
-
-rustup update
-
-And you can update cargo-installed binaries with:
-
-cargo install-update -a
-
-Consider running cargo cache -e from time to time, or manually deleting
-stuff under ~/.cargo to clean up space.
-EOF
+>&2 echo '>>> All done. Consult your personal notes on Rustup, Cargo and Rust for maintenance tips.'
