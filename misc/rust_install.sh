@@ -44,10 +44,14 @@ mv $rust_analyzer ~/.local/bin/rust-analyzer
 
 ### Exit early?
 
-read -ep ">>> Exit early, without compiling additional utilities? (y/n) " early
-if [ "$early" = y ] || [ "$early" = Y ]; then
-  exit
-fi
+while true; do
+    >&2 read -p '>>> Exit early, without compiling additional utilities? [yes/no]: ' yn
+    case "$yn" in
+        [Yy]*) exit 1;;
+        [Nn]*) break;;
+        *) >&2 echo 'Please answer yes or no.';;
+    esac
+done
 
 ### Utils
 
@@ -104,25 +108,31 @@ extensions=(
   cargo-update
 )
 
-read -ep ">>> Would you also like to install cargo extensions useful for development? (y/n) " devel
-if [ "$devel" = y ] || [ "$devel" = Y ]; then
-  extensions+=(
-    # managing deps from command line (NOTE: the subcommands are add, rm and
-    # upgrade)
-    cargo-edit
-    # dealing with outdated deps
-    cargo-outdated
-    # check for security vulnerabilities
-    cargo-audit
-    # inspecting dep trees (useful for detecting duplicate deps with -d)
-    cargo-tree
-    # recursive cleanup of build files >30 days old: cargo sweep -r -t30
-    cargo-sweep
-    # run stuff on file modification: cargo watch -x run
-    cargo-watch
-  )
-  cargo install "$@" ${extensions[@]}
-fi
+while true; do
+    >&2 read -p '>>> Would you also like to install cargo extensions useful for development? [yes/no]: ' yn
+    case "$yn" in
+        [Yy]*)
+          extensions+=(
+            # managing deps from command line (NOTE: the subcommands are add, rm and
+            # upgrade)
+            cargo-edit
+            # dealing with outdated deps
+            cargo-outdated
+            # check for security vulnerabilities
+            cargo-audit
+            # inspecting dep trees (useful for detecting duplicate deps with -d)
+            cargo-tree
+            # recursive cleanup of build files >30 days old: cargo sweep -r -t30
+            cargo-sweep
+            # run stuff on file modification: cargo watch -x run
+            cargo-watch
+          )
+          break;;
+        [Nn]*) exit 1;;
+        *) >&2 echo 'Please answer yes or no.';;
+    esac
+done
+cargo install "$@" ${extensions[@]}
 
 cat <<'EOF' >&2
 >>> All done. If you want to modify installed components, profiles are a
