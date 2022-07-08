@@ -143,15 +143,6 @@ if test -d $local_lib
   perl -I"$local_lib"/lib/perl5 -Mlocal::lib="$local_lib" | source
 end
 
-# ----------------------------------------------------------------- fasd {{{1
-
-# update database of frecently visited directories/files
-if type -q fasd
-  function update_fasd_db --on-event fish_preexec
-    fasd --proc (fasd --sanitize $argv) &>/dev/null
-  end
-end
-
 # ------------------------------------------------------------------ fzf {{{1
 
 source ~/.local/share/fzf/key-bindings.fish
@@ -188,6 +179,12 @@ set -gx BAT_CONFIG_PATH ~/.files/bat.conf
 
 if type -q broot
   broot --print-shell-function fish | source
+end
+
+# --------------------------------------------------------------- Zoxide {{{1
+
+if type -q zoxide
+  zoxide init fish --cmd j | source
 end
 
 # ------------------------------------------------------------------ SSH {{{1

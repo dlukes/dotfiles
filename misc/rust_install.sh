@@ -90,6 +90,7 @@ utils=(
   hyperfine
   # tokei
   broot
+  zoxide
 )
 for util in ${utils[@]}; do
   tmp=$( mktemp -d )
