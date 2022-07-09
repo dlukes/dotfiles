@@ -40,12 +40,6 @@ source ~/.files/locale
 set -e main
 set -e alt
 
-if type -q nvim
-  set -gx EDITOR nvim
-else
-  set -gx EDITOR vim
-end
-
 # ------------------------------------------------------------- Homebrew {{{1
 
 if not set -q HOMEBREW_PREFIX
@@ -83,6 +77,11 @@ end
 # We don't want to use Fish as login shell, but we *do* want to let subprocesses know
 # that they're running inside fish (e.g. Perl local::lib setup, Anaconda etc.).
 set -gx SHELL (type -p fish)
+if type -q nvim
+  set -gx EDITOR nvim
+else
+  set -gx EDITOR vim
+end
 
 # --------------------------------------------------------------- Python {{{1
 
