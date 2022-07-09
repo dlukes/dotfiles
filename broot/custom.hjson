@@ -1,0 +1,71 @@
+{
+  imports: [
+    conf.hjson
+  ]
+
+  # default_flags: dghip
+  date_time_format: %Y-%m-%d %R
+  # NOTE: Setting the syntax theme doesn't seem to do anything?
+  syntax_theme: EightiesDark
+  quit_on_last_cancel: true
+
+  verbs: [
+    {
+      key: ctrl-k
+      internal: ":line_up"
+    }
+    {
+      key: ctrl-p
+      internal: ":line_up"
+    }
+    {
+      key: ctrl-j
+      internal: ":line_down"
+    }
+    {
+      key: ctrl-n
+      internal: ":line_down"
+    }
+    {
+      key: ctrl-h
+      internal: ":panel_left"
+    }
+    {
+      key: ctrl-l
+      internal: ":panel_right"
+    }
+    {
+      key: ctrl-b
+      internal: ":page_up"
+    }
+    {
+      key: ctrl-f
+      internal: ":page_down"
+    }
+
+    # Toggle file details and hidden/ignored file filters.
+    {
+      key: ctrl-d
+      cmd: ":toggle_counts;:toggle_dates;:toggle_git_file_info;:toggle_perm;:toggle_sizes"
+    }
+    {
+      key: ctrl-u
+      cmd: ":toggle_git_ignore;:toggle_hidden"
+    }
+
+    # Copy/move to other panel bindings inspired by Norton Commander. NOTE: These are
+    # builtin as copy_to_panel/cpp and move_to_panel/mvp, but those are just invocations
+    # delegating to external commands, not internal verbs you can bind keys to,
+    # apparently.
+    {
+      key: F5
+      external: "cp -r {file} {other-panel-directory}"
+      leave_broot: false
+    }
+    {
+      key: F6
+      external: "mv {file} {other-panel-directory}"
+      leave_broot: false
+    }
+  ]
+}

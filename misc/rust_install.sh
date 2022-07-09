@@ -78,7 +78,6 @@ utils=(
   # ruplacer
   hyperfine
   # tokei
-  broot
   zoxide
 )
 for util in ${utils[@]}; do

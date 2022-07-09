@@ -1,8 +1,11 @@
+broot/*.hjson
+!broot/custom.hjson
 emacs/doom/custom.el
 # site-specific or externally provided files may live in these
 # directories
 fish/completions
 fish/conf.d
+fish/functions/br.fish
 git/local
 plug.lock
 systemd/bin/config/*.py

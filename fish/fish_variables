@@ -24,6 +24,7 @@ SETUVAR _fish_abbr_gll:git\x20log\x20\x2d\x2doneline\x20\x2d\x2dall\x20\x2d\x2dg
 SETUVAR _fish_abbr_gp:git\x20push
 SETUVAR _fish_abbr_gpf:git\x20push\x20\x2d\x2dforce\x2dwith\x2dlease
 SETUVAR _fish_abbr_gs:git\x20status\x20\x2ds
+SETUVAR _fish_abbr_gsb:br\x20\x2d\x2dgit\x2dstatus
 SETUVAR _fish_abbr_gss:git\x20status
 SETUVAR _fish_abbr_gst:git\x20stash
 SETUVAR _fish_abbr_gwD:git\x20diff\x20\x2d\x2dno\x2dext\x2ddiff\x20\x2d\x2dword\x2ddiff\x3dcolor

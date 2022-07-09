@@ -175,12 +175,6 @@ set -g __fish_git_prompt_showstashstate
 
 set -gx BAT_CONFIG_PATH ~/.files/bat.conf
 
-# ---------------------------------------------------------------- Broot {{{1
-
-if type -q broot
-  broot --print-shell-function fish | source
-end
-
 # --------------------------------------------------------------- Zoxide {{{1
 
 if type -q zoxide
