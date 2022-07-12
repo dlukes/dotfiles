@@ -80,6 +80,9 @@ with_sudo() {
   sudo chmod $orig_perms "$target"
 }
 
+>&2 echo 'Original permissions on /:'
+ls -ld /
+
 #-----------------------------------------------------------------------
 # Stuff belonging under $XDG_CONFIG_HOME
 #-----------------------------------------------------------------------
@@ -134,5 +137,5 @@ if am_admin && [ "$(uname)" = Linux ]; then
   with_sudo $action $target fontconfig/00-overrides.conf
 fi
 
->&2 echo 'All done. Double-check that / is owned by root:root and has 755 permissions:'
+>&2 echo 'All done. Double-check that permissions on / are the same as before:'
 ls -ld /
