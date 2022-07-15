@@ -22,7 +22,7 @@ else:
 dfs = {}
 for path in paths:
     path = Path(path)
-    suffix = path.suffix.casefold()
+    suffix = path.suffix[1:].casefold()
     reader = suffix2reader.get(suffix, suffix)
     varname = re.sub(r"^\d+", "", path.stem)
     varname = re.sub(r"\W", "_", varname)
