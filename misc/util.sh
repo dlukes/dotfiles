@@ -38,7 +38,7 @@ brew_install_or_upgrade() {
       exit 1
       ;;
   esac
-  if brew ls --versions "$package" >/dev/null; then
+  if brew ls --versions "$package" >/dev/null 2>&1; then
     $upgrade "$package"
   else
     $install "$package"
