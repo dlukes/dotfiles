@@ -67,6 +67,7 @@ Plug 'junegunn/vim-easy-align'
 Plug 'nvim-treesitter/playground'
 Plug 'SirVer/ultisnips'
 Plug 'chrisbra/unicode.vim'
+Plug 'dstein64/nvim-scrollview'
 
 " completion
 Plug 'hrsh7th/nvim-cmp'

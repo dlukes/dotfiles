@@ -28,9 +28,11 @@
 ;;;; -------------------------------------------------------------- Basic Emacs settings {{{1
 
 
-(setq
+(setq!
   confirm-kill-emacs nil
   confirm-kill-processes nil
+
+  scroll-bar-mode 'right
 
   completion-ignore-case t
   display-line-numbers-type nil
