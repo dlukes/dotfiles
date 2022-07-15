@@ -117,8 +117,8 @@ EOF
 
 
 if is_macos; then
-  brew_install_or_upgrade luajit-openresty
-  brew link --force luajit-openresty
+  brew_install_or_upgrade luajit
+  brew link --force luajit
   brew_install_or_upgrade luarocks
   brew_install_or_upgrade lua-language-server
 else
