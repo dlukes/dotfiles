@@ -8,8 +8,9 @@ dependencies:
   # Don't install Pandoc explicitly, at least until it becomes available on ARM-based
   # macOS. On Linux, it will still be installed as a dependency of JupyterLab.
   # ----------------------------------------------------------------------------- Python {{{1
+  - python=3.10
   # basics
-  - pynvim
+  # - pynvim
   - ipython
   - ipdb
   - black
@@ -35,3 +36,8 @@ dependencies:
   - openpyxl
   # CLI tools
   - tldr
+  # Fall back on Pip if package not available from conda-forge. Periodically check if
+  # these packages have become available in the meantime.
+  - pip
+  - pip:
+    - pynvim

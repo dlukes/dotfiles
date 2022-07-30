@@ -22,7 +22,7 @@ function fish_prompt --description 'Write out the prompt'
   test $USER = 'root'
     and echo -n (set_color red)'# '
 
-  if set -q CONDA_DEFAULT_ENV; and test $CONDA_DEFAULT_ENV != __base__
+  if set -q CONDA_DEFAULT_ENV; and test $CONDA_DEFAULT_ENV != umrk
     set cenv (set_color green)':'$CONDA_DEFAULT_ENV
   else
     set cenv ''
