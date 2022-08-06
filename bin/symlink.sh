@@ -87,9 +87,7 @@ ls -ld /
 # Stuff belonging under $XDG_CONFIG_HOME
 #-----------------------------------------------------------------------
 
-if [ -z "$XDG_CONFIG_HOME" ]; then
-  XDG_CONFIG_HOME="$HOME/.config"
-fi
+true ${XDG_CONFIG_HOME:=$HOME/.config}
 
 $action "$XDG_CONFIG_HOME" containers emacs/doom fish git python/pylintrc
 # for Neovim, don't symlink the whole directory, most of it will be
@@ -98,6 +96,14 @@ $action "$XDG_CONFIG_HOME" containers emacs/doom fish git python/pylintrc
 $action "$XDG_CONFIG_HOME/nvim" nvim/init.vim
 $action "$XDG_CONFIG_HOME/nvim" snippets
 $action "$XDG_CONFIG_HOME/nvim/lua" nvim/init.lua
+
+#-----------------------------------------------------------------------
+# Stuff belonging under $XDG_DATA_HOME
+#-----------------------------------------------------------------------
+
+true ${XDG_DATA_HOME:=$HOME/.local/share}
+
+$action "$XDG_DATA_HOME" pandoc
 
 #-----------------------------------------------------------------------
 # Stuff belonging under $HOME

@@ -1,0 +1,10 @@
+-- This filter is primarily meant for conversion to Org, because Pandoc adds CUSTOM_ID
+-- properties to headers when converting from Markdown. This filter removes them. But
+-- obviously, you can remove any header attributes with it.
+
+function Header(header)
+  -- Don't add header.attr to the new Header.
+  return pandoc.Header(header.level, header.content)
+end
+
+-- vi: ft=lua

@@ -1,0 +1,40 @@
+-- Removes all kinds of rich text fluff. Handy for converting richly formatted documents
+-- to plain text documents without losing anything, and also without adding any kind of
+-- plain text markup (underlined or prefixed headers, asterisks to indicate emphasis,
+-- etc.).
+
+local p = pandoc
+
+local WHITESPACE = {
+  Space = true,
+  LineBreak = true,
+  SoftBreak = true,
+}
+
+function Inline(elem)
+  if WHITESPACE[elem.tag] then
+    return nil
+  elseif elem.text ~= nil then
+    return p.Str(elem.text)
+  else
+    return p.Span(elem.content)
+  end
+end
+
+function Block(elem)
+  if string.find(elem.tag, "List$") then
+    -- This is a list of some kind (BulletList etc.), so the content is a list of lists.
+    -- Flatten it.
+    local ans = {}
+    for _, item in pairs(elem.content) do
+      for _, item_fragment in pairs(item) do
+        table.insert(ans, item_fragment)
+      end
+    end
+    return ans
+  else
+    return { p.Para(elem.content) }
+  end
+end
+
+-- vi: ft=lua

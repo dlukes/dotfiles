@@ -2,7 +2,7 @@
 
 set -euf
 script_dir=$(dirname "$(realpath "$0")")
-. "$script_dir"/util.sh
+. "$script_dir"/../misc/util.sh
 
 if is_macos; then
   >&2 echo ">>> We're on macOS, so installing with brew..."

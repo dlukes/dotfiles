@@ -1,0 +1,15 @@
+local function inspect(category)
+  return function(elem)
+    print(category)
+    for k, v in pairs(elem) do
+      print("", k, " -> ", v)
+    end
+  end
+end
+
+traverse = "topdown"
+Inline = inspect("INLINE")
+Block = inspect("BLOCK")
+Para = inspect("PARA")
+
+-- vi: ft=lua
