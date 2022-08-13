@@ -20,7 +20,7 @@ sudo dnf config-manager --set-enabled fedora-cisco-openh264 google-chrome
 
 
 sudo dnf grp install -by "Development Tools" "Development Libraries"
-sudo dnf in -by libstdc++-devel
+sudo dnf in -by gcc-c++ libstdc++-devel libtool
 
 
 
