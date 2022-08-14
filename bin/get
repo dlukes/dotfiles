@@ -6,6 +6,7 @@ cmd_pattern="${1:-}"
 cd $script_dir
 dotdir=$(git rev-parse --show-toplevel)
 cd $dotdir
+. misc/util.sh
 
 find_install() {
   find . -type f -name '*install.*' | LC_ALL=C sort
@@ -17,7 +18,6 @@ elif [ "$cmd_pattern" = dot ]; then
   git pull
 else
   cmd=$(find_install | grep -Fm1 "$cmd_pattern")
-  >&2 echo ">>> '$(basename "$0") $@' ==> $(realpath "$cmd")"
-  { printf "=%.s" $(seq $(tput cols)); echo; } >&2
+  log "'$(basename "$0") $@' ==> $(realpath "$cmd")" 1 =
   $cmd
 fi

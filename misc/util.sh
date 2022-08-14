@@ -112,3 +112,42 @@ should_update() {
     git clone --depth 1 https://github.com/"$username"/"$repo".git
   fi
 }
+
+log() {
+  local msg="$1"
+  local style="\e[${2}m"
+  local sep="$3"
+  if [ -n "$style" ]; then
+    local reset='\e[0m'
+  fi
+  if [ -n "$sep" ]; then
+    local sep=$(printf -- "$sep%.s" $(seq $(tput cols)))
+    local before="$sep\n\n"
+    local after="\n\n$sep"
+  fi
+  >&2 printf -- "$style$before$msg$after$reset\n"
+}
+
+info() {
+  local msg="$1"
+  local sep="${2:--}"
+  log "$msg" '1;34' "$sep"
+}
+
+success() {
+  local msg="$1"
+  local sep="${2:--}"
+  log "$msg" '1;32' "$sep"
+}
+
+warning() {
+  local msg="$1"
+  local sep="${2:--}"
+  log "$msg" '1;33' "$sep"
+}
+
+error() {
+  local msg="$1"
+  local sep="${2:--}"
+  log "$msg" '1;31' "$sep"
+}
