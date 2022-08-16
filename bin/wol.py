@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Broadcast Wake-on-LAN magic packet
 
 Usage: wol.py <host>
