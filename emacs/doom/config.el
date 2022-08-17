@@ -119,6 +119,11 @@
   org-startup-with-inline-images t
   org-display-remote-inline-images 'cache
 
+  ;; The new default is text-properties and it has better performance, but until
+  ;; third-party packages (e.g. Org-roam) adapt, it might break fontification, so let's
+  ;; stick with overlays for now. TODO: Eventually switch.
+  org-fold-core-style 'overlays
+
   ;; Don't create a separate section for footnotes, put them at the end of the section
   ;; they're in.
   org-footnote-section nil
