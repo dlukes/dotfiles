@@ -10,10 +10,10 @@ if ! is_macos; then
 
   # NOTE: If SELinux gives you grief, try restorecon on the modified file?
 
-  # Tweak sudo config so that it behaves as much as possible as my regular environment.
-  # See also sudo.fish, which automatically adds the -E option and does some magic to
-  # enable me to use my custom fish functions with sudo. For the tweaks applied here,
-  # see:
+  # Tweak sudo config so that it behaves as much as possible as my regular environment
+  # when the -E option is passed. See also sudoe and sudof abbrs, and comments in
+  # sudo.fish, which was a very bad idea and is now disabled. For the tweaks applied
+  # here, see:
   #
   #   - https://unix.stackexchange.com/a/91572
   #   - https://superuser.com/a/927599

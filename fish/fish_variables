@@ -48,6 +48,8 @@ SETUVAR _fish_abbr_sse:sudo\x20systemctl\x20enable\x20\x2d\x2dnow
 SETUVAR _fish_abbr_ssr:sudo\x20systemctl\x20restart
 SETUVAR _fish_abbr_sss:sudo\x20systemctl\x20status
 SETUVAR _fish_abbr_sst:sudo\x20systemctl\x20stop
+SETUVAR _fish_abbr_sudoe:sudo\x20\x2dE
+SETUVAR _fish_abbr_sudof:sudo\x20\x2dE\x20fish\x20\x2dc
 SETUVAR _fish_abbr_vi:nvim
 SETUVAR _fish_abbr_vimdiff:nvim\x20\x2ddu\x20NONE\x20\x2b\x27set\x20mouse\x3da\x20et\x20rtp\x2b\x3d\x7e/\x2econfig/nvim/plugged/seoul256\x2evim\x27\x20\x2b\x27syntax\x20on\x27\x20\x2b\x27colorscheme\x20seoul256\x27
 SETUVAR fish_color_autosuggestion:969896
