@@ -33,5 +33,14 @@ if ! is_macos; then
   sudo visudo -c $sudoers_tmp
   sudo chmod 440 $sudoers_tmp
   sudo mv $sudoers_tmp $sudoers
-fi
 
+  set='sudo -u gdm gsettings set'
+  # $set org.gnome.login-screen banner-message-enable true
+  # $set org.gnome.login-screen banner-message-text 'Speak friend and enter.'
+  # $set org.gnome.login-screen disable-user-list true
+  sudo -u gdm gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'suspend'
+  sudo -u gdm gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 300
+  sudo -u gdm gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
+  sudo -u gdm gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
+  sudo -u gdm dconf dump /
+fi
