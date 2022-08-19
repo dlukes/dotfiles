@@ -28,7 +28,11 @@ def entropy(
 
 
 def mi(px: float, py: float, pxy: float) -> float:
-    """Mutual information between events x and y."""
+    """Mutual information between events x and y.
+
+    NOTE: For estimating MI between two vectors, use npeet.entropy_estimators.mi.
+
+    """
     return math.log2(pxy / px / py)
 
 

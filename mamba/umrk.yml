@@ -41,3 +41,4 @@ dependencies:
   - pip
   - pip:
     - pynvim
+    - git+https://github.com/gregversteeg/NPEET
