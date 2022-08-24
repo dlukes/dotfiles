@@ -134,6 +134,9 @@
   org-cite-csl-styles-dir "~/.local/share/zotero/styles"
 
   org-export-with-creator t
+  ;; Don't export _ and ^ as sub/superscripts unless wrapped in curly brackets. Use
+  ;; #+OPTIONS: ^:t (or {} or nil) to tweak on a per-document basis.
+  org-export-with-sub-superscripts '{}
   ;; Don't abort export because of broken links, just mark them. Don't enable this by
   ;; default, you probably want to be warned about broken links before possibly forcing
   ;; the export anyway.  Also, ID links can be fixed with org-id-update-id-locations or
