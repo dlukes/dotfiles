@@ -126,7 +126,7 @@
 
   ;; Don't create a separate section for footnotes, put them at the end of the section
   ;; they're in.
-  org-footnote-section nil
+  ;; org-footnote-section nil
   ;; Citar uses Vertico as its selection engine, and I want selection to be case
   ;; insensitive. Vertico is compatible with Emacs's default completion system, so this
   ;; is covered by completion-ignore-case above.
