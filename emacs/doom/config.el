@@ -304,6 +304,10 @@
     prog-mode-hook)
   #'flyspell-prog-mode)
 
+;; Company completion can be slow, especially in long-running sessions with lots of
+;; (Org-roam?) buffers open. This makes typing extremely annoying. So don't trigger
+;; automatically, use C-SPC to bring it up as required.
+(setq! company-idle-delay nil)
 
 
 ;;;; ------------------------------------------------------------------ Custom functions {{{1
