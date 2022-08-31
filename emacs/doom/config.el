@@ -133,7 +133,6 @@
   citar-bibliography '("~/.cache/zotero/My Library.json")
   org-cite-csl-styles-dir "~/.local/share/zotero/styles"
 
-  org-export-with-creator t
   ;; Don't export _ and ^ as sub/superscripts unless wrapped in curly brackets. Use
   ;; #+OPTIONS: ^:t (or {} or nil) to tweak on a per-document basis.
   org-export-with-sub-superscripts '{}
@@ -143,18 +142,25 @@
   ;; org-roam-update-org-id-locations, so try that first.
   ;; org-export-with-broken-links 'mark
 
-  org-latex-reference-command "\\cref{%s}"
   org-latex-tables-booktabs t
   ;; Tweak org-latex-minted-options to customize minted.
   org-latex-listings 'minted
-  ;; Minted needs -shell-escape so that it may call pygments.
+  ;; Minted needs -shell-escape so that it may call pygments. Possibly not with LuaLaTeX
+  ;; though?
+  org-latex-compiler "xelatex"
   org-latex-pdf-process
   '("latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f")
+  ;; cleveref/cref is nice in theory (it auto-inserts Fig./Tab. etc. based on the type
+  ;; of reference), but since it's LaTeX-specific and I might need to export to ODT or
+  ;; DOCX too, better not rely on it.
+  ;; org-latex-reference-command "\\cref{%s}"
   org-latex-packages-alist
-  '(("capitalize" "cleveref")
+  '(
+    ;; ("capitalize" "cleveref")
     ("" "booktabs" t)
     ("" "tabularx")
-    ("" "minted" t))
+    ("" "minted" t)
+  )
 
   ;; Don't prefix figure, table etc. numbers with section numbers.
   org-odt-display-outline-level 0
@@ -199,16 +205,30 @@
   (setcdr (assq t org-file-apps-gnu) "xdg-open %s"))
 
 ;; If this leads to an error, install TeX Live and update Doom so that it notices that
-;; you have LaTeX support.
+;; you have LaTeX support. Remember you can control the order of inclusion of (default)
+;; packages and extra header lines, and even entirely prevent it. See variable's
+;; documentation.
 (after! ox-latex
-  (add-to-list 'org-latex-classes
-    '("scrartcl"
-      "\\documentclass{scrartcl}"
-      ("\\section{%s}" . "\\section*{%s}")
-      ("\\subsection{%s}" . "\\subsection*{%s}")
-      ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-      ("\\paragraph{%s}" . "\\paragraph*{%s}")
-      ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+  (dolist
+    (item '(
+             ("scrbook"
+               "\\documentclass{scrbook}"
+               ("\\chapter{%s}" . "\\addchap{%s}")
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+
+             ("scrartcl"
+               "\\documentclass{scrartcl}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+          ))
+  (add-to-list 'org-latex-classes item)))
 
 (use-package! websocket
   :after org-roam)
