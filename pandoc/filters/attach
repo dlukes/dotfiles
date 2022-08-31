@@ -1,0 +1,23 @@
+-- Resolve location of Org Mode attachments.
+
+function Header(elem)
+  if elem.attributes.id then
+    id = elem.attributes.id
+  end
+end
+
+function Image(elem)
+  local attachment = elem.src:match("^attachment:(.+)$")
+  if attachment then
+    if id then
+      elem.src = "~/Desktop/org/attach/" .. id:sub(1, 2) .. "/" .. id:sub(3) .. "/" .. attachment
+      return elem
+    else
+      print("Found attachment", attachment, "but id is nil!")
+    end
+  end
+end
+
+traverse = "topdown"
+
+-- vi: ft=lua
