@@ -101,106 +101,143 @@
 ;; In Doom Emacs, it's not necessary to configure Babel manually with org-babel-do-load-languages.
 ;; See https://discourse.doomemacs.org/t/common-config-anti-patterns/.
 
-;; Main settings:
+;; Whenever you reconfigure a package, make sure to wrap your config in an
+;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
+;;
+;;   (after! PACKAGE
+;;     (setq x y))
+;;
+;; In practice, it often doesn't matter, but I've found this to be true e.g. for
+;; org-startup-indented. So let's be on the safe side.
+;;
+;; The exceptions to this rule:
+;;
+;;   - Setting file/directory variables (like `org-directory')
+;;   - Setting variables which explicitly tell you to set them before their
+;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
+;;   - Setting doom variables (which start with 'doom-' or '+').
+;;
+;; Here are some additional functions/macros that will help you configure Doom.
+;;
+;; - `load!' for loading external *.el files relative to this one
+;; - `use-package!' for configuring packages
+;; - `after!' for running code after a package has loaded
+;; - `add-load-path!' for adding directories to the `load-path', relative to
+;;   this file. Emacs searches the `load-path' when you load packages with
+;;   `require' or `use-package'.
+;; - `map!' for binding new keys
+;;
+;; To get information about any of these functions/macros, move the cursor over
+;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
+;; This will open documentation for it, including demos of how they are used.
+;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
+;; etc).
+;;
+;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
+;; they are implemented.
+
 (setq!
   org-directory "~/Desktop/org/"
   org-attach-id-dir (expand-file-name "attach/" org-directory)
-  ;; If you want Org file links to work in exports, you need to use IDs, not the default
-  ;; path + text search flavor. This setting automatically generates an ID on link
-  ;; creation (if necessary).
-  ;; org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
-
-  org-indent-indentation-per-level 0
-  org-adapt-indentation 'headline-data
-  org-indent-mode-turns-off-org-adapt-indentation nil
-  org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
-
-  org-pretty-entities t
-  org-startup-with-inline-images t
-  org-display-remote-inline-images 'cache
-
-  ;; The new default is text-properties and it has better performance, but until
-  ;; third-party packages (e.g. Org-roam) adapt, it might break fontification, so let's
-  ;; stick with overlays for now. TODO: Eventually switch.
-  org-fold-core-style 'overlays
-
-  ;; Don't create a separate section for footnotes, put them at the end of the section
-  ;; they're in.
-  ;; org-footnote-section nil
   ;; Citar uses Vertico as its selection engine, and I want selection to be case
   ;; insensitive. Vertico is compatible with Emacs's default completion system, so this
   ;; is covered by completion-ignore-case above.
   citar-bibliography '("~/.cache/zotero/My Library.json")
-  org-cite-csl-styles-dir "~/.local/share/zotero/styles"
+  org-cite-csl-styles-dir "~/.local/share/zotero/styles")
 
-  ;; Don't export _ and ^ as sub/superscripts unless wrapped in curly brackets. Use
-  ;; #+OPTIONS: ^:t (or {} or nil) to tweak on a per-document basis.
-  org-export-with-sub-superscripts '{}
-  ;; Don't abort export because of broken links, just mark them. Don't enable this by
-  ;; default, you probably want to be warned about broken links before possibly forcing
-  ;; the export anyway.  Also, ID links can be fixed with org-id-update-id-locations or
-  ;; org-roam-update-org-id-locations, so try that first.
-  ;; org-export-with-broken-links 'mark
-
-  org-latex-tables-booktabs t
-  ;; Tweak org-latex-minted-options to customize minted.
-  org-latex-listings 'minted
-  ;; Minted needs -shell-escape so that it may call pygments. Possibly not with LuaLaTeX
-  ;; though?
-  org-latex-compiler "xelatex"
-  org-latex-pdf-process
-  '("latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f")
-  ;; cleveref/cref is nice in theory (it auto-inserts Fig./Tab. etc. based on the type
-  ;; of reference), but since it's LaTeX-specific and I might need to export to ODT or
-  ;; DOCX too, better not rely on it.
-  ;; org-latex-reference-command "\\cref{%s}"
-  org-latex-packages-alist
-  '(
-    ;; ("capitalize" "cleveref")
-    ("" "booktabs" t)
-    ("" "tabularx")
-    ("" "minted" t)
-  )
-
-  ;; Don't prefix figure, table etc. numbers with section numbers.
-  org-odt-display-outline-level 0
-  org-latex-to-mathml-convert-command "pandoc -f latex -t html5 --mathml %I -o %o"
-  ;; This can be used to include *any* LaTeX in ODT exports as PNG images.
-  ;; Unfortunately, it can't be used in conjunction with the MathML convert command
-  ;; above as it overrides it and equations are also rendered as PNG, which is
-  ;; suboptimal.
-  ; org-odt-with-latex 'dvipng
-  ;; Use this to convert the resulting ODT to a different format and use that as
-  ;; the result of the export instead. See org-odt-convert-process(es) for how to
-  ;; define the way this conversion should happen. By default, soffice is used, but
-  ;; you could conceivably use Pandoc as well.
-  ; org-odt-preferred-output-format "docx"
-
-  org-roam-capture-templates
-  '(
-    ;; Should be same as stock, with different key.
-    ("n" "default" plain nil
-      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
-      :unnarrowed t)
-    ("t" "tagged" item "- tags :: %?"
-      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
-      :empty-lines-before 1
-      :unnarrowed t)
-    ("d" "date" entry "* %^u\n%?"
-      ;; There's also a file+datetree target, but that feels unnecessarily verbose --
-      ;; hierarchical, always adds an ID.
-      :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
-      :empty-lines-before 1
-      :unnarrowed t))
-  org-roam-dailies-capture-templates
-  '(("d" "default" entry "* %U %?"
-      :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>")
-      :empty-lines-before 1
-      :unnarrowed t)))
-
-;; Why the hell does this setting default to mailcap of all things, instead of xdg-open?
-;; Anyway...
 (after! org
+  (setq!
+    ;; If you want Org file links to work in exports, you need to use IDs, not the
+    ;; default path + text search flavor. This setting automatically generates an ID on
+    ;; link creation (if necessary).
+    ;; org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
+
+    org-indent-indentation-per-level 0
+    org-adapt-indentation 'headline-data
+    org-indent-mode-turns-off-org-adapt-indentation nil
+    org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
+
+    org-pretty-entities t
+    org-startup-with-inline-images t
+    org-display-remote-inline-images 'cache
+
+    ;; The new default is text-properties and it has better performance, but until
+    ;; third-party packages (e.g. Org-roam) adapt, it might break fontification, so
+    ;; let's stick with overlays for now. TODO: Eventually switch.
+    org-fold-core-style 'overlays
+
+    ;; Don't create a separate section for footnotes, put them at the end of the section
+    ;; they're in.
+    ;; org-footnote-section nil
+
+    ;; Don't export _ and ^ as sub/superscripts unless wrapped in curly brackets. Use
+    ;; #+OPTIONS: ^:t (or {} or nil) to tweak on a per-document basis.
+    org-export-with-sub-superscripts '{}
+    ;; Don't abort export because of broken links, just mark them. Don't enable this by
+    ;; default, you probably want to be warned about broken links before possibly
+    ;; forcing the export anyway.  Also, ID links can be fixed with
+    ;; org-id-update-id-locations or org-roam-update-org-id-locations, so try that
+    ;; first.
+    ;; org-export-with-broken-links 'mark
+
+    org-latex-tables-booktabs t
+    ;; Tweak org-latex-minted-options to customize minted.
+    org-latex-listings 'minted
+    ;; Minted needs -shell-escape so that it may call pygments. Possibly not with
+    ;; LuaLaTeX though?
+    org-latex-compiler "xelatex"
+    org-latex-pdf-process
+    '("latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f")
+    ;; cleveref/cref is nice in theory (it auto-inserts Fig./Tab. etc. based on the type
+    ;; of reference), but since it's LaTeX-specific and I might need to export to ODT or
+    ;; DOCX too, better not rely on it.
+    ;; org-latex-reference-command "\\cref{%s}"
+    org-latex-packages-alist
+    '(
+      ;; ("capitalize" "cleveref")
+      ("" "booktabs" t)
+      ("" "tabularx")
+      ("" "minted" t)
+    )
+
+    ;; Don't prefix figure, table etc. numbers with section numbers.
+    org-odt-display-outline-level 0
+    org-latex-to-mathml-convert-command "pandoc -f latex -t html5 --mathml %I -o %o"
+    ;; This can be used to include *any* LaTeX in ODT exports as PNG images.
+    ;; Unfortunately, it can't be used in conjunction with the MathML convert command
+    ;; above as it overrides it and equations are also rendered as PNG, which is
+    ;; suboptimal.
+    ; org-odt-with-latex 'dvipng
+    ;; Use this to convert the resulting ODT to a different format and use that as
+    ;; the result of the export instead. See org-odt-convert-process(es) for how to
+    ;; define the way this conversion should happen. By default, soffice is used, but
+    ;; you could conceivably use Pandoc as well.
+    ; org-odt-preferred-output-format "docx"
+
+    org-roam-capture-templates
+    '(
+      ;; Should be same as stock, with different key.
+      ("n" "default" plain nil
+        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+        :unnarrowed t)
+      ("t" "tagged" item "- tags :: %?"
+        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+        :empty-lines-before 1
+        :unnarrowed t)
+      ("d" "date" entry "* %^u\n%?"
+        ;; There's also a file+datetree target, but that feels unnecessarily verbose --
+        ;; hierarchical, always adds an ID.
+        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+        :empty-lines-before 1
+        :unnarrowed t))
+    org-roam-dailies-capture-templates
+    '(("d" "default" entry "* %U %?"
+        :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>")
+        :empty-lines-before 1
+        :unnarrowed t)))
+
+  ;; Why the hell does this setting default to mailcap of all things, instead of
+  ;; xdg-open?  Anyway...
   (setcdr (assq 'system org-file-apps-gnu) "xdg-open %s")
   (setcdr (assq t org-file-apps-gnu) "xdg-open %s"))
 
@@ -280,32 +317,31 @@
 ;;;; -------------------------------------------------------------------- Other packages {{{1
 
 
-(setq
-  ;; NOTE: This is the default, putting this here mainly to remind myself of embark-act
-  ;; (bound to C-; or SPC a) and of the fact that this setting can be toggled per
-  ;; invocation by using the C-u universal prefix argument (rebound to M-u in my case
-  ;; because of Evil).
-  embark-quit-after-action t)
+(after! embark
+  (setq!
+    ;; NOTE: This is the default, putting this here mainly to remind myself of embark-act
+    ;; (bound to C-; or SPC a) and of the fact that this setting can be toggled per
+    ;; invocation by using the C-u universal prefix argument (rebound to M-u in my case
+    ;; because of Evil).
+    embark-quit-after-action t))
 
-;; NOTE: This is a Custom variable, so set it with setq!, just in case there are any
-;; relevant hooks to trigger. As a general rule, when figuring out how to set Custom
-;; variables from config.el, try to just lowercase the name from Custom and replace
-;; spaces with hyphens. If that doesn't work, go look at the source code for the package
-;; that defines the Custom variable and search for the relevant defcustom defining it.
-(setq! writeroom-width 40)
+(after! writeroom-mode
+  (setq! writeroom-width 40))
 
-;; Word-granularity diffs can be noisy when the algorithm tries too hard in places where
-;; it doesn't make sense. Can be toggled with "SPC g w" (see below) if needed.
-(setq!
-  magit-diff-refine-hunk nil
-  magit-revision-show-gravatars '("^Author:     " . "^Commit:     "))
+(after! magit
+  (setq!
+    ;; Word-granularity diffs can be noisy when the algorithm tries too hard in places
+    ;; where it doesn't make sense. Can be toggled with "SPC g w" (see below) if needed.
+    magit-diff-refine-hunk nil
+    magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")))
 
-;; lsp-mode options for rust-analyzer are detailed at
-;; https://emacs-lsp.github.io/lsp-mode/page/lsp-rust-analyzer
-(setq!
-  lsp-rust-analyzer-server-display-inlay-hints t
-  lsp-rust-analyzer-display-chaining-hints t
-  lsp-rust-analyzer-display-parameter-hints t)
+(after! lsp-mode
+  (setq!
+    ;; lsp-mode options for rust-analyzer are detailed at
+    ;; https://emacs-lsp.github.io/lsp-mode/page/lsp-rust-analyzer
+    lsp-rust-analyzer-server-display-inlay-hints t
+    lsp-rust-analyzer-display-chaining-hints t
+    lsp-rust-analyzer-display-parameter-hints t))
 
 ;; Spell checking should be available, but not enabled by default, so remove the hooks
 ;; added in ~/.config/emacs/modules/checkers/spell/config.el
@@ -324,10 +360,13 @@
     prog-mode-hook)
   #'flyspell-prog-mode)
 
-;; Company completion can be slow, especially in long-running sessions with lots of
-;; (Org-roam?) buffers open. This makes typing extremely annoying. So don't trigger
-;; automatically, use C-SPC to bring it up as required.
-(setq! company-idle-delay nil)
+(after! company
+  (setq!
+    ;; Company completion can be slow, especially in long-running sessions with lots of
+    ;; (Org-roam?) buffers open. This makes typing extremely annoying. So don't trigger
+    ;; automatically, use C-SPC to bring it up as required.
+    company-idle-delay nil))
+
 
 
 ;;;; ------------------------------------------------------------------ Custom functions {{{1
