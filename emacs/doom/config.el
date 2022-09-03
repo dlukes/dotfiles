@@ -249,8 +249,20 @@
 (after! ox-latex
   (dolist
     (item '(
-             ("scrbook"
-               "\\documentclass{scrbook}"
+             ;; The intended use of the custom-* classes is that you'll put a
+             ;; custom.cls file or symlink in the same dir as the source text, so that
+             ;; you can keep the same heading mappings for all classes of the same broad
+             ;; kind (article, book, etc.).
+             ("custom-article"
+               "\\documentclass{custom}\n[NO-DEFAULT-PACKAGES]\n[NO-PACKAGES]"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+
+             ("custom-book"
+               "\\documentclass{custom}\n[NO-DEFAULT-PACKAGES]\n[NO-PACKAGES]"
                ("\\chapter{%s}" . "\\addchap{%s}")
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
@@ -260,6 +272,15 @@
 
              ("scrartcl"
                "\\documentclass{scrartcl}"
+               ("\\section{%s}" . "\\section*{%s}")
+               ("\\subsection{%s}" . "\\subsection*{%s}")
+               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+               ("\\paragraph{%s}" . "\\paragraph*{%s}")
+               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
+
+             ("scrbook"
+               "\\documentclass{scrbook}"
+               ("\\chapter{%s}" . "\\addchap{%s}")
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
