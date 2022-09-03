@@ -51,7 +51,7 @@
        hydra
        ;;indent-guides     ; highlighted indent columns
        ;; NOTE: This requires either macOS or Emacs 28+.
-       ligatures         ; ligatures and symbols to make your code pretty again
+       ;;ligatures         ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
        ;;nav-flash         ; blink cursor line after big motions

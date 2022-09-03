@@ -56,7 +56,7 @@
 
 (setq
   ;; See also <https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts>
-  doom-font "VictorMono Nerd Font-12"
+  doom-font (font-spec :family "BlexMono Nerd Font" :weight 'book)
   doom-theme 'doom-one
   ;; NOTE: GNOME Shell might be stubborn in reverting back to using M-SPC as a keyboard
   ;; layout switching shortcut. If it does, just explicitly switch it to Win-SPC in
