@@ -293,6 +293,15 @@
           ))
   (add-to-list 'org-latex-classes item)))
 
+(use-package! ox-extra
+  :after org
+  :config
+  ;; Put an :ignore: tag on a headline to only include its subtree contents, not the
+  ;; headline itself, in exports. This is useful when you want some headlines to be used
+  ;; just for organization or folding purposes, but not reflected in the final document
+  ;; structure.
+  (ox-extras-activate '(ignore-headlines)))
+
 (use-package! websocket
   :after org-roam)
 (use-package! org-roam-ui
