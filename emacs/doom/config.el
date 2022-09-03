@@ -153,9 +153,13 @@
     ;; link creation (if necessary).
     ;; org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
 
-    org-indent-indentation-per-level 0
+    ;; This is the correct way to get rid of fake indentation in Org Mode -- don't even
+    ;; start org-indent-mode (which is the default, but Doom changes it), instead of
+    ;; laboriously tweaking org-indent-indentation-per-level to 0, and
+    ;; org-indent-mode-turns-off-org-adapt-indentation to nil in order for your custom
+    ;; org-adapt-indentation setting to keep working...
+    org-startup-indented nil
     org-adapt-indentation 'headline-data
-    org-indent-mode-turns-off-org-adapt-indentation nil
     org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
 
     org-pretty-entities t
