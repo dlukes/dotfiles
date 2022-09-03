@@ -60,7 +60,7 @@ end
 
 if not set -q CUSTOM_PATHS
   set -gx CUSTOM_PATHS
-  set -gxp PATH ~/.local/bin ~/.files/bin ~/.cargo/bin
+  set -gxp PATH ~/.local/bin ~/.files/bin ~/.cargo/bin ~/.config/emacs/bin
 end
 
 # MANPATH is either correctly initiliazed above by Homebrew, or below

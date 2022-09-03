@@ -67,7 +67,6 @@ else
   git clone https://github.com/hlissner/doom-emacs "$emacs_d"
   doom="$emacs_d"/bin/doom
   "$doom" install
-  ln -sft ~/.local/bin "$doom"
 fi
 
 >&2 echo "\
