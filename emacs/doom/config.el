@@ -261,7 +261,9 @@
              ;; The intended use of the custom-* classes is that you'll put a
              ;; custom.cls file or symlink in the same dir as the source text, so that
              ;; you can keep the same heading mappings for all classes of the same broad
-             ;; kind (article, book, etc.).
+             ;; kind (article, book, etc.). Basically, custom.cls can simply just
+             ;; contain whatever you'd put in the header of your .tex file, except
+             ;; instead of \documentclass, it needs to invoke \LoadClass.
              ("custom-article"
                "\\documentclass{custom}\n[NO-DEFAULT-PACKAGES]\n[NO-PACKAGES]"
                ("\\section{%s}" . "\\section*{%s}")
