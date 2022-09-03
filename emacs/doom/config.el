@@ -36,6 +36,7 @@
 
   completion-ignore-case t
   display-line-numbers-type nil
+  column-number-indicator-zero-based nil
   calendar-week-start-day 1)
 
 (if (not (fboundp #'pixel-scroll-precision-mode))
