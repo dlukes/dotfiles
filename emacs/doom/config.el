@@ -92,6 +92,11 @@
   (setq-local word-wrap-by-category t)
   (visual-fill-column-mode))
 
+;; Right-align Org tags based on whatever EditorConfig sets as the fill-column, but
+;; leave room for the three dots that are added in folded views.
+(add-hook! 'editorconfig-after-apply-functions
+  (setq-local org-tags-column (+ 3 (- fill-column))))
+
 ;; Make sure error output via emacs-jupyter has ANSI color sequences fontified, in spite
 ;; of https://github.com/nnicandro/emacs-jupyter/issues/366.
 (defun dlukes/display-ansi-colors ()
