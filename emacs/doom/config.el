@@ -156,7 +156,7 @@
     ;; If you want Org file links to work in exports, you need to use IDs, not the
     ;; default path + text search flavor. This setting automatically generates an ID on
     ;; link creation (if necessary).
-    ;; org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
+    org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
 
     ;; This is the correct way to get rid of fake indentation in Org Mode -- don't even
     ;; start org-indent-mode (which is the default, but Doom changes it), instead of
@@ -191,7 +191,9 @@
     ;; org-export-with-broken-links 'mark
 
     org-latex-tables-booktabs t
-    ;; Tweak org-latex-minted-options to customize minted.
+    ;; Tweak org-latex-minted-options to customize minted. Minted can also cause
+    ;; previewing problems, see org-preview-latex-fragment and
+    ;; https://orgmode.org/worg/org-tutorials/org-latex-preview.html.
     org-latex-listings 'minted
     ;; Minted needs -shell-escape so that it may call pygments. Possibly not with
     ;; LuaLaTeX though?
@@ -207,7 +209,7 @@
       ;; ("capitalize" "cleveref")
       ("" "booktabs" t)
       ("" "tabularx")
-      ("" "minted" t)
+      ("newfloat" "minted" t)
     )
 
     ;; Don't prefix figure, table etc. numbers with section numbers.
