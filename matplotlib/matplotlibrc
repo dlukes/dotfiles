@@ -1,0 +1,3 @@
+# Starting with matplotlib-inline 0.1.6, the Matplotlib RC is honored when using
+# IPython. See https://github.com/ipython/ipykernel/issues/267.
+figure.dpi: 150
