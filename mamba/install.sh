@@ -33,4 +33,8 @@ info "Installing UMRK Python package for $(command -v python3)."
 info "Running additional NPM installs with $(command -v npm)."
 "$script_dir"/../misc/npm_install.sh
 
+# TODO: This is very hamfisted and potentially breaks things. conda-tree tells me only
+# matplotlib needs libtool via PyQT, which I'm unlikely to ever need, but who knows.
+find "$prefix/envs/$default_env/bin" \( -name libtool -or -name libtoolize \) -delete
+
 info "Default environment is $default_env. Remember that environments can be stacked."
