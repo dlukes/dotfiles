@@ -89,7 +89,8 @@ flatpak install flathub \
   com.google.Chrome \
   com.skype.Client \
   org.gimp.GIMP \
-  org.onlyoffice.desktopeditors
+  org.onlyoffice.desktopeditors \
+  io.podman_desktop.PodmanDesktop
 
 
 
