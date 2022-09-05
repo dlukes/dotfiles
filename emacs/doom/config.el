@@ -153,6 +153,10 @@
     ;; default path + text search flavor. This setting automatically generates an ID on
     ;; link creation (if necessary).
     org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
+    org-html-self-link-headlines t
+    ;; When you store a link while a visual region is selected, the link will contain
+    ;; the region as search string after ::.
+    org-link-context-for-files t
 
     ;; This is the correct way to get rid of fake indentation in Org Mode -- don't even
     ;; start org-indent-mode (which is the default, but Doom changes it), instead of
@@ -175,6 +179,11 @@
     ;; Don't create a separate section for footnotes, put them at the end of the section
     ;; they're in.
     ;; org-footnote-section nil
+    ;; Don't turn CSL references into links. This can be useful if you're using
+    ;; colorlinks in LaTeX and want the text to be less noisy, or also because links are
+    ;; fragile commands and you don't want to have to deal with compilation errors when
+    ;; you put references e.g. in captions.
+    ;; org-cite-csl-link-cites nil
 
     ;; Don't export _ and ^ as sub/superscripts unless wrapped in curly brackets. Use
     ;; #+OPTIONS: ^:t (or {} or nil) to tweak on a per-document basis.
@@ -297,6 +306,10 @@
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
           ))
   (add-to-list 'org-latex-classes item)))
+
+;; To be able to store links to Emacs Info pages. Enabled by default in vanilla Org, but
+;; Doom disables it.
+(use-package! ol-info)
 
 (use-package! ox-extra
   :after org
