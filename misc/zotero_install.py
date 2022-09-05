@@ -128,6 +128,9 @@ user_pref("extensions.zotero.translators.better-bibtex.keyConflictPolicy", "chan
 user_pref("extensions.zotero.translators.better-bibtex.quickCopyMode", "orgRef");
 user_pref("extensions.zotero.translators.better-bibtex.skipFields", "notes");
 user_pref("extensions.zotero.translators.better-bibtex.workers", 4);
+// Include non-standard file field for attachments in CSL exports, with PDFs as
+// zotero://open-pdf links.
+user_pref("extensions.zotero.translators.better-bibtex.postscript", "if (Translator.BetterCSLJSON) {{ entry.file = item.attachments.map(a => (/.pdf$/i.test(a.localPath) ? `zotero://open-pdf/library/items/${{a.key}}?${{a.localPath.split(a.key)[1].substring(1)}}` : a.localPath).replace(/([\\\\;])/g, \"\\\\$1\")).join(\";\") }}");
 
 // Zotfile
 user_pref("extensions.zotfile.authors_delimiter", ",");

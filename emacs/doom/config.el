@@ -145,10 +145,6 @@
 (setq!
   org-directory "~/Desktop/org/"
   org-attach-id-dir (expand-file-name "attach/" org-directory)
-  ;; Citar uses Vertico as its selection engine, and I want selection to be case
-  ;; insensitive. Vertico is compatible with Emacs's default completion system, so this
-  ;; is covered by completion-ignore-case above.
-  citar-bibliography '("~/.cache/zotero/My Library.json")
   org-cite-csl-styles-dir "~/.local/share/zotero/styles")
 
 (after! org
@@ -350,11 +346,35 @@
 ;; due to an error. So demote the error to a warning message. This also means that Org
 ;; buffers with broken attachment links will still fully initialize, which is also nice.
 (defadvice! no-errors/+org-inline-image-data-fn (_protocol link _description)
-  :override #'+org-inline-image-data-fn
   "Interpret LINK as base64-encoded image data. Demote errors to warnings."
+  :override #'+org-inline-image-data-fn
   (with-demoted-errors
     "Error rendering inline image (parent node ID changed or Org-roam backlink buffer?): %S"
     (base64-decode-string link)))
+
+
+
+;;;; ----------------------------------------------------------------------------- Citar {{{1
+
+
+(defadvice! dlukes/citar-file-trust-zotero (oldfun &rest r)
+  "Leave Zotero-generated file paths alone, especially zotero://..."
+  :around '(citar-file-open citar-file--find-files-in-dirs)
+  (cl-letf (((symbol-function 'file-exists-p) #'always)
+            ((symbol-function 'expand-file-name) (lambda (first &rest _) first)))
+    (apply oldfun r)))
+
+(setq!
+  ;; Citar uses Vertico as its selection engine, and I want selection to be case
+  ;; insensitive. Vertico is compatible with Emacs's default completion system, so this
+  ;; is covered by completion-ignore-case above.
+  citar-bibliography '("~/.cache/zotero/My Library.json")
+  citar-notes-paths '("~/Desktop/org/roam/reading-notes"))
+
+(after! citar
+  (dolist
+    (ext '("pdf" "odt" "docx" "doc"))
+      (add-to-list 'citar-file-open-functions `(,ext . citar-file-open-external))))
 
 
 
