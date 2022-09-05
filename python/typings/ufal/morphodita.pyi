@@ -1,3 +1,5 @@
+# TODO: Get rid of this, starting with 1.11, MorphoDiTa ships its own stubs (actually
+# based on these ones of mine, see https://github.com/ufal/morphodita/issues/17).
 import typing as t
 
 Indices = t.Sequence[int]
