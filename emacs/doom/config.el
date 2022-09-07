@@ -253,6 +253,19 @@
         :empty-lines-before 1
         :unnarrowed t)))
 
+  ;; Entity tweaks.
+  (dolist
+    (item '(
+             ;; Make export of asterisks and stars more consistent across backends.
+             ("ast" "\\ast" t "&ast;" "*" "*" "*")
+             ("lowast" "\\ast" t "&lowast;" "*" "*" "∗")
+             ("star" "\\star" t "&star;" "*" "*" "☆")
+             ("starf" "\\star" t "&starf;" "*" "*" "★")
+             ("sstarf" "\\star" t "&sstarf;" "*" "*" "⋆")
+             ()
+          ))
+    (add-to-list 'org-entities-user item))
+
   ;; Why the hell does this setting default to mailcap of all things, instead of
   ;; xdg-open?  Anyway...
   (setcdr (assq 'system org-file-apps-gnu) "xdg-open %s")
