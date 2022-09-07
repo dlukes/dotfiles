@@ -1,0 +1,5 @@
+# Ignore changes in .timestamp files for purposes of convergence checks. This is needed
+# when using pdfx (for PDF/A) with XeLaTeX. See https://tex.stackexchange.com/a/464307.
+$hash_calc_ignore_pattern{'timestamp'} = '^';
+
+# vi: ft=perl
