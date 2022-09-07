@@ -172,7 +172,7 @@
        ;;nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        ;; NOTE: +pretty is expensive, if org is slow, disable it
-       (org +dragndrop +jupyter +noter +pandoc +present +pretty +roam2)
+       (org +dragndrop +jupyter +present +roam2)
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;purescript        ; javascript, but functional
