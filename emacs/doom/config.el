@@ -29,12 +29,17 @@
 
 
 (setq!
+  ;; Exiting.
   confirm-kill-emacs nil
   confirm-kill-processes nil
 
-  scroll-bar-mode 'right
-
+  ;; Editing.
+  ;; Tweaking this results in a different annoying tradeoff in lisp indentation.
+  ;; lisp-indent-offset nil
   completion-ignore-case t
+
+  ;; UI.
+  scroll-bar-mode 'right
   display-line-numbers-type nil
   column-number-indicator-zero-based nil
   calendar-week-start-day 1)
