@@ -195,6 +195,10 @@
     ;; you put references e.g. in captions.
     ;; org-cite-csl-link-cites nil
 
+    org-export-in-background t
+    ;; Allow `#+bind: variable value' directives. Useful for tweaking variables you
+    ;; can't set via #+options or other keywords.
+    org-export-allow-bind-keywords t
     ;; Don't export _ and ^ as sub/superscripts unless wrapped in curly brackets. Use
     ;; #+OPTIONS: ^:t (or {} or nil) to tweak on a per-document basis.
     org-export-with-sub-superscripts '{}
