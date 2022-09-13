@@ -163,13 +163,18 @@
     ;; the region as search string after ::.
     org-link-context-for-files t
 
-    ;; This is the correct way to get rid of fake indentation in Org Mode -- don't even
-    ;; start org-indent-mode (which is the default, but Doom changes it), instead of
-    ;; laboriously tweaking org-indent-indentation-per-level to 0, and
-    ;; org-indent-mode-turns-off-org-adapt-indentation to nil in order for your custom
-    ;; org-adapt-indentation setting to keep working...
-    org-startup-indented nil
+    ;; Indent mode -- cf. also advice around org-align-tags below.
+    ;;
+    ;; You *do* want to use org-indent-mode by default, but only to have nice
+    ;; indentation in soft-wrapped lists.
+    org-startup-indented t
+    ;; You don't want additional visual indentation before headings or content.
+    org-indent-indentation-per-level 0
+    ;; You *do* want additional *physical* indentation for property drawers, clock lines
+    ;; and such...
     org-adapt-indentation 'headline-data
+    ;; ... in spite of org-indent-mode.
+    org-indent-mode-turns-off-org-adapt-indentation nil
     org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
 
     org-pretty-entities t
@@ -275,6 +280,19 @@
   ;; xdg-open?  Anyway...
   (setcdr (assq 'system org-file-apps-gnu) "xdg-open %s")
   (setcdr (assq t org-file-apps-gnu) "xdg-open %s"))
+
+;; One last bit of tweaking for how you want org-indent-mode to work. Turns out tag
+;; alignment is broken (or badly configured in my case?) in combination with
+;; org-indent-mode: nested headings add indentation to the tag column. You don't want
+;; that. TODO: Investigate root cause and possibly report?
+(defadvice! dlukes/fix-org-align-tags-under-org-indent-mode (oldfun &rest r)
+  "Turn off org-indent-mode when aligning tags, to prevent additional indentation."
+  :around 'org-align-tags
+  (if (not org-indent-mode)
+    (apply oldfun r)
+    (org-indent-mode -1)
+    (apply oldfun r)
+    (org-indent-mode)))
 
 ;; If this leads to an error, install TeX Live and update Doom so that it notices that
 ;; you have LaTeX support. Remember you can control the order of inclusion of (default)
