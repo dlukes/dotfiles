@@ -186,9 +186,9 @@
     ;; let's stick with overlays for now. TODO: Eventually switch.
     org-fold-core-style 'overlays
 
-    ;; Don't create a separate section for footnotes, put them at the end of the section
-    ;; they're in.
-    ;; org-footnote-section nil
+    ;; Set to nil to put footnotes at the end of the section they're in.
+    org-footnote-section t
+    org-footnote-auto-adjust t
     ;; Don't turn CSL references into links. This can be useful if you're using
     ;; colorlinks in LaTeX and want the text to be less noisy, or also because links are
     ;; fragile commands and you don't want to have to deal with compilation errors when
