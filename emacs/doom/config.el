@@ -158,7 +158,6 @@
     ;; default path + text search flavor. This setting automatically generates an ID on
     ;; link creation (if necessary).
     org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
-    org-html-self-link-headlines t
     ;; When you store a link while a visual region is selected, the link will contain
     ;; the region as search string after ::.
     org-link-context-for-files t
@@ -180,6 +179,7 @@
     org-pretty-entities t
     org-startup-with-inline-images t
     org-display-remote-inline-images 'cache
+    org-fontify-quote-and-verse-blocks nil
 
     ;; The new default is text-properties and it has better performance, but until
     ;; third-party packages (e.g. Org-roam) adapt, it might break fontification, so
@@ -208,6 +208,8 @@
     ;; org-id-update-id-locations or org-roam-update-org-id-locations, so try that
     ;; first.
     ;; org-export-with-broken-links 'mark
+
+    org-html-self-link-headlines t
 
     org-latex-tables-booktabs t
     ;; Tweak org-latex-minted-options to customize minted. Minted can also cause
