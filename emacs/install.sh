@@ -64,7 +64,7 @@ if command -v doom >/dev/null 2>&1; then
   doom upgrade  # = cd ~/.emacs.d; git pull; doom clean, sync, update
 else
   mkdir -p "$XDG_CONFIG_HOME"
-  git clone https://github.com/hlissner/doom-emacs "$emacs_d"
+  git clone https://github.com/doomemacs/doomemacs "$emacs_d"
   doom="$emacs_d"/bin/doom
   "$doom" install
 fi
