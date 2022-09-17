@@ -65,9 +65,15 @@
 
 (setq
   ;; See also <https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts>
-  doom-font (font-spec :family "BlexMono Nerd Font" :weight 'book)
-  ;; Doesn't look right in zen mode, unfortunately :( And I can't get the scale to match
-  ;; the mono font, it's too small.
+  ;; NOTE: If everything looks weirdly bold, try adding :weight 'book. Some
+  ;; distributions of BlexMono use that as the default weight. Check in your installed
+  ;; fonts viewer app. Also, big font mode requires :size to be set explicitly,
+  ;; otherwise disabling it won't work. But since the optimal size is different on
+  ;; different machines, make it use whatever Emacs determined automatically.
+  doom-font (font-spec :family "BlexMono Nerd Font" :size (font-get (face-attribute 'default :font) :size))
+  ;; Doesn't look right in zen mode, unfortunately, at least not on Linux :( The
+  ;; baseline is all jumpy. And I can't get the scale to match the mono font, it's too
+  ;; small.
   ;; doom-variable-pitch-font (font-spec :family "EB Garamond" :size 12)
   ;; You might also want to not scale the font size that much in zen mode.
   ;; +zen-text-scale 1
