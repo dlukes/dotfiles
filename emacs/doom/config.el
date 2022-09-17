@@ -42,6 +42,10 @@
   scroll-bar-mode 'right
   display-line-numbers-type nil
   column-number-indicator-zero-based nil
+  ;; With these thresholds, split-window-sensibly will do a vertical split most of the
+  ;; time, unless the current window is less than 60 chars wide.
+  split-width-threshold 60
+  split-height-threshold nil
   calendar-week-start-day 1)
 
 (if (not (fboundp #'pixel-scroll-precision-mode))
