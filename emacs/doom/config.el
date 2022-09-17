@@ -66,6 +66,11 @@
 (setq
   ;; See also <https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts>
   doom-font (font-spec :family "BlexMono Nerd Font" :weight 'book)
+  ;; Doesn't look right in zen mode, unfortunately :( And I can't get the scale to match
+  ;; the mono font, it's too small.
+  ;; doom-variable-pitch-font (font-spec :family "EB Garamond" :size 12)
+  ;; You might also want to not scale the font size that much in zen mode.
+  ;; +zen-text-scale 1
   doom-theme 'doom-one
   ;; NOTE: GNOME Shell might be stubborn in reverting back to using M-SPC as a keyboard
   ;; layout switching shortcut. If it does, just explicitly switch it to Win-SPC in
