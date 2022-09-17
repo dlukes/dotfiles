@@ -73,20 +73,6 @@
 ;;;; -------------------------------------------------------------------------- Org Mode {{{1
 
 
-;; NOTE: Don't try to add Org structure templates with multi-character
-;; triggers, it works with C-c C-, but not with org-tempo <-style
-;; completion, probably because when there are at least two characters,
-;; company completion is triggered instead. Which can probably be
-;; tweaked, but at this point, it may be a better idea to use YASnippet
-;; instead, < is actually quite inconvenient to type. And twisting my
-;; fingers on C-c C-, is of course out of the question.
-;; (after! org
-;;   (dolist (template '(
-;;                        ("ss" . "src shell")
-;;                        ("se" . "src emacs-lisp")
-;;                        ("sp" . "src jupyter-python")))
-;;     (add-to-list 'org-structure-template-alist template)))
-
 ;; Soft wrapping with line breaks allowed at more characters than just space or tab.
 (setq dlukes/org-category-table (copy-category-table))
 (dolist (char '(?- ?+ ?_ ?/ ?| ?\ ?. ?,))
@@ -103,11 +89,11 @@
   (setq-local org-tags-column (+ 3 (- fill-column))))
 
 ;; Make sure error output via emacs-jupyter has ANSI color sequences fontified, in spite
-;; of https://github.com/nnicandro/emacs-jupyter/issues/366.
-(defun dlukes/display-ansi-colors ()
-  (ansi-color-apply-on-region (point-min) (point-max)))
-
-(add-hook 'org-babel-after-execute-hook #'dlukes/display-ansi-colors)
+;; of https://github.com/nnicandro/emacs-jupyter/issues/366. Only required if using
+;; org-superstar-mode?
+;; (defun dlukes/display-ansi-colors ()
+;;   (ansi-color-apply-on-region (point-min) (point-max)))
+;; (add-hook 'org-babel-after-execute-hook #'dlukes/display-ansi-colors)
 
 ;; In Doom Emacs, it's not necessary to configure Babel manually with org-babel-do-load-languages.
 ;; See https://discourse.doomemacs.org/t/common-config-anti-patterns/.
@@ -247,6 +233,24 @@
     ;; you could conceivably use Pandoc as well.
     ; org-odt-preferred-output-format "docx"
 
+    ;; In addition to setting these in src block headers, you can also put them into
+    ;; property drawers or #+property: directives via :header-args:jupyter-python:. This will
+    ;; then affect all matching src blocks in scope (subtree or file).
+    org-babel-default-header-args:jupyter-python
+    '((:kernel . "python3")
+      ;; Careful! This uses the same session for any block in any file by default. Set a
+      ;; custom session via header-args when isolation and reproducibility matter.
+      (:session . "py")
+      (:async . "yes"))
+    ;; Copy the same settings to regular python blocks. You override python src blocks
+    ;; to use jupyter-python instead below, and while the override also performs the
+    ;; copy, it only does it after evaluation has started because of lazy loading, so
+    ;; the first attempt to evalute a python src block will fail, because it still uses
+    ;; the old org-babel-default-header-args:python. So override it in advance instead.
+    ;; NOTE: The override means you can simply use :header-args:python: instead of
+    ;; :header-args:jupyter-python: to tweak them.
+    org-babel-default-header-args:python org-babel-default-header-args:jupyter-python
+
     org-roam-capture-templates
     '(
       ;; Should be same as stock, with different key.
@@ -282,6 +286,17 @@
           ))
     (add-to-list 'org-entities-user item))
 
+  ;; These can be used with both C-c C-, and <-style tempo templates, but for the
+  ;; latter, you'll probably need to switch auto-completion to manual, so that TAB isn't
+  ;; hijacked by the completion menu when 2 or more characters are available at point.
+  (dolist (template '(
+                       ("se" . "src elisp")
+                       ("sf" . "src fish")
+                       ("sp" . "src python")
+                       ("ss" . "src sh")
+                    ))
+    (add-to-list 'org-structure-template-alist template))
+
   ;; Why the hell does this setting default to mailcap of all things, instead of
   ;; xdg-open?  Anyway...
   (setcdr (assq 'system org-file-apps-gnu) "xdg-open %s")
@@ -299,6 +314,22 @@
     (org-indent-mode -1)
     (apply oldfun r)
     (org-indent-mode)))
+
+(defadvice! dlukes/override-src-block-when-loading-jupyter (oldfun lang)
+  "If lang is in langs-to-override, map it to jupyter-lang instead."
+  :around '+org-babel-load-jupyter-h
+  (let* ((langs-to-override '(python))
+         (jupyter-lang (if (member lang langs-to-override)
+                         (intern (concat "jupyter-" (symbol-name lang)))
+                         lang))
+         (ans (funcall oldfun jupyter-lang)))
+    ;; This is removed by Doom's jupyter config, but it might come in handy
+    ;; occasionally, so let's keep it. At the end of the list though, so that it's only
+    ;; the last resort and typically has to be selected manually via :display html.
+    (add-to-list 'jupyter-org-mime-types :text/html t)
+    (when (member lang langs-to-override)
+      (org-babel-jupyter-override-src-block (symbol-name lang)))
+    ans))
 
 ;; If this leads to an error, install TeX Live and update Doom so that it notices that
 ;; you have LaTeX support. Remember you can control the order of inclusion of (default)
@@ -352,6 +383,11 @@
 ;; To be able to store links to Emacs Info pages. Enabled by default in vanilla Org, but
 ;; Doom disables it.
 (use-package! ol-info)
+
+;; I like < better when I already know the key, C-c C-, is a bit finger-twisty, although
+;; nice for discoverability OTOH.
+(use-package! org-tempo
+  :after org)
 
 (use-package! ox-extra
   :after org
@@ -581,5 +617,10 @@ diff.
 
 (map! :map doom-leader-toggle-map
   :desc "Visual fill column" "v" #'visual-fill-column-mode)
+
+
+
+;; And finally, make sure env vars file is loaded.
+(doom/reload-env)
 
 ;;; vi: foldmethod=marker
