@@ -4,9 +4,9 @@ set -euf
 script_dir=$(dirname "$(realpath "$0")")
 . "$script_dir"/../misc/util.sh
 
-if ! is_macos; then
-  >&2 echo '>>> Applying system-wide config tweaks.'
-  >&2 echo '>>> Modified config files can be listed via rpm -Vac.'
+if is_fedora; then
+  >&2 echo '>>> Applying Fedora config tweaks.'
+  >&2 echo '>>> Modified system-wide config files can be listed via rpm -Vac.'
 
   # NOTE: If SELinux gives you grief, try restorecon on the modified file?
 
@@ -38,9 +38,14 @@ if ! is_macos; then
   # $set org.gnome.login-screen banner-message-enable true
   # $set org.gnome.login-screen banner-message-text 'Speak friend and enter.'
   # $set org.gnome.login-screen disable-user-list true
-  sudo -u gdm gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'suspend'
-  sudo -u gdm gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 300
-  sudo -u gdm gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
-  sudo -u gdm gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
+  $set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type 'suspend'
+  $set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-timeout 300
+  $set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'suspend'
+  $set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-timeout 900
   sudo -u gdm dconf dump /
+
+  # Disable IBus hotkeys. You never remember them anyway, they're a clunky interface,
+  # and they conflict with other applications' key bindings (Emacs).
+  gsettings set org.freedesktop.ibus.panel.emoji hotkey '@as []'
+  gsettings set org.freedesktop.ibus.panel.emoji unicode-hotkey '@as []'
 fi

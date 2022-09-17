@@ -29,6 +29,7 @@ SETUVAR _fish_abbr_gss:git\x20status
 SETUVAR _fish_abbr_gst:git\x20stash
 SETUVAR _fish_abbr_gwD:git\x20diff\x20\x2d\x2dno\x2dext\x2ddiff\x20\x2d\x2dword\x2ddiff\x3dcolor
 SETUVAR _fish_abbr_gwd:git\x20diff\x20\x2d\x2dno\x2dext\x2ddiff
+SETUVAR _fish_abbr_ibus_2D_setup:PYTHON\x3d/usr/bin/python3\x20ibus\x2dsetup
 SETUVAR _fish_abbr_ip:ip\x20\x2dc
 SETUVAR _fish_abbr_mm:mamba
 SETUVAR _fish_abbr_mma:conda\x20activate
