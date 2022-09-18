@@ -28,6 +28,8 @@ dependencies:
   - scikit-learn
   - statsmodels
   - altair
+  - altair_saver
+  - altair_viewer
   - matplotlib
   - seaborn
   # optional Pandas deps
