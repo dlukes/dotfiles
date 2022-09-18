@@ -633,9 +633,4 @@ diff.
 (map! :map doom-leader-toggle-map
   :desc "Visual fill column" "v" #'visual-fill-column-mode)
 
-
-
-;; And finally, make sure env vars file is loaded.
-(doom/reload-env)
-
 ;;; vi: foldmethod=marker
