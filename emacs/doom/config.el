@@ -48,6 +48,8 @@
   split-height-threshold nil
   calendar-week-start-day 1)
 
+(global-goto-address-mode)
+
 (if (not (fboundp #'pixel-scroll-precision-mode))
   ;; then
   (setq mac-mouse-wheel-smooth-scroll t)
@@ -64,7 +66,7 @@
 
 
 (setq
-  ;; See also <https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts>
+  ;; See also https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts
   ;; NOTE: If everything looks weirdly bold, try adding :weight 'book. Some
   ;; distributions of BlexMono use that as the default weight. Check in your installed
   ;; fonts viewer app. Also, big font mode requires :size to be set explicitly,
