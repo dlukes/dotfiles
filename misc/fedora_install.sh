@@ -90,66 +90,12 @@ flatpak install flathub \
   com.skype.Client \
   org.gimp.GIMP \
   org.onlyoffice.desktopeditors \
-  io.podman_desktop.PodmanDesktop
+  io.podman_desktop.PodmanDesktop \
+  pm.mirko.Atoms
 
 
 
 # --------------------------------------------------------------------------------- Bye! {{{1
 
 
-cat <<'EOF' >&2
-
-========================================================================================
-Is this a machine with an Nvidia GPU? In that case, check if you have secure boot
-enabled, and if so, import your self-generated key which will be used to sign kernel
-modules:
-
-  https://rpmfusion.org/Howto/Secure%20Boot !!!!
-
-Don't worry if kmodgenca says there already is a certificate, that's fine. The password
-is entered only at the mokutil invocation.
-
-Then, install the appropriate kernel module and additional CUDA package:
-
-  https://rpmfusion.org/Howto/NVIDIA#Installing_the_drivers
-
-To check whether the module is available:
-
-  modinfo -F version nvidia
-
-To force rebuilding it and possibly inspect any error output (I think):
-
-  sudo akmods --force && sudo dracut --force # to rebuild mods?
-
-You might run into issues with suspend. If so, check out the tips here:
-
-  https://rpmfusion.org/Howto/NVIDIA#Suspend
-
-(Although it looks like these are already installed and enabled by default when
-installing the kernel module above.)
-
-Some more tips and tricks:
-
-  https://wiki.archlinux.org/title/NVIDIA/Tips_and_tricks
-
-Among other things, this page suggests disabling nvidia-resume.service, because
-/usr/lib/systemd/system-sleep/nvidia does the same but earlier, and it's enabled by
-default. In practice though, my experience has been that if suspend works, it works
-regardless of this service being enabled or not.
-
-========================================================================================
-Is this a machine with RGB lighting? In that case, you'll want to install OpenRGB. RPM
-has the advantage of setting up the required udev rules for SMBus access, Flatpak has
-the advantage of potentially being more up-to-date:
-
-  dnf in -by openrgb
-  flatpak install flathub org.openrgb.OpenRGB
-
-I2C kernel modules also need to be enabled, i2c-dev and i2c-piix4 (the latter for AMD,
-there are others for Intel). Do this manually with modprobe, or put them into
-/etc/modules-load.d/smbus.conf to load them automatically.
-
-On first run, don't forget to resize (A)RGB header zones (you'll get a prompt) and
-configure an "off" profile. You can then copy OpenRGB's desktop file into
-~/.config/autostart and append "--profile off --startminimized" to the Exec line.
-EOF
+>&2 echo 'Check out your Org-roam Fedora node for possible follow-up tasks.'
