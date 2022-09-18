@@ -105,12 +105,14 @@
 (add-hook! 'editorconfig-after-apply-functions
   (setq-local org-tags-column (+ 3 (- fill-column))))
 
-;; Make sure error output via emacs-jupyter has ANSI color sequences fontified, in spite
-;; of https://github.com/nnicandro/emacs-jupyter/issues/366. Only required if using
-;; org-superstar-mode?
-;; (defun dlukes/display-ansi-colors ()
-;;   (ansi-color-apply-on-region (point-min) (point-max)))
-;; (add-hook 'org-babel-after-execute-hook #'dlukes/display-ansi-colors)
+;; Make sure error output via emacs-jupyter has ANSI color sequences fontified. TODO:
+;; Periodically check if this is still required. Last check: 2022-09-18, without
+;; org-superstar-mode. Related issues:
+;;   - https://github.com/nnicandro/emacs-jupyter/issues/366
+;;   - https://github.com/nnicandro/emacs-jupyter/issues/380
+(defun dlukes/display-ansi-colors ()
+  (ansi-color-apply-on-region (point-min) (point-max)))
+(add-hook 'org-babel-after-execute-hook #'dlukes/display-ansi-colors)
 
 ;; In Doom Emacs, it's not necessary to configure Babel manually with org-babel-do-load-languages.
 ;; See https://discourse.doomemacs.org/t/common-config-anti-patterns/.
