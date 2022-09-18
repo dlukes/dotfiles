@@ -493,10 +493,15 @@
 
 (after! embark
   (setq!
-    ;; NOTE: This is the default, putting this here mainly to remind myself of embark-act
-    ;; (bound to C-; or SPC a) and of the fact that this setting can be toggled per
-    ;; invocation by using the C-u universal prefix argument (rebound to M-u in my case
-    ;; because of Evil).
+    ;; NOTE: This is the default, putting this here mainly to remind myself of
+    ;; embark-act (bound to C-; or SPC a) and of the fact that this setting can be
+    ;; toggled per invocation. By default, it's done using the C-u universal prefix
+    ;; argument, but that is rebound by Doom to <(alt-)leader>-u because Evil gives C-u
+    ;; its Vim meaning (scroll up in normal mode, delete to beginning of line in
+    ;; insert). However, these bindings do not work while in the mini-buffer. Instead,
+    ;; the embark menu binds q to to toggle embark-quit-after-action, which is even more
+    ;; convenient (you don't have to remember up front and twist your fingers on the
+    ;; CTRL key).
     embark-quit-after-action t))
 
 (after! writeroom-mode
@@ -586,9 +591,6 @@ diff.
 
 (after! evil-escape
   (setq evil-escape-key-sequence "fd"))
-
-(map! :map global-map
-  "M-u" #'universal-argument)
 
 (use-package! hydra)
 (defhydra dlukes/hydra-zen (:timeout 4)
