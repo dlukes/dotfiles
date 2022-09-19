@@ -436,6 +436,16 @@
     org-roam-ui-update-on-save t
     org-roam-ui-open-on-start t))
 
+;; NOTE: Remember to use C-z to put the sidebar buffer into Emacs state for the RET key
+;; binding to work!
+(use-package! org-sidebar
+  :after org
+  :config
+  (setq!
+    ;; Jump to the actual source buffer when clicking a heading in the outline, not a
+    ;; narrowed indirect buffer.
+    org-sidebar-tree-jump-fn #'org-sidebar-tree-jump-source))
+
 ;; When Org-roam tries to render images in the backlinks buffer but can't find them, the
 ;; filename gets interpreted as a base64 string, which results in an error and rendering
 ;; of the buffer halts, with the remaining backlinks not shown.
@@ -643,5 +653,10 @@ diff.
 
 (map! :map doom-leader-toggle-map
   :desc "Visual fill column" "v" #'visual-fill-column-mode)
+
+(map! :map org-mode-map
+  :localleader
+  (:prefix ("s" "tree/subtree")
+    :desc "Toggle outline sidebar" "o" #'org-sidebar-tree-toggle))
 
 ;;; vi: foldmethod=marker
