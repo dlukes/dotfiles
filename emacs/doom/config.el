@@ -195,7 +195,7 @@
     org-fold-core-style 'overlays
 
     ;; Set to nil to put footnotes at the end of the section they're in.
-    org-footnote-section t
+    org-footnote-section "Footnotes"
     org-footnote-auto-adjust t
     ;; Don't turn CSL references into links. This can be useful if you're using
     ;; colorlinks in LaTeX and want the text to be less noisy, or also because links are
