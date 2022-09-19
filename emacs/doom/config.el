@@ -48,6 +48,9 @@
   split-height-threshold nil
   calendar-week-start-day 1)
 
+;; New frames should be maximized by default.
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
 (global-goto-address-mode)
 
 (if (not (fboundp #'pixel-scroll-precision-mode))
