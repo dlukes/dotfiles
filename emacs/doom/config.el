@@ -621,6 +621,11 @@ diff.
     (:prefix ("r" . "roam")
       :desc "Show graph" "g" #'org-roam-ui-open))
   (:prefix ("w" . "window")
+    ;; Shuffle around window-switching functions so that ace-window is the easiest to
+    ;; access.
+    "w" #'ace-window
+    "W" #'evil-window-next
+    "C-w" #'evil-window-prev
     "o" #'delete-other-windows)
 
   ;; Workspaces are also easily manipulated with other default key bindings:
