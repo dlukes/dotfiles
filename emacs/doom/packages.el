@@ -9,7 +9,6 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 (package! org-roam-ui)
-(package! org-sidebar)
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
@@ -32,6 +31,9 @@
 ;; TODO: Maybe start using Zetteldesk.el for turning Org-roam notes into articles?
 ;; (package! zetteldesk
 ;;   :recipe (:host github :repo "Vidianos-Giannitsis/zetteldesk.el"))
+
+(package! org-ol-tree
+  :recipe (:host github :repo "Townk/org-ol-tree"))
 
 ;; If you'd like to disable a package included with Doom, you can do so here
 ;; with the `:disable' property:
