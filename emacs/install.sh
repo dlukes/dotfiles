@@ -24,7 +24,7 @@ if is_macos; then
   # brew update --cask emacs-app || brew install --cask emacs-app
 elif command -v dnf >/dev/null &2>&1; then
   export PYTHONWARNDEFAULTENCODING=
-  sudo dnf copr enable -y deathwish/emacs-pgtk-nativecomp
+  # sudo dnf copr enable -y deathwish/emacs-pgtk-nativecomp
   sudo dnf in -by emacs
 fi
 
@@ -37,10 +37,10 @@ if [ -f "$launcher" ]; then
 fi
 
 # Remove unwanted emacsclient launcher.
-launcher=/usr/share/applications/emacsclient.desktop
-if [ -f "$launcher" ]; then
-  sudo rm "$launcher"
-fi
+# launcher=/usr/share/applications/emacsclient.desktop
+# if [ -f "$launcher" ]; then
+#   sudo rm "$launcher"
+# fi
 
 # This is one of the *standard* DOOMDIR locations expected by Doom. If XDG_CONFIG_HOME
 # is not set, Doom should default to ~/.config, so everything should work fine even
