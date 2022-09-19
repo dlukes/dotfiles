@@ -444,6 +444,12 @@
   ;; structure.
   (ox-extras-activate '(ignore-headlines)))
 
+(use-package! org-ol-tree
+  :after org
+  :config
+  (setq!
+    org-ol-tree-action-move-to-target t))
+
 (use-package! websocket
   :after org-roam)
 (use-package! org-roam-ui
