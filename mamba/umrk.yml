@@ -1,4 +1,4 @@
-name: base
+name: umrk
 channels:
   - conda-forge
 dependencies:

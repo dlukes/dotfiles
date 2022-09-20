@@ -9,6 +9,7 @@ conda_config="$prefix"/etc/profile.d/conda.sh
 installer="Mambaforge-$(uname)-$(uname -m).sh"
 default_env=umrk
 env_file="$script_dir"/$default_env.yml
+r_env_file="$script_dir"/r.yml
 
 info 'Unsetting Conda-related environment variables, if any.'
 for var in $(env | grep CONDA); do
@@ -32,6 +33,11 @@ info "Installing UMRK Python package for $(command -v python3)."
 
 info "Running additional NPM installs with $(command -v npm)."
 "$script_dir"/../misc/npm_install.sh
+
+info "Installing R and packages from $r_env_file."
+mamba env update --name $default_env --file "$r_env_file"
+info "Installing IRkernel kernelspec with $(command -v R)."
+R --quiet -e "IRkernel::installspec()"
 
 # TODO: This is very hamfisted and potentially breaks things. conda-tree tells me only
 # matplotlib needs libtool via PyQT, which I'm unlikely to ever need, but who knows.
