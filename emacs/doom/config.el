@@ -46,7 +46,12 @@
   ;; time, unless the current window is less than 60 chars wide.
   split-width-threshold 60
   split-height-threshold nil
-  calendar-week-start-day 1)
+  calendar-week-start-day 1
+  ;; Make '(fullscreen . maximized) below behave exactly like clicking the green window
+  ;; button on macOS. NOTE: This currently doesn't seem to work on the Emacs port I'm
+  ;; using (mituharu/railwaycat), but let's keep it in case it's fixed in the future.
+  ;; https://github.com/railwaycat/homebrew-emacsmacport/issues/181
+  ns-use-native-fullscreen t)
 
 ;; New frames should be maximized by default.
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
