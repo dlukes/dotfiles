@@ -277,6 +277,12 @@
     ;; NOTE: The override means you can simply use :header-args:python: instead of
     ;; :header-args:jupyter-python: to tweak them.
     org-babel-default-header-args:python org-babel-default-header-args:jupyter-python
+    ;; Ditto for R.
+    org-babel-default-header-args:jupyter-R
+    '((:kernel . "ir")
+      (:session . "R")
+      (:async . "yes"))
+    org-babel-default-header-args:R org-babel-default-header-args:jupyter-R
 
     org-roam-capture-templates
     '(
@@ -320,6 +326,7 @@
                        ("se" . "src elisp")
                        ("sf" . "src fish")
                        ("sp" . "src python")
+                       ("sr" . "src R")
                        ("ss" . "src sh")
                     ))
     (add-to-list 'org-structure-template-alist template))
@@ -345,18 +352,30 @@
 (defadvice! dlukes/override-src-block-when-loading-jupyter (oldfun lang)
   "If lang is in langs-to-override, map it to jupyter-lang instead."
   :around '+org-babel-load-jupyter-h
-  (let* ((langs-to-override '(python))
+  (let* ((langs-to-override '(python R))
          (jupyter-lang (if (member lang langs-to-override)
                          (intern (concat "jupyter-" (symbol-name lang)))
                          lang))
          (ans (funcall oldfun jupyter-lang)))
-    ;; This is removed by Doom's jupyter config, but it might come in handy
-    ;; occasionally, so let's keep it. At the end of the list though, so that it's only
-    ;; the last resort and typically has to be selected manually via :display html.
-    (add-to-list 'jupyter-org-mime-types :text/html t)
     (when (member lang langs-to-override)
       (org-babel-jupyter-override-src-block (symbol-name lang)))
     ans))
+
+(after! jupyter-org-client
+  (setq!
+    jupyter-org-mime-types
+    (let* ((grouped-mimes
+            (seq-group-by
+              (lambda (mime) (string-prefix-p ":image" (symbol-name mime)))
+              ;; Doom removes :text/html, but it might be hand occasionally, so let's make
+              ;; sure it's there.
+              (append jupyter-org-mime-types '(:text/html))))
+           (image-mimes (cdr (car grouped-mimes)))
+           (text-mimes (cdr (nth 1 grouped-mimes))))
+      ;; Default to displaying an image, and failing that, the plain text representation I'm
+      ;; used to and which should always be available. The remaining mime types can be
+      ;; selected via the :display header arg as needed.
+      (seq-uniq (append image-mimes '(:text/plain) text-mimes)))))
 
 ;; If this leads to an error, install TeX Live and update Doom so that it notices that
 ;; you have LaTeX support. Remember you can control the order of inclusion of (default)
