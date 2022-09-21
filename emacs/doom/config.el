@@ -323,6 +323,8 @@
   ;; latter, you'll probably need to switch auto-completion to manual, so that TAB isn't
   ;; hijacked by the completion menu when 2 or more characters are available at point.
   (dolist (template '(
+                       ("sb" . "src bash")
+                       ("sd" . "src dash")
                        ("se" . "src elisp")
                        ("sf" . "src fish")
                        ("sp" . "src python")
