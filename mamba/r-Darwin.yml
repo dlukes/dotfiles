@@ -2,9 +2,6 @@ name: r
 channels:
   - conda-forge
 dependencies:
-  - r-base
-  - r-languageserver
-  - r-irkernel
   # Can't install tidyverse as a whole, it pulls an outdated version for some reason.
   # Maybe because a dependency is not available for ARM Macs?
   - r-tidyr
@@ -12,5 +9,5 @@ dependencies:
   - r-forcats
   - r-ggplot2
   - r-readr
-  # r-httpuv is a dependency and it's not available for ARM Macs.
+  # Can't install shiny, r-httpuv is a dependency and it's not available for ARM Macs.
   # - r-shiny

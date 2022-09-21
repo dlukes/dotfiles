@@ -1,0 +1,6 @@
+name: r
+channels:
+  - conda-forge
+dependencies:
+  - r-tidyverse
+  - r-shiny
