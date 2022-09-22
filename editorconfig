@@ -8,21 +8,21 @@ indent_style = space
 indent_size = 2
 # 72 is another traditional, more constraining choice
 max_line_length = 88
+# Make literal tabs stand out by default. Also, some Elisp (i.e. *.el, *.el.gz) files
+# use a mix of tabs and spaces, where tabs stand for 8 spaces.
+tab_width = 8
 
 [*.{py,rs,elm}]
 indent_size = 4
 
 [*.go]
 indent_style = tab
+tab_width = 4
 
-# Some Elisp files tend to use a mix of tabs and spaces, where tabs stand for 8 spaces.
-[*.el]
-tab_width = 8
-[*.el.gz]
-tab_width = 8
-
-[Makefile]
+[Makefile*]
 indent_style = tab
 
 [{COMMIT_EDITMSG,TAG_EDITMSG}]
 max_line_length = 72
+
+# vi: ft=toml
