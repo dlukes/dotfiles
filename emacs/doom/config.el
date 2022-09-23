@@ -216,6 +216,16 @@
     ;; you put references e.g. in captions.
     ;; org-cite-csl-link-cites nil
 
+    org-tag-persistent-alist
+    '(
+       ;; Explicitly select/exclude headings for/from export. See *Export settings* in
+       ;; the Org manual.
+       (:startgroup . nil) ("export" . ?e) ("noexport" . ?n) (:endgroup . nil)
+       ;; Export only contents, ignoring headline (the ox-extra ignore-headlines must be
+       ;; activated).
+       ("ignore" . ?i)
+    )
+
     org-export-in-background t
     ;; Allow `#+bind: variable value' directives. Useful for tweaking variables you
     ;; can't set via #+options or other keywords.
