@@ -670,18 +670,13 @@ diff.
   ;; - Ctrl/Cmd-<number>  ->  Switch to workspace <number>
   :desc "workspace" "W" doom-leader-workspace-map)
 
-;; Not necessary since https://github.com/hlissner/doom-emacs/pull/5371 got merged, kept
-;; for future reference.
-;; (after! org
-;;   (map! :map org-mode-map :localleader
-;;     "f" #'org-footnote-action))
-
 (map! :map doom-leader-toggle-map
   :desc "Visual fill column" "v" #'visual-fill-column-mode)
 
-(map! :map org-mode-map
-  :localleader
-  (:prefix ("s" "tree/subtree")
-    "o" #'org-ol-tree))
+(after! org
+  (map! :map org-mode-map :localleader
+    (:prefix ("s" "tree/subtree")
+      "o" #'org-ol-tree)
+    :desc "babel" "v" org-babel-map))
 
 ;;; vi: foldmethod=marker
