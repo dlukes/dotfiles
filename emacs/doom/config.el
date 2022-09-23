@@ -199,8 +199,16 @@
     ;; let's stick with overlays for now. TODO: Eventually switch.
     org-fold-core-style 'overlays
 
-    ;; Set to nil to put footnotes at the end of the section they're in.
-    org-footnote-section "Footnotes"
+    ;; Put footnotes at the end of the section they're in. This keeps them closer to the
+    ;; text they refer to, which has both advantages and disadvantages (potential
+    ;; clutter), but the key thing is that this makes refiling across files safer: with
+    ;; a separate footnote section, you have to remember to move the footnotes manually.
+    ;; Conversely, when re-arranging text within a single file and the footnote
+    ;; reference and definition end up under different headings, it's not a problem:
+    ;; just normalize the footnotes to renumber them and send them to their correct
+    ;; spots. NOTE: If you *do* want a separate footnote section at some point, set this
+    ;; e.g. to "Footnotes" (the section itself is ignored during export), not t!
+    org-footnote-section nil
     org-footnote-auto-adjust t
     ;; Don't turn CSL references into links. This can be useful if you're using
     ;; colorlinks in LaTeX and want the text to be less noisy, or also because links are
