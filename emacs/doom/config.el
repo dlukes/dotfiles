@@ -411,7 +411,7 @@
              ;; contain whatever you'd put in the header of your .tex file, except
              ;; instead of \documentclass, it needs to invoke \LoadClass.
              ("custom-article"
-               "\\documentclass{custom}\n[NO-DEFAULT-PACKAGES]\n[NO-PACKAGES]"
+               "\\documentclass{custom-article}\n[NO-DEFAULT-PACKAGES]\n[NO-PACKAGES]"
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
                ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -419,7 +419,7 @@
                ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
 
              ("custom-book"
-               "\\documentclass{custom}\n[NO-DEFAULT-PACKAGES]\n[NO-PACKAGES]"
+               "\\documentclass{custom-book}\n[NO-DEFAULT-PACKAGES]\n[NO-PACKAGES]"
                ("\\chapter{%s}" . "\\addchap{%s}")
                ("\\section{%s}" . "\\section*{%s}")
                ("\\subsection{%s}" . "\\subsection*{%s}")
