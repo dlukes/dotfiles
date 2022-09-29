@@ -38,6 +38,13 @@
   ;; lisp-indent-offset nil
   completion-ignore-case t
 
+  ;; E-mail
+  smtpmail-smtp-server "smtp.gmail.com"
+  smtpmail-smtp-service 587
+  smtpmail-stream-type 'starttls
+  send-mail-function #'smtpmail-send-it
+  auth-sources '("~/Desktop/data/authinfo")
+
   ;; UI.
   scroll-bar-mode 'right
   display-line-numbers-type nil
