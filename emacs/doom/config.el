@@ -130,7 +130,7 @@
 ;;   - https://github.com/nnicandro/emacs-jupyter/issues/380
 (defun dlukes/display-ansi-colors ()
   (ansi-color-apply-on-region (point-min) (point-max)))
-(add-hook 'org-babel-after-execute-hook #'dlukes/display-ansi-colors)
+(add-hook! 'org-babel-after-execute-hook #'dlukes/display-ansi-colors)
 
 ;; In Doom Emacs, it's not necessary to configure Babel manually with org-babel-do-load-languages.
 ;; See https://discourse.doomemacs.org/t/common-config-anti-patterns/.
@@ -236,7 +236,10 @@
        ("ignore" . ?i)
     )
 
-    org-export-in-background t
+    ;; Async export nil by default, so that opening after export works. Toggle to t when
+    ;; working on a file that takes a while to export, which you keep open and just
+    ;; refresh. SPC t a, or possibly with a buffer-local variable.
+    ; org-export-in-background nil
     ;; Allow `#+bind: variable value' directives. Useful for tweaking variables you
     ;; can't set via #+options or other keywords.
     org-export-allow-bind-keywords t
@@ -248,9 +251,90 @@
     ;; forcing the export anyway.  Also, ID links can be fixed with
     ;; org-id-update-id-locations or org-roam-update-org-id-locations, so try that
     ;; first.
-    ;; org-export-with-broken-links 'mark
+    ; org-export-with-broken-links 'mark
+    ;; Many of the following export tweaks are at their default values, but just as a
+    ;; reminder that they can be modified, either via variables or the options keyword.
+    org-export-with-toc t
+    org-export-with-date t
+    org-export-with-author t
+    org-export-with-email nil
+    org-export-with-title t
+    org-export-with-creator t
+    org-export-with-tags t
+    org-export-time-stamp-file t
 
+    org-html-doctype "html5"
     org-html-self-link-headlines t
+    org-html-style
+    "
+    <style>
+      html {
+        --fg: #333;
+        --fg-light: #999;
+        --bg: #fafafa;
+        --hi: #4169e1; /* royalblue */
+        transition: filter .5s ease;
+      }
+      html.dark {
+        filter: invert(.9);
+      }
+      body {
+        font-family: sans-serif;
+        line-height: 1.5;
+        background-color: var(--bg);
+        color: var(--fg);
+      }
+      #preamble {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+      }
+      #content {
+        max-width: 50em;
+      }
+      a {
+        color: var(--hi);
+      }
+      :is(h1, h2, h3, h4, h5, h6) a {
+        text-decoration: none;
+        color: var(--fg);
+      }
+      :is(h1, h2, h3, h4, h5, h6) a:hover::after {
+        content: ' §';
+        color: var(--fg-light);
+      }
+      pre.src {
+        counter-reset: line;
+        padding-left: 0;
+      }
+      pre.src code::before {
+        counter-increment: line;
+        content: counter(line);
+        color: var(--fg-light);
+        width: 2em;
+        display: inline-block;
+        text-align: right;
+        padding-right: .5em;
+        margin-right: .5em;
+        border-right: 1px solid #bbb;
+      }
+    </style>
+    <script>
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.toggle('dark');
+      };
+    </script>
+    "
+    ;; Can also set the following two to t and use org-html-{pre,post}amble-format,
+    ;; which can even be a function for fine-grained control. See
+    ;; org-html--build-pre/postamble for inspiration.
+    org-html-preamble "<button id=\"lights\" onclick=\"document.documentElement.classList.toggle('dark')\">⏻</button>"
+    org-html-postamble 'auto
+    ;; Interactive code blocks, evaluated in browser. Can be occasionally useful, but
+    ;; not by default.
+    ; org-html-klipsify-src t
+    org-html-head-include-scripts t
+    org-html-wrap-src-lines t
 
     org-latex-tables-booktabs t
     ;; Tweak org-latex-minted-options to customize minted. Minted can also cause
@@ -259,9 +343,11 @@
     org-latex-listings 'minted
     ;; Minted needs -shell-escape so that it may call pygments. Possibly not with
     ;; LuaLaTeX though?
-    org-latex-compiler "xelatex"
+    org-latex-compiler "lualatex"
     org-latex-pdf-process
-    '("latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f")
+    ;; Possibly add -f -interaction=nonstopmode to ignore recoverable errors, but
+    ;; typically, it's better to deal with those ASAP.
+    '("latexmk -pdf -%latex -shell-escape -output-directory=%o %f")
     ;; cleveref/cref is nice in theory (it auto-inserts Fig./Tab. etc. based on the type
     ;; of reference), but since it's LaTeX-specific and I might need to export to ODT or
     ;; DOCX too, better not rely on it.
@@ -269,9 +355,19 @@
     org-latex-packages-alist
     '(
       ;; ("capitalize" "cleveref")
+      ("" "fontspec" t)
+      ("" "unicode-math" t)
+      ("" "microtype" t)
+      ("czech,french,american,AUTO" "babel" t)
+      ("" "enumitem" t)
+      ("" "xurl" t)
+      ("toc,eqno,enum,bib,lineno" "tabfigures" t)
+      ("usenames,dvipsnames,table" "xcolor" t)
       ("" "booktabs" t)
-      ("" "tabularx")
+      ("" "tabularx" t)
       ("newfloat" "minted" t)
+      ;; csquotes after minted to avoid a warning
+      ("autostyle" "csquotes" t)
     )
 
     ;; Don't prefix figure, table etc. numbers with section numbers.
@@ -288,6 +384,7 @@
     ;; you could conceivably use Pandoc as well.
     ; org-odt-preferred-output-format "docx"
 
+    org-coderef-label-format "# (ref:%s)"
     ;; In addition to setting these in src block headers, you can also put them into
     ;; property drawers or #+property: directives via :header-args:jupyter-python:. This will
     ;; then affect all matching src blocks in scope (subtree or file).
@@ -407,54 +504,76 @@
       ;; selected via the :display header arg as needed.
       (seq-uniq (append image-mimes '(:text/plain) text-mimes)))))
 
+(after! ob-core
+  (setcdr (assq :exports org-babel-default-header-args) "both"))
+
 ;; If this leads to an error, install TeX Live and update Doom so that it notices that
 ;; you have LaTeX support. Remember you can control the order of inclusion of (default)
 ;; packages and extra header lines, and even entirely prevent it. See variable's
 ;; documentation.
 (after! ox-latex
-  (dolist
-    (item '(
-             ;; The intended use of the custom-* classes is that you'll put a
-             ;; custom.cls file or symlink in the same dir as the source text, so that
-             ;; you can keep the same heading mappings for all classes of the same broad
-             ;; kind (article, book, etc.). Basically, custom.cls can simply just
-             ;; contain whatever you'd put in the header of your .tex file, except
-             ;; instead of \documentclass, it needs to invoke \LoadClass.
-             ("custom-article"
-               "\\documentclass{custom-article}\n[NO-DEFAULT-PACKAGES]\n[NO-PACKAGES]"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-             ("custom-book"
-               "\\documentclass{custom-book}\n[NO-DEFAULT-PACKAGES]\n[NO-PACKAGES]"
-               ("\\chapter{%s}" . "\\addchap{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-             ("scrartcl"
-               "\\documentclass{scrartcl}"
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-
-             ("scrbook"
-               "\\documentclass{scrbook}"
-               ("\\chapter{%s}" . "\\addchap{%s}")
-               ("\\section{%s}" . "\\section*{%s}")
-               ("\\subsection{%s}" . "\\subsection*{%s}")
-               ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-               ("\\paragraph{%s}" . "\\paragraph*{%s}")
-               ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))
-          ))
-  (add-to-list 'org-latex-classes item)))
+  (setq!
+    ;; Don't load amssymb, as it conflicts with unicode-math.
+    org-latex-default-packages-alist
+    (seq-filter
+      (lambda (package) (not (string= "amssymb" (nth 1 package))))
+      org-latex-default-packages-alist)
+    org-latex-default-class "scrartcl")
+  ;; The intended use of the custom-* classes is that you'll put a custom.cls file or
+  ;; symlink in the same dir as the source text, so that you can keep the same heading
+  ;; mappings for all classes of the same broad kind (article, book, etc.). Basically,
+  ;; custom.cls can simply just contain whatever you'd put in the header of your .tex
+  ;; file, except instead of \documentclass, it needs to invoke \LoadClass.
+  (let ((class-format "
+\\documentclass{%s}
+[DEFAULT-PACKAGES]
+[PACKAGES]
+\\frenchspacing
+\\setlist{nosep}  %% tight lists
+\\setmainfont{EB Garamond}
+\\setmathfont{Garamond-Math}[Scale=MatchLowercase]
+%% For glyphs missing from Garamond-Math, if you need to define more, see:
+%% https://mirrors.nic.cz/tex-archive/macros/unicodetex/latex/unicode-math/unimath-symbols.pdf
+\\setmathfont{XITS Math}[
+  range={\\mdsmwhtsquare}
+]
+%% Unfortunately, neither Fira Mono nor IBM Plex Mono have phonetic glyphs.
+\\setsansfont{Source Sans 3}[Scale=MatchLowercase]
+\\setmonofont{Source Code Pro}[Scale=MatchLowercase]
+\\AtBeginEnvironment{tabular}{\\addfontfeatures{Numbers={Monospaced}}}
+%% \\clubpenalty         = 10000
+%% \\widowpenalty        = 10000
+%% \\displaywidowpenalty = 10000
+%% typographically better, but different than Word
+%% \\onehalfspacing
+%% uglier (too spread), but Word-compatible
+%% \\setspace{1.5}
+%% amssymb aliases for unicode-math commands:
+\\newcommand{\\square}{\\mdsmwhtsquare}
+[EXTRA]
+")
+         (custom-class-format
+           "\\documentclass{custom-book}\n[NO-DEFAULT-PACKAGES]\n[NO-PACKAGES]")
+         (article-structure
+           '(("\\section{%s}" . "\\section*{%s}")
+           ("\\subsection{%s}" . "\\subsection*{%s}")
+           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+           ("\\paragraph{%s}" . "\\paragraph*{%s}")
+           ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+         (book-structure
+           '(("\\chapter{%s}" . "\\addchap{%s}")
+           ("\\section{%s}" . "\\section*{%s}")
+           ("\\subsection{%s}" . "\\subsection*{%s}")
+           ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+           ("\\paragraph{%s}" . "\\paragraph*{%s}")
+           ("\\subparagraph{%s}" . "\\subparagraph*{%s}"))))
+    (pcase-dolist
+      (`(,class ,format ,structure) `(
+               ("scrartcl" ,class-format ,article-structure)
+               ("scrbook" ,class-format ,book-structure)
+               ("custom-article" ,custom-class-format ,article-structure)
+               ("custom-book" ,custom-class-format ,book-structure)))
+          (add-to-list 'org-latex-classes (append (list class (format format class)) structure)))))
 
 ;; To be able to store links to Emacs Info pages. Enabled by default in vanilla Org, but
 ;; Doom disables it.
@@ -649,6 +768,12 @@ diff.
           ;; file-name-nondirectory to get the last path element.
           (lambda (d) (not (string-prefix-p "." (file-name-nondirectory d)))))))))
 
+(defun dlukes/make-toggle (sym)
+  (lambda ()
+    (interactive)
+    (set sym (not (symbol-value sym)))
+    (message "Toggling %s to %s" sym (symbol-value sym))))
+
 
 
 ;;;; ----------------------------------------------------------------- Keyboard mappings {{{1
@@ -701,8 +826,17 @@ diff.
   :desc "workspace" "W" doom-leader-workspace-map)
 
 (map! :map doom-leader-toggle-map
-  :desc "Visual fill column" "v" #'visual-fill-column-mode)
+  "a" (dlukes/make-toggle 'org-export-in-background)
+  "v" #'visual-fill-column-mode)
+;; :desc apparently doesn't work when assigning to an existing map under :leader, see
+;; https://github.com/doomemacs/doomemacs/issues/5532#issuecomment-991611197, so add
+;; descriptions separately.
+(which-key-add-key-based-replacements "SPC t a" "Async Org export")
+(which-key-add-key-based-replacements "SPC t v" "Visual fill column")
 
+;; Also, when adding to an existing keymap under leader, don't add :leader, otherwise it
+;; won't work. But when adding to an existing keymap under localleader, :localleader is
+;; required!
 (after! org
   (map! :map org-mode-map :localleader
     (:prefix ("s" "tree/subtree")
