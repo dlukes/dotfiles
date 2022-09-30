@@ -49,10 +49,9 @@
   scroll-bar-mode 'right
   display-line-numbers-type nil
   column-number-indicator-zero-based nil
-  ;; With these thresholds, split-window-sensibly will do a vertical split most of the
-  ;; time, unless the current window is less than 60 chars wide.
-  split-width-threshold 60
-  split-height-threshold nil
+  ;; When using visual-fill-column, split-{width,height}-threshold, which Doom tweaks,
+  ;; don't really work as intended unless the following variable is set.
+  visual-fill-column-enable-sensible-window-split t
   calendar-week-start-day 1
   ;; Make '(fullscreen . maximized) below behave exactly like clicking the green window
   ;; button on macOS. NOTE: This currently doesn't seem to work on the Emacs port I'm
