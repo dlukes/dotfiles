@@ -87,7 +87,10 @@
   ;; fonts viewer app. Also, big font mode requires :size to be set explicitly,
   ;; otherwise disabling it won't work. But since the optimal size is different on
   ;; different machines, make it use whatever Emacs determined automatically.
-  doom-font (font-spec :family "BlexMono Nerd Font" :size (font-get (face-attribute 'default :font) :size))
+  doom-font (font-spec :family "BlexMono Nerd Font" :size
+              (condition-case nil
+                (font-get (face-attribute 'default :font) :size)
+                (error 12)))
   ;; Doesn't look right in zen mode, unfortunately, at least not on Linux :( The
   ;; baseline is all jumpy. And I can't get the scale to match the mono font, it's too
   ;; small.
