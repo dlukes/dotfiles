@@ -203,6 +203,7 @@
        :app
        ;;calendar
        ;;emms
+       ;; NOTE: Nice in theory, but can't interact with Wayland windows AFAICS.
        ;;everywhere        ; *leave* Emacs!? You must be joking
        ;;irc               ; how neckbeards socialize
        (rss +org)        ; emacs as an RSS reader
