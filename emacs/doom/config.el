@@ -606,6 +606,8 @@
     ;; automatically, use C-SPC to bring it up as required.
     company-idle-delay nil))
 
+(add-hook! 'elfeed-search-mode-hook #'elfeed-update)
+
 
 
 ;;;; ------------------------------------------------------------------ Custom functions {{{1
