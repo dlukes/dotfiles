@@ -60,11 +60,7 @@ Plug 'vim-airline/vim-airline-themes'
 
 " nice to have
 Plug 'liuchengxu/vim-which-key'
-Plug 'jreybert/vimagit'
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
-Plug 'junegunn/vim-easy-align'
-Plug 'nvim-treesitter/playground'
+" Plug 'nvim-treesitter/playground'
 Plug 'SirVer/ultisnips'
 Plug 'chrisbra/unicode.vim'
 Plug 'dstein64/nvim-scrollview'
@@ -87,8 +83,6 @@ Plug 'rust-lang/rust.vim', { 'for': 'rust' }
 " within a git repo*. Also, has to be loaded eagerly, otherwise additional setup in
 " init.lua fails.
 Plug 'simrat39/rust-tools.nvim'  " , { 'for': 'rust' }
-Plug 'neovimhaskell/haskell-vim', { 'for': 'haskell' }
-Plug 'lervag/vimtex', { 'for': 'tex' }
 Plug 'dag/vim-fish', { 'for': 'fish' }
 call plug#end()
 
