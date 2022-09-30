@@ -827,12 +827,12 @@ diff.
 
 (map! :map doom-leader-toggle-map
   "a" (dlukes/make-toggle 'org-export-in-background)
+  "e" #'org-toggle-pretty-entities
   "v" #'visual-fill-column-mode)
 ;; :desc apparently doesn't work when assigning to an existing map under :leader, see
 ;; https://github.com/doomemacs/doomemacs/issues/5532#issuecomment-991611197, so add
 ;; descriptions separately.
 (which-key-add-key-based-replacements "SPC t a" "Async Org export")
-(which-key-add-key-based-replacements "SPC t v" "Visual fill column")
 
 ;; Also, when adding to an existing keymap under leader, don't add :leader, otherwise it
 ;; won't work. But when adding to an existing keymap under localleader, :localleader is
