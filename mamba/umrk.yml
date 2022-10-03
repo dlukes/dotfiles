@@ -24,6 +24,7 @@ dependencies:
   - jupytext
   # data analysis
   - pandas
+  - pandas-stubs
   - polars
   - scikit-learn
   - statsmodels
