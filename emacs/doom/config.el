@@ -336,17 +336,15 @@
     org-html-wrap-src-lines t
 
     org-latex-tables-booktabs t
-    ;; Tweak org-latex-minted-options to customize minted. Minted can also cause
-    ;; previewing problems, see org-preview-latex-fragment and
-    ;; https://orgmode.org/worg/org-tutorials/org-latex-preview.html.
-    org-latex-listings 'minted
-    ;; Minted needs -shell-escape so that it may call pygments. Possibly not with
-    ;; LuaLaTeX though?
+    ;; Default theme, options etc. can be tweaked, see variable's documentation.
+    ;; Per-file and per-block options are also available, see
+    ;; https://blog.tecosaur.com/tmio/2022-05-31-folding.html.
+    org-latex-src-block-backend 'engraved
     org-latex-compiler "lualatex"
     org-latex-pdf-process
     ;; Possibly add -f -interaction=nonstopmode to ignore recoverable errors, but
     ;; typically, it's better to deal with those ASAP.
-    '("latexmk -pdf -%latex -shell-escape -output-directory=%o %f")
+    '("latexmk -pdf -%latex -output-directory=%o %f")
     ;; cleveref/cref is nice in theory (it auto-inserts Fig./Tab. etc. based on the type
     ;; of reference), but since it's LaTeX-specific and I might need to export to ODT or
     ;; DOCX too, better not rely on it.
@@ -364,8 +362,6 @@
       ("usenames,dvipsnames,table" "xcolor" t)
       ("" "booktabs" t)
       ("" "tabularx" t)
-      ("newfloat" "minted" t)
-      ;; csquotes after minted to avoid a warning
       ("autostyle" "csquotes" t)
     )
 

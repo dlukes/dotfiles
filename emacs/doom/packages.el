@@ -35,6 +35,9 @@
 (package! org-ol-tree
   :recipe (:host github :repo "Townk/org-ol-tree"))
 
+(package! engrave-faces
+  :recipe (:host github :repo "tecosaur/engrave-faces"))
+
 ;; If you'd like to disable a package included with Doom, you can do so here
 ;; with the `:disable' property:
 ;(package! builtin-package :disable t)
