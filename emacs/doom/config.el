@@ -288,8 +288,22 @@
         top: 1rem;
         right: 1rem;
       }
+      @media screen and (min-width: 1400px) {
+        #table-of-contents {
+          position: fixed;
+          right: 2rem;
+          top: 3rem;
+          bottom: 3rem;
+          overflow-y: auto;
+        }
+        #postamble {
+          position: fixed;
+          bottom: 2rem;
+          left: 2rem;
+        }
+      }
       #content {
-        max-width: 50em;
+        max-width: 50rem;
       }
       a {
         color: var(--hi);
