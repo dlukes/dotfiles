@@ -34,7 +34,13 @@
   confirm-kill-processes nil
 
   ;; Editing.
-  ;; Tweaking this results in a different annoying tradeoff in lisp indentation.
+  ;; Indenting the second line of a s-exp looks nice in most cases, but not always (e.g.
+  ;; in the case of let, where you'd rather have the pairs align). Unfortunately,
+  ;; there's no easy way to distinguish between the two. Setting lisp-indent-offset to
+  ;; nil plays nicely with let, but makes other cases look ugly, and since it affects
+  ;; automatic indentation, it's a no go. Probably just get used to ugly let's.
+  ;; Furthermore, when using EditorConfig, you'd actually need to tweak
+  ;; editorconfig-lisp-use-default-indent, otherwise it overrides this setting.
   ;; lisp-indent-offset nil
   completion-ignore-case t
 
