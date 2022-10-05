@@ -588,7 +588,8 @@
 
 ;; To be able to store links to Emacs Info pages. Enabled by default in vanilla Org, but
 ;; Doom disables it.
-(use-package! ol-info)
+(use-package! ol-info
+  :after org)
 
 ;; I like < better when I already know the key, C-c C-, is a bit finger-twisty, although
 ;; nice for discoverability OTOH.
@@ -609,6 +610,11 @@
   :config
   (setq!
     org-ol-tree-action-move-to-target t))
+
+(use-package! org-modern
+  :after org
+  :config
+  (global-org-modern-mode))
 
 (use-package! websocket
   :after org-roam)

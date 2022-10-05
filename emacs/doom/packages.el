@@ -28,12 +28,22 @@
                    "etc"
                    "docs"
                    "contrib/odt/LibreOffice")))
-;; TODO: Maybe start using Zetteldesk.el for turning Org-roam notes into articles?
+
+;; Maybe start using Zetteldesk.el for turning Org-roam notes into articles?
 ;; (package! zetteldesk
 ;;   :recipe (:host github :repo "Vidianos-Giannitsis/zetteldesk.el"))
 
 (package! org-ol-tree
   :recipe (:host github :repo "Townk/org-ol-tree"))
+
+(package! org-modern
+  :recipe (:host github :repo "minad/org-modern"))
+
+;; Partial horizontal scrolling of tables (and images? but you'd have to configure that
+;; manually) in Org Mode. Not sure if it works with visual-fill-column, and at any rate,
+;; it breaks my Doom setup unfortunately (can't resize window).
+;; (package! phscroll
+;;   :recipe (:host github :repo "misohena/phscroll"))
 
 (package! engrave-faces
   :recipe (:host github :repo "tecosaur/engrave-faces"))
