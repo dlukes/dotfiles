@@ -667,6 +667,12 @@
             ((symbol-function 'expand-file-name) (lambda (first &rest _) first)))
     (apply oldfun r)))
 
+(defadvice! dlukes/citar-use-bib-export-for-local-bib-file (oldfun &rest r)
+  "Local bib file generation requires a BibLaTeX export instead of CSL JSON."
+  :around #'citar-export-local-bib-file
+  (let ((citar-bibliography '("~/.cache/zotero/My Library.bib")))
+    (apply oldfun r)))
+
 (setq!
   ;; Citar uses Vertico as its selection engine, and I want selection to be case
   ;; insensitive. Vertico is compatible with Emacs's default completion system, so this
