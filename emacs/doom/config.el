@@ -373,7 +373,9 @@
       ("" "enumitem" t)
       ("" "xurl" t)
       ("toc,eqno,enum,bib,lineno" "tabfigures" t)
-      ("usenames,dvipsnames,table" "xcolor" t)
+      ;; Results in option clash for beamer, enable as needed. The table option is for
+      ;; colors inside tables, as generated e.g. by Pandas Styler.
+      ;; ("usenames,dvipsnames,table" "xcolor" t)
       ("" "booktabs" t)
       ("" "tabularx" t)
       ("autostyle" "csquotes" t)
