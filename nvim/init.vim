@@ -29,6 +29,8 @@ call plug#begin()
 
 " core
 Plug 'tpope/vim-sensible'
+" TODO: Remove if https://github.com/neovim/neovim/issues/16339 gets implemented.
+Plug 'farmergreg/vim-lastplace'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
