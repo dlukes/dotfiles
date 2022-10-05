@@ -198,7 +198,7 @@ ts.setup {
     "clojure", "cmake", "commonlisp", "dot", "fennel", "fortran", "gomod", "gowork",
     "haskell", "hjson", "http", "jsdoc", "json5", "jsonc", "julia", "kotlin", "llvm",
     "ninja", "nix", "ocaml", "org", "pascal", "query", "scala", "scheme", "scss",
-    "supercollider", "swift", "svelte", "tlaplus", "tsx", "vala", "vue",
+    "supercollider", "svelte", "tlaplus", "tsx", "vala", "vue",
   },
   highlight = { enable = true },
   -- Currently only affects the = operator and labeled as experimental, so not worth

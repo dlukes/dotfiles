@@ -38,7 +38,9 @@ Plug 'tpope/vim-eunuch'
 Plug 'lambdalisue/suda.vim'
 " community-maintained configs for various langs
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
+" Don't :TSUpdate here, this gets mostly invoked by install.sh, and that subsequently
+" invokes :UpdateEverything anyway.
+Plug 'nvim-treesitter/nvim-treesitter'  ", { 'do': ':TSUpdate' }
 Plug 'nvim-treesitter/nvim-treesitter-refactor'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 Plug 'airblade/vim-gitgutter'
