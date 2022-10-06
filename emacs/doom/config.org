@@ -1,33 +1,33 @@
+#+title: Doom Emacs literate configuration
+#+author: David Lukeš
+
+#+begin_src elisp
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
-;;;
-;;; To see tips & recommendations based on the current upstream reference config, open:
-;;;
-;;;   ~/.config/emacs/core/templates/config.example.el
-;;;
-;;; Trigger debugger backtraces to investigate problems or just dig deeper into call
-;;; stacks you don't quite understand:
-;;;
-;;;   https://www.gnu.org/software/emacs/manual/html_node/elisp/Error-Debugging.html
-;;;
-;;; tl;dr:
-;;;
-;;;   debug-on-error t
-;;;   debug-on-message "message regexp"
+#+end_src
+
+* General tips and debugging
+To see tips & recommendations based on the current upstream reference config, open [[file:~/.config/emacs/templates/config.example.el][the example config that ships with doom]].
+
+Trigger debugger backtraces to investigate problems or just dig deeper into call stacks you don't quite understand. Either with =M-x doom-debug-mode=, or by using [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Error-Debugging.html][Emacs's debugging facilities]] directly:
+
+#+begin_src elisp :tangle no
+(setq
+  debug-on-error t
+  debug-on-message "message regexp")
+#+end_src
 
 
+See also Doom docs on [[https://discourse.doomemacs.org/t/what-is-a-backtrace-how-to-produce-them/85][producing and interpreting backtraces]], and a more general guide on [[https://discourse.doomemacs.org/t/how-to-debug-issues/55][debugging issues in Doom/Emacs]].
 
-;;;; -------------------------------------------------------------- Personal information {{{1
-
-
+* Personal information
+#+begin_src elisp
 (setq
   user-full-name "David Lukeš"
   user-mail-address "dafydd.lukes@gmail.com")
+#+end_src
 
-
-
-;;;; -------------------------------------------------------------- Basic Emacs settings {{{1
-
-
+* Basic Emacs settings
+#+begin_src elisp
 (setq!
   ;; Exiting.
   confirm-kill-emacs nil
@@ -79,12 +79,10 @@
     pixel-scroll-precision-large-scroll-height 40.0
     pixel-scroll-precision-interpolation-factor 30)
   (pixel-scroll-precision-mode))
+#+end_src
 
-
-
-;;;; ------------------------------------------------------- Doom-specific configuration {{{ 1
-
-
+* Doom-specific configuration
+#+begin_src elisp
 (setq
   ;; See also https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts
   ;; NOTE: If everything looks weirdly bold, try adding :weight 'book. Some
@@ -107,12 +105,10 @@
   ;; layout switching shortcut. If it does, just explicitly switch it to Win-SPC in
   ;; GNOME Tweaks, so that you can use Doom's default (local)leader alt key bindings.
   doom-themes-neotree-file-icons t)
+#+end_src
 
-
-
-;;;; -------------------------------------------------------------------------- Org Mode {{{1
-
-
+* Org Mode
+#+begin_src elisp
 ;; Soft wrapping with line breaks allowed at more characters than just space or tab.
 (setq dlukes/org-category-table (copy-category-table))
 (dolist (char '(?- ?+ ?_ ?/ ?| ?\ ?. ?,))
@@ -666,12 +662,10 @@
   (with-demoted-errors
     "Error rendering inline image (parent node ID changed or Org-roam backlink buffer?): %S"
     (base64-decode-string link)))
+#+end_src
 
-
-
-;;;; ----------------------------------------------------------------------------- Citar {{{1
-
-
+* Citar
+#+begin_src elisp
 (defadvice! dlukes/citar-file-trust-zotero (oldfun &rest r)
   "Leave Zotero-generated file paths alone, especially zotero://..."
   :around '(citar-file-open citar-file--find-files-in-dirs)
@@ -696,12 +690,10 @@
   (dolist
     (ext '("pdf" "odt" "docx" "doc"))
       (add-to-list 'citar-file-open-functions `(,ext . citar-file-open-external))))
+#+end_src
 
-
-
-;;;; -------------------------------------------------------------------- Other packages {{{1
-
-
+* Other packages
+#+begin_src elisp
 (after! embark
   (setq!
     ;; NOTE: This is the default, putting this here mainly to remind myself of
@@ -758,12 +750,10 @@
     company-idle-delay nil))
 
 (add-hook! 'elfeed-search-mode-hook #'elfeed-update)
+#+end_src
 
-
-
-;;;; ------------------------------------------------------------------ Custom functions {{{1
-
-
+* Other functions
+#+begin_src elisp
 (defun dlukes/ediff-doom-config (file)
   "ediff the current config with the examples in doom-emacs-dir
 
@@ -802,12 +792,10 @@ diff.
     (interactive)
     (set sym (not (symbol-value sym)))
     (message "Toggling %s to %s" sym (symbol-value sym))))
+#+end_src
 
-
-
-;;;; ----------------------------------------------------------------- Keyboard mappings {{{1
-
-
+* Keyboard mappings
+#+begin_src elisp
 (after! evil-escape
   (setq evil-escape-key-sequence "fd"))
 
@@ -871,5 +859,4 @@ diff.
     (:prefix ("s" "tree/subtree")
       "o" #'org-ol-tree)
     :desc "babel" "v" org-babel-map))
-
-;;; vi: foldmethod=marker
+#+end_src

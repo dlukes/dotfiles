@@ -1,5 +1,6 @@
 broot/*.hjson
 !broot/custom.hjson
+emacs/doom/config.el
 emacs/doom/custom.el
 # site-specific or externally provided files may live in these
 # directories
