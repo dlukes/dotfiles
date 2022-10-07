@@ -126,7 +126,7 @@ Sounds like [[https://www.reddit.com/r/emacs/comments/2byaxs/eli5_recursive_edit
 #+end_src
 
 * Doom-specific configuration
- For font configuration, see also [[https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts][here]].
+For font configuration, see also [[https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts][here]].
 
 If everything looks weirdly bold with BlexMono, try adding ~:weight 'book~. Some distributions of BlexMono use that as the default weight. Check in your installed fonts viewer app. Also, big font mode requires ~:size~ to be set explicitly, otherwise disabling it won't work. But since the optimal size is different on different machines, make it use whatever Emacs determined automatically.
 
@@ -136,7 +136,7 @@ If everything looks weirdly bold with BlexMono, try adding ~:weight 'book~. Some
               (condition-case nil
                 (font-get (face-attribute 'default :font) :size)
                 (error 12)))
-  ;; doom-variable-pitch-font (font-spec :family "EB Garamond" :size 12)
+  doom-variable-pitch-font (font-spec :family "Overpass")
   ;; You might also want to not scale the font size that much in zen mode.
   ;; +zen-text-scale 1
   doom-theme 'doom-one
@@ -144,6 +144,8 @@ If everything looks weirdly bold with BlexMono, try adding ~:weight 'book~. Some
 #+end_src
 
 I tried using EB Garamond as the variable pitch font, but it doesn't look right in zen mode, unfortunately, at least not on Linux :( The baseline is all jumpy. And I can't get the scale to match the mono font, it's too small.
+
+TODO: See [[https://tecosaur.github.io/emacs-config/config.html#mixed-pitch][TEC's =mixed-pitch= config]] for tips on how to further tweak the faces in Zen mode.
 
 * Fancy soft wrapping
 The main point of using soft wrapping is to be able to wrap /within/ words (typically at punctuation marks), not just whitespace, without breaking any syntax. This is specifically desirable in Org Mode and achieved via a custom character category table, in combination with Visual Fill Column.
