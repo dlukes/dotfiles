@@ -5,9 +5,16 @@
 ;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
 #+end_src
 
-* General tips and debugging
-To see tips & recommendations based on the current upstream reference config, open [[file:~/.config/emacs/templates/config.example.el][the example config that ships with doom]].
+* General tips
+** Inspiration from upstream
+To see tips & recommendations based on the current upstream reference config, open [[file:~/.config/emacs/templates/config.example.el][the example config.el]] (especially for a refresher on the useful functions/macros to rely on in your config!) or [[file:~/.config/emacs/templates/init.example.el][init.el]] that ship with Doom.
 
+See [[https://discourse.doomemacs.org/t/common-config-anti-patterns/][common config anti-patterns]] for how /not/ to do things.
+
+** Literate config inspiration
+- TEC ([[https://github.com/tecosaur/emacs-config/blob/master/config.org][GitHub]], [[https://tecosaur.github.io/emacs-config/config.html][tangled]])
+
+** Debugging
 Trigger debugger backtraces to investigate problems or just dig deeper into call stacks you don't quite understand. Either with =M-x doom-debug-mode=, or by using [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Error-Debugging.html][Emacs's debugging facilities]] directly:
 
 #+begin_src elisp :tangle no
@@ -15,7 +22,6 @@ Trigger debugger backtraces to investigate problems or just dig deeper into call
   debug-on-error t
   debug-on-message "message regexp")
 #+end_src
-
 
 See also Doom docs on [[https://discourse.doomemacs.org/t/what-is-a-backtrace-how-to-produce-them/85][producing and interpreting backtraces]], and a more general guide on [[https://discourse.doomemacs.org/t/how-to-debug-issues/55][debugging issues in Doom/Emacs]].
 
@@ -26,50 +32,80 @@ See also Doom docs on [[https://discourse.doomemacs.org/t/what-is-a-backtrace-ho
   user-mail-address "dafydd.lukes@gmail.com")
 #+end_src
 
-* Basic Emacs settings
+* Better defaults
+** Exit behavior
 #+begin_src elisp
 (setq!
-  ;; Exiting.
   confirm-kill-emacs nil
-  confirm-kill-processes nil
+  confirm-kill-processes nil)
+#+end_src
 
-  ;; Editing.
-  ;; Indenting the second line of a s-exp looks nice in most cases, but not always (e.g.
-  ;; in the case of let, where you'd rather have the pairs align). Unfortunately,
-  ;; there's no easy way to distinguish between the two. Setting lisp-indent-offset to
-  ;; nil plays nicely with let, but makes other cases look ugly, and since it affects
-  ;; automatic indentation, it's a no go. Probably just get used to ugly let's.
-  ;; Furthermore, when using EditorConfig, you'd actually need to tweak
-  ;; editorconfig-lisp-use-default-indent, otherwise it overrides this setting.
-  ;; lisp-indent-offset nil
+** Editing
+Indenting the second line of a s-exp looks nice in most cases, but not always (e.g. in the case of ~let~, where you'd rather have the pairs align). Unfortunately, there's no easy way to distinguish between the two. Setting ~lisp-indent-offset~ to ~nil~ plays nicely with ~let~, but makes other cases look ugly, and since it affects automatic indentation, it's a no go. Probably just get used to ugly ~let~​s.  Furthermore, when using EditorConfig, you'd actually need to tweak ~editorconfig-lisp-use-default-indent~, otherwise it overrides this setting.
+
+OTOH, if you want ~lisp-indent-offset~ in Org Mode code blocks, you'll have to set it manually, because then EditorConfig does /not/ come into play, as it's not in the context of a Lisp source file. Sigh.
+
+#+begin_src elisp
+(setq!
+  lisp-indent-offset 2
+  ;; editorconfig-lisp-use-default-indent nil
   completion-ignore-case t
+  delete-by-moving-to-trash t
+  undo-limit 80000000
+  evil-want-fine-undo t)
+#+end_src
 
-  ;; E-mail
+Raise ~undo-limit~ to 80 MB: undo files are truncated when too large, the truncation process is linear, which doesn't play nicely with undo trees, which aren't.
+
+If you ever need word motions to navigate within CamelCase subwords, enable ~global-subword-mode~. There's probably something similar for snake_case?
+
+** Basic e-mail config
+Compose e-mail to send either with =M-x mail= or =M-x message-mail= (the latter if you want to include MIME attachments).
+
+#+begin_src elisp
+(setq!
   smtpmail-smtp-server "smtp.gmail.com"
   smtpmail-smtp-service 587
   smtpmail-stream-type 'starttls
   send-mail-function #'smtpmail-send-it
-  auth-sources '("~/Desktop/data/authinfo")
+  auth-sources '("~/Desktop/data/authinfo"))
+#+end_src
 
-  ;; UI.
+** UI
+#+begin_src elisp
+(setq!
   scroll-bar-mode 'right
   display-line-numbers-type nil
   column-number-indicator-zero-based nil
-  ;; When using visual-fill-column, split-{width,height}-threshold, which Doom tweaks,
-  ;; don't really work as intended unless the following variable is set.
-  visual-fill-column-enable-sensible-window-split t
+  scroll-margin 2
+  truncate-string-ellipsis "…"
+  password-cache-expiry nil
+
   calendar-week-start-day 1
-  ;; Make '(fullscreen . maximized) below behave exactly like clicking the green window
-  ;; button on macOS. NOTE: This currently doesn't seem to work on the Emacs port I'm
-  ;; using (mituharu/railwaycat), but let's keep it in case it's fixed in the future.
-  ;; https://github.com/railwaycat/homebrew-emacsmacport/issues/181
+  display-time-day-and-date t
+
+  window-combination-resize t
   ns-use-native-fullscreen t)
+#+end_src
 
-;; New frames should be maximized by default.
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
+~ns-use-native-fullscreen~ should make ~'(fullscreen . maximized)~ below behave exactly like clicking the green window button on macOS. But currently, [[https://github.com/railwaycat/homebrew-emacsmacport/issues/181][this doesn't seem to work on the Emacs port I'm using]]. Still, let's keep it in case it's fixed in the future.
 
+#+begin_src elisp
+(display-time-mode)
+(unless (string-match-p "^Power N/A" (battery))
+  (display-battery-mode))
 (global-goto-address-mode)
+#+end_src
 
+New frames should be maximized by default.
+
+#+begin_src elisp
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+#+end_src
+
+Smooth scrolling please -- depending on the platform.
+
+#+begin_src elisp
 (if (not (fboundp #'pixel-scroll-precision-mode))
   ;; then
   (setq mac-mouse-wheel-smooth-scroll t)
@@ -81,36 +117,297 @@ See also Doom docs on [[https://discourse.doomemacs.org/t/what-is-a-backtrace-ho
   (pixel-scroll-precision-mode))
 #+end_src
 
+** Recursive editing
+Sounds like [[https://www.reddit.com/r/emacs/comments/2byaxs/eli5_recursive_editing_what_is_it_for_when_would/][it can be useful at times]]. However, in order to use it, you'd have to first define a binding for =recursive-edit=, because Doom+Evil ships with none by default. If you ever do enable it, enable recursive minibuffers too (e.g. open a file while searching for a command?).
+
+#+begin_src elisp :tangle no
+(setq! enable-recursive-minibuffers t)
+(minibuffer-depth-indicate-mode)
+#+end_src
+
 * Doom-specific configuration
+ For font configuration, see also [[https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts][here]].
+
+If everything looks weirdly bold with BlexMono, try adding ~:weight 'book~. Some distributions of BlexMono use that as the default weight. Check in your installed fonts viewer app. Also, big font mode requires ~:size~ to be set explicitly, otherwise disabling it won't work. But since the optimal size is different on different machines, make it use whatever Emacs determined automatically.
+
 #+begin_src elisp
 (setq
-  ;; See also https://github.com/hlissner/doom-emacs/blob/develop/docs/faq.org#how-do-i-change-the-fonts
-  ;; NOTE: If everything looks weirdly bold, try adding :weight 'book. Some
-  ;; distributions of BlexMono use that as the default weight. Check in your installed
-  ;; fonts viewer app. Also, big font mode requires :size to be set explicitly,
-  ;; otherwise disabling it won't work. But since the optimal size is different on
-  ;; different machines, make it use whatever Emacs determined automatically.
   doom-font (font-spec :family "BlexMono Nerd Font" :size
               (condition-case nil
                 (font-get (face-attribute 'default :font) :size)
                 (error 12)))
-  ;; Doesn't look right in zen mode, unfortunately, at least not on Linux :( The
-  ;; baseline is all jumpy. And I can't get the scale to match the mono font, it's too
-  ;; small.
   ;; doom-variable-pitch-font (font-spec :family "EB Garamond" :size 12)
   ;; You might also want to not scale the font size that much in zen mode.
   ;; +zen-text-scale 1
   doom-theme 'doom-one
-  ;; NOTE: GNOME Shell might be stubborn in reverting back to using M-SPC as a keyboard
-  ;; layout switching shortcut. If it does, just explicitly switch it to Win-SPC in
-  ;; GNOME Tweaks, so that you can use Doom's default (local)leader alt key bindings.
   doom-themes-neotree-file-icons t)
 #+end_src
 
+I tried using EB Garamond as the variable pitch font, but it doesn't look right in zen mode, unfortunately, at least not on Linux :( The baseline is all jumpy. And I can't get the scale to match the mono font, it's too small.
+
+* Fancy soft wrapping
+The main point of using soft wrapping is to be able to wrap /within/ words (typically at punctuation marks), not just whitespace, without breaking any syntax. This is specifically desirable in Org Mode and achieved via a custom character category table, in combination with Visual Fill Column.
+
+#+begin_src elisp
+(setq dlukes/org-category-table (copy-category-table))
+(dolist (char '(?- ?+ ?_ ?/ ?| ?\ ?. ?,))
+  (modify-category-entry char ?| dlukes/org-category-table))
+
+(add-hook! 'org-mode-hook
+  (set-category-table dlukes/org-category-table)
+  (setq-local word-wrap-by-category t)
+  (visual-fill-column-mode))
+#+end_src
+
+When using Visual Fill Column, ~split-{width,height}-threshold~, which Doom tweaks, don't really work as intended unless ~visual-fill-column-enable-sensible-window-split~ is set.
+
+#+begin_src elisp
+(setq!
+  visual-fill-column-enable-sensible-window-split t
+  visual-fill-column-center-text t)
+#+end_src
+
+The one drawback of Visual Fill Column is that since it works by growing the margin, there's [[https://github.com/joostkremers/visual-fill-column/issues/11][no way to let some lines remain longer]], which would be useful e.g. for images or tables. For images at least, [[https://codeberg.org/joostkremers/visual-fill-column/issues/2][resizing to fit]] is tracked as a wanted feature, and constitutes an acceptable workaround. For tables, something like [[https://github.com/misohena/phscroll][misohena/phscroll]] might make sense, but unfortunately, that particular package doesn't play nice with my setup (possibly because of Visual Fill Column?).
+
+The legacy solution for "soft-wrapping at fill-column" was [[https://emacshorrors.com/posts/longlines-mode.html][Long Lines Mode]], which inserted magic newlines into the buffer which never made it to disk. This might have worked better with tables and images, but on the other hand, it was hacky and complicated and might have broken other aspects which I'm relying on. E.g. soft breaking elsewhere than just on whitespace -- would that work with those magic newlines? And if so, would the magic newlines in these places interfere with parsing and syntax highlighting?
+
 * Org Mode
+** Directories
+#+begin_src elisp
+(setq!
+  org-directory "~/Desktop/org/"
+  org-attach-id-dir (expand-file-name "attach/" org-directory)
+  org-cite-csl-styles-dir "~/.local/share/zotero/styles")
+#+end_src
+
+** Editing and UI
+Why the hell do some of the ~org-file-apps-gnu~ default to ~mailcap~ of all things, instead of ~xdg-open~?  Anyway...
+
+#+begin_src elisp
+(after! org
+  (setcdr (assq 'system org-file-apps-gnu) "xdg-open %s")
+  (setcdr (assq t org-file-apps-gnu) "xdg-open %s")
+
+  (setq!
+    ;; If you want Org file links to work in exports, you need to use IDs, not the
+    ;; default path + text search flavor. This setting automatically generates an ID on
+    ;; link creation (if necessary).
+    org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
+    ;; When you store a link while a visual region is selected, the link will contain
+    ;; the region as search string after ::.
+    org-link-context-for-files t
+
+    ;; Indent mode -- cf. also advice around org-align-tags below.
+    ;;
+    ;; You *do* want to use org-indent-mode by default, but only to have nice
+    ;; indentation in soft-wrapped lists.
+    org-startup-indented t
+    ;; You don't want additional visual indentation before headings or content.
+    org-indent-indentation-per-level 0
+    ;; You *do* want additional *physical* indentation for property drawers, clock lines
+    ;; and such...
+    org-adapt-indentation 'headline-data
+    ;; ... in spite of org-indent-mode.
+    org-indent-mode-turns-off-org-adapt-indentation nil
+    org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
+
+    org-pretty-entities t
+    org-startup-with-inline-images t
+    org-display-remote-inline-images 'cache
+    org-fontify-quote-and-verse-blocks nil
+
+    ;; The new default is text-properties and it has better performance, but until
+    ;; third-party packages (e.g. Org-roam) adapt, it might break fontification, so
+    ;; let's stick with overlays for now. TODO: Eventually switch.
+    org-fold-core-style 'overlays
+
+    ;; Put footnotes at the end of the section they're in. This keeps them closer to the
+    ;; text they refer to, which has both advantages and disadvantages (potential
+    ;; clutter), but the key thing is that this makes refiling across files safer: with
+    ;; a separate footnote section, you have to remember to move the footnotes manually.
+    ;; Conversely, when re-arranging text within a single file and the footnote
+    ;; reference and definition end up under different headings, it's not a problem:
+    ;; just normalize the footnotes to renumber them and send them to their correct
+    ;; spots. NOTE: If you *do* want a separate footnote section at some point, set this
+    ;; e.g. to "Footnotes" (the section itself is ignored during export), not t!
+    org-footnote-section nil
+    org-footnote-auto-adjust t
+    ;; Set to nil to stop turning CSL references into links. This can be useful if
+    ;; you're using colorlinks in LaTeX and want the text to be less noisy, or also
+    ;; because links are fragile commands and you don't want to have to deal with
+    ;; compilation errors when you put references e.g. in captions.
+    org-cite-csl-link-cites t)
+
+  ;; Entity tweaks.
+  (dolist
+    (item '(
+             ;; Make export of asterisks and stars more consistent across backends.
+             ("ast" "\\ast" t "&ast;" "*" "*" "*")
+             ("lowast" "\\ast" t "&lowast;" "*" "*" "∗")
+             ("star" "\\star" t "&star;" "*" "*" "☆")
+             ("starf" "\\star" t "&starf;" "*" "*" "★")
+             ("sstarf" "\\star" t "&sstarf;" "*" "*" "⋆")
+             ()
+          ))
+    (add-to-list 'org-entities-user item)))
+#+end_src
+
+To be able to store links to Emacs Info pages. Enabled by default in vanilla Org, but Doom disables it.
+
+#+begin_src elisp
+(use-package! ol-info
+  :after org)
+#+end_src
+
+*** Tags
+#+begin_src elisp
+(after! org
+  (setq!
+    org-tag-persistent-alist
+    '(
+       ;; Explicitly select/exclude headings for/from export. See *Export settings* in
+       ;; the Org manual.
+       (:startgroup . nil) ("export" . ?e) ("noexport" . ?n) (:endgroup . nil)
+       ;; Export only contents, ignoring headline (the ox-extra ignore-headlines must be
+       ;; activated).
+       ("ignore" . ?i)
+    )))
+#+end_src
+
+Right-align Org tags based on whatever EditorConfig sets as the fill-column, but leave room for the three dots that are added in folded views.
+
+#+begin_src elisp
+(add-hook! 'editorconfig-after-apply-functions
+  (setq-local org-tags-column (+ 3 (- fill-column))))
+#+end_src
+
+One last bit of tweaking for how I want ~org-indent-mode~ to work. Turns out tag alignment is broken (or badly configured in my case?) in combination with ~org-indent-mode~: nested headings add indentation to the tag column. You don't want that. TODO: Investigate root cause and possibly report?
+
+#+begin_src elisp
+(defadvice! dlukes/fix-org-align-tags-under-org-indent-mode (oldfun &rest r)
+  "Turn off org-indent-mode when aligning tags, to prevent additional indentation."
+  :around 'org-align-tags
+  (if (not org-indent-mode)
+    (apply oldfun r)
+    (org-indent-mode -1)
+    (apply oldfun r)
+    (org-indent-mode)))
+#+end_src
+
+*** (Tempo) templates
+These can be used with both =C-c C-,= and =<=-style tempo templates, but for the latter, you'll probably need to switch auto-completion to manual, so that =TAB= isn't hijacked by the completion menu when 2 or more characters are available at point.
+
+#+begin_src elisp
+(after! org
+  (dolist (template '(
+                       ("sb" . "src bash")
+                       ("sd" . "src dash")
+                       ("se" . "src elisp")
+                       ("sf" . "src fish")
+                       ("sp" . "src python")
+                       ("sr" . "src R")
+                       ("ss" . "src sh")
+                    ))
+    (add-to-list 'org-structure-template-alist template)))
+#+end_src
+
+I like =<= better when I already know the key, =C-c C-,= is a bit finger-twisty, although nice for discoverability OTOH.
+
+#+begin_src elisp
+(use-package! org-tempo
+  :after org)
+#+end_src
+
+*** UI add-on packages
+#+begin_src elisp
+(use-package! org-ol-tree
+  :after org
+  :config
+  (setq!
+    org-ol-tree-action-move-to-target t))
+
+(use-package! org-modern
+  :after org
+  :config
+  (setq!
+    ;; org-modern-star nil
+    org-modern-hide-stars nil
+    org-modern-checkbox nil)
+  (global-org-modern-mode))
+#+end_src
+
+** Export
+#+begin_src elisp
+(after! ox
+  (setq!
+    ;; Async export nil by default, so that opening after export works. Toggle to t when
+    ;; working on a file that takes a while to export, which you keep open and just
+    ;; refresh. SPC t a, or possibly with a buffer-local variable.
+    ; org-export-in-background nil
+    ;; Allow `#+bind: variable value' directives. Useful for tweaking variables you
+    ;; can't set via #+options or other keywords.
+    org-export-allow-bind-keywords t
+    ;; Don't export _ and ^ as sub/superscripts unless wrapped in curly brackets. Use
+    ;; #+OPTIONS: ^:t (or {} or nil) to tweak on a per-document basis.
+    org-export-with-sub-superscripts '{}
+    ;; Don't abort export because of broken links, just mark them. Don't enable this by
+    ;; default, you probably want to be warned about broken links before possibly
+    ;; forcing the export anyway.  Also, ID links can be fixed with
+    ;; org-id-update-id-locations or org-roam-update-org-id-locations, so try that
+    ;; first.
+    ; org-export-with-broken-links 'mark
+    ;; Many of the following export tweaks are at their default values, but just as a
+    ;; reminder that they can be modified, either via variables or the options keyword.
+    org-export-with-toc t
+    org-export-with-date t
+    org-export-with-author t
+    org-export-with-email nil
+    org-export-with-title t
+    org-export-with-creator t
+    org-export-with-tags t
+    org-export-time-stamp-file t))
+
+(use-package! ox-extra
+  :after org
+  :config
+  ;; Put an :ignore: tag on a headline to only include its subtree contents, not the
+  ;; headline itself, in exports. This is useful when you want some headlines to be used
+  ;; just for organization or folding purposes, but not reflected in the final document
+  ;; structure.
+  (ox-extras-activate '(ignore-headlines)))
+#+end_src
+
+*** HTML
+#+begin_src elisp :noweb yes :noweb-prefix no
+(after! ox-html
+  (setq!
+    org-html-doctype "html5"
+    org-html-self-link-headlines t
+    org-html-style
+    "<style>
+<<org-html-head-css>>
+</style>
+<script>
+<<org-html-head-js>>
+</script>"
+    ;; Can also set the following two to t and use org-html-{pre,post}amble-format,
+    ;; which can even be a function for fine-grained control. See
+    ;; org-html--build-pre/postamble for inspiration.
+    org-html-preamble "<button id=\"lights\" onclick=\"document.documentElement.classList.toggle('dark')\">⏻</button>"
+    org-html-postamble 'auto
+    ;; Interactive code blocks, evaluated in browser. Can be occasionally useful, but
+    ;; not by default.
+    ; org-html-klipsify-src t
+    org-html-head-include-scripts t
+    org-html-wrap-src-lines t))
+#+end_src
+
+**** CSS and JS snippets
+     :PROPERTIES:
+     :VISIBILITY: folded
+     :END:
 #+name: org-html-head-css
 #+begin_src css :tangle no
-
 html {
   --fg: #333;
   --fg-light: #999;
@@ -175,189 +472,19 @@ pre.src code::before {
   margin-right: .5em;
   border-right: 1px solid #bbb;
 }
-
 #+end_src
 
 #+name: org-html-head-js
 #+begin_src js :tangle no
-
 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
   document.documentElement.classList.toggle('dark');
 };
-
 #+end_src
 
-#+begin_src elisp :noweb yes :noweb-prefix no
-;; Soft wrapping with line breaks allowed at more characters than just space or tab.
-(setq dlukes/org-category-table (copy-category-table))
-(dolist (char '(?- ?+ ?_ ?/ ?| ?\ ?. ?,))
-  (modify-category-entry char ?| dlukes/org-category-table))
-
-(add-hook! 'org-mode-hook
-  (set-category-table dlukes/org-category-table)
-  (setq-local word-wrap-by-category t)
-  (visual-fill-column-mode))
-
-;; Right-align Org tags based on whatever EditorConfig sets as the fill-column, but
-;; leave room for the three dots that are added in folded views.
-(add-hook! 'editorconfig-after-apply-functions
-  (setq-local org-tags-column (+ 3 (- fill-column))))
-
-;; Make sure error output via emacs-jupyter has ANSI color sequences fontified. TODO:
-;; Periodically check if this is still required. Last check: 2022-09-18, without
-;; org-superstar-mode. Related issues:
-;;   - https://github.com/nnicandro/emacs-jupyter/issues/366
-;;   - https://github.com/nnicandro/emacs-jupyter/issues/380
-(defun dlukes/display-ansi-colors ()
-  (ansi-color-apply-on-region (point-min) (point-max)))
-(add-hook! 'org-babel-after-execute-hook #'dlukes/display-ansi-colors)
-
-;; In Doom Emacs, it's not necessary to configure Babel manually with org-babel-do-load-languages.
-;; See https://discourse.doomemacs.org/t/common-config-anti-patterns/.
-
-;; Whenever you reconfigure a package, make sure to wrap your config in an
-;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
-;;
-;;   (after! PACKAGE
-;;     (setq x y))
-;;
-;; In practice, it often doesn't matter, but I've found this to be true e.g. for
-;; org-startup-indented. So let's be on the safe side.
-;;
-;; The exceptions to this rule:
-;;
-;;   - Setting file/directory variables (like `org-directory')
-;;   - Setting variables which explicitly tell you to set them before their
-;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
-;;   - Setting doom variables (which start with 'doom-' or '+').
-;;
-;; Here are some additional functions/macros that will help you configure Doom.
-;;
-;; - `load!' for loading external *.el files relative to this one
-;; - `use-package!' for configuring packages
-;; - `after!' for running code after a package has loaded
-;; - `add-load-path!' for adding directories to the `load-path', relative to
-;;   this file. Emacs searches the `load-path' when you load packages with
-;;   `require' or `use-package'.
-;; - `map!' for binding new keys
-;;
-;; To get information about any of these functions/macros, move the cursor over
-;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
-;; This will open documentation for it, including demos of how they are used.
-;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
-;; etc).
-;;
-;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
-;; they are implemented.
-
-(setq!
-  org-directory "~/Desktop/org/"
-  org-attach-id-dir (expand-file-name "attach/" org-directory)
-  org-cite-csl-styles-dir "~/.local/share/zotero/styles")
-
-(after! org
+*** LaTeX
+#+begin_src elisp
+(after! ox-latex
   (setq!
-    ;; If you want Org file links to work in exports, you need to use IDs, not the
-    ;; default path + text search flavor. This setting automatically generates an ID on
-    ;; link creation (if necessary).
-    org-id-link-to-org-use-id 'create-if-interactive-and-no-custom-id
-    ;; When you store a link while a visual region is selected, the link will contain
-    ;; the region as search string after ::.
-    org-link-context-for-files t
-
-    ;; Indent mode -- cf. also advice around org-align-tags below.
-    ;;
-    ;; You *do* want to use org-indent-mode by default, but only to have nice
-    ;; indentation in soft-wrapped lists.
-    org-startup-indented t
-    ;; You don't want additional visual indentation before headings or content.
-    org-indent-indentation-per-level 0
-    ;; You *do* want additional *physical* indentation for property drawers, clock lines
-    ;; and such...
-    org-adapt-indentation 'headline-data
-    ;; ... in spite of org-indent-mode.
-    org-indent-mode-turns-off-org-adapt-indentation nil
-    org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
-
-    org-pretty-entities t
-    org-startup-with-inline-images t
-    org-display-remote-inline-images 'cache
-    org-fontify-quote-and-verse-blocks nil
-
-    ;; The new default is text-properties and it has better performance, but until
-    ;; third-party packages (e.g. Org-roam) adapt, it might break fontification, so
-    ;; let's stick with overlays for now. TODO: Eventually switch.
-    org-fold-core-style 'overlays
-
-    ;; Put footnotes at the end of the section they're in. This keeps them closer to the
-    ;; text they refer to, which has both advantages and disadvantages (potential
-    ;; clutter), but the key thing is that this makes refiling across files safer: with
-    ;; a separate footnote section, you have to remember to move the footnotes manually.
-    ;; Conversely, when re-arranging text within a single file and the footnote
-    ;; reference and definition end up under different headings, it's not a problem:
-    ;; just normalize the footnotes to renumber them and send them to their correct
-    ;; spots. NOTE: If you *do* want a separate footnote section at some point, set this
-    ;; e.g. to "Footnotes" (the section itself is ignored during export), not t!
-    org-footnote-section nil
-    org-footnote-auto-adjust t
-    ;; Don't turn CSL references into links. This can be useful if you're using
-    ;; colorlinks in LaTeX and want the text to be less noisy, or also because links are
-    ;; fragile commands and you don't want to have to deal with compilation errors when
-    ;; you put references e.g. in captions.
-    ;; org-cite-csl-link-cites nil
-
-    org-tag-persistent-alist
-    '(
-       ;; Explicitly select/exclude headings for/from export. See *Export settings* in
-       ;; the Org manual.
-       (:startgroup . nil) ("export" . ?e) ("noexport" . ?n) (:endgroup . nil)
-       ;; Export only contents, ignoring headline (the ox-extra ignore-headlines must be
-       ;; activated).
-       ("ignore" . ?i)
-    )
-
-    ;; Async export nil by default, so that opening after export works. Toggle to t when
-    ;; working on a file that takes a while to export, which you keep open and just
-    ;; refresh. SPC t a, or possibly with a buffer-local variable.
-    ; org-export-in-background nil
-    ;; Allow `#+bind: variable value' directives. Useful for tweaking variables you
-    ;; can't set via #+options or other keywords.
-    org-export-allow-bind-keywords t
-    ;; Don't export _ and ^ as sub/superscripts unless wrapped in curly brackets. Use
-    ;; #+OPTIONS: ^:t (or {} or nil) to tweak on a per-document basis.
-    org-export-with-sub-superscripts '{}
-    ;; Don't abort export because of broken links, just mark them. Don't enable this by
-    ;; default, you probably want to be warned about broken links before possibly
-    ;; forcing the export anyway.  Also, ID links can be fixed with
-    ;; org-id-update-id-locations or org-roam-update-org-id-locations, so try that
-    ;; first.
-    ; org-export-with-broken-links 'mark
-    ;; Many of the following export tweaks are at their default values, but just as a
-    ;; reminder that they can be modified, either via variables or the options keyword.
-    org-export-with-toc t
-    org-export-with-date t
-    org-export-with-author t
-    org-export-with-email nil
-    org-export-with-title t
-    org-export-with-creator t
-    org-export-with-tags t
-    org-export-time-stamp-file t
-
-    org-html-doctype "html5"
-    org-html-self-link-headlines t
-    org-html-style
-    "<style><<org-html-head-css>></style>\n<script><<org-html-head-js>></script>"
-    ;; Can also set the following two to t and use org-html-{pre,post}amble-format,
-    ;; which can even be a function for fine-grained control. See
-    ;; org-html--build-pre/postamble for inspiration.
-    org-html-preamble "<button id=\"lights\" onclick=\"document.documentElement.classList.toggle('dark')\">⏻</button>"
-    org-html-postamble 'auto
-    ;; Interactive code blocks, evaluated in browser. Can be occasionally useful, but
-    ;; not by default.
-    ; org-html-klipsify-src t
-    org-html-head-include-scripts t
-    org-html-wrap-src-lines t
-
     org-latex-tables-booktabs t
     ;; Default theme, options etc. can be tweaked, see variable's documentation.
     ;; Per-file and per-block options are also available, see
@@ -388,149 +515,12 @@ if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       ("" "booktabs" t)
       ("" "tabularx" t)
       ("autostyle" "csquotes" t)
-    )
+    )))
+#+end_src
 
-    ;; Don't prefix figure, table etc. numbers with section numbers.
-    org-odt-display-outline-level 0
-    org-latex-to-mathml-convert-command "pandoc -f latex -t html5 --mathml %I -o %o"
-    ;; This can be used to include *any* LaTeX in ODT exports as PNG images.
-    ;; Unfortunately, it can't be used in conjunction with the MathML convert command
-    ;; above as it overrides it and equations are also rendered as PNG, which is
-    ;; suboptimal.
-    ; org-odt-with-latex 'dvipng
-    ;; Use this to convert the resulting ODT to a different format and use that as
-    ;; the result of the export instead. See org-odt-convert-process(es) for how to
-    ;; define the way this conversion should happen. By default, soffice is used, but
-    ;; you could conceivably use Pandoc as well.
-    ; org-odt-preferred-output-format "docx"
+If this leads to an error, install TeX Live and update Doom so that it notices that you have LaTeX support. Remember you can control the order of inclusion of (default) packages and extra header lines, and even entirely prevent it. See documentation for ~org-latex-classes~.
 
-    org-coderef-label-format "# (ref:%s)"
-    ;; In addition to setting these in src block headers, you can also put them into
-    ;; property drawers or #+property: directives via :header-args:jupyter-python:. This will
-    ;; then affect all matching src blocks in scope (subtree or file).
-    org-babel-default-header-args:jupyter-python
-    '((:kernel . "python3")
-      ;; Careful! This uses the same session for any block in any file by default. Set a
-      ;; custom session via header-args when isolation and reproducibility matter.
-      (:session . "py")
-      (:async . "yes"))
-    ;; Copy the same settings to regular python blocks. You override python src blocks
-    ;; to use jupyter-python instead below, and while the override also performs the
-    ;; copy, it only does it after evaluation has started because of lazy loading, so
-    ;; the first attempt to evalute a python src block will fail, because it still uses
-    ;; the old org-babel-default-header-args:python. So override it in advance instead.
-    ;; NOTE: The override means you can simply use :header-args:python: instead of
-    ;; :header-args:jupyter-python: to tweak them.
-    org-babel-default-header-args:python org-babel-default-header-args:jupyter-python
-    ;; Ditto for R.
-    org-babel-default-header-args:jupyter-R
-    '((:kernel . "ir")
-      (:session . "R")
-      (:async . "yes"))
-    org-babel-default-header-args:R org-babel-default-header-args:jupyter-R
-
-    org-roam-capture-templates
-    '(
-      ;; Should be same as stock, with different key.
-      ("n" "default" plain nil
-        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
-        :unnarrowed t)
-      ("t" "tagged" item "- tags :: %?"
-        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
-        :empty-lines-before 1
-        :unnarrowed t)
-      ("d" "date" entry "* %^u\n%?"
-        ;; There's also a file+datetree target, but that feels unnecessarily verbose --
-        ;; hierarchical, always adds an ID.
-        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
-        :empty-lines-before 1
-        :unnarrowed t))
-    org-roam-dailies-capture-templates
-    '(("d" "default" entry "* %U %?"
-        :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>")
-        :empty-lines-before 1
-        :unnarrowed t)))
-
-  ;; Entity tweaks.
-  (dolist
-    (item '(
-             ;; Make export of asterisks and stars more consistent across backends.
-             ("ast" "\\ast" t "&ast;" "*" "*" "*")
-             ("lowast" "\\ast" t "&lowast;" "*" "*" "∗")
-             ("star" "\\star" t "&star;" "*" "*" "☆")
-             ("starf" "\\star" t "&starf;" "*" "*" "★")
-             ("sstarf" "\\star" t "&sstarf;" "*" "*" "⋆")
-             ()
-          ))
-    (add-to-list 'org-entities-user item))
-
-  ;; These can be used with both C-c C-, and <-style tempo templates, but for the
-  ;; latter, you'll probably need to switch auto-completion to manual, so that TAB isn't
-  ;; hijacked by the completion menu when 2 or more characters are available at point.
-  (dolist (template '(
-                       ("sb" . "src bash")
-                       ("sd" . "src dash")
-                       ("se" . "src elisp")
-                       ("sf" . "src fish")
-                       ("sp" . "src python")
-                       ("sr" . "src R")
-                       ("ss" . "src sh")
-                    ))
-    (add-to-list 'org-structure-template-alist template))
-
-  ;; Why the hell does this setting default to mailcap of all things, instead of
-  ;; xdg-open?  Anyway...
-  (setcdr (assq 'system org-file-apps-gnu) "xdg-open %s")
-  (setcdr (assq t org-file-apps-gnu) "xdg-open %s"))
-
-;; One last bit of tweaking for how you want org-indent-mode to work. Turns out tag
-;; alignment is broken (or badly configured in my case?) in combination with
-;; org-indent-mode: nested headings add indentation to the tag column. You don't want
-;; that. TODO: Investigate root cause and possibly report?
-(defadvice! dlukes/fix-org-align-tags-under-org-indent-mode (oldfun &rest r)
-  "Turn off org-indent-mode when aligning tags, to prevent additional indentation."
-  :around 'org-align-tags
-  (if (not org-indent-mode)
-    (apply oldfun r)
-    (org-indent-mode -1)
-    (apply oldfun r)
-    (org-indent-mode)))
-
-(defadvice! dlukes/override-src-block-when-loading-jupyter (oldfun lang)
-  "If lang is in langs-to-override, map it to jupyter-lang instead."
-  :around '+org-babel-load-jupyter-h
-  (let* ((langs-to-override '(python R))
-         (jupyter-lang (if (member lang langs-to-override)
-                         (intern (concat "jupyter-" (symbol-name lang)))
-                         lang))
-         (ans (funcall oldfun jupyter-lang)))
-    (when (member lang langs-to-override)
-      (org-babel-jupyter-override-src-block (symbol-name lang)))
-    ans))
-
-(after! jupyter-org-client
-  (setq!
-    jupyter-org-mime-types
-    (let* ((grouped-mimes
-            (seq-group-by
-              (lambda (mime) (string-prefix-p ":image" (symbol-name mime)))
-              ;; Doom removes :text/html, but it might be hand occasionally, so let's make
-              ;; sure it's there.
-              (append jupyter-org-mime-types '(:text/html))))
-           (image-mimes (cdr (car grouped-mimes)))
-           (text-mimes (cdr (nth 1 grouped-mimes))))
-      ;; Default to displaying an image, and failing that, the plain text representation I'm
-      ;; used to and which should always be available. The remaining mime types can be
-      ;; selected via the :display header arg as needed.
-      (seq-uniq (append image-mimes '(:text/plain) text-mimes)))))
-
-(after! ob-core
-  (setcdr (assq :exports org-babel-default-header-args) "both"))
-
-;; If this leads to an error, install TeX Live and update Doom so that it notices that
-;; you have LaTeX support. Remember you can control the order of inclusion of (default)
-;; packages and extra header lines, and even entirely prevent it. See variable's
-;; documentation.
+#+begin_src elisp
 (after! ox-latex
   (setq!
     ;; Don't load amssymb, as it conflicts with unicode-math.
@@ -594,36 +584,131 @@ if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
                ("custom-article" ,custom-class-format ,article-structure)
                ("custom-book" ,custom-class-format ,book-structure)))
           (add-to-list 'org-latex-classes (append (list class (format format class)) structure)))))
+#+end_src
 
-;; To be able to store links to Emacs Info pages. Enabled by default in vanilla Org, but
-;; Doom disables it.
-(use-package! ol-info
-  :after org)
-
-;; I like < better when I already know the key, C-c C-, is a bit finger-twisty, although
-;; nice for discoverability OTOH.
-(use-package! org-tempo
-  :after org)
-
-(use-package! ox-extra
-  :after org
-  :config
-  ;; Put an :ignore: tag on a headline to only include its subtree contents, not the
-  ;; headline itself, in exports. This is useful when you want some headlines to be used
-  ;; just for organization or folding purposes, but not reflected in the final document
-  ;; structure.
-  (ox-extras-activate '(ignore-headlines)))
-
-(use-package! org-ol-tree
-  :after org
-  :config
+*** ODT
+#+begin_src elisp
+(after! ox-odt
   (setq!
-    org-ol-tree-action-move-to-target t))
+    ;; Don't prefix figure, table etc. numbers with section numbers.
+    org-odt-display-outline-level 0
+    org-latex-to-mathml-convert-command "pandoc -f latex -t html5 --mathml %I -o %o"
+    ;; This can be used to include *any* LaTeX in ODT exports as PNG images.
+    ;; Unfortunately, it can't be used in conjunction with the MathML convert command
+    ;; above as it overrides it and equations are also rendered as PNG, which is
+    ;; suboptimal.
+    ; org-odt-with-latex 'dvipng
+    ;; Use this to convert the resulting ODT to a different format and use that as
+    ;; the result of the export instead. See org-odt-convert-process(es) for how to
+    ;; define the way this conversion should happen. By default, soffice is used, but
+    ;; you could conceivably use Pandoc as well.
+    ; org-odt-preferred-output-format "docx"
+))
+#+end_src
 
-(use-package! org-modern
-  :after org
-  :config
-  (global-org-modern-mode))
+** Code blocks and Babel
+Remember that in Doom Emacs, it's not necessary to configure Babel manually with ~org-babel-do-load-languages~. Just enable support for the given language via [[file:~/.config/doom/init.el][init.el]].
+
+#+begin_src elisp
+(after! org-src
+  (setq!
+    org-coderef-label-format "# (ref:%s)"))
+
+(after! ob-core
+  (setcdr (assq :exports org-babel-default-header-args) "both")
+  (setq!
+    ;; In addition to setting these in src block headers, you can also put them into
+    ;; property drawers or #+property: directives via :header-args:jupyter-python:. This will
+    ;; then affect all matching src blocks in scope (subtree or file).
+    org-babel-default-header-args:jupyter-python
+    '((:kernel . "python3")
+      ;; Careful! This uses the same session for any block in any file by default. Set a
+      ;; custom session via header-args when isolation and reproducibility matter.
+      (:session . "py")
+      (:async . "yes"))
+    ;; Copy the same settings to regular python blocks. You override python src blocks
+    ;; to use jupyter-python instead below, and while the override also performs the
+    ;; copy, it only does it after evaluation has started because of lazy loading, so
+    ;; the first attempt to evalute a python src block will fail, because it still uses
+    ;; the old org-babel-default-header-args:python. So override it in advance instead.
+    ;; NOTE: The override means you can simply use :header-args:python: instead of
+    ;; :header-args:jupyter-python: to tweak them.
+    org-babel-default-header-args:python org-babel-default-header-args:jupyter-python
+    ;; Ditto for R.
+    org-babel-default-header-args:jupyter-R
+    '((:kernel . "ir")
+      (:session . "R")
+      (:async . "yes"))
+    org-babel-default-header-args:R org-babel-default-header-args:jupyter-R))
+#+end_src
+
+*** Emacs Jupyter
+#+begin_src elisp
+(defadvice! dlukes/override-src-block-when-loading-jupyter (oldfun lang)
+  "If lang is in langs-to-override, map it to jupyter-lang instead."
+  :around '+org-babel-load-jupyter-h
+  (let* ((langs-to-override '(python R))
+         (jupyter-lang (if (member lang langs-to-override)
+                         (intern (concat "jupyter-" (symbol-name lang)))
+                         lang))
+         (ans (funcall oldfun jupyter-lang)))
+    (when (member lang langs-to-override)
+      (org-babel-jupyter-override-src-block (symbol-name lang)))
+    ans))
+
+(after! jupyter-org-client
+  (setq!
+    jupyter-org-mime-types
+    (let* ((grouped-mimes
+            (seq-group-by
+              (lambda (mime) (string-prefix-p ":image" (symbol-name mime)))
+              ;; Doom removes :text/html, but it might be hand occasionally, so let's make
+              ;; sure it's there.
+              (append jupyter-org-mime-types '(:text/html))))
+           (image-mimes (cdr (car grouped-mimes)))
+           (text-mimes (cdr (nth 1 grouped-mimes))))
+      ;; Default to displaying an image, and failing that, the plain text representation I'm
+      ;; used to and which should always be available. The remaining mime types can be
+      ;; selected via the :display header arg as needed.
+      (seq-uniq (append image-mimes '(:text/plain) text-mimes)))))
+#+end_src
+
+Make sure error output via =emacs-jupyter= has ANSI color sequences fontified. TODO: Periodically check if this is still required. Last check: [2022-09-18], without =org-superstar-mode=. Related issues:
+
+- https://github.com/nnicandro/emacs-jupyter/issues/366
+- https://github.com/nnicandro/emacs-jupyter/issues/380
+
+#+begin_src elisp
+(defun dlukes/display-ansi-colors ()
+  (ansi-color-apply-on-region (point-min) (point-max)))
+(add-hook! 'org-babel-after-execute-hook #'dlukes/display-ansi-colors)
+#+end_src
+
+** Org-roam
+#+begin_src elisp
+(after! org-roam
+  (setq!
+    org-roam-capture-templates
+    '(
+      ;; Should be same as stock, with different key.
+      ("n" "default" plain nil
+        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+        :unnarrowed t)
+      ("t" "tagged" item "- tags :: %?"
+        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+        :empty-lines-before 1
+        :unnarrowed t)
+      ("d" "date" entry "* %^u\n%?"
+        ;; There's also a file+datetree target, but that feels unnecessarily verbose --
+        ;; hierarchical, always adds an ID.
+        :target (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}")
+        :empty-lines-before 1
+        :unnarrowed t))
+    org-roam-dailies-capture-templates
+    '(("d" "default" entry "* %U %?"
+        :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>")
+        :empty-lines-before 1
+        :unnarrowed t))))
 
 (use-package! websocket
   :after org-roam)
@@ -643,26 +728,19 @@ if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
     org-roam-ui-follow t
     org-roam-ui-update-on-save t
     org-roam-ui-open-on-start t))
+#+end_src
 
-;; When Org-roam tries to render images in the backlinks buffer but can't find them, the
-;; filename gets interpreted as a base64 string, which results in an error and rendering
-;; of the buffer halts, with the remaining backlinks not shown.
-;;
-;; Attachments are looked up via the ID of their parent node. So what are the typical
-;; reasons why an attachment can't be found?
-;;
-;; Maybe the image has been refiled under a different ID and the attachment hasn't been
-;; moved. Automatic moving of attachments on refile may be implemented in Org-roam in
-;; the future, but isn't currently.
-;;
-;; But more generally, maybe the whole mechanism of attachment lookup fails in the
-;; backlinks buffer -- maybe the node ID isn't correctly set in that context. Maybe it's
-;; Doom's fault, Doom customizes the attachment system, using a single global dir.
-;;
-;; At any rate, I don't really care if the backlinks buffer doesn't show images (maybe I
-;; even prefer that it doesn't), but I *do* care if it doesn't show all the backlinks
-;; due to an error. So demote the error to a warning message. This also means that Org
-;; buffers with broken attachment links will still fully initialize, which is also nice.
+When Org-roam tries to render images in the backlinks buffer but can't find them, the filename gets interpreted as a base64 string, which results in an error and rendering of the buffer halts, with the remaining backlinks not shown.
+
+Attachments are looked up via the ID of their parent node. So what are the typical reasons why an attachment can't be found?
+
+Maybe the image has been refiled under a different ID and the attachment hasn't been moved. Automatic moving of attachments on refile may be implemented in Org-roam in the future, but isn't currently.
+
+But more generally, maybe the whole mechanism of attachment lookup fails in the backlinks buffer -- maybe the node ID isn't correctly set in that context. Maybe it's Doom's fault, Doom customizes the attachment system, using a single global dir.
+
+At any rate, I don't really care if the backlinks buffer doesn't show images (maybe I even prefer that it doesn't), but I /do/ care if it doesn't show all the backlinks due to an error. So demote the error to a warning message. This also means that Org buffers with broken attachment links will still fully initialize, which is also nice.
+
+#+begin_src elisp
 (defadvice! no-errors/+org-inline-image-data-fn (_protocol link _description)
   "Interpret LINK as base64-encoded image data. Demote errors to warnings."
   :override #'+org-inline-image-data-fn
@@ -759,7 +837,7 @@ if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
 (add-hook! 'elfeed-search-mode-hook #'elfeed-update)
 #+end_src
 
-* Other functions
+* Custom interactive functions
 #+begin_src elisp
 (defun dlukes/ediff-doom-config (file)
   "ediff the current config with the examples in doom-emacs-dir
@@ -802,6 +880,8 @@ diff.
 #+end_src
 
 * Keyboard mappings
+GNOME Shell might be stubborn in reverting back to using =M-SPC= as a keyboard layout switching shortcut. If it does, just explicitly switch it to =Win-SPC= in GNOME Tweaks, so that you can use Doom's default (local)leader alt key bindings.
+
 #+begin_src elisp
 (after! evil-escape
   (setq evil-escape-key-sequence "fd"))
@@ -813,14 +893,14 @@ diff.
   ("-" writeroom-decrease-width "narrower")
   ("0" writeroom-adjust-width "reset")
   ("q" nil "done" :exit t))
+#+end_src
 
-;; NOTE: Cf. 'SPC h f map\!'. Use stuff like :n immediately before a mapping for Evil
-;; state (Vim mode) specific keymaps. Also, glean inspiration from the official key
-;; binding definitions, e.g. in:
-;;
-;; ~/.config/emacs/core/core-keybinds.el
-;; ~/.config/emacs/modules/config/default/+evil-bindings.el
+Cf. =SPC h f map!=. Use stuff like =:n= immediately before a mapping for Evil state (Vim mode) specific keymaps. Also, glean inspiration from the official key binding definitions, e.g. in:
 
+- [[file:~/.config/emacs/lisp/doom-keybinds.el]]
+- [[file:~/.config/emacs/modules/config/default/+evil-bindings.el]]
+
+#+begin_src elisp
 (map! :leader
   :desc "Run ex command" "SPC" #'evil-ex
   :desc "Switch to last buffer" "TAB" #'evil-switch-to-windows-last-buffer
@@ -848,7 +928,11 @@ diff.
   ;; - Ctrl/Cmd-Shift-T   ->  Display workspace tab bar
   ;; - Ctrl/Cmd-<number>  ->  Switch to workspace <number>
   :desc "workspace" "W" doom-leader-workspace-map)
+#+end_src
 
+When adding to an existing keymap under leader, don't add =:leader=, otherwise it won't work.
+
+#+begin_src elisp
 (map! :map doom-leader-toggle-map
   "a" (dlukes/make-toggle 'org-export-in-background)
   "e" #'org-toggle-pretty-entities
@@ -857,10 +941,12 @@ diff.
 ;; https://github.com/doomemacs/doomemacs/issues/5532#issuecomment-991611197, so add
 ;; descriptions separately.
 (which-key-add-key-based-replacements "SPC t a" "Async Org export")
+#+end_src
 
-;; Also, when adding to an existing keymap under leader, don't add :leader, otherwise it
-;; won't work. But when adding to an existing keymap under localleader, :localleader is
-;; required!
+But when adding to an existing keymap under /localleader/, =:localleader= is apparently
+required!
+
+#+begin_src elisp
 (after! org
   (map! :map org-mode-map :localleader
     (:prefix ("s" "tree/subtree")
