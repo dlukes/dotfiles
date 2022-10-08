@@ -9,7 +9,14 @@ fi
 . "$HOME/.files/locale"
 unset main alt
 
-if [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
+# For Emacs TRAMP, just use the bare minimum necessary.
+if [ "$TERM" = dumb ]; then
+  # PATH needs to be set and exported separately for Bourne/POSIX compatibility, see
+  # https://stackoverflow.com/a/10464554.
+  PATH="$HOME/.local/mambaforge/envs/umrk/bin:$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+  export PATH
+# Otherwise, load interactive Bash config.
+elif [ -n "$BASH_VERSION" ] && [ -f "$HOME/.bashrc" ]; then
   . "$HOME/.bashrc"
 fi
 
