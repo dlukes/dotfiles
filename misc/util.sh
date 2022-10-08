@@ -51,9 +51,11 @@ maybe_fetch_archive() {
   local repo="$2"
   local archive_regex="$3"
   if ! command -v "$cmd" >/dev/null; then
-    release_link=https://github.com$(
-      curl -sfL "https://github.com/$repo/releases" |
-        grep -oPm1 '/[^"]+/'"$archive_regex"
+    release_link=$(
+      curl -sfL -H "Accept: application/vnd.github+json" \
+        "https://api.github.com/repos/$repo/releases" |
+        grep -F browser_download_url |
+        grep -oPm1 '[^"]+/'"$archive_regex"
     )
     curl -sSfLO "$release_link"
     basename "$release_link"

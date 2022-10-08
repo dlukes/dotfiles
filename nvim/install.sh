@@ -35,11 +35,11 @@ elif [ -d "$prefix"/$repo ]; then
 else
   >&2 echo ">>> No git repo, downloading appimage."
   cd "$prefix"/bin
-  appimage=$(maybe_fetch_archive dummy-cmd-to-force-nvim-to-always-install $org/$repo nvim.appimage)
-  if [ -n "$appimage" ]; then
-    chmod +x "$appimage"
-    ln -sf "$appimage" nvim
-  fi
+  appimage=nvim.appimage
+  rm -f $appimage
+  maybe_fetch_archive dummy-cmd-to-force-install $org/$repo nightly/$appimage
+  chmod +x "$appimage"
+  ln -sf "$appimage" nvim
 fi
 
 
