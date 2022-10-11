@@ -431,9 +431,14 @@ body {
   top: 1rem;
   right: 1rem;
 }
+#table-of-contents ul {
+  list-style-type: none;
+  padding-left: 0;
+}
 @media screen and (min-width: 1400px) {
   #table-of-contents {
     position: fixed;
+    max-width: 20rem;
     right: 2rem;
     top: 3rem;
     bottom: 3rem;
@@ -446,7 +451,7 @@ body {
   }
 }
 #content {
-  max-width: 50rem;
+  max-width: 40rem;
 }
 a {
   color: var(--hi);
