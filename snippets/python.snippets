@@ -539,4 +539,19 @@ snippet xpathtext "text nodes as list of str"
 $0.xpath(".//text()")
 endsnippet
 
+# Don't use utcnow and utcfromtimestamp! See also:
+#  - https://blog.ganssle.io/articles/2022/04/naive-local-datetimes.html
+#  - https://blog.ganssle.io/articles/2019/11/utcnow.html
+snippet dt
+import datetime as dt
+endsnippet
+
+snippet utcnow "the right way to get the current time as UTC"
+dt.datetime.now(tz=dt.timezone.utc)
+endsnippet
+
+snippet utcts "the right way parse a UTC timestamp"
+dt.datetime.fromtimestamp($0, tz=dt.timezone.utc)
+endsnippet
+
 # vi: noet ts=4 sw=4
