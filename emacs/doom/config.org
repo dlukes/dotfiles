@@ -861,8 +861,16 @@ So the only thing that remains is picking a default dictionary, and setting a pe
 
 #+begin_src elisp
 (setq!
-  ispell-personal-dictionary "~/Desktop/data/aspell/personal"
+  ispell-personal-dictionary "~/Desktop/data/aspell/en_US-custom-80.pws"
   ispell-dictionary "en_US-custom-80")
+#+end_src
+
+With a personal dictionary set, you'll run into an error when [[https://lists.gnu.org/archive/html/help-gnu-emacs/2013-11/msg00151.html][switching to a language different from the one of the personal dict]]. So let's make sure an appropriate ~ispell-local-pdict~ is set whenever ~ispell-local-dictionary~ changes:
+
+#+begin_src elisp
+(add-variable-watcher 'ispell-local-dictionary
+  (lambda (_symbol new-dict _operation _where)
+    (setq ispell-local-pdict (concat "~/Desktop/data/aspell/" new-dict ".pws"))))
 #+end_src
 
 * Custom interactive functions
