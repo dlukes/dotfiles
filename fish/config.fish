@@ -40,7 +40,10 @@ source ~/.files/locale
 set -e main
 set -e alt
 
-# ------------------------------------------------------------- Homebrew {{{1
+
+
+# ----------------------------------------------------------------------------- Homebrew {{{1
+
 
 if not set -q HOMEBREW_PREFIX
   set -l brew_prefix /opt/homebrew
@@ -56,7 +59,10 @@ if not set -q HOMEBREW_PREFIX
   end
 end
 
-# --------------------------------------------------------- Custom paths {{{1
+
+
+# ------------------------------------------------------------------------- Custom paths {{{1
+
 
 if not set -q CUSTOM_PATHS
   set -gx CUSTOM_PATHS
@@ -83,7 +89,10 @@ else
   set -gx EDITOR vim
 end
 
-# --------------------------------------------------------------- Python {{{1
+
+
+# ------------------------------------------------------------------------------- Python {{{1
+
 
 set -gx PYTHONFAULTHANDLER 1
 # See <https://www.python.org/dev/peps/pep-0597/>. If you explicitly want to use the
@@ -105,7 +114,10 @@ if type -q pyenv
   pyenv init - | source
 end
 
-# -------------------------------------------------------- Mamba / Conda {{{1
+
+
+# ------------------------------------------------------------------------ Mamba / Conda {{{1
+
 
 set -l conda ~/.local/mambaforge/condabin/conda
 if test -x $conda
@@ -139,7 +151,10 @@ if test -x $conda
   mamba activate umrk
 end
 
-# ----------------------------------------------------------------- Rust {{{1
+
+
+# --------------------------------------------------------------------------------- Rust {{{1
+
 
 if not set -q RUSTUP_HOME
   # this is the default value, so setting it is technically redundant,
@@ -150,7 +165,10 @@ if not set -q RUSTUP_HOME
   end
 end
 
+
+
 # --------------------------------------------------------------------------------- Perl {{{1
+
 
 # These would be nice and strict, see, https://stackoverflow.com/a/6163129, but they
 # break too much third-party code. And as I'm not planning to write any first-party Perl
@@ -164,7 +182,10 @@ if test -d $local_lib
   perl -I"$local_lib"/lib/perl5 -Mlocal::lib="$local_lib" | source
 end
 
-# ------------------------------------------------------------------ fzf {{{1
+
+
+# ---------------------------------------------------------------------------------- fzf {{{1
+
 
 source ~/.local/share/fzf/key-bindings.fish
 fzf_key_bindings
@@ -175,7 +196,10 @@ if type -q bat
   set -gx FZF_CTRL_T_OPTS '--multi --preview "bat --style numbers,changes --color=always --decorations=always {} | head -500"'
 end
 
-# ------------------------------------------------------------------ git {{{1
+
+
+# ---------------------------------------------------------------------------------- git {{{1
+
 
 set -g __fish_git_prompt_showcolorhints
 set -g __fish_git_prompt_use_informative_chars
@@ -192,17 +216,26 @@ set -g __fish_git_prompt_showuntrackedfiles
 set -g __fish_git_prompt_showupstream
 set -g __fish_git_prompt_showstashstate
 
-# ------------------------------------------------------------------ bat {{{1
+
+
+# ---------------------------------------------------------------------------------- bat {{{1
+
 
 set -gx BAT_CONFIG_PATH ~/.files/bat.conf
 
-# --------------------------------------------------------------- Zoxide {{{1
+
+
+# ------------------------------------------------------------------------------- Zoxide {{{1
+
 
 if type -q zoxide
   zoxide init fish --cmd j | source
 end
 
-# ------------------------------------------------------------------ SSH {{{1
+
+
+# ---------------------------------------------------------------------------------- SSH {{{1
+
 
 # pre-load ssh keys
 if type -q ssh-agent
@@ -222,7 +255,21 @@ if type -q ssh-agent
   end
 end
 
-# -------------------------------------------------- Custom key bindings {{{1
+
+
+# ------------------------------------------------------------------------------- Aspell {{{1
+
+
+set -l aspell_dir ~/Desktop/data/aspell
+for dict in $aspell_dir/*.rws
+  set -gxa ASPELL_CONF "add-dict-alias $(string sub -e -4 -- $(basename $dict)) $dict;"
+end
+set -gxa ASPELL_CONF "personal $aspell_dir/personal;"
+
+
+
+# ------------------------------------------------------------------ Custom key bindings {{{1
+
 
 bind \cx expand_glob
 

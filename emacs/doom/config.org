@@ -817,23 +817,6 @@ At any rate, I don't really care if the backlinks buffer doesn't show images (ma
     lsp-rust-analyzer-display-chaining-hints t
     lsp-rust-analyzer-display-parameter-hints t))
 
-;; Spell checking should be available, but not enabled by default, so remove the hooks
-;; added in ~/.config/emacs/modules/checkers/spell/config.el
-(remove-hook!
-  '(org-mode-hook
-    markdown-mode-hook
-    TeX-mode-hook
-    rst-mode-hook
-    mu4e-compose-mode-hook
-    message-mode-hook
-    git-commit-mode-hook)
-  #'flyspell-mode)
-(remove-hook!
-  '(yaml-mode-hook
-    conf-mode-hook
-    prog-mode-hook)
-  #'flyspell-prog-mode)
-
 (after! company
   (setq!
     ;; Company completion can be slow, especially in long-running sessions with lots of
@@ -842,6 +825,44 @@ At any rate, I don't really care if the backlinks buffer doesn't show images (ma
     company-idle-delay nil))
 
 (add-hook! 'elfeed-search-mode-hook #'elfeed-update)
+#+end_src
+
+** Spell checking
+Spell-fu may be faster than Flyspell and [[https://codeberg.org/ideasman42/emacs-spell-fu][looking at the readme]], it even supports multiple languages, unlike what the Doom module docs claim. However, it has other drawbacks, mostly papercuts, but still:
+
+- Can't use ~ispell-change-dictionary~ to change the dictionary. AFAICS, there are only functions for adding/removing dictionaries to the list of active dicts, and they aren't interactive.
+- In general, just light integration with standard ispell configuration. Only some variables are recognized, and honored only some of the time. For instance, I think you can't override the dict via local values for ~ispell-dictionary~.
+- For Czech, the pre-generated word list cache is huge and takes a while to create.
+- No equivalent of ~flyspell-prog-mode~, to only spellcheck comments in programming modes.
+- No point-and-click error correction interface, must invoke =M-x +spell/correct= (=z==) manually, and =M-x +spell/add-word= (=zg=) and =M-x +spell/remove-word= (=zw=) for editing the personal dictionary.
+
+As for the backend, aspell is superior to Hunspell, [[https://battlepenguin.com/tech/aspell-and-hunspell-a-tale-of-two-spell-checkers/][at least for English]], but unfortunately just lightly maintained and less used, probably because of licensing issues. Still, prefer it if possible.
+
+Spell checking should be available, but not enabled by default, so remove the hooks added by [[file:~/.config/emacs/modules/checkers/spell/config.el::(use-package! flyspell ; built-in][the Doom module]]:
+
+#+begin_src elisp
+(remove-hook! '(org-mode-hook
+                 markdown-mode-hook
+                 TeX-mode-hook
+                 rst-mode-hook
+                 mu4e-compose-mode-hook
+                 message-mode-hook
+                 git-commit-mode-hook)
+  #'flyspell-mode)
+(remove-hook! '(yaml-mode-hook
+                 conf-mode-hook
+                 prog-mode-hook)
+  #'flyspell-prog-mode)
+#+end_src
+
+I use [[http://app.aspell.net/create][custom SCOWL dictionaries for English]] and a personal dictionary shared across devices, placed in [[file:~/Desktop/data/aspell][a non-standard location]]. I've tried configuring the location via ~ispell-aspell-{dict,data}-dir~, but it doesn't quite seem to do the trick, and ultimately, I don't really want to completely override the system aspell files (I'd have to copy over a ton of supporting files, plus for other languages, I'm happy using the system-provided dictionaries), I just want to add additional dictionaries. So I tweak the =ASPELL_CONF= env var instead, which has the advantage of also affecting command-line invocations of aspell, if I ever need that, and ispell luckily seems to pick up on dict aliases added in there. There's also =~/.aspell.conf=, but unfortunately, I don't think there's a way to set a path relative to the home directory, which I need.
+
+So the only thing that remains is picking a default dictionary, and setting a personal dictionary, as ispell can't read that from the =ASPELL_CONF=:
+
+#+begin_src elisp
+(setq!
+  ispell-personal-dictionary "~/Desktop/data/aspell/personal"
+  ispell-dictionary "en_US-custom-80")
 #+end_src
 
 * Custom interactive functions

@@ -6,7 +6,7 @@ set -euf
 # (like Doom Emacs) might silently pick up and use, corrupting HTML and XML files left
 # and right.
 brew install \
-  fish git \
+  fish git aspell \
   coreutils findutils gnu-sed gnu-tar gawk \
   gcc readline openssl \
   tidy-html5
