@@ -334,6 +334,9 @@ I like =<= better when I already know the key, =C-c C-,= is a bit finger-twisty,
   (setq!
     ;; org-modern-star nil
     org-modern-hide-stars nil
+    org-modern-horizontal-rule
+    (concat
+      (make-string 32 ?\s) (make-string 24 ?─) (make-string 32 ?\s))
     org-modern-checkbox nil)
   (global-org-modern-mode))
 #+end_src
