@@ -53,7 +53,7 @@ local on_attach = function(client, bufnr)
   -- NOTE: uncomment to inspect features supported by language server
   -- print(vim.inspect(client.server_capabilities))
   if client.server_capabilities.documentFormattingProvider then
-    api.nvim_command("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)")
+    api.nvim_command("autocmd BufWritePre <buffer> lua vim.lsp.buf.format({async=false, timeout_ms=3000})")
   end
 
   for _, args in ipairs(lsp_mappings) do
@@ -97,8 +97,8 @@ local servers = {
   tsserver = {},
 }
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
 for ls, config in pairs(servers) do
   lspconfig[ls].setup {
     on_attach = on_attach,
