@@ -56,6 +56,7 @@ fi
 
 # Make sure Tree-sitter installs from scratch, existing files/dirs may cause errors.
 share="$prefix"/share/nvim
+mkdir -p "$share"
 find "$share" -maxdepth 1 -name tree-sitter\* -exec rm -rf {} \;
 # Use only head of init.vim file containing plugin declarations relevant for PlugInstall
 # -- until the plugins are available, the rest might cause errors which will abort the
