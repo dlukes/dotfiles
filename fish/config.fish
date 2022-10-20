@@ -105,15 +105,10 @@ set -gx PYTHONPYCACHEPREFIX ~/.cache/pycache
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 set -q NLTK_DATA; or set -gx NLTK_DATA ~/.local/share/nltk_data
 set -q SEABORN_DATA; or set -gx SEABORN_DATA ~/.local/share/seaborn-data
+set -q CONDA_EXE; or set -gx CONDA_EXE ~/.local/mambaforge/condabin/conda
 
-
-
-# ------------------------------------------------------------------------ Mamba / Conda {{{1
-
-
-set -l conda ~/.local/mambaforge/condabin/conda
-if test -x $conda
-  $conda shell.fish hook |
+if test -x $CONDA_EXE
+  $CONDA_EXE shell.fish hook |
     awk '/^function __conda_add_prompt/{d=1} /^function conda /{d=0} !d' |
     source
 
