@@ -105,14 +105,6 @@ set -gx PYTHONPYCACHEPREFIX ~/.cache/pycache
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 set -q NLTK_DATA; or set -gx NLTK_DATA ~/.local/share/nltk_data
 set -q SEABORN_DATA; or set -gx SEABORN_DATA ~/.local/share/seaborn-data
-if type -q pyenv
-  if not set -q PYENV_ROOT
-    set -gx PYENV_ROOT ~/.local/pyenv
-    pyenv init --path | source
-    set -gxp MANPATH (printf "%s\n" $PYENV_ROOT/versions/*/share/man | sort -Vr)
-  end
-  pyenv init - | source
-end
 
 
 
