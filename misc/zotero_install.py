@@ -31,6 +31,7 @@ if not profiles:
     eprint("  - Zotero: https://www.zotero.org/download/")
     eprint("  - Better BibTeX: https://github.com/retorquere/zotero-better-bibtex/releases/latest")
     eprint("  - ZotFile: http://zotfile.com/")
+    eprint("  - Night for Zotero: https://github.com/tefkah/zotero-night")
     # fmt: on
     sys.exit(1)
 elif len(profiles) > 1:
@@ -142,6 +143,10 @@ user_pref("extensions.zotfile.tablet", true);
 user_pref("extensions.zotfile.tablet.dest_dir", "{zotfile_dir}");
 user_pref("extensions.zotfile.tablet.projectFolders", 2);
 user_pref("extensions.zotfile.tablet.subfolders", "[{{\"label\":\"books\",\"path\":\"/books\"}}]");
+
+// Night for Zotero
+user_pref("extensions.night.default_pdf", "dark");
+user_pref("extensions.night.enabled", true);
 """.strip(),
     encoding="utf-8",
 )
