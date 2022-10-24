@@ -1,7 +1,7 @@
 let mapleader = ' '
 let maplocalleader = ' '
-if executable('mamba')
-  let g:python3_host_prog = fnamemodify('~/.local/mambaforge/envs/umrk/bin/python', ':p')
+if $CONDA_EXE
+  let g:python3_host_prog = fnamemodify($CONDA_EXE, ':h:h') . '/envs/umrk/bin/python'
 else
   let g:python3_host_prog = exepath('python3')
 endif
