@@ -36,7 +36,7 @@ info "Running additional NPM installs with $(command -v npm)."
 r_env_files=(r-common.yml r-$(uname -s).yml)
 for r_env_file in "${r_env_files[@]}"; do
   info "Installing R and packages from $r_env_file."
-  mamba env update --name $default_env --file "$script_dir/$r_env_file"
+  mamba env update --name $default_env --file "$script_dir/../R/$r_env_file"
 done
 info "Installing IRkernel kernelspec with $(command -v R)."
 R --quiet -e "IRkernel::installspec()"

@@ -109,7 +109,7 @@ $action "$XDG_DATA_HOME" pandoc
 # Stuff belonging under $HOME
 #-----------------------------------------------------------------------
 
-$action "$HOME" profile bashrc editorconfig sqliterc tmux.conf mamba/condarc
+$action "$HOME" profile bashrc editorconfig sqliterc tmux.conf mamba/condarc R/lintr
 
 #-----------------------------------------------------------------------
 # Editorconfig under / if I'm an admin
