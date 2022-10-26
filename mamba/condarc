@@ -2,3 +2,9 @@ channels:
   - conda-forge
 changeps1: false
 auto_activate_base: false
+# Wait at least six hours between repository information updates. You can also manually
+# force the cache to be used even if it has expired with `mamba install -C`, or
+# conversely, force a re-fetch by clearing the index cache with `mamba clean -i`.
+local_repodata_ttl: 21600
+
+# vi: ft=yaml
