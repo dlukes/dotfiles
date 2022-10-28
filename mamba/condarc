@@ -1,5 +1,6 @@
 channels:
   - conda-forge
+channel_priority: strict
 changeps1: false
 auto_activate_base: false
 # Wait at least six hours between repository information updates. You can also manually
