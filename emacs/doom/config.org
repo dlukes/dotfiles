@@ -619,12 +619,17 @@ If this leads to an error, install TeX Live and update Doom so that it notices t
 ** Code blocks and Babel
 Remember that in Doom Emacs, it's not necessary to configure Babel manually with ~org-babel-do-load-languages~. Just enable support for the given language via [[file:~/.config/doom/init.el][init.el]].
 
+Defaulting to =:results scalar= will prevent any fancy conversion of the output to Org tables by default, which is just confusing and hampers readability. If required, you can request it by explicitly overriding =:results= with =table= or =list=. See [[info:org#Results of Evaluation][org#Results of Evaluation]] for other options.
+
+With emacs-jupyter, you might expect that using the =:text/plain= mime type alone would prevent this sort of prettification, but no (probably to act as similar to regular code blocks as possible?). [[file:~/.config/emacs/.local/straight/repos/emacs-jupyter/jupyter-org-client.el::cl-defmethod jupyter-org-result :around ((_mime (eql :text/plain)) _content params][This]] =:around= method on ~jupyter-org-result~ performs the prettification, unless =:results scalar= is set, so luckily, the same solution applies.
+
 #+begin_src elisp
 (after! org-src
   (setq!
     org-coderef-label-format "# (ref:%s)"))
 
 (after! ob-core
+  (setcdr (assq :results org-babel-default-header-args) "replace scalar")
   (setcdr (assq :exports org-babel-default-header-args) "both")
   (setq!
     ;; In addition to setting these in src block headers, you can also put them into
@@ -644,20 +649,22 @@ Remember that in Doom Emacs, it's not necessary to configure Babel manually with
 
 *** Emacs Jupyter
 #+begin_src elisp
-(after! jupyter-org-client
+(after! ob-jupyter
   (setq!
     jupyter-org-mime-types
     (let* ((grouped-mimes
             (seq-group-by
               (lambda (mime) (string-prefix-p ":image" (symbol-name mime)))
-              ;; Doom removes :text/html, but it might be hand occasionally, so let's make
-              ;; sure it's there.
+              ;; Doom removes :text/html, but it might be hand occasionally, so
+              ;; let's make sure it's there.
               (append jupyter-org-mime-types '(:text/html))))
            (image-mimes (cdr (car grouped-mimes)))
            (text-mimes (cdr (nth 1 grouped-mimes))))
-      ;; Default to displaying an image, and failing that, the plain text representation I'm
-      ;; used to and which should always be available. The remaining mime types can be
-      ;; selected via the :display header arg as needed.
+      ;; Default to displaying an image, and failing that, the plain text
+      ;; representation I'm used to and which should always be available (note
+      ;; that :results scalar also has to be set to prevent "prettification" of
+      ;; text/plain output, see above). The remaining mime types can be selected
+      ;; via the :display header arg as needed.
       (seq-uniq (append image-mimes '(:text/plain) text-mimes)))))
 #+end_src
 
