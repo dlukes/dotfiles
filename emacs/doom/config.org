@@ -649,6 +649,19 @@ With emacs-jupyter, you might expect that using the =:text/plain= mime type alon
 
 *** Emacs Jupyter
 #+begin_src elisp
+(setq dlukes/jupyter-max-image-width 600)
+(defadvice! dlukes/jupyter-max-image-width (oldfun file width height)
+  "Limit width via attr_org to play nicely with visual-fill-column."
+  :around 'jupyter-org-image-link
+  (message "max-width: %d" dlukes/jupyter-max-image-width)
+  (let* ((image-width (car (image-size
+                            (create-image (expand-file-name file))
+                            'pixels)))
+         (width (if (> image-width dlukes/jupyter-max-image-width)
+                  dlukes/jupyter-max-image-width
+                  nil)))
+    (funcall oldfun file width height)))
+
 (after! ob-jupyter
   (setq!
     jupyter-org-mime-types
