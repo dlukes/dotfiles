@@ -108,15 +108,13 @@ set -q SEABORN_DATA; or set -gx SEABORN_DATA ~/.local/share/seaborn-data
 set -q CONDA_EXE; or set -gx CONDA_EXE ~/.local/mambaforge/condabin/conda
 
 if test -x $CONDA_EXE
-  $CONDA_EXE shell.fish hook |
-    awk '/^function __conda_add_prompt/{d=1} /^function conda /{d=0} !d' |
-    source
+  $CONDA_EXE shell.fish hook | source
 
   set -gx MAMBA_EXE (dirname $CONDA_EXE)/mamba
   # Adapted from `function conda` printed by `conda shell.fish hook`, following
   # ~/.local/mambaforge/etc/profile.d/mamba.sh. TODO: Remove this once Mamba ships its
-  # own Fish config file, and source that instead (run `mamba init fish` to see the
-  # canonical way it should be done).
+  # own Fish config file (expected in v0.28), and source that instead (run `mamba init
+  # fish` to see the canonical way it should be done).
   function mamba --inherit-variable CONDA_EXE --inherit-variable MAMBA_EXE
     if test (count $argv) -lt 1 || contains -- --help $argv
       $MAMBA_EXE $argv
