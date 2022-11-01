@@ -306,8 +306,8 @@ These can be used with both =C-c C-,= and =<=-style tempo templates, but for the
                        ("sd" . "src dash")
                        ("se" . "src elisp")
                        ("sf" . "src fish")
-                       ("sp" . "src python")
-                       ("sr" . "src R")
+                       ("sp" . "src jupyter-python")
+                       ("sr" . "src jupyter-R")
                        ("ss" . "src sh")
                     ))
     (add-to-list 'org-structure-template-alist template)))
@@ -636,36 +636,14 @@ Remember that in Doom Emacs, it's not necessary to configure Babel manually with
       ;; custom session via header-args when isolation and reproducibility matter.
       (:session . "py")
       (:async . "yes"))
-    ;; Copy the same settings to regular python blocks. You override python src blocks
-    ;; to use jupyter-python instead below, and while the override also performs the
-    ;; copy, it only does it after evaluation has started because of lazy loading, so
-    ;; the first attempt to evalute a python src block will fail, because it still uses
-    ;; the old org-babel-default-header-args:python. So override it in advance instead.
-    ;; NOTE: The override means you can simply use :header-args:python: instead of
-    ;; :header-args:jupyter-python: to tweak them.
-    org-babel-default-header-args:python org-babel-default-header-args:jupyter-python
-    ;; Ditto for R.
     org-babel-default-header-args:jupyter-R
     '((:kernel . "ir")
       (:session . "R")
-      (:async . "yes"))
-    org-babel-default-header-args:R org-babel-default-header-args:jupyter-R))
+      (:async . "yes"))))
 #+end_src
 
 *** Emacs Jupyter
 #+begin_src elisp
-(defadvice! dlukes/override-src-block-when-loading-jupyter (oldfun lang)
-  "If lang is in langs-to-override, map it to jupyter-lang instead."
-  :around '+org-babel-load-jupyter-h
-  (let* ((langs-to-override '(python R))
-         (jupyter-lang (if (member lang langs-to-override)
-                         (intern (concat "jupyter-" (symbol-name lang)))
-                         lang))
-         (ans (funcall oldfun jupyter-lang)))
-    (when (member lang langs-to-override)
-      (org-babel-jupyter-override-src-block (symbol-name lang)))
-    ans))
-
 (after! jupyter-org-client
   (setq!
     jupyter-org-mime-types
