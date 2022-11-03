@@ -12,8 +12,8 @@ figure.constrained_layout.use: true
 # used, and tweaks these settings on-the-fly to make sure the figure can be read. If you
 # want to see the version of the figure which honors these settings, explicitly evaluate
 # fig or fig.figure (i.e. don't rely on implicit plotting output).
-figure.facecolor: "#00000000"
-axes.facecolor: "#00000000"
+figure.facecolor: "#ffffff00"
+axes.facecolor: "#ffffff00"
 
 font.sans-serif: Overpass, sans-serif
 axes.titlelocation: left
