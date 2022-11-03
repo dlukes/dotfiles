@@ -482,6 +482,9 @@ pre.src code::before {
   margin-right: .5em;
   border-right: 1px solid #bbb;
 }
+.figure img {
+  max-width: 100%;
+}
 #+end_src
 
 #+name: org-html-head-js

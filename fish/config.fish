@@ -103,6 +103,8 @@ set -gx PYTHONBREAKPOINT ipdb.set_trace
 set -gx PYTHONSTARTUP ~/.files/python/startup.py
 set -gx PYTHONPYCACHEPREFIX ~/.cache/pycache
 set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
+# This is the default location on Linux, use it on macOS too by setting the env var.
+set -gx MATPLOTLIBRC $XDG_CONFIG_HOME/matplotlib
 set -q NLTK_DATA; or set -gx NLTK_DATA ~/.local/share/nltk_data
 set -q SEABORN_DATA; or set -gx SEABORN_DATA ~/.local/share/seaborn-data
 set -q CONDA_EXE; or set -gx CONDA_EXE ~/.local/mambaforge/condabin/conda

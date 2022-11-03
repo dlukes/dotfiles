@@ -4,12 +4,11 @@ from pathlib import Path
 
 try:
     ipython = get_ipython()
-    is_ipython = True
     # This is not necessarily true (there might be no frontend at all, even though the
     # kernel is attached to a ZMQ), but close enough.
     is_jupyter = ipython.__class__.__name__ == "ZMQInteractiveShell"
 except NameError:
-    is_ipython = False
+    ipython = None
     is_jupyter = False
 
 
@@ -102,5 +101,9 @@ print(
     ),
     sep="\n",
 )
-if is_ipython:
+
+if ipython:
+    # Check if other matplotlib-inline default settings need to be undone with:
+    #   %config InlineBackend.print_figure_kwargs
+    ipython.config.InlineBackend.print_figure_kwargs = {"bbox_inches": None}
     print("  - %load_ext rich to enable prettier output and tracebacks")

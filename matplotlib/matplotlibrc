@@ -1,3 +1,35 @@
+# See e.g. https://www.datafantic.com/the-magic-of-matplotlib-stylesheets/ for tips, and
+# https://matplotlib.org/stable/tutorials/introductory/customizing.html#the-matplotlibrc-file
+# for a full reference.
+
 # Starting with matplotlib-inline 0.1.6, the Matplotlib RC is honored when using
 # IPython. See https://github.com/ipython/ipykernel/issues/267.
-figure.dpi: 150
+figure.dpi: 300
+figure.constrained_layout.use: true
+
+# Transparent background. Note that in JupyterLab, this might not work anyway, because
+# matplotlib-inline does some magic to figure out whether a dark background is being
+# used, and tweaks these settings on-the-fly to make sure the figure can be read. If you
+# want to see the version of the figure which honors these settings, explicitly evaluate
+# fig or fig.figure (i.e. don't rely on implicit plotting output).
+figure.facecolor: "#00000000"
+axes.facecolor: "#00000000"
+
+font.sans-serif: Overpass, sans-serif
+axes.titlelocation: left
+axes.titlesize: x-large
+axes.titleweight: bold
+# The grid can be a bit distracting by default, enable it as needed.
+# axes.grid: true
+grid.color: gainsboro
+
+# See your Org-roam for tips on spine aesthetics.
+axes.spines.right: false
+axes.spines.top: false
+
+# Remember: matplotlib-inline (and therefore JupyterLab and emacs-jupyter) does *not*
+# actually call savefig when showing plots, so these settings won't be used unless you
+# call it manually. Also, matplotlib-inline adds a tight bbox by default which crops the
+# intended figsize; you undo that in your IPython settings.
+savefig.dpi: 300
+savefig.transparent: true
