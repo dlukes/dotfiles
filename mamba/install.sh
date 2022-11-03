@@ -11,7 +11,7 @@ default_env=umrk
 
 info 'Unsetting Conda-related environment variables, if any.'
 for var in $(env | grep CONDA); do
-  var="${var%=*}"
+  var="${var%%=*}"
   >&2 echo "Unsetting $var."
   unset "$var"
 done
