@@ -640,12 +640,17 @@ With emacs-jupyter, you might expect that using the =:text/plain= mime type alon
     ;; then affect all matching src blocks in scope (subtree or file).
     org-babel-default-header-args:jupyter-python
     '((:kernel . "python3")
+      ;; Code in notebooks is typically evaluated as you work, no need to
+      ;; re-evaluate on export. Or you can always do it on demand with
+      ;; org-babel-execute-buffer.
+      (:eval . "no-export")
       ;; Careful! This uses the same session for any block in any file by default. Set a
       ;; custom session via header-args when isolation and reproducibility matter.
       (:session . "py")
       (:async . "yes"))
     org-babel-default-header-args:jupyter-R
     '((:kernel . "ir")
+      (:eval . "no-export")
       (:session . "R")
       (:async . "yes"))))
 #+end_src
