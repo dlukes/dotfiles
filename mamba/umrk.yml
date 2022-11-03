@@ -7,21 +7,26 @@ dependencies:
   - ffmpeg
   # Don't install Pandoc explicitly, at least until it becomes available on ARM-based
   # macOS. On Linux, it will still be installed as a dependency of JupyterLab.
+
   # ----------------------------------------------------------------------------- Python {{{1
   - python=3.10
+
   # basics
   # - pynvim
   - ipython
   - ipdb
   - black
   - rich
+
   # stdlib replacements
   - lxml
   - regex
   - httpx
+
   # Jupyter
   - jupyterlab
   - jupytext
+
   # data analysis
   - pandas
   - pandas-stubs
@@ -33,12 +38,19 @@ dependencies:
   - altair_viewer
   - matplotlib
   - seaborn
+
   # optional Pandas deps
   - sqlalchemy
+  # PyMySQL is maybe the more quite popular alternative, but mysqlclient should
+  # generally be faster, see https://github.com/PyMySQL/PyMySQL/issues/342. Both are
+  # maintained by the same organization on GitHub.
   - mysqlclient
   - openpyxl
+  - pyarrow
+
   # CLI tools
   - tldr
+
   # Fall back on Pip if package not available from conda-forge. Periodically check if
   # these packages have become available in the meantime.
   - pip
