@@ -279,7 +279,19 @@ telescope.setup {
   pickers = tpickers,
   extensions = {
     file_browser = {
+      -- See :h telescope-file-browser.picker.file_browser() for available opts.
       theme = "dropdown",
+      -- Group directories first. This makes file_browser use plenary.scandir instead of
+      -- fd, which has the advantage that you don't have to install fd. Also, I've
+      -- experienced problems caused apparently by an obsolete version of fd (spuriously
+      -- empty file list, except for parent dir), so better avoid the coupling. Or maybe
+      -- it was caused by fd being slow to execute, which interacted badly with async?
+      -- At any rate -- the main purpose of using fd is to get fast file listings while
+      -- respecting .gitignore files, which I specifically *don't* want, I want to be
+      -- able to access any file from file_browser.
+      grouped = true,
+      hidden = true,
+      respect_gitignore = false,
     },
   },
 }
