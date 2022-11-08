@@ -1,6 +1,6 @@
 let mapleader = ' '
 let maplocalleader = ' '
-if $CONDA_EXE
+if !empty($CONDA_EXE)
   let g:python3_host_prog = fnamemodify($CONDA_EXE, ':h:h') . '/envs/umrk/bin/python'
 else
   let g:python3_host_prog = exepath('python3')
