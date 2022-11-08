@@ -322,12 +322,6 @@ I like =<= better when I already know the key, =C-c C-,= is a bit finger-twisty,
 
 *** UI add-on packages
 #+begin_src elisp
-(use-package! org-ol-tree
-  :after org
-  :config
-  (setq!
-    org-ol-tree-action-move-to-target t))
-
 (use-package! org-modern
   :after org
   :config
@@ -994,7 +988,5 @@ required!
 #+begin_src elisp
 (after! org
   (map! :map org-mode-map :localleader
-    (:prefix ("s" "tree/subtree")
-      "o" #'org-ol-tree)
     :desc "babel" "v" org-babel-map))
 #+end_src

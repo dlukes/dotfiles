@@ -33,9 +33,6 @@
 ;; (package! zetteldesk
 ;;   :recipe (:host github :repo "Vidianos-Giannitsis/zetteldesk.el"))
 
-(package! org-ol-tree
-  :recipe (:host github :repo "Townk/org-ol-tree"))
-
 (package! org-modern
   :recipe (:host github :repo "minad/org-modern"))
 
@@ -66,10 +63,6 @@
 
 ;; Use `:pin' to specify a particular commit to install.
 ;(package! builtin-package :pin "1a2b3c4d5e")
-;; TODO: Unpin once org-ol-tree is updated for treemacs v3.0+.
-(package! treemacs :pin "938c2678dc29817f57871445bc25699da0df076d")
-(package! lsp-treemacs :pin "355e468b7fa9887c616a8bfe873d8e456303b67b")
-
 
 ;; Doom's packages are pinned to a specific commit and updated from release to
 ;; release. The `unpin!' macro allows you to unpin single packages...
