@@ -35,7 +35,6 @@ sudo dnf in -by \
   gnome-shell-extension-freon \
   gnome-shell-extension-gamemode \
   gnome-shell-extension-openweather \
-  gnome-shell-extension-sound-output-device-chooser \
   gnome-shell-extension-system-monitor-applet
 
 # Suggestions:
