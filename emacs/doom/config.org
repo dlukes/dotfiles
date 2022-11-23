@@ -280,7 +280,7 @@ Right-align Org tags based on whatever EditorConfig sets as the fill-column, but
 
 #+begin_src elisp
 (add-hook! 'editorconfig-after-apply-functions
-  (setq-local org-tags-column (+ 3 (- fill-column))))
+  (setq-local org-tags-column (- 3 fill-column)))
 #+end_src
 
 One last bit of tweaking for how I want ~org-indent-mode~ to work. Turns out tag alignment is broken (or badly configured in my case?) in combination with ~org-indent-mode~: nested headings add indentation to the tag column. You don't want that. TODO: Investigate root cause and possibly report?
@@ -328,6 +328,9 @@ I like =<= better when I already know the key, =C-c C-,= is a bit finger-twisty,
   (setq!
     ;; org-modern-star nil
     org-modern-hide-stars nil
+    ;; org-modern adds spaces around each tag, which messes up my careful
+    ;; configuration of org-tags-column above
+    org-modern-tag nil
     org-modern-horizontal-rule
     (concat
       (make-string 32 ?\s) (make-string 24 ?─) (make-string 32 ?\s))
