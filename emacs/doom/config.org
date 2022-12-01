@@ -447,17 +447,35 @@ body {
   margin: revert;
   overflow: auto;
 }
+
+/* Various kinds of links. */
 a {
   color: var(--hi);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 :is(h1, h2, h3, h4, h5, h6) a {
-  text-decoration: none;
   color: var(--fg);
+  text-decoration: none;
+}
+:is(h1, h2, h3, h4, h5, h6) a:hover {
+  text-decoration: none;
 }
 :is(h1, h2, h3, h4, h5, h6) a:hover::after {
   content: ' §';
   color: var(--fg-light);
 }
+#table-of-contents a {
+  color: var(--fg-light);
+}
+#table-of-contents a:hover {
+  color: var(--hi);
+  text-decoration: none;
+}
+
+/* Source blocks. */
 pre.src {
   counter-reset: line;
   padding-left: 0;
@@ -473,6 +491,8 @@ pre.src code::before {
   margin-right: .5em;
   border-right: 1px solid #bbb;
 }
+
+/* Figures. */
 .figure img {
   max-width: 100%;
 }
