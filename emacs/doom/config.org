@@ -395,7 +395,7 @@ I like =<= better when I already know the key, =C-c C-,= is a bit finger-twisty,
     ;; Can also set the following two to t and use org-html-{pre,post}amble-format,
     ;; which can even be a function for fine-grained control. See
     ;; org-html--build-pre/postamble for inspiration.
-    org-html-preamble "<button id=\"lights\" onclick=\"document.documentElement.classList.toggle('dark')\">⏻</button>"
+    org-html-preamble "<span id=\"lights\" onclick=\"darkModeToggle()\"><<sun-svg>></span>"
     org-html-postamble 'auto
     ;; Interactive code blocks, evaluated in browser. Can be occasionally useful, but
     ;; not by default.
@@ -425,33 +425,27 @@ body {
   line-height: 1.5;
   background-color: var(--bg);
   color: var(--fg);
+  display: flex;
+  flex-flow: row wrap;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1rem;
 }
-#preamble {
-  position: fixed;
+#preamble, #postamble {
+  position: sticky;
   top: 1rem;
-  right: 1rem;
+}
+#lights {
+  cursor: pointer;
 }
 #table-of-contents ul {
   list-style-type: none;
   padding-left: 0;
 }
-@media screen and (min-width: 1400px) {
-  #table-of-contents {
-    position: fixed;
-    max-width: 20rem;
-    right: 2rem;
-    top: 3rem;
-    bottom: 3rem;
-    overflow-y: auto;
-  }
-  #postamble {
-    position: fixed;
-    bottom: 2rem;
-    left: 2rem;
-  }
-}
 #content {
   max-width: 40rem;
+  margin: revert;
+  overflow: auto;
 }
 a {
   color: var(--hi);
@@ -484,11 +478,42 @@ pre.src code::before {
 }
 #+end_src
 
+TODO: I originally found the SVG icons [[https://fhur.me/posts/always-use-closed-open-intervals][here]], not entirely sure what their licensing situation is, replace them with unequivocally free ones at some point.
+
+#+name: sun-svg
+#+begin_src svg :tangle no
+<svg fill=\"none\" viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z\"></path></svg>
+#+end_src
+
+#+name: moon-svg
+#+begin_src svg :tangle no
+<svg fill=\"none\" viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z\"></path></svg>
+#+end_src
+
 #+name: org-html-head-js
-#+begin_src js :tangle no
-if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  document.documentElement.classList.toggle('dark');
-};
+#+begin_src js :tangle no :noweb yes
+function darkModeToggle() {
+  var dark = 'dark';
+  var dcl = document.documentElement.classList;
+  var lights = document.getElementById('lights');
+  if (dcl.contains(dark)) {
+    lights.innerHTML = '<<sun-svg>>';
+    dcl.remove(dark);
+  } else {
+    lights.innerHTML = '<<moon-svg>>';
+    dcl.add(dark);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    darkModeToggle();
+  }
+  var toc = document.getElementById('table-of-contents');
+  if (toc !== null) {
+    document.getElementById('postamble').appendChild(toc);
+  }
+}, false);
 #+end_src
 
 *** LaTeX
