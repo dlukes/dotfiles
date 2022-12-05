@@ -86,7 +86,11 @@ local servers = {
     settings = {
       python = {
         analysis = {
-          stubPath = vim.env.HOME .. "/.files/python/typings",
+          -- See https://github.com/microsoft/pyright/blob/main/docs/configuration.md
+          extraPaths = {
+            vim.env.HOME .. "/.files/python/typings",
+            vim.env.HOME .. "/.local/share/python-type-stubs",
+          },
         },
       },
     },

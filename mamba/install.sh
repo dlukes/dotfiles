@@ -26,6 +26,7 @@ info "Setting up and activating default environment $default_env from $env_file.
 . "$conda_config"
 mamba env update --name $default_env --file "$env_file"
 conda activate $default_env
+get typings
 
 info "Installing UMRK Python package for $(command -v python3)."
 "$script_dir"/../python/umrk/install.sh
