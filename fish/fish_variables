@@ -52,6 +52,7 @@ SETUVAR _fish_abbr_ssS:sudo\x20systemctl\x20show
 SETUVAR _fish_abbr_ssc:sudo\x20systemctl\x20cat
 SETUVAR _fish_abbr_ssd:sudo\x20systemctl\x20daemon\x2dreload
 SETUVAR _fish_abbr_sse:sudo\x20systemctl\x20enable\x20\x2d\x2dnow
+SETUVAR _fish_abbr_ssf:sudo\x20systemctl\x20reset\x2dfailed
 SETUVAR _fish_abbr_ssg:sudo\x20systemd\x2dcgtop
 SETUVAR _fish_abbr_ssr:sudo\x20systemctl\x20restart
 SETUVAR _fish_abbr_sss:sudo\x20systemctl\x20status
