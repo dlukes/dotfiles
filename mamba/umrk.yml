@@ -48,6 +48,9 @@ dependencies:
   - openpyxl
   - pyarrow
 
+  # audio processing
+  - pydub
+
   # CLI tools
   - tldr
 
