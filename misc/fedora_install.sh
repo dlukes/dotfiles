@@ -56,6 +56,13 @@ sudo dnf in -by \
 #
 # - https://docs.fedoraproject.org/en-US/quick-docs/assembly_installing-plugins-for-playing-movies-and-music/
 # - https://docs.fedoraproject.org/en-US/quick-docs/openh264/
+#
+# For HEIF/HEIC images, you'll need to add the mimetype association for Eye of GNOME
+# manually. You can check whether libheif has been registered as a plugin with
+# `gdk-pixbuf-query-loaders-64`, or force registration with `sudo
+# gdk-pixbuf-query-loaders-64 --update-cache`. Note also you might come across files
+# with a .heif extension which are actually JPEGs. If they refuse to load in EoG, check
+# with `file xyz.heif` / try renaming to `xyz.jpeg` and opening.
 
 sudo dnf in -by \
   gstreamer1-plugins-{bad-\*,good-\*,base} \
@@ -64,7 +71,8 @@ sudo dnf in -by \
   --exclude=gstreamer1-plugins-bad-free-devel \
   lame\* \
   --exclude=lame-devel \
-  mozilla-openh264
+  mozilla-openh264 \
+  libheif
 sudo dnf grp install -by --with-optional Multimedia
 
 
