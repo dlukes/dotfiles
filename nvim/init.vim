@@ -24,6 +24,7 @@ call plug#begin()
 " core
 Plug 'tpope/vim-sensible'
 " TODO: Remove if https://github.com/neovim/neovim/issues/16339 gets implemented.
+" There's also a Lua rewrite: https://github.com/ethanholz/nvim-lastplace.
 Plug 'farmergreg/vim-lastplace'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-commentary'
