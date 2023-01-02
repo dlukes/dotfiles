@@ -17,6 +17,7 @@ else
   curl -sSLfOJ https://github.com/$user/$repo/releases/download/$ver/$archive
   tar xjf "$archive"
   rm "$archive"
+  cd btop
   make install PREFIX="$prefix"
   if am_admin; then
     sudo make setuid PREFIX="$prefix"
