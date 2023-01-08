@@ -53,6 +53,7 @@ dependencies:
 
   # CLI tools
   - tldr
+  - pre-commit
 
   # Fall back on Pip if package not available from conda-forge. Periodically check if
   # these packages have become available in the meantime.
