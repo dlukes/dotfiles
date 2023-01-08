@@ -79,6 +79,9 @@ utils=(
   hyperfine
   # tokei
   zoxide
+  # StyLua installs with a Lua 5.1 compliant parser by default. Other variants,
+  # including Luau (typed Lua), can be requested via --features.
+  stylua
 )
 for util in ${utils[@]}; do
   tmp=$( mktemp -d )

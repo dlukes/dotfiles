@@ -9,11 +9,6 @@ org=neovim
 repo=$org
 cmd=nvim
 
-
-
-# ----------------------------------------------------------------------- Install Neovim {{{1
-
-
 >&2 echo ">>> Installing Neovim..."
 if is_macos; then
   brew_install_or_upgrade nvim --head
@@ -42,25 +37,4 @@ else
   ln -sf "$appimage" nvim
 fi
 
-
-
-# --------------------------------------------------------- Install vim-plug and plugins {{{1
-
-
-plug_vim="$HOME/.config/nvim/autoload/plug.vim"
-if [ ! -f "$plug_vim" ]; then
-  mkdir -p "$(dirname "$plug_vim")"
-  curl -fLo "$plug_vim" \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-fi
-
-# Make sure Tree-sitter installs from scratch, existing files/dirs may cause errors.
-share="$prefix"/share/nvim
-mkdir -p "$share"
-find "$share" -maxdepth 1 -name tree-sitter\* -exec rm -rf {} \;
-# Use only head of init.vim file containing plugin declarations relevant for PlugInstall
-# -- until the plugins are available, the rest might cause errors which will abort the
-# installation process.
-sed '/call plug#end()/q' "$script_dir/init.vim" |
-  nvim -u /dev/stdin +'PlugInstall --sync' +qall
-nvim +UpdateEverything
+PACKER_SYNC=1 nvim

@@ -89,13 +89,11 @@ ls -ld /
 
 true ${XDG_CONFIG_HOME:=$HOME/.config}
 
-$action "$XDG_CONFIG_HOME" containers emacs/doom fish git python/pylintrc matplotlib latexmk
+$action "$XDG_CONFIG_HOME" containers emacs/doom fish git python/pylintrc matplotlib latexmk stylua.toml
 # for Neovim, don't symlink the whole directory, most of it will be
 # plugins and other auto-generated files, and it makes sense for those
 # to be on the local filesystem on CNC servers (for faster access)
-$action "$XDG_CONFIG_HOME/nvim" nvim/init.vim
-$action "$XDG_CONFIG_HOME/nvim" snippets
-$action "$XDG_CONFIG_HOME/nvim/lua" nvim/init.lua
+$action "$XDG_CONFIG_HOME/nvim" nvim/init.lua snippets
 
 #-----------------------------------------------------------------------
 # Stuff belonging under $XDG_DATA_HOME
