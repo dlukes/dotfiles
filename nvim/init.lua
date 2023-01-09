@@ -38,9 +38,14 @@ local map = vim.keymap.set
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- Use correct Python executable as provider.
 local conda = vim.env.CONDA_EXE
 vim.g.python3_host_prog = conda == nil and vim.fn.exepath("python3")
   or vim.fn.fnamemodify(conda, ":h:h") .. "/envs/umrk/bin/python"
+-- Disable other providers.
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
 
 -- stylua: ignore start
 local ts_langs = {
