@@ -101,6 +101,8 @@ flatpak install flathub \
   io.podman_desktop.PodmanDesktop \
   com.github.jeromerobert.pdfarranger \
   se.sjoerd.DatMan \
+  org.gustavoperedo.FontDownloader \
+  org.stellarium.Stellarium \
   pm.mirko.Atoms
 
 
