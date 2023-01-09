@@ -929,8 +929,6 @@ map("n", "<leader>pp", ":lua=")
 map("n", "<leader>rr", ":Redir<Space>")
 map("n", "<leader><Tab>", "<C-^>")
 map("n", "<leader>w", "<C-w>")
-map("", "<leader>dg", [[:diffget \| diffupdate<CR>]])
-map("", "<leader>dp", [[:diffput \| diffupdate<CR>]])
 
 -- Without autochdir, this is useful to quickly complete the path of the active buffer.
 map("c", "%%", [[getcmdtype() == ':' ? expand('%:h').'/' : '%%']], { expr = true })
