@@ -9,7 +9,7 @@ dependencies:
   # macOS. On Linux, it will still be installed as a dependency of JupyterLab.
 
   # ----------------------------------------------------------------------------- Python {{{1
-  - python=3.10
+  - python=3.11
 
   # basics
   # - pynvim
@@ -52,6 +52,7 @@ dependencies:
   - pydub
 
   # CLI tools
+  - hatch
   - tldr
   - pre-commit
 
