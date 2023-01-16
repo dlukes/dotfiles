@@ -42,20 +42,33 @@ set -e alt
 
 
 
-# ----------------------------------------------------------------------------- Homebrew {{{1
+# -------------------------------------------------------------------------------- macOS {{{1
 
 
-if not set -q HOMEBREW_PREFIX
-  set -l brew_prefix /opt/homebrew
-  set -l brew $brew_prefix/bin/brew
-  set -l cellar $brew_prefix/Cellar
-  if type -q $brew
-    $brew shellenv | source
-    if test -d $cellar
-      set -gxp PATH $cellar/{coreutils,gnu-tar,grep,gawk,gnu-sed,findutils}/**/gnubin
+if test (uname -s) = Darwin
+  # Conda-forge's Clang can't find headers on macOS, at least not in Fish. Details here:
+  # <https://github.com/conda-forge/compilers-feedstock/issues/6>, which seems to
+  # indicate it's a matter of tweaking activation scripts. This has been done for Bash
+  # and Zsh as of 2023-01. See https://developer.apple.com/forums/thread/122762 for
+  # a workaround, which is implemented below and seems to work.
+  if not set -q CFLAGS CXXFLAGS
+    set -l macos_cflags -isysroot (xcrun --show-sdk-path) -I/usr/include -L/usr/lib
+    set -gx CFLAGS $macos_cflags
+    set -gx CXXFLAGS $macos_cflags
+  end
+
+  if not set -q HOMEBREW_PREFIX
+    set -l brew_prefix /opt/homebrew
+    set -l brew $brew_prefix/bin/brew
+    set -l cellar $brew_prefix/Cellar
+    if type -q $brew
+      $brew shellenv | source
+      if test -d $cellar
+        set -gxp PATH $cellar/{coreutils,gnu-tar,grep,gawk,gnu-sed,findutils}/**/gnubin
+      end
+    else
+      set -gx HOMEBREW_PREFIX
     end
-  else
-    set -gx HOMEBREW_PREFIX
   end
 end
 

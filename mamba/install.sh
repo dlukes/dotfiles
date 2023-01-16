@@ -44,6 +44,7 @@ R --quiet -e "IRkernel::installspec()"
 
 # TODO: This is very hamfisted and potentially breaks things. conda-tree tells me only
 # matplotlib needs libtool via PyQT, which I'm unlikely to ever need, but who knows.
-find "$prefix/envs/$default_env/bin" \( -name libtool -or -name libtoolize \) -delete
+# Remove this if it turns out it's not needed anymore.
+# find "$prefix/envs/$default_env/bin" \( -name libtool -or -name libtoolize \) -delete
 
 info "Default environment is $default_env. Remember that environments can be stacked."
