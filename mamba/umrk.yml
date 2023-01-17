@@ -7,6 +7,7 @@ dependencies:
   - ffmpeg
   # Don't install Pandoc explicitly, at least until it becomes available on ARM-based
   # macOS. On Linux, it will still be installed as a dependency of JupyterLab.
+  - cxx-compiler
 
   # ----------------------------------------------------------------------------- Python {{{1
   - python=3.11
@@ -53,6 +54,9 @@ dependencies:
 
   # CLI tools
   - hatch
+  # I typically use Pyright, but Mypy sometimes might have better error messages or tips
+  # in complicated situations. Note however that its behavior might differ in details.
+  - mypy
   - tldr
   - pre-commit
 
