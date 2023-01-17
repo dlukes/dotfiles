@@ -174,12 +174,20 @@ The one drawback of Visual Fill Column is that since it works by growing the mar
 The legacy solution for "soft-wrapping at fill-column" was [[https://emacshorrors.com/posts/longlines-mode.html][Long Lines Mode]], which inserted magic newlines into the buffer which never made it to disk. This might have worked better with tables and images, but on the other hand, it was hacky and complicated and might have broken other aspects which I'm relying on. E.g. soft breaking elsewhere than just on whitespace -- would that work with those magic newlines? And if so, would the magic newlines in these places interfere with parsing and syntax highlighting?
 
 * Org Mode
-** Directories
+** Directories and other variables that need to be set before Org loads
 #+begin_src elisp
 (setq!
   org-directory "~/Desktop/org/"
   org-attach-id-dir (expand-file-name "attach/" org-directory)
-  org-cite-csl-styles-dir "~/.local/share/zotero/styles")
+  org-cite-csl-styles-dir "~/.local/share/zotero/styles"
+
+  ;; The new default is text-properties and it has better performance, but until
+  ;; third-party packages (e.g. Evil, Org-roam) adapt, it might break fontification, so
+  ;; let's stick with overlays for now. Has to be set before Org loads. TODO: Eventually
+  ;; switch. See (especially comments by yantar92):
+  ;; - https://github.com/org-roam/org-roam/issues/2198
+  ;; - https://github.com/emacs-evil/evil/issues/1630
+  org-fold-core-style 'overlays)
 #+end_src
 
 ** Editing and UI
@@ -217,11 +225,6 @@ Why the hell do some of the ~org-file-apps-gnu~ default to ~mailcap~ of all thin
     org-startup-with-inline-images t
     org-display-remote-inline-images 'cache
     org-fontify-quote-and-verse-blocks nil
-
-    ;; The new default is text-properties and it has better performance, but until
-    ;; third-party packages (e.g. Org-roam) adapt, it might break fontification, so
-    ;; let's stick with overlays for now. TODO: Eventually switch.
-    org-fold-core-style 'overlays
 
     ;; Put footnotes at the end of the section they're in. This keeps them closer to the
     ;; text they refer to, which has both advantages and disadvantages (potential
