@@ -6,8 +6,6 @@ import sys
 
 from IPython import start_ipython
 
-suffix2reader = {".xlsx": "excel"}
-
 if sys.argv[1] == "pandas":
     import pandas as ps
 
@@ -22,11 +20,18 @@ else:
 dfs = {}
 for path in paths:
     path = Path(path)
-    suffix = path.suffix[1:].casefold()
-    reader = suffix2reader.get(suffix, suffix)
+    suffix = path.suffix.casefold()
     varname = re.sub(r"^\d+", "", path.stem)
     varname = re.sub(r"\W", "_", varname)
-    df = getattr(ps, f"read_{reader}")(path)
+    match suffix:
+        case ".tsv" if pandas:
+            df = ps.read_table(path)
+        case ".tsv":
+            df = ps.read_csv(path, sep="\t", quote_char=None)
+        case ".xlsx":
+            df = ps.read_excel(path)
+        case _:
+            df = getattr(ps, f"read_{reader}")(path)
     if pandas:
         df = df.convert_dtypes()
     dfs[varname] = df
