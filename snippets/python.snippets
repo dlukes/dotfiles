@@ -554,4 +554,9 @@ snippet utcts "the right way parse a UTC timestamp"
 dt.datetime.fromtimestamp($0, tz=dt.timezone.utc)
 endsnippet
 
+snippet bash "drop into Bash"
+import os
+os.execl${1:e}("/bin/bash", "/bin/bash"${2:, env})
+endsnippet
+
 # vi: noet ts=4 sw=4
