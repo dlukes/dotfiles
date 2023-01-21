@@ -369,7 +369,8 @@ local telescope = require("telescope")
 local tactions = require("telescope.actions")
 -- See `:help telescope.builtin`.
 local tbuiltin = require("telescope.builtin")
-local twidth = 0.4
+-- See `:help telescope.resolve.resolve_width()`.
+local twidth = 90
 
 local tpickers = {}
 for picker_name, _ in pairs(tbuiltin) do
