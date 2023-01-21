@@ -42,9 +42,9 @@ dependencies:
 
   # optional Pandas deps
   - sqlalchemy
-  # PyMySQL is maybe the more quite popular alternative, but mysqlclient should
-  # generally be faster, see https://github.com/PyMySQL/PyMySQL/issues/342. Both are
-  # maintained by the same organization on GitHub.
+  # PyMySQL is maybe the more popular alternative, but mysqlclient should generally be
+  # faster, see https://github.com/PyMySQL/PyMySQL/issues/342. Both are maintained by
+  # the same organization on GitHub.
   - mysqlclient
   - openpyxl
   - pyarrow
