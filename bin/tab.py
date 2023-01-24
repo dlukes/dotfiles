@@ -20,18 +20,18 @@ else:
 dfs = {}
 for path in paths:
     path = Path(path)
-    suffix = path.suffix.casefold()
+    suffix = path.suffix[1:].lower()
     varname = re.sub(r"^\d+", "", path.stem)
     varname = re.sub(r"\W", "_", varname)
     match suffix:
-        case ".tsv" if pandas:
+        case "tsv" if pandas:
             df = ps.read_table(path)
-        case ".tsv":
+        case "tsv":
             df = ps.read_csv(path, sep="\t", quote_char=None)
-        case ".xlsx":
+        case "xlsx":
             df = ps.read_excel(path)
         case _:
-            df = getattr(ps, f"read_{reader}")(path)
+            df = getattr(ps, f"read_{suffix}")(path)
     if pandas:
         df = df.convert_dtypes()
     dfs[varname] = df
