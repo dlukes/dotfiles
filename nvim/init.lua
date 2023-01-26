@@ -49,11 +49,14 @@ vim.g.loaded_perl_provider = 0
 
 -- stylua: ignore start
 local ts_langs = {
+  -- NOTE: Don't use Treesitter for Perl. Parsing Perl is a tall order, and what
+  -- Treesitter can't parse, it won't highlight. In practice, this often results in
+  -- only partially highlighted files, up to the first unexpected Perl "feature".
   -- Everything...
   "bash", "bibtex", "c", "comment", "cpp", "css", "dockerfile", "elm", "fish", "go",
   "help", "html", "java", "javascript", "json", "latex", "lua", "make", "markdown",
-  "markdown_inline", "perl", "php", "python", "r", "regex", "rst", "ruby", "rust",
-  "toml", "typescript", "vim", "yaml", "zig",
+  "markdown_inline", "php", "python", "r", "regex", "rst", "ruby", "rust", "toml",
+  "typescript", "vim", "yaml", "zig",
   -- ... and the kitchen sink.
   "clojure", "cmake", "commonlisp", "dot", "fennel", "fortran", "gomod", "gowork",
   "haskell", "hjson", "http", "jsdoc", "json5", "jsonc", "julia", "kotlin", "llvm",
