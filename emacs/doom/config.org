@@ -187,6 +187,8 @@ The legacy solution for "soft-wrapping at fill-column" was [[https://emacshorror
   ;; switch. See (especially comments by yantar92):
   ;; - https://github.com/org-roam/org-roam/issues/2198
   ;; - https://github.com/emacs-evil/evil/issues/1630
+  ;; - https://github.com/emacs-evil/evil/issues/1630#issuecomment-1406169113
+  ;; - https://github.com/doomemacs/doomemacs/issues/6478#issuecomment-1406167570
   org-fold-core-style 'overlays)
 #+end_src
 
