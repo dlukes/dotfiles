@@ -559,4 +559,77 @@ import os
 os.execl${1:e}("/bin/bash", "/bin/bash"${2:, env})
 endsnippet
 
+snippet sockpair "socketpair reminder"
+import io
+import socket
+import threading
+import time
+
+# On Unix, cannot create an AF_INET socketpair. So if you're worried some of the
+# behavior you want to test is specific to AF_INET + SOCK_STREAM, you'll have to set up
+# a proper listening socket and connect to it.
+w, r = socket.socketpair()
+
+# Sending incomplete UTF-8 and closing (obviously) fails to decode on the receiving end.
+# wf, rf = w.makefile("wb"), r.makefile(encoding="utf-8")
+# wf.write("abcč".encode("utf-8")[:-1])
+# wf.flush()
+# wf.close()
+# w.close()
+# print(rf.read())
+
+# However, *pausing* in the middle of an incomplete UTF-8 sequence is fine, even if the
+# underlying file handle is opened in binary mode and the decoding is done in a
+# TextIOWrapper.
+wf, rf = w.makefile("wb"), r.makefile("rb")
+
+def writer():
+	bytes = "abcč".encode("utf-8")
+	for i in range(len(bytes)):
+		byte = bytes[i : i + 1]
+		wf.write(byte)
+		wf.flush()
+		print("sent:", byte)
+		time.sleep(1)
+	wf.close()
+	w.close()
+
+threading.Thread(target=writer, daemon=True).start()
+ri = io.TextIOWrapper(rf, encoding="utf-8")
+while c := ri.read(1):
+	print("char:", repr(c))
+endsnippet
+
+snippet sockserv "socket server/client reminder"
+# Same comments as with sockpair snippet apply.
+import io
+import socket
+import threading
+import time
+
+host_port = ("", 8989)
+
+def server():
+	with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+		s.bind(host_port)
+		s.listen(0)
+		conn, addr = s.accept()
+		print("connection from:", addr)
+		with conn, conn.makefile("wb") as wf:
+			bytes = "abcč".encode("utf-8")
+			for i in range(len(bytes)):
+				byte = bytes[i : i + 1]
+				wf.write(byte)
+				wf.flush()
+				print("sent:", byte)
+				time.sleep(1)
+
+threading.Thread(target=server, daemon=True).start()
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s, s.makefile("rb") as rf:
+	s.connect(host_port)
+	ri = io.TextIOWrapper(rf, encoding="utf-8")
+	while c := ri.read(1):
+		print("char:", repr(c))
+endsnippet
+
 # vi: noet ts=4 sw=4
