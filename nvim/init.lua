@@ -611,7 +611,6 @@ end
 
 local servers = {
   -- Rust support is handled by a separate plugin, see below.
-  r_language_server = {},
   -- Full reference of config values:
   -- https://github.com/sumneko/lua-language-server/blob/master/locale/en-us/setting.lua
   sumneko_lua = {
@@ -626,8 +625,7 @@ local servers = {
       },
     },
   },
-
-  -- Node-based
+  -- jedi_language_server = {},
   pyright = {
     settings = {
       python = {
@@ -641,6 +639,7 @@ local servers = {
       },
     },
   },
+  r_language_server = {},
   bashls = {},
   elmls = {},
   vimls = {},
