@@ -665,6 +665,17 @@ require("rust-tools").setup {
         checkOnSave = {
           command = "clippy",
         },
+        inlayHints = {
+          -- These should let you peek under the veil of some of the magic Rust does,
+          -- but I'm not sure how they'll display in Neovim. Suggested by:
+          -- https://github.com/rust-lang/reference/issues/788#issuecomment-1420494386
+          expressionAdjustmentHints = {
+            enable = true,
+          },
+          lifetimeElisionHints = {
+            enable = true,
+          },
+        },
       },
     },
   },
