@@ -147,6 +147,84 @@ for i in track(list(range(5)), console=console, description="Running..."):
 console.log("[bold green blink]Done.[/]")
 endsnippet
 
+snippet richmp "monitoring progress in multiple processes with rich"
+# See your Org-roam for a version with detailed comments.
+import multiprocessing as mp
+import random
+import threading
+import time
+
+from rich.progress import Progress
+
+PROGRESSQ = mp.Queue()
+
+def monitor_progress(progress: Progress):
+	job_id2task_id = {}
+	with progress:
+		while True:
+			match PROGRESSQ.get():
+				case "add_task", str() as job_id, int() as total:
+					task_id = progress.add_task(job_id, total=total)
+					job_id2task_id[job_id] = task_id
+				case "advance", str() as job_id, int() as advance:
+					progress.advance(job_id2task_id[job_id], advance)
+				case "task_done", str() as job_id:
+					progress.remove_task(job_id2task_id.pop(job_id))
+				case "break":
+					break
+				case msg:
+					raise ValueError(msg)
+
+		for task_id in job_id2task_id.values():
+			if task_id == 0:
+				progress.advance(task_id, float("inf"))
+			else:
+				progress.remove_task(task_id)
+
+def worker(job_id: str):
+	items = [None] * random.randint(0, 100)
+	if not items:
+		return job_id
+
+	PROGRESSQ.put(("add_task", job_id, len(items)))
+	advance_every = 10
+	for i, _ in enumerate(items, 1):
+		processing_time = random.random()
+		if processing_time < 0.5:
+			time.sleep(processing_time)
+		if i % advance_every == 0:
+			PROGRESSQ.put(("advance", job_id, advance_every))
+	PROGRESSQ.put(("task_done", job_id))
+	return job_id
+
+def main():
+	progress = Progress()
+	console = progress.console
+	console.log("Start loading data.")
+	with console.status("Loading data..."):
+		time.sleep(1)
+		jobs = [f"Job {i}" for i in range(10)]
+	console.log("Done loading data...")
+
+	console.log("Initializing pool of workers.")
+	with mp.Pool(4, initializer=PROGRESSQ.cancel_join_thread) as pool:
+		progresst = threading.Thread(target=monitor_progress, args=(progress,))
+		progresst.start()
+		overall_id = "OVERALL PROGRESS:"
+		PROGRESSQ.put(("add_task", overall_id, len(jobs)))
+		console.log(f"Processing {len(jobs)} jobs.")
+		for job_id in pool.imap_unordered(worker, jobs):
+			console.log(f"{job_id} done.")
+			PROGRESSQ.put(("advance", overall_id, 1))
+		console.log("Workers done.")
+		PROGRESSQ.put("break")
+		progresst.join()
+	console.log("All done.")
+
+if __name__ == "__main__":
+	main()
+endsnippet
+
 snippet logbc "logging basic config"
 import logging as log
 from pathlib import Path
@@ -630,6 +708,18 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s, s.makefile("rb") as
 	ri = io.TextIOWrapper(rf, encoding="utf-8")
 	while c := ri.read(1):
 		print("char:", repr(c))
+endsnippet
+
+snippet thcount "inspect threads and child process"
+import multiprocessig as mp
+import os
+import subprocess as sp
+import threading
+print(sp.run(["ps", "-o", "pid,cmd,thcount", f"-{os.getpid()}"], capture_output=True, text=True))
+for t in threading.enumerate():
+	print(type(t), t)
+for p in mp.active_children():
+	print(type(p), p)
 endsnippet
 
 # vi: noet ts=4 sw=4
