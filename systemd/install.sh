@@ -7,13 +7,8 @@
 
 set -eu
 script_dir=$(dirname "$(realpath "$0")")
+. "$script_dir"/../misc/util.sh
 cd "$script_dir"
-
-log() {
-  { printf -- "-%.s" $(seq $(tput cols)); echo; } >&2
-  >&2 echo Configuring "$1"
-  { printf -- "-%.s" $(seq $(tput cols)); echo; } >&2
-}
 
 
 
@@ -21,10 +16,15 @@ log() {
 
 
 journald_conf_d=/etc/systemd/journald.conf.d
-log "$journald_conf_d"
+info "Configuring $journald_conf_d"
 sudo mkdir -p "$journald_conf_d"
 sudo cp -t "$journald_conf_d" journald.conf.d/*
 sudo systemctl restart systemd-journald
+
+if ! is_fedora; then
+  info "This is not Fedora, not configuring additional user and system services."
+  exit
+fi
 
 
 
@@ -32,7 +32,7 @@ sudo systemctl restart systemd-journald
 
 
 for unit in "$PWD"/user/*; do
-  log "$unit"
+  info "Configuring $unit"
   systemctl --no-block --user enable --force "$unit"
   systemctl --no-block --user restart "$(basename "$unit")"
 done
@@ -43,7 +43,7 @@ done
 
 
 for unit in "$PWD"/system/*; do
-  log "$unit"
+  info "Configuring $unit"
   sudo cp -t /etc/systemd/system "$unit"
   unit=$(basename "$unit")
   sudo systemctl --no-block enable --force $unit
