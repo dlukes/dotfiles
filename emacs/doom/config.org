@@ -704,6 +704,10 @@ With emacs-jupyter, you might expect that using the =:text/plain= mime type alon
 
 *** Emacs Jupyter
 #+begin_src elisp
+;; Temporary workaround for https://github.com/nnicandro/emacs-jupyter/issues/436.
+;; TODO: Revert once no longer necessary.
+(setenv "PYDEVD_DISABLE_FILE_VALIDATION" "1")
+
 (setq dlukes/jupyter-max-image-width 600)
 (defadvice! dlukes/jupyter-max-image-width (oldfun file width height)
   "Limit width via attr_org to play nicely with visual-fill-column."
