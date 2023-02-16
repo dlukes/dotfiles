@@ -73,3 +73,6 @@
 ;(unpin! t)
 ;(unpin! org)
 ;(unpin! org-roam)
+;; Unless emacs-zmq gets pinned as well, pinning emacs-jupyter can get it out of sync
+;; with this core dependency, e.g. https://github.com/nnicandro/emacs-jupyter/issues/433
+(unpin! jupyter)
