@@ -99,11 +99,8 @@ flatpak install flathub \
   org.gimp.GIMP \
   org.onlyoffice.desktopeditors \
   io.podman_desktop.PodmanDesktop \
-  com.github.jeromerobert.pdfarranger \
-  se.sjoerd.DatMan \
-  org.gustavoperedo.FontDownloader \
-  org.stellarium.Stellarium \
-  pm.mirko.Atoms
+  pm.mirko.Atoms \
+  com.github.jeromerobert.pdfarranger
 
 
 
