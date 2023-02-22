@@ -89,6 +89,14 @@ cache_dir.mkdir(parents=True, exist_ok=True)
 # ---------------------------------------------------------------- Preferences (user.js) {{{1
 
 
+# Generate citekey based on ShortTitle if non-empty, fall back to Title.
+citekey = (
+    "authEtal2(sep='_').postfix('_').replace(/_etal_$/i, '_et_al_') + "
+    "year.postfix('_') + "
+    "ShortTitle.len.lower.skipwords.nopunct.condense('_').substring(1,25).replace(/(_[^_]{0,2})+$/, '')"
+)
+citekey = f"{citekey} | {citekey.replace('ShortTitle.len', 'Title')}"
+
 eprint("Writing config to", user_js)
 user_js.write_text(
     rf"""
@@ -116,7 +124,7 @@ user_pref("extensions.zotero.translators.better-bibtex.citekeyFold", true);
 // soft-wrapping in Emacs 28.1+ to avoid ugly ragged right margins. It uses a substring
 // prefix of the title for more predictable length, removing short tokens at the end if
 // any.
-user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "authEtal2(sep='_').postfix('_').replace(/_etal_$/i, '_et_al_') + year.postfix('_') + Title.lower.skipwords.nopunct.condense('_').substring(1,25).replace(/(_[^_]{{0,2}})+$/, '')");
+user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "{citekey}");
 // Use only a few skipwords to keep title prefixes recognizable.
 user_pref("extensions.zotero.translators.better-bibtex.skipWords", "a,an,and,et,le,la,les,the,un,une");
 // Citekey search can slow down startup on large libraries, and I don't think I've ever
