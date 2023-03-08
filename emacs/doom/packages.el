@@ -29,6 +29,9 @@
                    "docs"
                    "contrib/odt/LibreOffice")))
 
+(package! org-re-reveal-citeproc
+  :recipe (:host gitlab :repo "oer/org-re-reveal-citeproc"))
+
 ;; Maybe start using Zetteldesk.el for turning Org-roam notes into articles?
 ;; (package! zetteldesk
 ;;   :recipe (:host github :repo "Vidianos-Giannitsis/zetteldesk.el"))
