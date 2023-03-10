@@ -613,7 +613,7 @@ local servers = {
   -- Rust support is handled by a separate plugin, see below.
   -- Full reference of config values:
   -- https://github.com/sumneko/lua-language-server/blob/master/locale/en-us/setting.lua
-  sumneko_lua = {
+  lua_ls = {
     settings = {
       Lua = {
         workspace = { checkThirdParty = false },
