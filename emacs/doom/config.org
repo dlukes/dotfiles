@@ -226,6 +226,8 @@ Why the hell do some of the ~org-file-apps-gnu~ default to ~mailcap~ of all thin
     org-pretty-entities t
     org-startup-with-inline-images t
     org-display-remote-inline-images 'cache
+    ;; Cf. below on why this is commented out.
+    ;; org-image-actual-width '(600)
     org-fontify-quote-and-verse-blocks nil
 
     ;; Put footnotes at the end of the section they're in. This keeps them closer to the
@@ -258,6 +260,14 @@ Why the hell do some of the ~org-file-apps-gnu~ default to ~mailcap~ of all thin
           ))
     (add-to-list 'org-entities-user item)))
 #+end_src
+
+There's many different ways to set =org-image-actual-width=, none of which unfortunately quite fit how I would like it to behave:
+
+1. If =#+attr_org: :width= is set, use that.
+2. Otherwise, if image is narrower than =org-image-actual-width=, use original width.
+3. Otherwise, resize to =org-image-actual-width=.
+
+Setting it to a list with a single number comes close, but skips 2, thereby stretching small images. Still, it might be useful to occasionally set this at the subtree level by using the =:ORG-IMAGE-ACTUAL-WIDTH:= property (in a property drawer).
 
 To be able to store links to Emacs Info pages. Enabled by default in vanilla Org, but Doom disables it.
 
