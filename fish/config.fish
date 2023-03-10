@@ -123,7 +123,14 @@ set -q SEABORN_DATA; or set -gx SEABORN_DATA ~/.local/share/seaborn-data
 set -q CONDA_EXE; or set -gx CONDA_EXE ~/.local/mambaforge/condabin/conda
 
 if test -x $CONDA_EXE
-  $CONDA_EXE shell.fish hook | source
+  # By default, Conda adds prompt wrappers, which can then fail to preserve $status and
+  # $pipestatus in your wrapped prompt functions (the left prompt wrapper tries to
+  # preserve at least $status AFAICS, but the right prompt wrapper doesn't). You don't
+  # need those wrappers, since you add Conda env info to your prompt manually anyway, so
+  # just get rid of them.
+  $CONDA_EXE shell.fish hook |
+    awk '/^function __conda_add_prompt/{rm=1} /^function conda/{rm=0} !rm' |
+    source
 
   set -gx MAMBA_EXE (dirname $CONDA_EXE)/mamba
   # Adapted from `function conda` printed by `conda shell.fish hook`, following

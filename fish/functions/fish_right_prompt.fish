@@ -9,6 +9,10 @@ function fish_right_prompt --description 'Write out the right prompt'
   end
 
   set prompt_status (__fish_print_pipestatus '⚡' '' '|' \
+  # NOTE: If status reporting stops working, the culprit is probably a fish_right_prompt
+  # wrapper that fails to preserve $pipestatus, e.g. from Conda. Check if `type
+  # fish_right_prompt` shows the present function, and if not, figure out how to get rid
+  # of the wrapper, or make it preserve $pipestatus.
     (set_color $fish_color_status) \
     (set_color --bold $fish_color_status) \
     $last_pipestatus)
