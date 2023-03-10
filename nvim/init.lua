@@ -127,33 +127,54 @@ require("packer").startup(function(use)
 
   -- UI
   use {
+    -- Variants: wave (default), dragon (darker), lotus (light). Switch with
+    -- `:colorscheme kanagawa-<variant>`.
     "https://github.com/rebelot/kanagawa.nvim",
     config = function()
-      local c = require("kanagawa.color")
-      local colors = require("kanagawa.colors").setup()
-      if not DlukesKanagawaColors then
-        -- Only define this once as a global, otherwise the background switch below will
-        -- keep toggling back and forth with each sourcing of the init file.
-        DlukesKanagawaColors = {
-          -- Switch backgrounds for dimInactive (i.e., make active darker and inactive
-          -- lighter).
-          sumiInk1 = colors.sumiInk1b,
-          sumiInk1b = colors.sumiInk1,
+      if not OrigColors then
+        -- Store original colors for all themes as a global deep copy, otherwise the
+        -- swaps below will keep toggling back and forth with each reload.
+        OrigColors = {}
+        for _, theme in ipairs { "wave", "dragon", "lotus" } do
+          OrigColors[theme] = vim.deepcopy(require("kanagawa.colors").setup { theme = theme })
+        end
+      end
+
+      local c = require("kanagawa.lib.color")
+      local theme_changes = {}
+      for theme, orig_colors in pairs(OrigColors) do
+        theme_changes[theme] = {
+          ui = {
+            -- Swap backgrounds for dimInactive (i.e., make active darker and inactive
+            -- lighter).
+            bg = orig_colors.theme.ui.bg_dim,
+            bg_dim = orig_colors.theme.ui.bg,
+            -- Swap colors for cursorline and colorcolumn: cursorline bg being more
+            -- understated makes the fg more readable.
+            bg_p1 = orig_colors.theme.ui.bg_p2,
+            bg_p2 = orig_colors.theme.ui.bg_p1,
+          },
+          syn = {
+            -- Brighten comments a little to make them more readable.
+            comment = tostring(c(orig_colors.theme.syn.comment):brighten(0.1)),
+          },
         }
       end
+
       require("kanagawa").setup {
-        globalStatus = true,
         dimInactive = true,
-        colors = DlukesKanagawaColors,
-        overrides = {
-          -- Switch colors for cursorline and colorcolumn: cursorline bg being more
-          -- understated makes the fg more readable.
-          CursorLine = { bg = colors.sumiInk2 },
-          ColorColumn = { bg = colors.sumiInk3 },
-          Comment = { fg = tostring(c(colors.fujiGray):lighten(1.33)) },
+        colors = {
+          theme = theme_changes,
+        },
+        -- theme to load when vim.o.background is unset
+        theme = "dragon",
+        -- themes to load depending on vim.o.background
+        background = {
+          dark = "dragon",
+          light = "lotus",
         },
       }
-      vim.cmd.colorscheme("kanagawa")
+      vim.cmd("colorscheme kanagawa")
     end,
   }
   use {
