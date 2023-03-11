@@ -708,24 +708,11 @@ If this leads to an error, install TeX Live and update Doom so that it notices t
 #+begin_src elisp
 (after! org-re-reveal
   (setq!
-    org-re-reveal-head-preamble "<style>
-/* This should at the very least apply to .csl-bib-body, but it's probably more readable to have text on all slides left-aligned. */
-.reveal .slides {
-  text-align: left;
-}
-/* Make slides scrollable, except for title slides or explicitly centered ones (setting a 100% height breaks the centering, and there's no purpose in centering content that overflows). */
-.slides > section > section:not(:first-child):not(.center) {
-  height: 100%%;
-  overflow-y: auto;
-}
-/* Make it less likely that 4:3 aspect ratio high DPI images will vertically overflow. */
-.reveal img {
-  max-width: 85%%;
-}
-</style>
-"
-    )
-  )
+    ;; Custom CSS could also be specified inline using org-re-reveal-head-preamble, but
+    ;; syntax highlighting is nice and the gotchas of complicated Elisp strings
+    ;; are annoying. If a presentation needs some custom CSS, specify both this
+    ;; stylesheet and the additional one(s) via the #+REVEAL_EXTRA_CSS keyword.
+    org-re-reveal-extra-css "~/.files/emacs/org-re-reveal-extra.css"))
 #+end_src
 
 In reveal.js, you can't link to the individual bibliography items, so there's a filter which replaces them with links to the overall bibliography slide instead.

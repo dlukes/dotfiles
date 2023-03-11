@@ -1,0 +1,19 @@
+/* This should at the very least apply to .csl-bib-body, but it's probably more readable
+ * to have text on all slides left-aligned. */
+.reveal .slides {
+  text-align: left;
+}
+
+/* Add a :reveal_extra_attr: class=... property to make a slide scrollable. Since height
+ * must be set for scrolling to work, which means the content of the slide won't be
+ * centered anymore, it has to be manually enabled as needed. */
+.slides > section.scroll {
+  height: 100%;
+  overflow-y: auto;
+}
+
+/* Make it less likely that 4:3 aspect ratio high DPI images will vertically overflow.
+ * */
+.reveal img {
+  max-width: 85%;
+}
