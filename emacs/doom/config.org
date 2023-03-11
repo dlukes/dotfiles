@@ -269,6 +269,34 @@ There's many different ways to set =org-image-actual-width=, none of which unfor
 
 Setting it to a list with a single number comes close, but skips 2, thereby stretching small images. Still, it might be useful to occasionally set this at the subtree level by using the =:ORG-IMAGE-ACTUAL-WIDTH:= property (in a property drawer).
 
+So instead, let's have a piece of advice that checks the width of images being inserted, and adds =#+attr_org: :width= if necessary:
+
+#+begin_src elisp
+(setq dlukes/max-image-width 600)
+(defun dlukes/image-width-attr (file)
+  (when (> (car (image-size
+                  (create-image (expand-file-name file))
+                  'pixels))
+          dlukes/max-image-width)
+    dlukes/max-image-width))
+
+(defadvice! dlukes/org-max-image-width (oldfun link &optional description)
+  "Limit image width via #+attr_org: :width to play nicely with visual-fill-column."
+  :around 'org-link-make-string
+  (concat
+    (if-let ((_ (string-match
+                  (rx string-start
+                    "file:"
+                    (group-n 1 (*? anychar) (or "png" (seq "jp" (? "e") "g") "gif"))
+                    string-end)
+                  link))
+              (path (match-string 1 link))
+              (width (dlukes/image-width-attr path)))
+      (format "#+attr_org: :width %d\n" width)
+      "")
+    (funcall oldfun link description)))
+#+end_src
+
 To be able to store links to Emacs Info pages. Enabled by default in vanilla Org, but Doom disables it.
 
 #+begin_src elisp
@@ -752,18 +780,10 @@ With emacs-jupyter, you might expect that using the =:text/plain= mime type alon
 ;; TODO: Revert once no longer necessary.
 (setenv "PYDEVD_DISABLE_FILE_VALIDATION" "1")
 
-(setq dlukes/jupyter-max-image-width 600)
 (defadvice! dlukes/jupyter-max-image-width (oldfun file width height)
-  "Limit width via attr_org to play nicely with visual-fill-column."
+  "Limit image width via #+attr_org: :width to play nicely with visual-fill-column."
   :around 'jupyter-org-image-link
-  (message "max-width: %d" dlukes/jupyter-max-image-width)
-  (let* ((image-width (car (image-size
-                            (create-image (expand-file-name file))
-                            'pixels)))
-         (width (if (> image-width dlukes/jupyter-max-image-width)
-                  dlukes/jupyter-max-image-width
-                  nil)))
-    (funcall oldfun file width height)))
+  (funcall oldfun file (dlukes/image-width-attr file) height))
 
 (after! ob-jupyter
   (setq!
