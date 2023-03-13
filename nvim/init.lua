@@ -307,7 +307,10 @@ o.lazyredraw = true
 -- Don't hard wrap when appending to line which is already longer than
 -- textwidth.
 opt.formatoptions:append("l")
+o.linebreak = true
+o.showbreak = "⮑  "
 o.breakindent = true
+opt.breakindentopt:append("sbr")
 o.joinspaces = false
 
 o.ignorecase = true
