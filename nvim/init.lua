@@ -376,15 +376,20 @@ if vim.fn.executable("rg") == 1 then
   o.grepformat = [[%f:%l:%c:%m,%f:%l:%m]]
 end
 
+-- Disable default filetype indentation, use Treesitter instead (see below).
+vim.cmd("filetype indent off")
 -- The default indentation for Python is a bit WTF, but fortunately, it's configurable,
--- see `:help ft-python-indent`. Once Treesitter indentation for Python becomes usable,
--- enable it instead, but probably keep this config too, in case I ever need to fall
--- back to the default indentation algorithm.
-vim.g.python_indent = {
-  open_paren = "shiftwidth()",
-  continue = "shiftwidth()",
-  closed_paren_align_last_line = false,
-}
+-- see `:help ft-python-indent`. Treesitter indentation for Python has also been wonky
+-- in the past, so keeping this config around in case I ever need to fall back to it.
+-- vim.g.python_indent = {
+--   open_paren = "shiftwidth()",
+--   continue = "shiftwidth()",
+--   closed_paren_align_last_line = false,
+--   -- Unfortunately, indenting inside parens seems super buggy. It messes up comments
+--   -- containing parents spanning multiple lines, and it started getting completely out
+--   -- of whack because of folding markers.
+--   disable_parentheses_indenting = true,
+-- }
 
 -- Make sure *.tex files are never interpreted as ft=plaintex.
 vim.g.tex_flavor = "latex"
@@ -470,11 +475,9 @@ local ts = require("nvim-treesitter.configs")
 ts.setup {
   ensure_installed = ts_langs,
   highlight = { enable = true },
-  -- TODO: Labeled as experimental, but kickstart.lua enables it, except for Python, see
-  -- https://github.com/nvim-lua/kickstart.nvim/issues/78. Periodically check if it's
-  -- gotten better and if so, enable even for Python (and get rid of your
-  -- ft-python-indent config).
-  indent = { enable = true, disable = { "python" } },
+  -- If you run into issues with Python Treesitter indentation, check out:
+  -- https://github.com/yioneko/nvim-yati.
+  indent = { enable = true },
   incremental_selection = {
     enable = true,
     keymaps = {
