@@ -989,4 +989,8 @@ map("c", "~~", [[getcmdtype() == ':' ? '~/' : '~~']], { expr = true })
 -- the list of fixes, `] jumps to the end of the last edit
 map("i", "<C-l>", [[<C-g>u<Esc>[s1z=`]a<C-g>u]])
 
+-- Quickfix list navigation.
+map("", "<F7>", ":cprev<CR>")
+map("", "<F9>", ":cnext<CR>")
+
 -- vi: foldmethod=marker
