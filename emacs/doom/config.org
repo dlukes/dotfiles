@@ -873,7 +873,7 @@ At any rate, I don't really care if the backlinks buffer doesn't show images (ma
   "Leave Zotero-generated file paths alone, especially zotero://..."
   :around '(citar-file-open citar-file--find-files-in-dirs)
   (cl-letf (((symbol-function 'file-exists-p) #'always)
-            ((symbol-function 'expand-file-name) (lambda (first &rest _) first)))
+             ((symbol-function 'expand-file-name) (lambda (first &rest _) first)))
     (apply oldfun r)))
 
 (defadvice! dlukes/citar-use-bib-export-for-local-bib-file (oldfun &rest r)
@@ -886,13 +886,26 @@ At any rate, I don't really care if the backlinks buffer doesn't show images (ma
   ;; Citar uses Vertico as its selection engine, and I want selection to be case
   ;; insensitive. Vertico is compatible with Emacs's default completion system, so this
   ;; is covered by completion-ignore-case above.
+  ;;
+  ;; The biblio module in Doom Emacs takes care of setting org-cite-global-bibliography
+  ;; to the same value as citar-bibliography.
   citar-bibliography '("~/.cache/zotero/My Library.json")
-  citar-notes-paths '("~/Desktop/org/roam/reading-notes"))
+  citar-at-point-function #'embark-act
+  ;; See https://github.com/emacs-citar/citar/pull/738.
+  citar-open-entry-function #'citar-open-entry-in-zotero
+  citar-symbols
+  `((file ,(all-the-icons-faicon
+             "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
+     (note ,(all-the-icons-material
+              "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
+     (link ,(all-the-icons-octicon
+              "link" :face 'all-the-icons-orange :v-adjust 0.01) . " "))
+  citar-symbol-separator "  ")
 
 (after! citar
   (dolist
     (ext '("pdf" "odt" "docx" "doc"))
-      (add-to-list 'citar-file-open-functions `(,ext . citar-file-open-external))))
+    (add-to-list 'citar-file-open-functions `(,ext . citar-file-open-external))))
 #+end_src
 
 * Other packages

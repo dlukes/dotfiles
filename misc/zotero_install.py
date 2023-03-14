@@ -124,7 +124,7 @@ user_pref("extensions.zotero.translators.better-bibtex.citekeyFold", true);
 // soft-wrapping in Emacs 28.1+ to avoid ugly ragged right margins. It uses a substring
 // prefix of the title for more predictable length, removing short tokens at the end if
 // any.
-user_pref("extensions.zotero.translators.better-bibtex.citekeyFormat", "{citekey}");
+user_pref("extensions.zotero.translators.better-bibtex.citekeyFormatEditing", "{citekey}");
 // Use only a few skipwords to keep title prefixes recognizable.
 user_pref("extensions.zotero.translators.better-bibtex.skipWords", "a,an,and,et,le,la,les,the,un,une");
 // Citekey search can slow down startup on large libraries, and I don't think I've ever
@@ -138,8 +138,9 @@ user_pref("extensions.zotero.translators.better-bibtex.quickCopyMode", "orgRef")
 user_pref("extensions.zotero.translators.better-bibtex.skipFields", "notes");
 user_pref("extensions.zotero.translators.better-bibtex.workers", 4);
 // Include non-standard file field for attachments in CSL exports, with PDFs as
-// zotero://open-pdf links.
-user_pref("extensions.zotero.translators.better-bibtex.postscript", "if (Translator.BetterCSLJSON) {{ entry.file = item.attachments.map(a => (/.pdf$/i.test(a.localPath) ? `zotero://open-pdf/library/items/${{a.key}}?${{a.localPath.split(a.key)[1].substring(1)}}` : a.localPath).replace(/([\\\\;])/g, \"\\\\$1\")).join(\";\") }}");
+// zotero://open-pdf links. This whole postscript is quite brittle, see your Org-roam
+// for notes on how to debug it if (when) it (inevitably) breaks.
+user_pref("extensions.zotero.translators.better-bibtex.postscript", "if (Translator.BetterCSLJSON) {{ csl.file = zotero.attachments.map(a => (/\\.pdf$/i.test(a.localPath) ? `zotero://open-pdf/library/items/${{a.key}}?${{a.localPath.split(a.key)[1].substring(1)}}` : a.localPath).replace(/([\\\\;])/g, \"\\\\$1\")).join(\";\") }}");
 
 // Zotfile
 user_pref("extensions.zotfile.authors_delimiter", ",");
