@@ -4,3 +4,6 @@ channels:
 dependencies:
   - r-tidyverse
   - r-shiny
+  # Required by ~/proj/ORTOFON_progress/balanced.R on trnka, which I keep running via
+  # Cron mostly for sentimental reasons. Once I stop doing that, I can get rid of this.
+  - r-rmysql
