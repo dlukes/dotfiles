@@ -3,9 +3,19 @@
 # for a full reference.
 
 # Starting with matplotlib-inline 0.1.6, the Matplotlib RC is honored when using
-# IPython. See https://github.com/ipython/ipykernel/issues/267.
-figure.dpi: 300
+# IPython. See https://github.com/ipython/ipykernel/issues/267. 150 is a reasonable
+# default for notebooks, but for print quality, bump it up to 300 -- either by putting
+# mpl.rc("figure", dpi=300) into a cell, or explicitly calling savefig when you're happy
+# with the result.
+figure.dpi: 150
 figure.constrained_layout.use: true
+
+# Remember: matplotlib-inline (and therefore JupyterLab and emacs-jupyter) does *not*
+# actually call savefig when showing plots, so these settings won't be used unless you
+# call it manually. Also, matplotlib-inline adds a tight bbox by default which crops the
+# intended figsize; you undo that in your IPython settings.
+savefig.dpi: 300
+savefig.transparent: true
 
 # Transparent background. Note that in JupyterLab, this might not work anyway, because
 # matplotlib-inline does some magic to figure out whether a dark background is being
@@ -26,10 +36,3 @@ grid.color: gainsboro
 # See your Org-roam for tips on spine aesthetics.
 axes.spines.right: false
 axes.spines.top: false
-
-# Remember: matplotlib-inline (and therefore JupyterLab and emacs-jupyter) does *not*
-# actually call savefig when showing plots, so these settings won't be used unless you
-# call it manually. Also, matplotlib-inline adds a tight bbox by default which crops the
-# intended figsize; you undo that in your IPython settings.
-savefig.dpi: 300
-savefig.transparent: true
