@@ -18,6 +18,7 @@ dependencies:
   - ipdb
   - black
   - rich
+  - ruff
 
   # stdlib replacements
   - lxml

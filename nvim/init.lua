@@ -653,6 +653,9 @@ local servers = {
     },
   },
   -- jedi_language_server = {},
+  -- TODO: Consider adding ruff-lsp if I end up using Ruff a lot and finding it useful:
+  -- https://beta.ruff.rs/docs/editor-integrations/#language-server-protocol-official
+  -- ruff_lsp = { ... },
   pyright = {
     settings = {
       python = {
