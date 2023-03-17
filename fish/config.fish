@@ -140,6 +140,10 @@ end
 # --------------------------------------------------------------------------------- Rust {{{1
 
 
+# Available from 1.68 (see release notes), should become the default in Rust 1.70, but
+# let's switch early for the welcome speedup.
+set -gx CARGO_REGISTRIES_CRATES_IO_PROTOCOL sparse
+
 if not set -q RUSTUP_HOME
   # this is the default value, so setting it is technically redundant,
   # but I'm using it as a sentinel, so I set it anyway
