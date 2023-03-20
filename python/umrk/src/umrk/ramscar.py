@@ -1,5 +1,6 @@
 from __future__ import annotations
-from typing import cast
+import collections
+import typing as t
 
 import altair as alt
 import matplotlib.pyplot as plt
@@ -8,98 +9,122 @@ import pandas as pd
 from scipy.optimize import curve_fit
 from sklearn.metrics import r2_score
 
+T = t.TypeVar("T")
+PLOT_TITLE = "Rank × frequency plot of {} in…"
+SUBPLOT_TITLES = {"power_law": "… log-log scale", "exponential": "… semi-log scale"}
 
-def prep_df(data: pd.DataFrame, x: str, y: str) -> tuple[pd.DataFrame, str, str]:
-    rank = freq = None
-    for colname, col in data.items():
-        colname = cast(str, colname).casefold()
-        if x in colname:
-            rank = col
-        elif y in colname:
-            freq = col
-    rank = np.arange(len(data)) + 1 if rank is None else rank
-    assert freq is not None
-    x = "Rank" if x == "rank" else x
-    y = "Frequency" if y == "freq" else y
-    return pd.DataFrame({x: rank, y: freq}), x, y
+FreqDist = dict[t.Any, int]
 
 
-def plot(data: pd.DataFrame, title: str, x: str = "rank", y: str = "freq") -> alt.Chart:
-    """Rank × frequency plot of `data` in both semi-log and log-log scales."""
-    data, x, y = prep_df(data, x, y)
+def ensure_rank(
+    data: pd.DataFrame | FreqDist,
+    *,
+    rank_from: str = "FREQ",
+    rank_to: str = "RANK",
+) -> pd.DataFrame:
+    if not isinstance(data, pd.DataFrame):
+        data = pd.DataFrame.from_dict(
+            data, orient="index", columns=["FREQ"]
+        ).reset_index(names="TYPE")
+    elif rank_to in data.columns:
+        return data
+    data[rank_to] = data[rank_from].rank(ascending=False, method="first")
+    return data
+
+
+def wait_times(type_: T, tokens: t.Iterable[T]) -> pd.DataFrame:
+    wait_freq_dist = collections.Counter()
+    waiting_from = 0
+    for i, tok in enumerate(tokens):
+        if tok == type_:
+            wait_freq_dist[i - waiting_from] += 1
+            waiting_from = i
+    return ensure_rank(wait_freq_dist)
+
+
+def plot(
+    data: pd.DataFrame | FreqDist,
+    title: str,
+    *,
+    x: str = "RANK",
+    y: str = "FREQ",
+    mosaic: list[list[str]] = [["fits", "power_law"], ["fits", "exponential"]],
+) -> tuple[pd.DataFrame, dict[str, Model], plt.figure.Figure, dict[str, plt.Axes]]:
+    """Compare freq. dist. f(x) = y in `data` to power law and exponential models.
+
+    The figure can contain up to three kinds of subplots, as specified by the following
+    keys in `mosaic`:
+
+    - `"fits"`: Scatter plot on linear axes, along with values predicted by power law
+      and exponential models.
+    - `"power_law"`: Scatter plot on log-log axes.
+    - `"exponential"`: Scatter plot on semi-log (y) axes.
+
+    >>> from collections import Counter
+    >>> c = Counter("ababacbcbcababcbacbabbabababbaaaababacbacbabbcbabacbbcbbbabababbb")
+    >>> def show(*args): plt.show()
+    >>> show(plot(c, "test 1"))
+    >>> show(plot(c, "test 2", mosaic=[["fits"]]))
+    >>> show(plot(c, "test 3", mosaic=[["power_law", "exponential"]]))
+    >>> show(plot(c, "test 4", mosaic=[["power_law", "exponential"], ["fits", "fits"]]))
+
+    """
+    data = ensure_rank(data, rank_from=y, rank_to=x)
+    models = fit(data, x=x, y=y)
+    cs = {"power_law": "C0", "exponential": "C1"}
+    fig, axd = plt.subplot_mosaic(mosaic)
+    fig.suptitle(PLOT_TITLE.format(title))
+
+    if "fits" in axd:
+        axd["fits"].scatter(x, y, c="C2", alpha=0.5, label="Empirical", data=data)
+        axd["fits"].set_xlabel(x)
+        axd["fits"].set_ylabel(y)
+
+    for k, m in models.items():
+        if k in axd:
+            plot = axd[k].loglog if k == "power_law" else axd[k].semilogy
+            plot(x, y, "o", c=cs[k], data=data)
+            axd[k].set_title(SUBPLOT_TITLES[k])
+            axd[k].set_xlabel(f"log({x})")
+            axd[k].set_ylabel(f"log({y})" if k == "power_law" else y)
+            # If showing fits, R² will be shown in the legend.
+            if "fits" not in axd:
+                axd[k].text(0.1, 0.1, f"R² = {m.r2:.2f}", transform=axd[k].transAxes)
+        if "fits" in axd:
+            yf = f"{y}_{k.upper()}"
+            data[yf] = m.predict(data[x], *m.params)
+            label = f"{k.capitalize().replace('_', ' ')} model (R² = {m.r2:.2f})"
+            axd["fits"].plot(x, yf, c=cs[k], label=label, data=data.sort_values(y))
+
+    if "fits" in axd:
+        axd["fits"].legend()
+
+    return data, models, fig, axd
+
+
+def plot_altair(
+    data: pd.DataFrame | FreqDist,
+    title: str,
+    *,
+    x: str = "RANK",
+    y: str = "FREQ",
+) -> alt.Chart:
+    data = ensure_rank(data, rank_from=y, rank_to=x)
     base = alt.Chart(data).mark_line()
     loglog = base.encode(
         alt.X(x, scale=alt.Scale(type="log")),
         alt.Y(y, scale=alt.Scale(type="log")),
-    ).properties(title=f"... log-log scale")
+    ).properties(title=SUBPLOT_TITLES["power_law"])
     semilog = base.encode(
         alt.X(x),
         alt.Y(
             y,
             scale=alt.Scale(type="log"),
         ),
-    ).properties(title="... semi-log scale")
+    ).properties(title=SUBPLOT_TITLES["exponential"])
     chart = loglog | semilog
-    chart.title = f"Rank × frequency plot of {title} in..."
+    chart.title = PLOT_TITLE.format(title)
     return chart
-
-
-def rank_freq_plot(
-    data: nltk.FreqDist | pd.DataFrame, x: str = "rank", y: str = "freq"
-):
-    if isinstance(data, nltk.FreqDist):
-        data = pd.DataFrame(data.most_common(1000), columns=["word", "freq"])
-    df, x, y = ramscar.prep_df(data, x, y)
-    _, r2_exp, _, r2_power = ramscar.fit(df)
-
-    fig, (loglogax, semilogax) = plt.subplots(1, 2)
-    loglogax.loglog(x, y, "o", c="C0", data=df)
-    loglogax.text(0.1, 0.1, f"R² = {r2_power:.2f}", transform=loglogax.transAxes)
-    semilogax.text(0.1, 0.1, f"R² = {r2_exp:.2f}", transform=semilogax.transAxes)
-    semilogax.semilogy(x, y, "o", c="C1", data=df)
-
-    fig.suptitle(f"Frekvenční distribuce:")
-    loglogax.set_title("Mocninná…")
-    semilogax.set_title("… či exponenciální?")
-    loglogax.set_xlabel(f"log({x})")
-    loglogax.set_ylabel(f"log({y})")
-    semilogax.set_xlabel(x)
-    semilogax.set_ylabel(f"log({y})")
-
-    return fig, loglogax, semilogax
-
-
-def wait_time_plot(lemma: str, tagged):
-    df = wait_times(lemma, tagged).reset_index()
-    params_exp, r2_exp, params_power, r2_power = ramscar.fit(df, x="wait_time")
-    df["freq_power_fit"] = power_law(df["wait_time"], *params_power)
-    df["freq_exp_fit"] = exponential(df["wait_time"], *params_exp)
-
-    fig, ax = plt.subplots()
-    ax.scatter("wait_time", "freq", c="C2", alpha=0.5, label="empirická data", data=df)
-    df = df.sort_values("freq_power_fit")
-    ax.plot(
-        "wait_time",
-        "freq_power_fit",
-        c="C0",
-        label=f"mocninný model (R² = {r2_power:.2f})",
-        data=df,
-    )
-    df = df.sort_values("freq_exp_fit")
-    ax.plot(
-        "wait_time",
-        "freq_exp_fit",
-        c="C1",
-        label=f"exponenciální model (R² = {r2_exp:.2f})",
-        data=df,
-    )
-
-    ax.set_xlabel(f"Vzdálenost mezi výskyty lemmatu ‘{lemma}’ (v tokenech)")
-    ax.set_ylabel("Frekvence")
-    ax.legend()
-    ax.set_title(f"Lemma ‘{lemma}’ v korpusu Čapkových textů")
-
-    return fig, loglogax, semilogax
 
 
 def exponential(x, a, b):
@@ -110,16 +135,22 @@ def power_law(x, a, b):
     return a * np.power(x, b)
 
 
-def fit(data: pd.DataFrame, x: str = "rank", y: str = "freq") -> tuple:
-    data, x, y = prep_df(data, x, y)
+class Model(t.NamedTuple):
+    name: str
+    params: tuple
+    r2: float
+    predict: t.Callable
 
-    params_exp = curve_fit(exponential, data[x], data[y], (0, 0))[0]
-    # .astype(int) because r2_score doesn't like the nullable Int64 for some reason
-    r2_exp = r2_score(data[y].astype(int), exponential(data[x], *params_exp))  # type: ignore
-    print("R2 exponential:", r2_exp)
 
-    params_pl = curve_fit(power_law, data[x], data[y], (0, 0))[0]
-    r2_pl = r2_score(data[y].astype(int), power_law(data[x], *params_pl))  # type: ignore
-    print("R2 power law:", r2_pl)
-
-    return params_exp, r2_exp, params_pl, r2_pl
+def fit(
+    data: pd.DataFrame | FreqDist, *, x: str = "RANK", y: str = "FREQ"
+) -> dict[str, Model]:
+    data = ensure_rank(data, rank_from=y, rank_to=x)
+    ans = {}
+    for func in (power_law, exponential):
+        params = curve_fit(func, data[x], data[y], (0, 0))[0]
+        # .astype(int) because r2_score doesn't like the nullable Int64 for some reason
+        r2 = r2_score(data[y].astype(int), func(data[x], *params))
+        assert isinstance(r2, float)
+        ans[func.__name__] = Model(func.__name__, params, r2, func)
+    return ans
