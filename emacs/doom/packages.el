@@ -25,6 +25,7 @@
 (package! ox-odt
   :recipe (:host github :repo "kjambunathan/org-mode-ox-odt" :nonrecursive t
            :files ("lisp/ox-odt.el"
+                   "lisp/odt.el"
                    "etc"
                    "docs"
                    "contrib/odt/LibreOffice")))
