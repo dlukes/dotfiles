@@ -429,13 +429,11 @@ I like =<= better when I already know the key, =C-c C-,= is a bit finger-twisty,
   (setq!
     org-html-doctype "html5"
     org-html-self-link-headlines t
-    org-html-style
-    "<style>
-<<org-html-head-css>>
-</style>
-<script>
-<<org-html-head-js>>
-</script>"
+    org-html-head
+    (format
+      "<style>\n%s\n</style>\n<script>\n%s\n</script>"
+      (org-file-contents "~/.files/emacs/org-html-head.css")
+      (org-file-contents "~/.files/emacs/org-html-head.js"))
     ;; Can also set the following two to t and use org-html-{pre,post}amble-format,
     ;; which can even be a function for fine-grained control. See
     ;; org-html--build-pre/postamble for inspiration.
@@ -446,138 +444,6 @@ I like =<= better when I already know the key, =C-c C-,= is a bit finger-twisty,
     ; org-html-klipsify-src t
     org-html-head-include-scripts t
     org-html-wrap-src-lines t))
-#+end_src
-
-**** CSS and JS snippets
-     :PROPERTIES:
-     :VISIBILITY: folded
-     :END:
-#+name: org-html-head-css
-#+begin_src css :tangle no
-html {
-  --fg: #333;
-  --fg-light: #999;
-  --bg: #fafafa;
-  --hi: #4169e1; /* royalblue */
-  transition: filter .5s ease;
-}
-html.dark {
-  filter: invert(.9);
-}
-body {
-  font-family: sans-serif;
-  line-height: 1.5;
-  background-color: var(--bg);
-  color: var(--fg);
-  display: flex;
-  flex-flow: row wrap;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 1rem;
-}
-#preamble, #postamble {
-  position: sticky;
-  top: 1rem;
-}
-#lights {
-  cursor: pointer;
-}
-#table-of-contents ul {
-  list-style-type: none;
-  padding-left: 0;
-}
-#content {
-  max-width: 40rem;
-  margin: revert;
-  overflow: auto;
-}
-
-/* Various kinds of links. */
-a {
-  color: var(--hi);
-  text-decoration: none;
-}
-a:hover {
-  text-decoration: underline;
-}
-:is(h1, h2, h3, h4, h5, h6) a {
-  color: var(--fg);
-  text-decoration: none;
-}
-:is(h1, h2, h3, h4, h5, h6) a:hover {
-  text-decoration: none;
-}
-:is(h1, h2, h3, h4, h5, h6) a:hover::after {
-  content: ' §';
-  color: var(--fg-light);
-}
-#table-of-contents a {
-  color: var(--fg-light);
-}
-#table-of-contents a:hover {
-  color: var(--hi);
-  text-decoration: none;
-}
-
-/* Source blocks. */
-pre.src {
-  counter-reset: line;
-  padding-left: 0;
-}
-pre.src code::before {
-  counter-increment: line;
-  content: counter(line);
-  color: var(--fg-light);
-  width: 2em;
-  display: inline-block;
-  text-align: right;
-  padding-right: .5em;
-  margin-right: .5em;
-  border-right: 1px solid #bbb;
-}
-
-/* Figures. */
-.figure img {
-  max-width: 100%;
-}
-#+end_src
-
-TODO: I originally found the SVG icons [[https://fhur.me/posts/always-use-closed-open-intervals][here]], not entirely sure what their licensing situation is, replace them with unequivocally free ones at some point.
-
-#+name: sun-svg
-#+begin_src svg :tangle no
-<svg fill=\"none\" viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z\"></path></svg>
-#+end_src
-
-#+name: moon-svg
-#+begin_src svg :tangle no
-<svg fill=\"none\" viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z\"></path></svg>
-#+end_src
-
-#+name: org-html-head-js
-#+begin_src js :tangle no :noweb yes
-function darkModeToggle() {
-  var dark = 'dark';
-  var dcl = document.documentElement.classList;
-  var lights = document.getElementById('lights');
-  if (dcl.contains(dark)) {
-    lights.innerHTML = '<<sun-svg>>';
-    dcl.remove(dark);
-  } else {
-    lights.innerHTML = '<<moon-svg>>';
-    dcl.add(dark);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-  if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    darkModeToggle();
-  }
-  var toc = document.getElementById('table-of-contents');
-  if (toc !== null) {
-    document.getElementById('postamble').appendChild(toc);
-  }
-}, false);
 #+end_src
 
 *** LaTeX
