@@ -1,0 +1,61 @@
+# See https://beta.ruff.rs/docs/rules/. The first two are the default.
+select = [
+  # Pyflakes
+  "F",
+  # pycodestyle errors (not warnings, those are W)
+  "E",
+  # mccabe
+  "C90",
+  # isort
+  "I",
+  # pyupgrade
+  "UP",
+  # flake8-annotations
+  "ANN",
+  # flake8-builtins
+  "A",
+  # flake8-comprehensions
+  "C4",
+  # flake8-datetimez
+  "DTZ",
+  # flake8-executable
+  "EXE",
+  # flake8-implicit-str-concat
+  "ISC",
+  # flake8-import-conventions
+  "ICN",
+  # flake8-logging-format
+  "G",
+  # flake8-pie (various lints)
+  "PIE",
+  # flake8-pyi
+  "PYI",
+  # flake8-pytest-style
+  "PT",
+  # flake8-raise
+  "RSE",
+  # flake8-return
+  "RET",
+  # flake8-self
+  "SLF",
+  # flake8-simplify
+  "SIM",
+  # flake8-tidy-imports
+  "TID",
+  # flake8-type-checking
+  "TCH",
+  # flake8-unused-arguments
+  "ARG",
+  # flake8-use-pathlib
+  "PTH",
+  # eradicate
+  "ERA",
+  # pandas-vet
+  "PD",
+  # Pylint errors
+  "PLE",
+  # NumPy-specific rules
+  "NPY",
+  # Ruff-specific rules
+  "RUF",
+]

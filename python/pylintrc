@@ -1,3 +1,6 @@
+# TODO: Probably merge these rules with ruff.toml at some point instead of using pylint
+# directly?
+
 # Run pylint --generate-rcfile to generate a commented rc file according
 # to the current settings + any options passed on the command line
 # before the --generate-rcfile option.
