@@ -1,6 +1,7 @@
 from __future__ import annotations
 from importlib import import_module
 from pathlib import Path
+import unicodedata as ud
 
 try:
     ipython = get_ipython()
