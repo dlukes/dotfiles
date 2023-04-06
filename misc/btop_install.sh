@@ -18,10 +18,13 @@ else
   tar xjf "$archive"
   rm "$archive"
   cd btop
-  make install PREFIX="$prefix"
   if am_admin; then
+    # When updating, the existing executable will be owned by root due to 'make setuid',
+    # so 'make install' needs root too in order to be able to replace it.
+    sudo make install PREFIX="$prefix"
     sudo make setuid PREFIX="$prefix"
   else
+    make install PREFIX="$prefix"
     >&2 echo ">>> No sudo privileges on this box, can't setuid on the binary."
   fi
 fi
