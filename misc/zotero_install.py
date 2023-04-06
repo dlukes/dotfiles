@@ -140,7 +140,7 @@ user_pref("extensions.zotero.translators.better-bibtex.workers", 4);
 // Include non-standard file field for attachments in CSL exports, with PDFs as
 // zotero://open-pdf links. This whole postscript is quite brittle, see your Org-roam
 // for notes on how to debug it if (when) it (inevitably) breaks.
-user_pref("extensions.zotero.translators.better-bibtex.postscript", "if (Translator.BetterCSLJSON) {{ csl.file = zotero.attachments.map(a => (/\\.pdf$/i.test(a.localPath) ? `zotero://open-pdf/library/items/${{a.itemKey}}?${{a.localPath.split(a.itemKey)[1].substring(1)}}` : a.localPath).replace(/([\\\\;])/g, \"\\\\$1\")).join(\";\") }}");
+user_pref("extensions.zotero.translators.better-bibtex.postscript", "if (Translator.BetterCSLJSON) {{ csl.file = zotero.attachments.map(a => (/\\.pdf$/i.test(a.localPath) ? `zotero://open-pdf/library/items/${{a.itemKey || a.key}}?${{a.localPath.split(a.itemKey || a.key)[1].substring(1)}}` : a.localPath).replace(/([\\\\;])/g, \"\\\\$1\")).join(\";\") }}");
 
 // Zotfile
 user_pref("extensions.zotfile.authors_delimiter", ",");
