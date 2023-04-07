@@ -715,7 +715,16 @@ import multiprocessig as mp
 import os
 import subprocess as sp
 import threading
-print(sp.run(["ps", "-o", "pid,cmd,thcount", f"-{os.getpid()}"], capture_output=True, text=True))
+pid = os.getpid()
+# If the script was started by a different command, then it will belong to that original
+# command's process group. You might want to put the script and its children into a
+# separate process group to make the ps results below cleaner, but on the other hand,
+# this means that the process will be trickier to kill -- e.g. Ctrl-C won't work,
+# because changing the process group violates the assumption that the entire process
+# tree running in the foreground of a shell session belongs to the same process group.
+# os.setpgid(pid, pid)
+pgid = os.getpgid(pid)
+print(sp.run(["ps", "-o", "pid,cmd,thcount", f"-{pgid}"], capture_output=True, text=True))
 for t in threading.enumerate():
 	print(type(t), t)
 for p in mp.active_children():
