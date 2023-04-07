@@ -22,17 +22,14 @@ function fish_prompt --description 'Write out the prompt'
   test $USER = 'root'
     and echo -n (set_color red)'# '
 
+  set cenv ''
   if set -q CONDA_DEFAULT_ENV; and test $CONDA_DEFAULT_ENV != umrk
-    set cenv (set_color green)':'$CONDA_DEFAULT_ENV
-  else
-    set cenv ''
+    set cenv (set_color green)':'(string replace -r -- '.*/' '…/' $CONDA_DEFAULT_ENV)
   end
 
+  set venv ''
   if set -q VIRTUAL_ENV
-    set venv (basename $VIRTUAL_ENV)
-    set venv (set_color yellow)':'(string replace -r -- '-.*?-py' '…' $venv)
-  else
-    set venv ''
+    set venv (set_color yellow)':'(basename $VIRTUAL_ENV)
   end
 
   echo -n (set_color cyan)(prompt_pwd)$cenv$venv \
