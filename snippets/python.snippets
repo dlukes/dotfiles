@@ -731,4 +731,36 @@ for p in mp.active_children():
 	print(type(p), p)
 endsnippet
 
+snippet pipe "pipe/compose functions"
+# Not available in stdlib, see: https://bugs.python.org/issue1506122
+# The notion of "composing" has potentially confusing semantics concerning the order in
+# which the functions are run: typically, it's the reverse of the order they're listed
+# in when composing. The notion of "piping" is more intuitive in this regard: the
+# functions run in the same order as they're piped together. Otherwise, same idea.
+
+# Functional variant:
+import functools
+def pipe(*fs):
+	def pipe2(f, g): return lambda *a, **kw: g(f(*a, **kw))
+	return functools.reduce(pipe2, fs)
+
+# More Pythonesque variant:
+def pipe(f, *gs):
+	if not gs: return f
+	def pipe(*args, **kwargs):
+		ans = f(*args, **kwargs)
+		for g in gs:
+			ans = g(ans)
+		return ans
+	return pipe
+
+# The performance seems comparable, as in the overhead of both the extra intervening
+# lambdas in the first variant and of the for-loop in the second is negligible. The
+# first variant is in theory vulnerable to blowing up the call stack, but in practice,
+# it's unlikely you'll construct such long pipelines. Note also that functools.reduce
+# automatically handles the optimization that when a single function is provided, it's
+# returned directly, without any kind of wrapper -- though in that case, you might as
+# well delete the call to pipe, since it serves no purpose.
+endsnippet
+
 # vi: noet ts=4 sw=4
