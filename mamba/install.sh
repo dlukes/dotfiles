@@ -28,6 +28,9 @@ mamba env update --name $default_env --file "$env_file"
 conda activate $default_env
 get typings
 
+info 'Installing conda-lock extension into base environment.'
+mamba install --channel=conda-forge --name=base conda-lock
+
 info "Installing UMRK Python package for $(command -v python3)."
 "$script_dir"/../python/umrk/install.sh
 
