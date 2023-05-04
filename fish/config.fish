@@ -131,7 +131,8 @@ if test -x $CONDA_EXE
   $CONDA_EXE shell.fish hook |
     awk '/^function __conda_add_prompt/{rm=1} /^function conda/{rm=0} !rm' |
     source
-  source ~/.local/mambaforge/etc/fish/conf.d/mamba.fish
+  set -l mambaforge_root (string replace -r '/bin/conda$' '' -- $CONDA_EXE)
+  source $mambaforge_root/etc/fish/conf.d/mamba.fish
   mamba activate umrk
 end
 
