@@ -99,8 +99,7 @@ utils=(
   ripgrep+--features=pcre2
   fd-find
   exa
-  # Probably use broot, i.e. br -w, instead, which is interactive?
-  # du-dust
+  spacedisplay
   hexyl
   # xsv
   bat
