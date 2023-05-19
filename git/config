@@ -31,10 +31,15 @@
   ui = auto
 [push]
   default = simple
+  recurseSubmodules = check
 [pull]
   rebase = true
 [rebase]
   autosquash = true
+[status]
+  submodulesummary = true
+[submodule]
+  recurse = true
 [credential]
   helper = cache
 [help]
@@ -42,6 +47,11 @@
 
 [alias]
   ll = log --pretty='%C(yellow)%h %C(blue)%ad %Cgreen%aN%C(auto)%d %Creset%s' --date=relative --date-order --graph
+  # Alias suggestions from https://git-scm.com/book/en/v2/Git-Tools-Submodules to ease
+  # working with submodules.
+  sdiff = !git diff && git submodule foreach 'git diff'
+  spush = push --recurse-submodules=on-demand
+  supdate = submodule update --remote --merge
 
 # Custom diff definitions. If necessary, the cache can be cleared
 # manually with `git update-ref -d refs/notes/textconv/pandoc`. Default
@@ -57,6 +67,7 @@
 # Merging
 [diff]
   tool = vimdiff
+  submodule = log
 [difftool "vimdiff"]
   path = nvim
 [merge]
