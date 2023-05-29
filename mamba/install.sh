@@ -25,11 +25,13 @@ env_file="$script_dir"/$default_env.yml
 info "Setting up and activating default environment $default_env from $env_file."
 . "$conda_config"
 mamba env update --name $default_env --file "$env_file"
-conda activate $default_env
+# Activation scripts might reference unset variables and it's probably fine (or failing
+# that, an upstream problem), so relax strict mode during activation.
+set +u; conda activate $default_env; set -u
 get typings
 
 info 'Installing conda-lock and conda-tree extension into base environment.'
-mamba install --channel=conda-forge --name=base conda-lock conda-tree
+mamba install --yes --channel=conda-forge --name=base conda-lock conda-tree
 
 info "Installing UMRK Python package for $(command -v python3)."
 "$script_dir"/../python/umrk/install.sh
