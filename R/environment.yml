@@ -1,0 +1,9 @@
+name: r
+channels:
+  - conda-forge
+dependencies:
+  - r-base
+  - r-languageserver
+  - r-irkernel
+  - r-tidyverse
+  - r-shiny
