@@ -24,6 +24,7 @@ rm "$installer"
 env_file="$script_dir"/$default_env.yml
 info "Setting up and activating default environment $default_env from $env_file."
 . "$conda_config"
+mamba env remove $default_env
 mamba env update --name $default_env --file "$env_file"
 # Activation scripts might reference unset variables and it's probably fine (or failing
 # that, an upstream problem), so relax strict mode during activation.
