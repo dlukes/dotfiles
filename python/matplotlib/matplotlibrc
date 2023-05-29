@@ -17,6 +17,11 @@ figure.constrained_layout.use: true
 savefig.dpi: 300
 savefig.transparent: true
 
+# This is the default, but you can also set this to 'round_numbers', in which case,
+# after expanding the limits by the margins, autoscaling will further expand to reach
+# the next major tick.
+axes.autolimit_mode data
+
 # Transparent background. Note that in JupyterLab, this might not work anyway, because
 # matplotlib-inline does some magic to figure out whether a dark background is being
 # used, and tweaks these settings on-the-fly to make sure the figure can be read. If you
