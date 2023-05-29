@@ -52,4 +52,7 @@ R --quiet -e "IRkernel::installspec()"
 # Remove this if it turns out it's not needed anymore.
 # find "$prefix/envs/$default_env/bin" \( -name libtool -or -name libtoolize \) -delete
 
-info "Default environment is $default_env. Remember that environments can be stacked."
+info "Default environment is $default_env. Remember that:
+
+- Environments can be stacked with 'mamba activate --stack'.
+- The easiest way to update everything inside an environment is 'mamba update --all'."
