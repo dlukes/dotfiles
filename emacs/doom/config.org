@@ -155,7 +155,7 @@ The main point of using soft wrapping is to be able to wrap /within/ words (typi
 (dolist (char '(?- ?+ ?_ ?/ ?| ?\ ?. ?,))
   (modify-category-entry char ?| dlukes/org-category-table))
 
-(add-hook! 'org-mode-hook
+(add-hook! '(org-mode-hook markdown-mode-hook)
   (set-category-table dlukes/org-category-table)
   (setq-local word-wrap-by-category t)
   (visual-fill-column-mode))
