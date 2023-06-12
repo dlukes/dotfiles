@@ -233,6 +233,7 @@ LOG_PATH = Path(__file__).with_suffix(".log")
 
 log.basicConfig(
 	filename=LOG_PATH,
+	filemode="w",
 	level=log.INFO,
 	format="%(asctime)s\t%(levelname)s\t%(name)s\t%(message)s",
 	datefmt="%Y-%m-%d %H:%M:%S",
