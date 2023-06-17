@@ -224,7 +224,8 @@ require("packer").startup(function(use)
   use {
     "https://github.com/neovim/nvim-lspconfig",
     requires = {
-      "https://github.com/j-hui/fidget.nvim",
+      -- Temporarily switch to legacy branch as fidget.nvim is being rewritten.
+      { "https://github.com/j-hui/fidget.nvim", branch = "legacy" },
       "https://github.com/folke/neodev.nvim",
     },
   }
