@@ -68,6 +68,7 @@
 [diff]
   tool = vimdiff
   submodule = log
+  wsErrorHighlight = all
 [difftool "vimdiff"]
   path = nvim
 [merge]
