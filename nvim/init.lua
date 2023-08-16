@@ -54,9 +54,8 @@ local ts_langs = {
   -- only partially highlighted files, up to the first unexpected Perl "feature".
   -- Everything...
   "bash", "bibtex", "c", "comment", "cpp", "css", "dockerfile", "elm", "fish", "go",
-  "html", "java", "javascript", "json", "latex", "lua", "make", "markdown",
-  "markdown_inline", "php", "python", "r", "regex", "rst", "ruby", "rust", "toml",
-  "typescript", "vim", "vimdoc", "yaml", "zig",
+  "html", "java", "javascript", "json", "latex", "lua", "make", "php", "python", "r",
+  "regex", "rst", "ruby", "rust", "toml", "typescript", "vim", "vimdoc", "yaml", "zig",
   -- ... and the kitchen sink.
   "clojure", "cmake", "commonlisp", "dot", "fennel", "fortran", "gomod", "gowork",
   "haskell", "hjson", "http", "jsdoc", "json5", "jsonc", "julia", "kotlin", "llvm",
