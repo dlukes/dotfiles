@@ -37,4 +37,4 @@ else
   ln -sf "$appimage" nvim
 fi
 
-PACKER_SYNC=1 nvim
+PACKER_SYNC=1 nvim +':set termguicolors'
