@@ -11,7 +11,7 @@ cmd=nvim
 
 >&2 echo ">>> Installing Neovim..."
 if is_macos; then
-  brew_install_or_upgrade nvim --head
+  brew_install_or_upgrade neovim --head
 elif [ -d "$prefix"/$repo ]; then
   >&2 echo ">>> Detected git repo, will compile from source."
   "$script_dir"/../misc/ninja_install.sh
