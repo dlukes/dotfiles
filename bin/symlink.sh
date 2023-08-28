@@ -121,6 +121,12 @@ $action "$XDG_DATA_HOME" pandoc
 $action "$HOME" profile bashrc editorconfig sqliterc tmux.conf mamba/condarc R/lintr
 
 #-----------------------------------------------------------------------
+# IPython/Jupyter
+#-----------------------------------------------------------------------
+
+$action "$HOME/.ipython/profile_default" python/ipython_config.py
+
+#-----------------------------------------------------------------------
 # Editorconfig under / if I'm an admin
 #-----------------------------------------------------------------------
 

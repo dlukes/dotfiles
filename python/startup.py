@@ -1,10 +1,13 @@
 from __future__ import annotations
 from importlib import import_module
 from pathlib import Path
-import unicodedata as ud
 
+# WARN: ipython.config is accessible here, but since IPython loads PYTHONSTARTUP
+# relatively late, after the config has already been applied, changing the config here
+# has no effect (except for lazily loaded stuff like plotting backends). So IPython
+# configuration needs to be done in ipython_config.py.
 try:
-    ipython = get_ipython()
+    ipython = get_ipython()  # type: ignore
     # This is not necessarily true (there might be no frontend at all, even though the
     # kernel is attached to a ZMQ), but close enough.
     is_jupyter = ipython.__class__.__name__ == "ZMQInteractiveShell"
@@ -93,18 +96,16 @@ try:
 except ImportError:
     pass
 
-print(
-    "startup.py:",
-    "\n".join(
-        f"  - {key} ({val})"
-        for key, val in sorted(globals().items())
-        if len(key) < 3 and key.islower()
-    ),
-    sep="\n",
-)
-
-if ipython:
-    # Check if other matplotlib-inline default settings need to be undone with:
-    #   %config InlineBackend.print_figure_kwargs
-    ipython.config.InlineBackend.print_figure_kwargs = {"bbox_inches": None}
-    print("  - %load_ext rich to enable prettier output and tracebacks")
+# No sense printing startup messages when running as a Jupyter kernel.
+if not is_jupyter:
+    print(
+        "startup.py:",
+        "\n".join(
+            f"  - {key} ({val})"
+            for key, val in sorted(globals().items())
+            if len(key) < 3 and key.islower()
+        ),
+        sep="\n",
+    )
+    if ipython:
+        print("  - %load_ext rich to enable prettier output and tracebacks")
