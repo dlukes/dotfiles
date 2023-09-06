@@ -117,8 +117,11 @@ require("packer").startup(function(use)
   }
   use("https://github.com/chrisbra/unicode.vim")
   use {
-    "https://github.com/TimUntersberger/neogit",
-    requires = { "https://github.com/nvim-lua/plenary.nvim" },
+    "https://github.com/NeogitOrg/neogit",
+    requires = {
+      "https://github.com/nvim-lua/plenary.nvim",
+      "https://github.com/sindrets/diffview.nvim",
+    },
     config = function()
       require("neogit").setup()
     end,
