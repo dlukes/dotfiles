@@ -57,7 +57,9 @@ try:
     #     raise ImportError
 
     # from rich import pretty, traceback
-    from rich import inspect as i
+    # rich.inspect is a good fancy substitute for the help builtin, see:
+    # https://textual.textualize.io/blog/2023/07/27/using-rich-inspect-to-interrogate-python-objects/
+    from rich import inspect as help
 
     # class RichTracebacker:
     #     """A convenient toggle for ``show_locals`` in rich tracebacks.
@@ -103,7 +105,7 @@ if not is_jupyter:
         "\n".join(
             f"  - {key} ({val})"
             for key, val in sorted(globals().items())
-            if len(key) < 3 and key.islower()
+            if len(key) < 3 and key.islower() or key == "help"
         ),
         sep="\n",
     )
