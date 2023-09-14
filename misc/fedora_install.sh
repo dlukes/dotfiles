@@ -81,7 +81,7 @@ sudo dnf grp install -by --with-optional Multimedia
 
 
 sudo dnf in -by \
-  vim fish ffmpeg sox vlc \
+  vim emacs fish ffmpeg sox vlc \
   aspell aspell-en aspell-cs aspell-fr aspell-es \
   tilix tilix-nautilus \
   nextcloud-client nextcloud-client-nautilus
