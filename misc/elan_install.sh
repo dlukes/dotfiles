@@ -31,7 +31,7 @@ fi
 
 # find the newest available ELAN executable
 elan_bin=$(
-  find "$dot_local" -type f -executable -name ELAN -printf '%T@\t%p\n' |
+  find "$dot_local" -type f -executable -name ELAN\* -printf '%T@\t%p\n' |
     sort -nr |
     head -n1 |
     cut -f2
