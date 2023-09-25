@@ -304,8 +304,10 @@ end
 o.mouse = "a"
 o.timeoutlen = 300
 o.updatetime = 500
--- Don't redraw screen in the middle of a macro (faster).
-o.lazyredraw = true
+-- NOTE: See `:help lazyredraw` for what this does, and why it probably shouldn't be
+-- enabled by default ("This may occasionally cause display errors. It is only meant to
+-- be set temporarily").
+-- o.lazyredraw = true
 
 -- Don't hard wrap when appending to line which is already longer than
 -- textwidth.
