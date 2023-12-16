@@ -1,4 +1,4 @@
-function lat --wraps exa
+function lat --wraps eza
   la --tree $argv
 end
 

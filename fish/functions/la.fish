@@ -1,4 +1,4 @@
-function la --wraps exa
+function la --wraps eza
   ll --all $argv
 end
 

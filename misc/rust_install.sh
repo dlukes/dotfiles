@@ -98,7 +98,7 @@ copy_asset() {
 utils=(
   ripgrep+--features=pcre2
   fd-find
-  exa
+  eza
   spacedisplay
   hexyl
   # xsv

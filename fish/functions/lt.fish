@@ -1,4 +1,4 @@
-function lt --wraps exa
+function lt --wraps eza
   ll --tree $argv
 end
 
