@@ -17,7 +17,7 @@ fi
 
 >&2 echo '>>> Installing NPM packages...'
 
-pkgs='pyright bash-language-server vim-language-server typescript typescript-language-server'
+pkgs='pyright bash-language-server vim-language-server typescript typescript-language-server prettier'
 npm install -g --ignore-scripts $pkgs
 npm update  -g --ignore-scripts $pkgs
 

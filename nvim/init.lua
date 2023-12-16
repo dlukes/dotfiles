@@ -268,16 +268,15 @@ require("packer").startup(function(use)
   }
   -- use 'nvim-treesitter/playground'
 
-  -- Filetype specific
+  -- Formatting
   use {
-    "https://github.com/psf/black",
-    ft = "python",
-    tag = "stable",
+    "sbdchd/neoformat",
     config = function()
-      -- I'm sick of fixing Black's virtualenv, let's just use a global install.
-      vim.g.black_virtualenv = vim.fn.fnamemodify(vim.g.python3_host_prog, ":h:h")
+      vim.g.neoformat_try_node_exe = true
     end,
   }
+
+  -- Filetype specific
   -- (Neo)vim now ships with a Rust filetype plugin, which is typically an old(er)
   -- version of rust.vim. Since I'm using LSP for IDE features and Treesitter for
   -- highlighting, the only thing this plugin is good for is the commands it defines
@@ -854,16 +853,18 @@ api.nvim_create_autocmd("QuickFixCmdPost", { command = "cwindow", pattern = "[^l
 api.nvim_create_autocmd("FileType", { command = "wincmd L", pattern = "help", group = g })
 
 -- Formatting.
-api.nvim_create_autocmd("BufWritePre", { command = "Black", pattern = "*.py", group = g })
-api.nvim_create_autocmd("BufWritePre", {
-  callback = function()
-    local view = vim.fn.winsaveview()
-    vim.cmd([[%!stylua --search-parent-directories -]])
-    vim.fn.winrestview(view)
-  end,
-  pattern = "*.lua",
-  group = g,
-})
+api.nvim_create_autocmd("BufWritePre", { command = "Neoformat", pattern = "*", group = g })
+-- No longer needed, Neoformat is a better and more comprehensive solution which doesn't
+-- substitute buffer with error message on error, but let's keep this for reference.
+-- api.nvim_create_autocmd("BufWritePre", {
+--   callback = function()
+--     local view = vim.fn.winsaveview()
+--     vim.cmd([[%!stylua --search-parent-directories -]])
+--     vim.fn.winrestview(view)
+--   end,
+--   pattern = "*.lua",
+--   group = g,
+-- })
 
 -- Linting; see also this gist on vanilla Vim linting:
 -- https://gist.github.com/romainl/ce55ce6fdc1659c5fbc0f4224fd6ad29
