@@ -176,13 +176,18 @@ end
 # ---------------------------------------------------------------------------------- fzf {{{1
 
 
-source ~/.local/share/fzf/key-bindings.fish
-fzf_key_bindings
-if type -q fd
-  set -gx FZF_CTRL_T_COMMAND 'fd --type f --hidden --follow --exclude .git'
-end
-if type -q bat
-  set -gx FZF_CTRL_T_OPTS '--multi --preview "bat --style numbers,changes --color=always --decorations=always {} | head -500"'
+# fzf/key-bindings.fish exits early in non-interactive shells, before defining
+# fzf_key_bindings, so let's skip FZF config completely in that case, to avoid a command
+# not found error when calling fzf_key_bindings.
+if status is-interactive
+  source ~/.local/share/fzf/key-bindings.fish
+  fzf_key_bindings
+  if type -q fd
+    set -gx FZF_CTRL_T_COMMAND 'fd --type f --hidden --follow --exclude .git'
+  end
+  if type -q bat
+    set -gx FZF_CTRL_T_OPTS '--multi --preview "bat --style numbers,changes --color=always --decorations=always {} | head -500"'
+  end
 end
 
 
