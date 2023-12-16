@@ -41,7 +41,7 @@
 [submodule]
   recurse = true
 [credential]
-  helper = cache
+  helper = osxkeychain
 [help]
   autocorrect = 3
 
