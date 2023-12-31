@@ -669,6 +669,7 @@ local servers = {
             vim.env.HOME .. "/.files/python/typings",
             vim.env.HOME .. "/.local/share/python-type-stubs",
           },
+          reportImplicitOverride = true,
         },
       },
     },
