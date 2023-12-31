@@ -1,5 +1,5 @@
-function perf
-  echo "\
+function perf-diag
+    echo "\
 Intro
 =====
 
@@ -11,9 +11,9 @@ https://netflixtechblog.com/linux-performance-analysis-in-60-000-milliseconds-ac
 
 The commentary excerpts are also adapted from there.
 "
-  hline =
+    hline =
 
-  echo "
+    echo "
 Uptime
 ======
 
@@ -38,18 +38,18 @@ Note that \"acceptable\" load values scale with the number of CPU cores.
 If you have 24 logical threads, you can afford up to 24 tasks wanting to
 run at the same time without experiencing problems.
 "
-  report uptime
+    report uptime
 
-  echo "
+    echo "
 Last 10 system messages
 =======================
 
 Look for errors that can cause performance issues. E.g. OOM-killer, TCP
 dropping a request.
 "
-  report 'dmesg | tail'
+    report 'dmesg | tail'
 
-  echo "
+    echo "
 Virtual memory stat
 ===================
 
@@ -83,9 +83,9 @@ System time is necessary for I/O processing. A high system time average, over 20
 
 In the above example, CPU time is almost entirely in user-level, pointing to application level usage instead. The CPUs are also well over 90% utilized on average. This isn’t necessarily a problem; check for the degree of saturation using the “r” column.
 "
-  report 'vmstat --wide 1 10'
+    report 'vmstat --wide 1 10'
 
-  echo "
+    echo "
 Per-CPU breakdown
 =================
 
@@ -93,9 +93,9 @@ This command prints CPU time breakdowns per CPU, which can be used to
 check for an imbalance. A single hot CPU can be evidence of
 a single-threaded application.
 "
-  report 'mpstat -P ALL 1 5'
+    report 'mpstat -P ALL 1 5'
 
-  echo "
+    echo "
 Top with history
 ================
 
@@ -107,9 +107,9 @@ a record of your investigation.
 The %CPU column is the total across all CPUs; a value of e.g. 1591%
 shows that the corresponding process is consuming almost 16 CPUs.
 "
-  report 'pidstat 1 5'
+    report 'pidstat 1 5'
 
-  echo "
+    echo "
 Block devices / IO
 ==================
 
@@ -144,9 +144,9 @@ application issue. Many techniques are typically used to perform I/O
 asynchronously, so that the application doesn’t block and suffer the
 latency directly (e.g., read-ahead for reads, and buffering for writes).
 "
-  report 'iostat -xz 1 5'
+    report 'iostat -xz 1 5'
 
-  echo "
+    echo "
 Memory
 ======
 
@@ -165,9 +165,9 @@ properly by the free -m columns. It can appear that the system is low on
 free memory, when that memory is in fact available for use from the ZFS
 cache as needed.
 "
-  report 'free -m'
+    report 'free -m'
 
-  echo "
+    echo "
 Network interface throughput
 ============================
 
@@ -181,9 +181,9 @@ directions for full duplex), which is something we also use Brendan’s
 nicstat tool to measure. And like with nicstat, this is hard to get
 right, so it might not work correctly (e.g. value of 0.00).
 "
-  report 'sar -n DEV 1 5'
+    report 'sar -n DEV 1 5'
 
-  echo "
+    echo "
 Key TCP metric summary
 ======================
 
@@ -205,9 +205,9 @@ Retransmits are a sign of a network or server issue; it may be an
 unreliable network (e.g., the public Internet), or it may be due
 a server being overloaded and dropping packets.
 "
-  report 'sar -n TCP,ETCP 1 5'
+    report 'sar -n TCP,ETCP 1 5'
 
-  echo "
+    echo "
 What next?
 ==========
 
@@ -236,22 +236,22 @@ https://github.com/iovisor/bcc/blob/master/docs/tutorial.md
 end
 
 function hline
-  echo (string repeat -n 72 $argv)
+    echo (string repeat -n 72 $argv)
 end
 
 function report
-  hline -
-  echo
-  echo \$ $argv
-  echo
-  hline -
-  echo
-  set -l cmd (string split -m 1 -f 1 ' ' $argv)
-  if not type -q $cmd
-    echo "ERROR: Command `$cmd` not available."
-  else
-    eval $argv
-  end
-  echo
-  hline =
+    hline -
+    echo
+    echo \$ $argv
+    echo
+    hline -
+    echo
+    set -l cmd (string split -m 1 -f 1 ' ' $argv)
+    if not type -q $cmd
+        echo "ERROR: Command `$cmd` not available."
+    else
+        eval $argv
+    end
+    echo
+    hline =
 end
