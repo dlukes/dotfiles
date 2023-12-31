@@ -79,9 +79,4 @@
 ;(unpin! org-roam)
 ;; Unless emacs-zmq gets pinned as well, pinning emacs-jupyter can get it out of sync
 ;; with this core dependency, e.g. https://github.com/nnicandro/emacs-jupyter/issues/433
-; (unpin! jupyter)
-;; ... but as of 2023-08-28, emacs-jupyter is broken unless pinned a bit earlier than
-;; Doom itself pins it, see:
-;; - https://github.com/doomemacs/doomemacs/issues/7354
-;; - https://github.com/emacs-jupyter/jupyter/issues/489
-(package! jupyter :pin "16cbda79167b4e2f2c6b61b218658f0f660d97f9")
+(unpin! jupyter)

@@ -637,6 +637,11 @@ With emacs-jupyter, you might expect that using the =:text/plain= mime type alon
   (funcall oldfun file (dlukes/image-width-attr file) height))
 
 (after! ob-jupyter
+  ;; Workaround for being unable to execute jupyter code blocks, mentioned here:
+  ;; https://github.com/doomemacs/doomemacs/issues/7354#issuecomment-1872392448
+  ;; TODO: Revert once no longer necesseary.
+  (org-babel-jupyter-aliases-from-kernelspecs)
+
   (setq!
     jupyter-org-mime-types
     (let* ((grouped-mimes
