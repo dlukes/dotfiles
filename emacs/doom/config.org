@@ -103,18 +103,15 @@ New frames should be maximized by default.
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 #+end_src
 
-Smooth scrolling please -- depending on the platform.
+Smooth scrolling please. Starting in Emacs 29, ~pixel-scroll-precision-mode~ should do the trick across all platforms in theory, but in practice, I can't see a difference when using the trackpad on macOS.
 
 #+begin_src elisp
-(if (not (fboundp #'pixel-scroll-precision-mode))
-  ;; then
-  (setq mac-mouse-wheel-smooth-scroll t)
-  ;; else
-  (setq
-    pixel-scroll-precision-use-momentum t
-    pixel-scroll-precision-large-scroll-height 40.0
-    pixel-scroll-precision-interpolation-factor 30)
-  (pixel-scroll-precision-mode))
+(setq mac-mouse-wheel-smooth-scroll t)
+;; (setq
+;;   pixel-scroll-precision-use-momentum t
+;;   pixel-scroll-precision-large-scroll-height 40.0
+;;   pixel-scroll-precision-interpolation-factor 30)
+;; (pixel-scroll-precision-mode)
 #+end_src
 
 ** Recursive editing
