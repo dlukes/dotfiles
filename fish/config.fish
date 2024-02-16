@@ -271,4 +271,78 @@ set -gxa ASPELL_CONF "personal $aspell_dir/personal;"
 
 bind \cx expand_glob
 
+
+
+# -------------------------------------------------------------------------------- Abbrs {{{1
+
+
+abbr -a -- plo 'podman logs'
+abbr -a -- ffprobe 'ffprobe -hide_banner'
+abbr -a -- sudof 'sudo -E fish -c'
+abbr -a -- fda 'fd -HI'
+abbr -a -- du 'du -kh'
+abbr -a -- ssD 'sudo systemctl disable --now'
+abbr -a -- gst 'git stash'
+abbr -a -- giu 'git add --update'
+abbr -a -- gc 'git commit --verbose'
+abbr -a -- g git
+abbr -a -- ppc 'podman container prune'
+abbr -a -- sse 'sudo systemctl enable --now'
+abbr -a -- ssr 'sudo systemctl restart'
+abbr -a -- gia 'git add'
+abbr -a -- gco 'git checkout'
+abbr -a -- df 'df -kh'
+abbr -a -- ffmpeg 'ffmpeg -hide_banner'
+abbr -a -- sje 'sudo journalctl -exu'
+abbr -a -- gpf 'git push --force-with-lease'
+abbr -a -- findrm 'find -mindepth 1 -ignore_readdir_race -delete'
+abbr -a -- glg git\ log\ --graph\ --pretty=format:\'\%Cred\%h\%Creset\ -\%C\(yellow\)\%d\%Creset\ \%s\ \%Cgreen\(\%cr\)\ \%Cblue\<\%an\>\%Creset\'\ --abbrev-commit\ --date=relative\ --all
+abbr -a -- mma 'mamba activate'
+abbr -a -- pcs 'podman start -lia'
+abbr -a -- ibus-setup 'PYTHON=/usr/bin/python3 ibus-setup'
+abbr -a -- giA 'git add --patch'
+abbr -a -- gwD 'git diff --no-ext-diff --word-diff=color'
+abbr -a -- ssf 'sudo systemctl reset-failed'
+abbr -a -- gws 'git diff --no-ext-diff --no-textconv --stat'
+abbr -a -- hm 'history merge'
+abbr -a -- ip 'ip -c'
+abbr -a -- psl 'ps --forest -ouser,pid,pgid,tpgid,sid,stat,tty,ignored,%cpu,%mem,wchan,cmd'
+abbr -a -- mms 'mamba activate --stack'
+abbr -a -- pcc 'podman create'
+abbr -a -- gwd 'git diff --no-ext-diff'
+abbr -a -- pdf 'podman system df'
+abbr -a -- gis 'git diff --no-ext-diff --no-textconv --cached --stat'
+abbr -a -- perl 'perl -CSAD -Mv5.14 -Mutf8 -Mwarnings -Mwarnings=FATAL,utf8'
+abbr -a -- abrg 'abbr | grep'
+abbr -a -- gfm 'git pull'
+abbr -a -- gss 'git status'
+abbr -a -- ppi 'podman image prune'
+abbr -a -- ssg 'sudo systemd-cgtop'
+abbr -a -- pps 'podman ps'
+abbr -a -- gsb 'br --git-status'
+abbr -a -- psr 'podman system reset'
+abbr -a -- rga 'rg -uuu'
+abbr -a -- sss 'sudo systemctl status'
+abbr -a -- rgi 'rg -i'
+abbr -a -- sjf 'sudo journalctl -fxu'
+abbr -a -- gs 'git status -s'
+abbr -a -- sj 'sudo journalctl'
+abbr -a -- ss 'sudo systemctl'
+abbr -a -- gid 'git diff --no-ext-diff --cached'
+abbr -a -- ssR 'sudo systemctl reload'
+abbr -a -- giD 'git diff --no-ext-diff --cached --word-diff=color'
+abbr -a -- ssS 'sudo systemctl show'
+abbr -a -- ssc 'sudo systemctl cat'
+abbr -a -- ssd 'sudo systemctl daemon-reload'
+abbr -a -- sst 'sudo systemctl stop'
+abbr -a -- mmd 'mamba deactivate'
+abbr -a -- ssv 'sudo systemd-analyze verify'
+abbr -a -- sudoe 'sudo -E'
+abbr -a -- gll 'git log --oneline --all --graph'
+abbr -a -- vi nvim
+abbr -a -- vimdiff nvim\ -du\ NONE\ +\'set\ mouse=a\ et\ rtp+=\~/.config/nvim/plugged/seoul256.vim\'\ +\'syntax\ on\'\ +\'colorscheme\ seoul256\'
+abbr -a -- gp 'git push'
+abbr -a -- mm mamba
+abbr -a -- rgm rg -g "'**/master/**'"
+
 # vi: foldmethod=marker
