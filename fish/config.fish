@@ -136,6 +136,10 @@ if test -x $CONDA_EXE
   mamba activate umrk
 end
 
+set -gx MODULAR_HOME ~/.modular
+fish_add_path ~/.modular/pkg/packages.modular.com_mojo/bin
+fish_add_path ~/.pixi/bin
+
 
 
 # --------------------------------------------------------------------------------- Rust {{{1
