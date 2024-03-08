@@ -10,11 +10,11 @@
   name = David Lukes
   email = dafydd.lukes@gmail.com
 [sendemail]
-  smtpserver = smtp.gmail.com
-  smtpuser = dafydd.lukes@gmail.com
-  smtppass = xxx
-  smtpencryption = tls
-  smtpserverport = 587
+  smtpServer = smtp.gmail.com
+  smtpUser = dafydd.lukes@gmail.com
+  smtpPass = xxx
+  smtpEncryption = tls
+  smtpServerport = 587
   # Create an app password <https://security.google.com/settings/security/apppasswords>,
   # paste it here as smtppass = xxx, send the patch, revert the paste and *revoke the
   # password*, so that even if you accidentally commit it, you don't give the keys to
@@ -26,24 +26,40 @@
   path = ~/.config/git/local
 
 [core]
-  quotepath = off
+  quotePath = off
 [color]
   ui = auto
+[commit]
+  verbose = true
 [push]
   default = simple
   recurseSubmodules = check
+  autoSetupRemote = true
 [pull]
   rebase = true
 [rebase]
-  autosquash = true
+  # Makes it easier to modify old commits. The basic workflow looks like this:
+  #   git commit --fixup OLD_COMMIT_ID
+  #   git rebase --autosquash main
+  # The second command automatically combines all the fixup commits. This option allows
+  # you to elide passing the --autosquash CLI option.
+  autoSquash = true
+  # Automatically run `git stash` prior to rebase, and `git stash pop` after.
+  autoStash = true
 [status]
-  submodulesummary = true
+  submoduleSummary = true
 [submodule]
   recurse = true
 [credential]
   helper = osxkeychain
 [help]
-  autocorrect = 3
+  autocorrect = prompt
+
+# Sorting most recent items last (prepend - to invert).
+[branch]
+  sort = committerdate
+[tag]
+  sort = taggerdate
 
 [alias]
   ll = log --pretty='%C(yellow)%h %C(blue)%ad %Cgreen%aN%C(auto)%d %Creset%s' --date=relative --date-order --graph
@@ -59,21 +75,26 @@
 # --no-textconv.
 [diff "pandoc"]
   textconv = pandoc --to=markdown
-  cachetextconv = true
+  cacheTextconv = true
 [diff "ipynb"]
   textconv = jupytext --to markdown -o -
-  cachetextconv = true
+  cacheTextconv = true
 
 # Merging
 [diff]
+  # See also: https://luppeng.wordpress.com/2020/10/10/when-to-use-each-of-the-git-diff-algorithms/
+  algorithm = histogram
   tool = vimdiff
   submodule = log
   wsErrorHighlight = all
+  colorMoved = default
+  colorMovedWS = allow-indentation-change
 [difftool "vimdiff"]
   path = nvim
 [merge]
   tool = vimdiff
-  conflictstyle = diff3
+  # See https://ductile.systems/zdiff3/
+  conflictStyle = zdiff3
 [mergetool "vimdiff"]
   path = nvim
 
