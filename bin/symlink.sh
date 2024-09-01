@@ -1,9 +1,9 @@
 #!/bin/sh
 
 set -euf
-dirname=$( dirname "$0" )
-root=$( realpath $( dirname "$dirname" ) )
-user=$( whoami )
+dirname=$(dirname "$0")
+root=$(realpath $(dirname "$dirname"))
+user=$(whoami)
 . "$root"/misc/util.sh
 cd "$root"
 
@@ -16,7 +16,7 @@ fi
 get_link_name() {
   local directory="$1"
   local target="$2"
-  local basename=$( basename "$target" )
+  local basename=$(basename "$target")
   if [ "$basename" = "snippets" ]; then
     basename=UltiSnips
   fi
@@ -31,13 +31,14 @@ get_link_name() {
 }
 
 create_links() {
-  local directory="$1"; shift
+  local directory="$1"
+  shift
   # $@ now contains the targets
   mkdir -p "$directory"
   local target
   for target in "$@"; do
     target="$root/$target"
-    local link_name=$( get_link_name "$directory" "$target" )
+    local link_name=$(get_link_name "$directory" "$target")
     if [ ! -e "$target" ]; then
       >&2 echo "WARNING: Not linking non-existent target: $target"
     elif [ ! -e "$link_name" ] || [ -L "$link_name" ]; then
@@ -50,12 +51,13 @@ create_links() {
 }
 
 delete_links() {
-  local directory="$1"; shift
+  local directory="$1"
+  shift
   # $@ now contains the targets
   local target
   for target in "$@"; do
     target="$root/$target"
-    local link_name=$( get_link_name "$directory" "$target" )
+    local link_name=$(get_link_name "$directory" "$target")
     if [ -L "$link_name" ]; then
       >&2 echo "Removing symlink: $link_name"
       rm "$link_name"
@@ -71,8 +73,8 @@ delete_links() {
 
 with_sudo() {
   local target="$2"
-  local orig_owner=$( stat -c %U "$target" )
-  local orig_perms=$( stat -c %a "$target" )
+  local orig_owner=$(stat -c %U "$target")
+  local orig_perms=$(stat -c %a "$target")
   sudo chown "$user" "$target"
   sudo chmod +w "$target"
   "$@"
@@ -89,7 +91,7 @@ ls -ld /
 
 true "${XDG_CONFIG_HOME:=$HOME/.config}"
 
-$action "$XDG_CONFIG_HOME" containers emacs/doom fish git python/pylintrc python/matplotlib latexmk stylua.toml
+$action "$XDG_CONFIG_HOME" containers emacs/doom fish git python/pylintrc python/matplotlib latexmk stylua.toml starship.toml
 # for Neovim, don't symlink the whole directory, most of it will be
 # plugins and other auto-generated files, and it makes sense for those
 # to be on the local filesystem on CNC servers (for faster access)
