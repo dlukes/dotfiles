@@ -10,7 +10,7 @@ dependencies:
   - cxx-compiler
 
   # ----------------------------------------------------------------------------- Python {{{1
-  - python=3.11
+  - python=3.12
 
   # basics
   # - pynvim
@@ -27,9 +27,10 @@ dependencies:
   - httpx
   - pydantic
 
-  # Jupyter
+  # Jupyter (or not anymore?)
   - jupyterlab
   - jupytext
+  - marimo
 
   # data analysis
   - pandas
