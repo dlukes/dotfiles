@@ -33,13 +33,14 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       ;; NOTE: Without +childframe, the completion menu is all broken
-       ;; in variable pitch mode.
-       (company +childframe)
+       ;; NOTE: Without +childframe, the completion menu is all broken in variable pitch
+       ;; mode. But anyway, company is deprecated in favor of corfu.
+       ;;(company +childframe)
+       (corfu +orderless)  ; complete with cap(f), cape and a flying feather!
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
-       (vertico +icons)  ; the search engine of the future
+       (vertico +icons +childframe)  ; the search engine of the future
 
        :ui
        ;;deft              ; notational velocity for Emacs
@@ -48,7 +49,6 @@
        ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
        ;;(emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-       hydra
        indent-guides     ; highlighted indent columns
        ;; NOTE: This requires either macOS or Emacs 28+.
        ;;ligatures         ; ligatures and symbols to make your code pretty again
@@ -61,7 +61,7 @@
        ;;tabs              ; a tab bar for Emacs
        treemacs          ; a project drawer, like neotree but cooler
        ;;unicode           ; extended unicode support for various languages
-       vc-gutter         ; vcs diff in the fringe
+       (vc-gutter +pretty) ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
        window-select     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
