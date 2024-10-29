@@ -196,26 +196,6 @@ end
 
 
 
-# ---------------------------------------------------------------------------------- git {{{1
-
-
-set -g __fish_git_prompt_showcolorhints 1
-set -g __fish_git_prompt_use_informative_chars 1
-# indicate we're in sync with upstream by just being silent
-set -g __fish_git_prompt_char_upstream_equal ''
-
-# may be slow in large repos, consider disabling it in them with
-# git config --local bash.showInformativeStatus false
-# set -g __fish_git_prompt_show_informative_status
-# this is a subset which is faster and roughly equivalent to what I had
-# in zsh
-set -g __fish_git_prompt_showdirtystate 1
-set -g __fish_git_prompt_showuntrackedfiles 1
-set -g __fish_git_prompt_showupstream 1
-set -g __fish_git_prompt_showstashstate 1
-
-
-
 # ---------------------------------------------------------------------------------- bat {{{1
 
 
@@ -270,6 +250,13 @@ set -gxa ASPELL_CONF "personal $aspell_dir/personal;"
 
 
 bind \cx expand_glob
+
+
+
+# ---------------------------------------------------------------------- Starship prompt {{{1
+
+
+starship init fish | source
 
 
 
