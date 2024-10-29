@@ -4,7 +4,7 @@ set -euf
 
 err=
 if ! command -v mamba >/dev/null; then
-  >&2 echo 'ERROR: Install Mambaforge first.'
+  >&2 echo 'ERROR: Install Miniforge3 first.'
   err=1
 fi
 if ! command -v npm >/dev/null; then

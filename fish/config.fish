@@ -120,7 +120,7 @@ set -gx VIRTUAL_ENV_DISABLE_PROMPT 1
 set -gx MATPLOTLIBRC $XDG_CONFIG_HOME/matplotlib
 set -q NLTK_DATA; or set -gx NLTK_DATA ~/.local/share/nltk_data
 set -q SEABORN_DATA; or set -gx SEABORN_DATA ~/.local/share/seaborn-data
-set -q CONDA_EXE; or set -gx CONDA_EXE ~/.local/mambaforge/condabin/conda
+set -q CONDA_EXE; or set -gx CONDA_EXE ~/.local/miniforge3/condabin/conda
 
 if test -x $CONDA_EXE
     # By default, Conda adds prompt wrappers, which can then fail to preserve $status and
@@ -131,8 +131,8 @@ if test -x $CONDA_EXE
     $CONDA_EXE shell.fish hook |
         awk '/^function __conda_add_prompt/{rm=1} /^function conda/{rm=0} !rm' |
         source
-    set -l mambaforge_root (string replace -r '/bin/conda$' '' -- $CONDA_EXE)
-    source $mambaforge_root/etc/fish/conf.d/mamba.fish
+    set -l miniforge3_root (string replace -r '/bin/conda$' '' -- $CONDA_EXE)
+    source $miniforge3_root/etc/fish/conf.d/mamba.fish
     mamba activate umrk
 end
 

@@ -4,9 +4,9 @@ set -eufo pipefail
 script_dir=$(dirname "$(realpath "$0")")
 . "$script_dir"/../misc/util.sh
 
-prefix="$HOME"/.local/mambaforge
+prefix="$HOME"/.local/miniforge3
 conda_config="$prefix"/etc/profile.d/conda.sh
-installer="Mambaforge-$(uname)-$(uname -m).sh"
+installer="Miniforge3-$(uname)-$(uname -m).sh"
 default_env=umrk
 
 info 'Unsetting Conda-related environment variables, if any.'
