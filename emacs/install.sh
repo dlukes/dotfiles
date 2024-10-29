@@ -11,11 +11,15 @@ fi
 # Install / update Emacs.
 if is_macos; then
   brew tap railwaycat/emacsmacport
-  if brew ls --versions --cask emacs-mac-spacemacs-icon >/dev/null 2>&1; then
-    brew upgrade --cask emacs-mac-spacemacs-icon
+  cask=emacs-mac-28-spacemacs-icon
+  if brew ls --versions --cask $cask >/dev/null 2>&1; then
+    brew upgrade --cask $cask
   else
-    brew install --cask emacs-mac-spacemacs-icon
+    brew install --cask $cask
   fi
+
+  # Make sure we can build ZeroMQ bindings for emacs-jupyter.
+  brew install autoconf automake libtool pkg-config
 
   # This tap already provides Emacs compiled --with-native-comp, but as of mid-April
   # 2022, the builds feel a bit janky and actually slower than railwaycat's. Maybe just
