@@ -134,6 +134,7 @@ If everything looks weirdly bold with BlexMono, try adding ~:weight 'book~. Some
                 (font-get (face-attribute 'default :font) :size)
                 (error 12)))
   doom-variable-pitch-font (font-spec :family "Overpass")
+  doom-symbol-font (font-spec :family "Iosevka")
   ;; You might also want to not scale the font size that much in zen mode.
   ;; +zen-text-scale 1
   doom-theme 'doom-one
