@@ -220,6 +220,7 @@ Why the hell do some of the ~org-file-apps-gnu~ default to ~mailcap~ of all thin
     ;; ... in spite of org-indent-mode.
     org-indent-mode-turns-off-org-adapt-indentation nil
     org-blank-before-new-entry '((heading . nil) (plain-list-item . nil))
+    org-hide-drawer-startup nil
 
     org-pretty-entities t
     org-startup-with-inline-images t
