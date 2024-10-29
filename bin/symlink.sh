@@ -91,7 +91,7 @@ ls -ld /
 
 true "${XDG_CONFIG_HOME:=$HOME/.config}"
 
-$action "$XDG_CONFIG_HOME" containers emacs/doom fish git python/pylintrc python/matplotlib latexmk stylua.toml starship.toml
+$action "$XDG_CONFIG_HOME" containers emacs/doom fish git python/pylintrc python/matplotlib latexmk stylua.toml starship.toml direnv
 # for Neovim, don't symlink the whole directory, most of it will be
 # plugins and other auto-generated files, and it makes sense for those
 # to be on the local filesystem on CNC servers (for faster access)
