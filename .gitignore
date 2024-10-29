@@ -10,3 +10,7 @@ fish/functions/br.fish
 git/local
 plug.lock
 systemd/bin/config/*.py
+
+# Junk
+.DS_Store
+*.egg-info
