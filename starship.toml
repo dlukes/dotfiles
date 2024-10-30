@@ -1,6 +1,8 @@
 # Get editor completions based on the config schema
 "$schema" = "https://starship.rs/config-schema.json"
 
+# Periodically check https://starship.rs/config/#default-prompt-format to merge updates
+# to the default format.
 format = """
 $memory_usage\
 $username\
@@ -34,6 +36,7 @@ $elixir\
 $elm\
 $erlang\
 $fennel\
+$gleam\
 $golang\
 $guix_shell\
 $haskell\
@@ -76,6 +79,7 @@ $aws\
 $gcloud\
 $openstack\
 $azure\
+$nats\
 $direnv\
 $env_var\
 $crystal\
