@@ -91,7 +91,7 @@ ls -ld /
 
 true "${XDG_CONFIG_HOME:=$HOME/.config}"
 
-$action "$XDG_CONFIG_HOME" containers emacs/doom fish git python/pylintrc python/matplotlib latexmk stylua.toml starship.toml direnv
+$action "$XDG_CONFIG_HOME" containers emacs/doom fish git python/pylintrc python/matplotlib latexmk stylua.toml starship.toml direnv python/ruff
 # for Neovim, don't symlink the whole directory, most of it will be
 # plugins and other auto-generated files, and it makes sense for those
 # to be on the local filesystem on CNC servers (for faster access)
@@ -101,12 +101,13 @@ $action "$XDG_CONFIG_HOME/nvim" nvim/init.lua snippets
 # Stuff belonging under $XDG_CONFIG_HOME or macOS equivalent
 #-----------------------------------------------------------------------
 
-if is_macos; then
-  config_dir="$HOME/Library/Application Support"
-else
-  config_dir="$XDG_CONFIG_HOME"
-fi
-$action "$config_dir" python/ruff
+# if is_macos; then
+#   config_dir="$HOME/Library/Application Support"
+# else
+#   config_dir="$XDG_CONFIG_HOME"
+# fi
+# Ruff should now be under ~/.config too, this former location is deprecated.
+# $action "$config_dir" python/ruff
 
 #-----------------------------------------------------------------------
 # Stuff belonging under $XDG_DATA_HOME
