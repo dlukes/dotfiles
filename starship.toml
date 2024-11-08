@@ -118,3 +118,8 @@ disabled = true
 [localip]
 disabled = false
 ssh_only = true
+
+[aws]
+# Doesn't render as nicely as the default ☁️  symbol, but also doesn't cause the $fill
+# section to go haywire and trigger ellipsis overflow on the $directory section.
+symbol = "󰸏 "
