@@ -339,5 +339,12 @@ abbr -a -- vimdiff nvim\ -du\ NONE\ +\'set\ mouse=a\ et\ rtp+=\~/.config/nvim/pl
 abbr -a -- gp 'git push'
 abbr -a -- mm mamba
 abbr -a -- rgm rg -g "'**/master/**'"
+abbr -a -- zed 'zed -n .'
+abbr -a -- code 'code -n .'
+set -l yt_dlp 'uvx --no-cache --from yt-dlp[default] yt-dlp'
+abbr -a -- yt-dlp $yt_dlp
+abbr -a -- download-mp3 "$yt_dlp --extract-audio --audio-format mp3"
+abbr -a -- gcd 'git clone --depth 1'
+abbr -a -- gcf 'git clone --filter=blob:none'
 
 # vi: foldmethod=marker
