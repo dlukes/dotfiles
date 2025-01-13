@@ -238,11 +238,11 @@ end
 # ------------------------------------------------------------------------------- Aspell {{{1
 
 
-set -l aspell_dir ~/Desktop/data/aspell
-for dict in $aspell_dir/*.rws
-  set -gxa ASPELL_CONF "add-dict-alias $(string sub -e -4 -- $(basename $dict)) $dict;"
-end
-set -gxa ASPELL_CONF "personal $aspell_dir/personal;"
+# set -l aspell_dir ~/Desktop/data/aspell
+# for dict in $aspell_dir/*.rws
+#     set -gxa ASPELL_CONF "add-dict-alias $(string sub -e -4 -- $(basename $dict)) $dict;"
+# end
+# set -gxa ASPELL_CONF "personal $aspell_dir/personal;"
 
 
 
