@@ -3,11 +3,11 @@ channels:
   - conda-forge
 dependencies:
   # ------------------------------------------------------------------------- Non-Python {{{1
-  - nodejs
-  - ffmpeg
+  # - nodejs
+  # - ffmpeg
   # Don't install Pandoc explicitly, at least until it becomes available on ARM-based
   # macOS. On Linux, it will still be installed as a dependency of JupyterLab.
-  - cxx-compiler
+  # - cxx-compiler
 
   # ----------------------------------------------------------------------------- Python {{{1
   - python=3.12
@@ -16,31 +16,29 @@ dependencies:
   # - pynvim
   - ipython
   - ipdb
-  - black
-  - rich
-  - ruff
+  # - rich
 
   # stdlib replacements/enhancements
-  - lxml
-  - lxml-stubs
+  # - lxml
+  # - lxml-stubs
   - regex
   - httpx
-  - pydantic
+  # - pydantic
 
   # Jupyter (or not anymore?)
-  - jupyterlab
-  - jupytext
-  - marimo
+  # - jupyterlab
+  # - jupytext
+  # - marimo
 
   # data analysis
   - pandas
   - pandas-stubs
-  - polars
-  - scikit-learn
-  - statsmodels
-  - altair
-  - altair_saver
-  - altair_viewer
+  # - polars
+  # - scikit-learn
+  # - statsmodels
+  # - altair
+  # - altair_saver
+  # - altair_viewer
   - matplotlib
   - seaborn
 
@@ -49,7 +47,7 @@ dependencies:
   # PyMySQL is maybe the more popular alternative, but mysqlclient should generally be
   # faster, see https://github.com/PyMySQL/PyMySQL/issues/342. Both are maintained by
   # the same organization on GitHub.
-  - mysqlclient
+  # - mysqlclient
   - openpyxl
   - pyarrow
 
@@ -57,16 +55,11 @@ dependencies:
   - pydub
 
   # CLI tools
-  - hatch
-  # I typically use Pyright, but Mypy sometimes might have better error messages or tips
-  # in complicated situations. Note however that its behavior might differ in details.
-  - mypy
-  - tldr
-  - pre-commit
+  # - tldr
 
   # Fall back on Pip if package not available from conda-forge. Periodically check if
   # these packages have become available in the meantime.
   - pip
   - pip:
-    - pynvim
-    - git+https://github.com/gregversteeg/NPEET
+      - pynvim
+      # - git+https://github.com/gregversteeg/NPEET
