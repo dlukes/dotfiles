@@ -20,10 +20,7 @@
   # password*, so that even if you accidentally commit it, you don't give the keys to
   # your Google account to anyone on the internet, which is a bad idea™. Alternatively,
   # you can keep it around indefinitely in a separate config file which is included but
-  # kept private:
-[include]
-  path = ~/Desktop/data/git_config_private
-  path = ~/.config/git/local
+  # kept private. See [include] section at the end of the config file.
 
 [core]
   quotePath = off
@@ -104,5 +101,10 @@
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process
   required = true
+
+# Keep includes at the end, so that they can override any of the previous settings.
+[include]
+  path = ~/Desktop/data/git_config_private
+  path = ~/.config/git/local
 
 # vi: ft=gitconfig
