@@ -24,6 +24,9 @@
 
 [core]
   quotePath = off
+  # Convert CRLF (if any) to LF when committing, don't do any conversion (i.e., no LF →
+  # CRLF) when checking out code.
+  autocrlf = input
 [color]
   ui = auto
 [commit]
