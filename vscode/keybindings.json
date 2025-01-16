@@ -1,0 +1,41 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+  {
+    "key": "ctrl+\\",
+    "command": "workbench.action.terminal.toggleTerminal"
+  },
+  {
+    "key": "cmd+k cmd+m",
+    "command": "workbench.action.toggleMaximizedPanel"
+  },
+  {
+    "key": "cmd+up",
+    "command": "workbench.action.navigateUp"
+  },
+  {
+    "key": "cmd+down",
+    "command": "workbench.action.navigateDown"
+  },
+  {
+    "key": "cmd+left",
+    "command": "workbench.action.navigateLeft"
+  },
+  {
+    "key": "cmd+right",
+    "command": "workbench.action.navigateRight"
+  },
+  {
+    "key": "cmd+o",
+    "command": "file-browser.open"
+  },
+  {
+    "key": "alt+tab",
+    "command": "editor.action.inlineSuggest.acceptNextWord",
+    "when": "inlineSuggestionVisible && !editorReadonly"
+  },
+  {
+    "key": "cmd+right",
+    "command": "-editor.action.inlineSuggest.acceptNextWord",
+    "when": "inlineSuggestionVisible && !editorReadonly"
+  }
+]

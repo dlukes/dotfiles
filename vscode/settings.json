@@ -1,0 +1,451 @@
+{
+  "security.workspace.trust.untrustedFiles": "open",
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "python.analysis.inlayHints.variableTypes": true,
+  // "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.typeCheckingMode": "strict",
+  "vim.enableNeovim": true,
+  "vim.hlsearch": true,
+  "vim.leader": " ",
+  "vim.insertModeKeyBindingsNonRecursive": [
+    {
+      "before": ["f", "d"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<space>"],
+      "commands": [
+        { "command": "_setContext", "args": ["leaderkeyState", "SPC"] },
+        { "command": "leaderkey.render", "args": "SPC" }
+      ]
+    },
+    {
+      "before": [","],
+      "commands": [
+        { "command": "_setContext", "args": ["leaderkeyState", ","] },
+        { "command": "leaderkey.render", "args": "," }
+      ]
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<space>"],
+      "commands": [
+        { "command": "_setContext", "args": ["leaderkeyState", "SPC"] },
+        { "command": "leaderkey.render", "args": "SPC" }
+      ]
+    },
+    {
+      "before": [","],
+      "commands": [
+        { "command": "_setContext", "args": ["leaderkeyState", ","] },
+        { "command": "leaderkey.render", "args": "," }
+      ]
+    }
+  ],
+  "editor.wordWrap": "on",
+  "editor.wordWrapColumn": 88,
+  "editor.rulers": [88, 120],
+  "jupyter.askForKernelRestart": false,
+  "[markdown]": {
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 88
+  },
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
+  },
+  "markdown.styles": ["markdown.css"],
+  "editor.renderWhitespace": "boundary",
+  "editor.tabSize": 2,
+  "explorer.confirmDelete": false,
+  "terminal.integrated.inheritEnv": false,
+  "terminal.integrated.defaultProfile.osx": "fish-no-login",
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "path": "bash",
+      "icon": "terminal-bash"
+    },
+    "zsh": {
+      "path": "zsh"
+    },
+    "fish": {
+      "path": "fish"
+    },
+    "tmux": {
+      "path": "tmux",
+      "icon": "terminal-tmux"
+    },
+    "pwsh": {
+      "path": "pwsh",
+      "icon": "terminal-powershell"
+    }
+  },
+  "terminal.integrated.profiles.osx": {
+    "bash": {
+      "path": "bash",
+      "args": ["-l"],
+      "icon": "terminal-bash"
+    },
+    "zsh": {
+      "path": "zsh",
+      "args": ["-l"]
+    },
+    "fish": {
+      "path": "fish",
+      "args": ["-l"]
+    },
+    "fish-no-login": {
+      "path": "fish"
+    },
+    "tmux": {
+      "path": "tmux",
+      "icon": "terminal-tmux"
+    },
+    "pwsh": {
+      "path": "pwsh",
+      "icon": "terminal-powershell"
+    }
+  },
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "editor.renderFinalNewline": "off",
+  "typescript.format.semicolons": "insert",
+  "javascript.format.semicolons": "insert",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "git.confirmSync": false,
+  "prettier.trailingComma": "all",
+  "editor.formatOnSaveMode": "modificationsIfAvailable",
+  "editor.fontFamily": "BlexMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+  "javascript.inlayHints.enumMemberValues.enabled": true,
+  "javascript.inlayHints.parameterTypes.enabled": true,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "javascript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "terminal.integrated.macOptionIsMeta": true,
+  "azureResourceGroups.selectedSubscriptions": [],
+  "terminal.integrated.automationProfile.osx": {
+    "path": "/bin/zsh"
+  },
+  "terminal.integrated.automationProfile.linux": {
+    "path": "/bin/bash"
+  },
+  "editor.formatOnSave": true,
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
+  },
+  "git.openRepositoryInParentFolders": "never",
+  "pgsql.logDebugInfo": true,
+  "redhat.telemetry.enabled": true,
+  "zenMode.showTabs": "single",
+  "workbench.editor.showTabs": "single",
+  "typescript.inlayHints.enumMemberValues.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  },
+  "mdb.useSampleDocsInCopilot": true,
+  "notebook.editorOptionsCustomizations": {
+    "editor.tabSize": 4,
+    "editor.indentSize": 4,
+    "editor.insertSpaces": true
+  },
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "*.jsx": "${capture}.js",
+    "*.tsx": "${capture}.ts",
+    "tsconfig.json": "tsconfig.*.json",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
+    "Cargo.toml": "Cargo.lock",
+    "*.sqlite": "${capture}.${extname}-*",
+    "*.db": "${capture}.${extname}-*",
+    "*.sqlite3": "${capture}.${extname}-*",
+    "*.db3": "${capture}.${extname}-*",
+    "*.sdb": "${capture}.${extname}-*",
+    "*.s3db": "${capture}.${extname}-*"
+  },
+  "peacock.favoriteColors": [
+    {
+      "name": "Kanagawa sumiInk0",
+      "value": "#16161D"
+    },
+    {
+      "name": "Kanagawa sumiInk1",
+      "value": "#181820"
+    },
+    {
+      "name": "Kanagawa sumiInk2",
+      "value": "#1a1a22"
+    },
+    {
+      "name": "Kanagawa sumiInk3",
+      "value": "#1F1F28"
+    },
+    {
+      "name": "Kanagawa sumiInk4",
+      "value": "#2A2A37"
+    },
+    {
+      "name": "Kanagawa sumiInk5",
+      "value": "#363646"
+    },
+    {
+      "name": "Kanagawa sumiInk6",
+      "value": "#54546D"
+    },
+    {
+      "name": "Kanagawa waveBlue1",
+      "value": "#223249"
+    },
+    {
+      "name": "Kanagawa waveBlue2",
+      "value": "#2D4F67"
+    },
+    {
+      "name": "Kanagawa winterGreen",
+      "value": "#2B3328"
+    },
+    {
+      "name": "Kanagawa winterYellow",
+      "value": "#49443C"
+    },
+    {
+      "name": "Kanagawa winterRed",
+      "value": "#43242B"
+    },
+    {
+      "name": "Kanagawa winterBlue",
+      "value": "#252535"
+    },
+    {
+      "name": "Kanagawa autumnGreen",
+      "value": "#76946A"
+    },
+    {
+      "name": "Kanagawa autumnRed",
+      "value": "#C34043"
+    },
+    {
+      "name": "Kanagawa autumnYellow",
+      "value": "#DCA561"
+    },
+    {
+      "name": "Kanagawa samuraiRed",
+      "value": "#E82424"
+    },
+    {
+      "name": "Kanagawa roninYellow",
+      "value": "#FF9E3B"
+    },
+    {
+      "name": "Kanagawa waveAqua1",
+      "value": "#6A9589"
+    },
+    {
+      "name": "Kanagawa dragonBlue",
+      "value": "#658594"
+    },
+    {
+      "name": "Kanagawa oldWhite",
+      "value": "#C8C093"
+    },
+    {
+      "name": "Kanagawa fujiWhite",
+      "value": "#DCD7BA"
+    },
+    {
+      "name": "Kanagawa fujiGray",
+      "value": "#727169"
+    },
+    {
+      "name": "Kanagawa oniViolet",
+      "value": "#957FB8"
+    },
+    {
+      "name": "Kanagawa oniViolet2",
+      "value": "#b8b4d0"
+    },
+    {
+      "name": "Kanagawa crystalBlue",
+      "value": "#7E9CD8"
+    },
+    {
+      "name": "Kanagawa springViolet1",
+      "value": "#938AA9"
+    },
+    {
+      "name": "Kanagawa springViolet2",
+      "value": "#9CABCA"
+    },
+    {
+      "name": "Kanagawa springBlue",
+      "value": "#7FB4CA"
+    },
+    {
+      "name": "Kanagawa lightBlue",
+      "value": "#A3D4D5"
+    },
+    {
+      "name": "Kanagawa waveAqua2",
+      "value": "#7AA89F"
+    },
+    {
+      "name": "Kanagawa springGreen",
+      "value": "#98BB6C"
+    },
+    {
+      "name": "Kanagawa boatYellow1",
+      "value": "#938056"
+    },
+    {
+      "name": "Kanagawa boatYellow2",
+      "value": "#C0A36E"
+    },
+    {
+      "name": "Kanagawa carpYellow",
+      "value": "#E6C384"
+    },
+    {
+      "name": "Kanagawa sakuraPink",
+      "value": "#D27E99"
+    },
+    {
+      "name": "Kanagawa waveRed",
+      "value": "#E46876"
+    },
+    {
+      "name": "Kanagawa peachRed",
+      "value": "#FF5D62"
+    },
+    {
+      "name": "Kanagawa surimiOrange",
+      "value": "#FFA066"
+    },
+    {
+      "name": "Kanagawa katanaGray",
+      "value": "#717C7C"
+    },
+    {
+      "name": "Kanagawa dragonBlack0",
+      "value": "#0d0c0c"
+    },
+    {
+      "name": "Kanagawa dragonBlack1",
+      "value": "#12120f"
+    },
+    {
+      "name": "Kanagawa dragonBlack2",
+      "value": "#1D1C19"
+    },
+    {
+      "name": "Kanagawa dragonBlack3",
+      "value": "#181616"
+    },
+    {
+      "name": "Kanagawa dragonBlack4",
+      "value": "#282727"
+    },
+    {
+      "name": "Kanagawa dragonBlack5",
+      "value": "#393836"
+    },
+    {
+      "name": "Kanagawa dragonBlack6",
+      "value": "#625e5a"
+    },
+    {
+      "name": "Kanagawa dragonWhite",
+      "value": "#c5c9c5"
+    },
+    {
+      "name": "Kanagawa dragonGreen",
+      "value": "#87a987"
+    },
+    {
+      "name": "Kanagawa dragonGreen2",
+      "value": "#8a9a7b"
+    },
+    {
+      "name": "Kanagawa dragonPink",
+      "value": "#a292a3"
+    },
+    {
+      "name": "Kanagawa dragonOrange",
+      "value": "#b6927b"
+    },
+    {
+      "name": "Kanagawa dragonOrange2",
+      "value": "#b98d7b"
+    },
+    {
+      "name": "Kanagawa dragonGray",
+      "value": "#a6a69c"
+    },
+    {
+      "name": "Kanagawa dragonGray2",
+      "value": "#9e9b93"
+    },
+    {
+      "name": "Kanagawa dragonGray3",
+      "value": "#7a8382"
+    },
+    {
+      "name": "Kanagawa dragonBlue2",
+      "value": "#8ba4b0"
+    },
+    {
+      "name": "Kanagawa dragonViolet",
+      "value": "#8992a7"
+    },
+    {
+      "name": "Kanagawa dragonRed",
+      "value": "#c4746e"
+    },
+    {
+      "name": "Kanagawa dragonAqua",
+      "value": "#8ea4a2"
+    },
+    {
+      "name": "Kanagawa dragonAsh",
+      "value": "#737c73"
+    },
+    {
+      "name": "Kanagawa dragonTeal",
+      "value": "#949fb5"
+    },
+    {
+      "name": "Kanagawa dragonYellow",
+      "value": "#c4b28a"
+    }
+  ],
+  "workbench.colorTheme": "Kanagawa Wave",
+  "diffEditor.experimental.showMoves": true,
+  "peacock.affectSideBarBorder": true,
+  "peacock.affectEditorGroupBorder": true,
+  "peacock.affectDebuggingStatusBar": true,
+  "peacock.affectPanelBorder": true,
+  "peacock.affectStatusAndTitleBorders": true,
+  "peacock.affectTabActiveBorder": true,
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
+  "chat.editing.alwaysSaveWithGeneratedChanges": true,
+  "workbench.editor.enablePreview": false,
+  "git-blame.config.inlineBlameHoverMessage": true,
+  "notebook.formatOnSave.enabled": true,
+  "notebook.output.wordWrap": true,
+  "notebook.lineNumbers": "on",
+  "vim.easymotion": true,
+  "[sql]": {
+    "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
+  },
+  "Prettier-SQL.keywordCase": "upper",
+  "dart.flutterSdkPath": "/Users/david/repos/flutter/flutter_macos_arm64_3.27.0-stable"
+}
