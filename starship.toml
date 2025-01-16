@@ -99,6 +99,7 @@ add_newline = true
 
 [fill]
 symbol = "━"
+style = "bright-black"
 
 [directory]
 fish_style_pwd_dir_length = 1
