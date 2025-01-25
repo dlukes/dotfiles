@@ -51,7 +51,7 @@ function unarchive_one
   mv -t $old_pwd $bname
   test $cmd_status = 0; or return
 
-  set -l contents (find . -maxdepth 1 -print0 | string split0)
+  set -l contents (find . -maxdepth 1 -print0 | string split0 | string match -vr '^.$')
   if test (count $contents) = 1 -a -d $contents[1]
     set dname *
     mv -t $old_pwd $dname
