@@ -57,9 +57,12 @@
 
 # Sorting most recent items last (prepend - to invert).
 [branch]
-  sort = committerdate
+  sort = -committerdate
 [tag]
-  sort = taggerdate
+  sort = -taggerdate
+# Also, break output into columns when appropriate.
+[column]
+  ui = auto
 
 [alias]
   ll = log --pretty='%C(yellow)%h %C(blue)%ad %Cgreen%aN%C(auto)%d %Creset%s' --date=relative --date-order --graph
