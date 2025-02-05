@@ -97,6 +97,11 @@
   conflictStyle = zdiff3
 [mergetool "vimdiff"]
   path = nvim
+# rerere = reuse recorded resolution. If you fix a merge conflict once, Git will store
+# the resolution on disk and reuse it if the same merge conflict is encountered again in
+# the future (useful when cherry-picking, redoing rebases etc.).
+[rerere]
+  enabled = true
 
 # LFS
 [filter "lfs"]
