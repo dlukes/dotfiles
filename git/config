@@ -46,6 +46,10 @@
   autoSquash = true
   # Automatically run `git stash` prior to rebase, and `git stash pop` after.
   autoStash = true
+  # Automatically passes --update-refs to `git rebase`, so that any branch pointers you
+  # run into while rebasing are automatically rewired to the appropriate newly
+  # introduced commits.
+  updateRefs = true
 [status]
   submoduleSummary = true
 [submodule]
