@@ -1,69 +1,77 @@
 {
+  // =======================
+  // General Editor Settings
+  // =======================
+  // Workspace trust
   "security.workspace.trust.untrustedFiles": "open",
-  "python.analysis.inlayHints.functionReturnTypes": true,
-  "python.analysis.inlayHints.variableTypes": true,
-  // "python.analysis.typeCheckingMode": "basic",
-  "python.analysis.typeCheckingMode": "strict",
-  "vim.enableNeovim": true,
-  "vim.hlsearch": true,
-  "vim.leader": " ",
-  "vim.insertModeKeyBindingsNonRecursive": [
-    {
-      "before": ["f", "d"],
-      "after": ["<Esc>"]
-    }
-  ],
-  "vim.normalModeKeyBindingsNonRecursive": [
-    {
-      "before": ["<space>"],
-      "commands": [
-        { "command": "_setContext", "args": ["leaderkeyState", "SPC"] },
-        { "command": "leaderkey.render", "args": "SPC" }
-      ]
-    },
-    {
-      "before": [","],
-      "commands": [
-        { "command": "_setContext", "args": ["leaderkeyState", ","] },
-        { "command": "leaderkey.render", "args": "," }
-      ]
-    }
-  ],
-  "vim.visualModeKeyBindingsNonRecursive": [
-    {
-      "before": ["<space>"],
-      "commands": [
-        { "command": "_setContext", "args": ["leaderkeyState", "SPC"] },
-        { "command": "leaderkey.render", "args": "SPC" }
-      ]
-    },
-    {
-      "before": [","],
-      "commands": [
-        { "command": "_setContext", "args": ["leaderkeyState", ","] },
-        { "command": "leaderkey.render", "args": "," }
-      ]
-    }
-  ],
+
+  // Editor behavior
   "editor.wordWrap": "on",
   "editor.wordWrapColumn": 88,
   "editor.rulers": [88, 120],
-  "jupyter.askForKernelRestart": false,
-  "[markdown]": {
-    "editor.wordWrap": "wordWrapColumn",
-    "editor.wordWrapColumn": 88
-  },
-  "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.insertSpaces": true,
-    "editor.tabSize": 4
-  },
-  "markdown.styles": ["markdown.css"],
   "editor.renderWhitespace": "boundary",
   "editor.tabSize": 2,
+  "editor.renderFinalNewline": "off",
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "modificationsIfAvailable",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.fontFamily": "BlexMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit"
+  },
+
+  // File handling
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+
+  // Explorer
   "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "*.jsx": "${capture}.js",
+    "*.tsx": "${capture}.ts",
+    "tsconfig.json": "tsconfig.*.json",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
+    "Cargo.toml": "Cargo.lock",
+    "*.sqlite": "${capture}.${extname}-*",
+    "*.db": "${capture}.${extname}-*",
+    "*.sqlite3": "${capture}.${extname}-*",
+    "*.db3": "${capture}.${extname}-*",
+    "*.sdb": "${capture}.${extname}-*",
+    "*.s3db": "${capture}.${extname}-*"
+  },
+
+  // Diff editor
+  "diffEditor.experimental.showMoves": true,
+
+  // Git
+  "git.confirmSync": false,
+  "git.openRepositoryInParentFolders": "never",
+  "git-blame.config.inlineBlameHoverMessage": true,
+
+  // Notebook
+  "notebook.formatOnSave.enabled": true,
+  "notebook.output.wordWrap": true,
+  "notebook.lineNumbers": "on",
+  "notebook.editorOptionsCustomizations": {
+    "editor.tabSize": 4,
+    "editor.indentSize": 4,
+    "editor.insertSpaces": true
+  },
+
+  // Terminal
   "terminal.integrated.inheritEnv": false,
   "terminal.integrated.defaultProfile.osx": "fish-no-login",
+  "terminal.integrated.macOptionIsMeta": true,
+  "terminal.integrated.automationProfile.osx": {
+    "path": "/bin/zsh"
+  },
+  "terminal.integrated.automationProfile.linux": {
+    "path": "/bin/bash"
+  },
   "terminal.integrated.profiles.linux": {
     "bash": {
       "path": "bash",
@@ -110,67 +118,120 @@
       "icon": "terminal-powershell"
     }
   },
-  "files.trimFinalNewlines": true,
-  "files.trimTrailingWhitespace": true,
-  "files.insertFinalNewline": true,
-  "editor.renderFinalNewline": "off",
+
+  // =======================
+  // Vim Extension Settings
+  // =======================
+  "vim.enableNeovim": true,
+  "vim.hlsearch": true,
+  "vim.leader": " ",
+  "vim.easymotion": true,
+  "vim.insertModeKeyBindingsNonRecursive": [
+    {
+      "before": ["f", "d"],
+      "after": ["<Esc>"]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<space>"],
+      "commands": [
+        { "command": "_setContext", "args": ["leaderkeyState", "SPC"] },
+        { "command": "leaderkey.render", "args": "SPC" }
+      ]
+    },
+    {
+      "before": [","],
+      "commands": [
+        { "command": "_setContext", "args": ["leaderkeyState", ","] },
+        { "command": "leaderkey.render", "args": "," }
+      ]
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<space>"],
+      "commands": [
+        { "command": "_setContext", "args": ["leaderkeyState", "SPC"] },
+        { "command": "leaderkey.render", "args": "SPC" }
+      ]
+    },
+    {
+      "before": [","],
+      "commands": [
+        { "command": "_setContext", "args": ["leaderkeyState", ","] },
+        { "command": "leaderkey.render", "args": "," }
+      ]
+    }
+  ],
+
+  // =======================
+  // Inlay Hints & Formatting
+  // =======================
   "typescript.format.semicolons": "insert",
   "javascript.format.semicolons": "insert",
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "git.confirmSync": false,
-  "prettier.trailingComma": "all",
-  "editor.formatOnSaveMode": "modificationsIfAvailable",
-  "editor.fontFamily": "BlexMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
   "javascript.inlayHints.enumMemberValues.enabled": true,
   "javascript.inlayHints.parameterTypes.enabled": true,
   "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
   "javascript.inlayHints.variableTypes.enabled": true,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
   "typescript.inlayHints.variableTypes.enabled": true,
   "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
-  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
-  "terminal.integrated.macOptionIsMeta": true,
-  "azureResourceGroups.selectedSubscriptions": [],
-  "terminal.integrated.automationProfile.osx": {
-    "path": "/bin/zsh"
+  "typescript.inlayHints.enumMemberValues.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+
+  // =======================
+  // Language-Specific Settings
+  // =======================
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4
   },
-  "terminal.integrated.automationProfile.linux": {
-    "path": "/bin/bash"
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "python.analysis.inlayHints.variableTypes": true,
+  // "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.typeCheckingMode": "strict",
+
+  "[markdown]": {
+    "editor.wordWrap": "wordWrapColumn",
+    "editor.wordWrapColumn": 88
   },
-  "editor.formatOnSave": true,
+  "markdown.styles": ["markdown.css"],
+
   "[csharp]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp"
   },
-  "git.openRepositoryInParentFolders": "never",
-  "pgsql.logDebugInfo": true,
-  "redhat.telemetry.enabled": true,
-  "zenMode.showTabs": "single",
-  "workbench.editor.showTabs": "single",
-  "typescript.inlayHints.enumMemberValues.enabled": true,
-  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
+
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  },
+
+  "[sql]": {
+    "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
+  },
+  "Prettier-SQL.keywordCase": "upper",
+
+  // =======================
+  // Miscellaneous/Other
+  // =======================
+  "jupyter.askForKernelRestart": false,
   "mdb.useSampleDocsInCopilot": true,
-  "notebook.editorOptionsCustomizations": {
-    "editor.tabSize": 4,
-    "editor.indentSize": 4,
-    "editor.insertSpaces": true
-  },
-  "explorer.fileNesting.patterns": {
-    "*.ts": "${capture}.js",
-    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
-    "*.jsx": "${capture}.js",
-    "*.tsx": "${capture}.ts",
-    "tsconfig.json": "tsconfig.*.json",
-    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
-    "Cargo.toml": "Cargo.lock",
-    "*.sqlite": "${capture}.${extname}-*",
-    "*.db": "${capture}.${extname}-*",
-    "*.sqlite3": "${capture}.${extname}-*",
-    "*.db3": "${capture}.${extname}-*",
-    "*.sdb": "${capture}.${extname}-*",
-    "*.s3db": "${capture}.${extname}-*"
-  },
+  "azureResourceGroups.selectedSubscriptions": [],
+  "chat.editing.alwaysSaveWithGeneratedChanges": true,
+  "workbench.editor.enablePreview": false,
+  "redhat.telemetry.enabled": true,
+  "zenMode.showTabs": "single",
+  "workbench.editor.showTabs": "single",
+
+  // =======================
+  // Visual/Theme/Color Settings
+  // =======================
+  "workbench.colorTheme": "Kanagawa Wave",
   "peacock.favoriteColors": [
     {
       "name": "Kanagawa sumiInk0",
@@ -425,27 +486,10 @@
       "value": "#c4b28a"
     }
   ],
-  "workbench.colorTheme": "Kanagawa Wave",
-  "diffEditor.experimental.showMoves": true,
   "peacock.affectSideBarBorder": true,
   "peacock.affectEditorGroupBorder": true,
   "peacock.affectDebuggingStatusBar": true,
   "peacock.affectPanelBorder": true,
   "peacock.affectStatusAndTitleBorders": true,
-  "peacock.affectTabActiveBorder": true,
-  "[toml]": {
-    "editor.defaultFormatter": "tamasfe.even-better-toml"
-  },
-  "chat.editing.alwaysSaveWithGeneratedChanges": true,
-  "workbench.editor.enablePreview": false,
-  "git-blame.config.inlineBlameHoverMessage": true,
-  "notebook.formatOnSave.enabled": true,
-  "notebook.output.wordWrap": true,
-  "notebook.lineNumbers": "on",
-  "vim.easymotion": true,
-  "[sql]": {
-    "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
-  },
-  "Prettier-SQL.keywordCase": "upper",
-  "dart.flutterSdkPath": "/Users/david/repos/flutter/flutter_macos_arm64_3.27.0-stable"
+  "peacock.affectTabActiveBorder": true
 }
