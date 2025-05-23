@@ -9,6 +9,9 @@
 [user]
   name = David Lukes
   email = dafydd.lukes@gmail.com
+  # If a different key should be used on specific machines, override it in
+  # ~/.config/git/local.
+  signingkey = ~/.ssh/id_rsa.pub
 [sendemail]
   smtpServer = smtp.gmail.com
   smtpUser = dafydd.lukes@gmail.com
@@ -31,6 +34,7 @@
   ui = auto
 [commit]
   verbose = true
+  gpgsign = true
 [push]
   default = simple
   recurseSubmodules = check
@@ -64,6 +68,7 @@
   sort = -committerdate
 [tag]
   sort = -taggerdate
+  gpgSign = true
 # Also, break output into columns when appropriate.
 [column]
   ui = auto
@@ -116,6 +121,10 @@
   smudge = git-lfs smudge -- %f
   process = git-lfs filter-process
   required = true
+
+[gpg]
+  # Use SSH for signing commits instead of GPG.
+  format = ssh
 
 # Keep includes at the end, so that they can override any of the previous settings.
 [include]
