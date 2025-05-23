@@ -6,6 +6,7 @@ emacs/doom/custom.el
 # directories
 fish/completions
 fish/conf.d
+fish/fish_variables
 fish/functions/br.fish
 git/local
 plug.lock
