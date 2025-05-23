@@ -267,6 +267,17 @@ direnv hook fish | source
 
 
 
+# --------------------------------------------------------------------------------- Java {{{1
+
+
+# JAVA_HOME should be set to avoid confusing build failures where javac is found, but
+# the correct JDK to use cannot be inferred. So set it to the latest available JDK.
+set -l java_home /usr/libexec/java_home
+if test -x $java_home
+    set -gx JAVA_HOME ($java_home)
+end
+
+
 
 # -------------------------------------------------------------------------------- Abbrs {{{1
 
