@@ -48,10 +48,7 @@ source ~/.files/locale
 set -e main
 set -e alt
 
-
-
 # --------------------------------------------------------------------------------- Fish {{{1
-
 
 # Variables migrated over from the (universal) fish_variables file, which should not be
 # in version control (it's optimal for machine-specific stuff).
@@ -86,10 +83,7 @@ set -g fish_pager_color_prefix 'white --bold --underline'
 set -g fish_pager_color_progress 'brwhite --background=cyan'
 set -g fish_pager_color_selected_background -r
 
-
-
 # -------------------------------------------------------------------------------- macOS {{{1
-
 
 if test (uname -s) = Darwin
     # Conda-forge's Clang can't find headers on macOS, at least not in Fish. Details here:
@@ -118,10 +112,7 @@ if test (uname -s) = Darwin
     end
 end
 
-
-
 # ------------------------------------------------------------------------- Custom paths {{{1
-
 
 if not set -q CUSTOM_PATHS
     set -gx CUSTOM_PATHS
@@ -143,10 +134,7 @@ end
 # that they're running inside fish (e.g. Perl local::lib setup, Anaconda etc.).
 set -gx SHELL (type -p fish)
 
-
-
 # ------------------------------------------------------------------------------- Python {{{1
-
 
 set -gx PYTHONFAULTHANDLER 1
 # See <https://www.python.org/dev/peps/pep-0597/>. If you explicitly want to use the
@@ -181,10 +169,7 @@ set -gx MODULAR_HOME ~/.modular
 fish_add_path ~/.modular/pkg/packages.modular.com_mojo/bin
 fish_add_path ~/.pixi/bin
 
-
-
 # --------------------------------------------------------------------------------- Rust {{{1
-
 
 # Available from 1.68 (see release notes), should become the default in Rust 1.70, but
 # let's switch early for the welcome speedup.
@@ -199,10 +184,7 @@ if not set -q RUSTUP_HOME
     end
 end
 
-
-
 # --------------------------------------------------------------------------------- Perl {{{1
-
 
 # These would be nice and strict, see, https://stackoverflow.com/a/6163129, but they
 # break too much third-party code. And as I'm not planning to write any first-party Perl
@@ -216,10 +198,7 @@ if test -d $local_lib
     perl -I"$local_lib"/lib/perl5 -Mlocal::lib="$local_lib" | source
 end
 
-
-
 # ---------------------------------------------------------------------------------- fzf {{{1
-
 
 # fzf/key-bindings.fish exits early in non-interactive shells, before defining
 # fzf_key_bindings, so let's skip FZF config completely in that case, to avoid a command
@@ -235,26 +214,17 @@ if status is-interactive
     end
 end
 
-
-
 # ---------------------------------------------------------------------------------- bat {{{1
-
 
 set -gx BAT_CONFIG_PATH ~/.files/bat.conf
 
-
-
 # ------------------------------------------------------------------------------- Zoxide {{{1
-
 
 if type -q zoxide
     zoxide init fish --cmd j | source
 end
 
-
-
 # ---------------------------------------------------------------------------------- SSH {{{1
-
 
 # pre-load ssh keys
 if type -q ssh-agent
@@ -274,10 +244,7 @@ if type -q ssh-agent
     end
 end
 
-
-
 # ------------------------------------------------------------------------------- Aspell {{{1
-
 
 # set -l aspell_dir ~/Desktop/data/aspell
 # for dict in $aspell_dir/*.rws
@@ -285,31 +252,19 @@ end
 # end
 # set -gxa ASPELL_CONF "personal $aspell_dir/personal;"
 
-
-
 # ------------------------------------------------------------------ Custom key bindings {{{1
-
 
 bind \cx expand_glob
 
-
-
 # ---------------------------------------------------------------------- Starship prompt {{{1
-
 
 starship init fish | source
 
-
-
 # ------------------------------------------------------------------------------- Direnv {{{1
-
 
 direnv hook fish | source
 
-
-
 # --------------------------------------------------------------------------------- Java {{{1
-
 
 # JAVA_HOME should be set to avoid confusing build failures where javac is found, but
 # the correct JDK to use cannot be inferred. So set it to the latest available JDK.
@@ -318,10 +273,7 @@ if test -x $java_home
     set -gx JAVA_HOME ($java_home)
 end
 
-
-
 # -------------------------------------------------------------------------------- Abbrs {{{1
-
 
 abbr -a -- plo 'podman logs'
 abbr -a -- ffprobe 'ffprobe -hide_banner'
