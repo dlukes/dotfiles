@@ -28,6 +28,14 @@ issues. Run the command below and log out, then back in:
 end
 
 set -gx XDG_CONFIG_HOME ~/.config
+if type -q nvim
+    set -gx EDITOR nvim
+    set -gx VISUAL nvim
+else
+    set -gx EDITOR vim
+    set -gx VISUAL vim
+end
+set -gx PAGER less
 set -gxp TERMINFO_DIRS /etc/terminfo /lib/terminfo /usr/share/terminfo
 
 set -l locales (locale -a)
@@ -39,6 +47,44 @@ end
 source ~/.files/locale
 set -e main
 set -e alt
+
+
+
+# --------------------------------------------------------------------------------- Fish {{{1
+
+
+# Variables migrated over from the (universal) fish_variables file, which should not be
+# in version control (it's optimal for machine-specific stuff).
+set -g fish_color_autosuggestion 969896
+set -g fish_color_cancel -r
+set -g fish_color_command b294bb
+set -g fish_color_comment f0c674
+set -g fish_color_cwd green
+set -g fish_color_cwd_root red
+set -g fish_color_end b294bb
+set -g fish_color_error cc6666
+set -g fish_color_escape 00a6b2
+set -g fish_color_history_current --bold
+set -g fish_color_host normal
+set -g fish_color_host_remote yellow
+set -g fish_color_match --background=brblue
+set -g fish_color_normal normal
+set -g fish_color_operator 00a6b2
+set -g fish_color_param 81a2be
+set -g fish_color_quote b5bd68
+set -g fish_color_redirection 8abeb7
+set -g fish_color_search_match 'bryellow --background=brblack'
+set -g fish_color_selection 'white --bold --background=brblack'
+set -g fish_color_status red
+set -g fish_color_user brgreen
+set -g fish_color_valid_path --underline
+set -g fish_greeting
+set -g fish_key_bindings fish_default_key_bindings
+set -g fish_pager_color_completion normal
+set -g fish_pager_color_description 'B3A06D yellow'
+set -g fish_pager_color_prefix 'white --bold --underline'
+set -g fish_pager_color_progress 'brwhite --background=cyan'
+set -g fish_pager_color_selected_background -r
 
 
 
@@ -96,11 +142,6 @@ end
 # We don't want to use Fish as login shell, but we *do* want to let subprocesses know
 # that they're running inside fish (e.g. Perl local::lib setup, Anaconda etc.).
 set -gx SHELL (type -p fish)
-if type -q nvim
-    set -gx EDITOR nvim
-else
-    set -gx EDITOR vim
-end
 
 
 
