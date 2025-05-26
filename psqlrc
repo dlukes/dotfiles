@@ -1,2 +1,16 @@
+-- Automatically use expanded display when appropriate. Expanded dispaly = long format
+-- like:
+--
+-- -[ RECORD 1 ]-------------------------------------------------
+-- Name        | hstore
+-- Version     | 1.0
+-- Schema      | jasdeep
+-- Description | data type for storing sets of (key, value) pairs
+-- -[ RECORD 2 ]-------------------------------------------------
+-- Name        | plpgsql
+-- Version     | 1.0
+-- Schema      | pg_catalog
+-- Description | PL/pgSQL procedural language
+\x auto;
 \pset null '<null>';
 set search_path = eva_insights, eva_platform, "$user", public;
