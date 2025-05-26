@@ -13,13 +13,18 @@ is_ubuntu() {
 }
 
 is_macos() {
-  [ "$( uname )" = Darwin ]
+  [ "$(uname)" = Darwin ]
 }
 
 am_admin() {
-  # sudo -v is normally used to extend the sudo password timeout, but just exits 1 if
-  # the user doesn't have any sudo privileges.
-  sudo -v
+  if [[ "$(hostname)" =~ BE- ]]; then
+    # On corporate MacBooks, sudo is generally forbidden and behaves weirdly.
+    false
+  else
+    # sudo -v is normally used to extend the sudo password timeout, but just exits 1 if
+    # the user doesn't have any sudo privileges.
+    sudo -v
+  fi
 }
 
 brew_install_or_upgrade() {
@@ -27,16 +32,15 @@ brew_install_or_upgrade() {
   upgrade='brew upgrade'
   install='brew install'
   case "${2:-}" in
-    "")
-      ;;
-    --head)
-      upgrade="$upgrade --fetch-HEAD"
-      install="$install --fetch-HEAD --HEAD"
-      ;;
-    *)
-      >&2 echo "brew_install_or_upgrade: invalid arg $2"
-      exit 1
-      ;;
+  "") ;;
+  --head)
+    upgrade="$upgrade --fetch-HEAD"
+    install="$install --fetch-HEAD --HEAD"
+    ;;
+  *)
+    >&2 echo "brew_install_or_upgrade: invalid arg $2"
+    exit 1
+    ;;
   esac
   if brew ls --versions "$package" >/dev/null 2>&1; then
     $upgrade "$package"
@@ -76,8 +80,10 @@ without_gnubin() {
 }
 
 github_latest_release_tag_name() {
-  local org="$1"; shift
-  local repo="$1"; shift
+  local org="$1"
+  shift
+  local repo="$1"
+  shift
   # Read full response into variable to avoid error exit code 23 from curl (failed
   # writing body).
   local response=$(
@@ -95,9 +101,12 @@ curlk() {
 }
 
 should_update() {
-  local cmd="$1"; shift
-  local username="$1"; shift
-  local repo="$1"; shift
+  local cmd="$1"
+  shift
+  local username="$1"
+  shift
+  local repo="$1"
+  shift
 
   if [ -d "$repo" ]; then
     (
