@@ -2,28 +2,47 @@
   // =======================
   // General Editor Settings
   // =======================
+  // Suggested on internal Confluence for fewer headaches when using VSCode behind a
+  // proxy.
+  "http.proxyStrictSSL": false,
+
   // Workspace trust
   "security.workspace.trust.untrustedFiles": "open",
 
   // Editor behavior
-  "editor.wordWrap": "on",
+  "editor.wordWrap": "off",
+  "vim.textwidth": 88,
   "editor.wordWrapColumn": 88,
   "editor.rulers": [88, 120],
   "editor.renderWhitespace": "boundary",
   "editor.tabSize": 2,
   "editor.renderFinalNewline": "off",
   "editor.formatOnSave": true,
-  "editor.formatOnSaveMode": "modificationsIfAvailable",
+  // Enable this per-workspace as needed, but for files which you want to keep formatted
+  // from beginning to end, modificationsIfAvailable may result in less formatting being
+  // applied than wanted, because sometimes, changes mean that neighboring lines should
+  // also be affected by the reformat, but this setting prevents that.
+  // "editor.formatOnSaveMode": "modificationsIfAvailable",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.fontFamily": "BlexMono Nerd Font, Menlo, Monaco, 'Courier New', monospace",
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit"
   },
 
-  // File handling
+  // Files
   "files.trimFinalNewlines": true,
-  "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
+  // Leave this to trailing-spaces extension, which is able to leave unmodified lines
+  // alone.
+  // "files.trimTrailingWhitespace": true,
+  "trailing-spaces.trimOnSave": true,
+  "trailing-spaces.deleteModifiedLinesOnly": true,
+
+  // Diff editor
+  // Don't show leading/trailing whitespace differences by default (can be toggled via ¶
+  // button in diff editor controls).
+  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.experimental.showMoves": true,
 
   // Explorer
   "explorer.confirmDelete": false,
@@ -44,13 +63,8 @@
     "*.s3db": "${capture}.${extname}-*"
   },
 
-  // Diff editor
-  "diffEditor.experimental.showMoves": true,
-
-  // Git
-  "git.confirmSync": false,
-  "git.openRepositoryInParentFolders": "never",
-  "git-blame.config.inlineBlameHoverMessage": true,
+  // Documentation viewers
+  "docsView.documentationView.updateMode": "sticky",
 
   // Notebook
   "notebook.formatOnSave.enabled": true,
@@ -81,7 +95,7 @@
       "path": "zsh"
     },
     "fish": {
-      "path": "fish"
+      "path": "/opt/homebrew/bin/fish"
     },
     "tmux": {
       "path": "tmux",
@@ -103,7 +117,7 @@
       "args": ["-l"]
     },
     "fish": {
-      "path": "fish",
+      "path": "/opt/homebrew/bin/fish",
       "args": ["-l"]
     },
     "fish-no-login": {
@@ -126,6 +140,8 @@
   "vim.hlsearch": true,
   "vim.leader": " ",
   "vim.easymotion": true,
+  "vim.useSystemClipboard": true,
+  "vim.joinspaces": false,
   "vim.insertModeKeyBindingsNonRecursive": [
     {
       "before": ["f", "d"],
@@ -133,6 +149,14 @@
     }
   ],
   "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["j"],
+      "after": ["g", "j"]
+    },
+    {
+      "before": ["k"],
+      "after": ["g", "k"]
+    },
     {
       "before": ["<space>"],
       "commands": [
@@ -166,8 +190,48 @@
   ],
 
   // =======================
-  // Inlay Hints & Formatting
+  // AI Assistants
   // =======================
+  "github.copilot.advanced": {
+    "authProvider": "github"
+  },
+  "github.copilot.chat.completionContext.typescript.mode": "sidecar",
+  "github.copilot.nextEditSuggestions.enabled": true,
+
+  // =======================
+  // Language-Specific Settings
+  // =======================
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+    // "diffEditor.ignoreTrimWhitespace": true,
+    "rewrap.autoWrap.enabled": true
+  },
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "python.analysis.inlayHints.variableTypes": true,
+  "python.analysis.typeCheckingMode": "strict",
+  "jupyter.debugJustMyCode": false,
+  "debugpy.debugJustMyCode": false,
+
+  "[markdown]": {
+    "editor.wordWrap": "wordWrapColumn"
+  },
+  // "markdown.styles": ["markdown.css"],
+  "markdown.preview.typographer": true,
+
+  "[git-commit]": {
+    "vim.textwidth": 72,
+    "rewrap.wrappingColumn": 72,
+    "rewrap.autoWrap.enabled": true
+  },
+  "git.verboseCommit": true,
+  "git.confirmSync": false,
+  "git.openRepositoryInParentFolders": "never",
+  "git.blame.editorDecoration.enabled": true,
+  "git-blame.config.inlineBlameHoverMessage": true,
+
+  // JS/TS
   "typescript.format.semicolons": "insert",
   "javascript.format.semicolons": "insert",
   "javascript.inlayHints.enumMemberValues.enabled": true,
@@ -180,24 +244,9 @@
   "typescript.inlayHints.enumMemberValues.enabled": true,
   "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
 
-  // =======================
-  // Language-Specific Settings
-  // =======================
-  "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.insertSpaces": true,
-    "editor.tabSize": 4
+  "[yaml]": {
+    "editor.wordWrap": "wordWrapColumn"
   },
-  "python.analysis.inlayHints.functionReturnTypes": true,
-  "python.analysis.inlayHints.variableTypes": true,
-  // "python.analysis.typeCheckingMode": "basic",
-  "python.analysis.typeCheckingMode": "strict",
-
-  "[markdown]": {
-    "editor.wordWrap": "wordWrapColumn",
-    "editor.wordWrapColumn": 88
-  },
-  "markdown.styles": ["markdown.css"],
 
   "[csharp]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp"
@@ -211,27 +260,44 @@
     "editor.defaultFormatter": "tamasfe.even-better-toml"
   },
 
+  // Database/SQL
   "[sql]": {
     "editor.defaultFormatter": "inferrinizzard.prettier-sql-vscode"
   },
   "Prettier-SQL.keywordCase": "upper",
+  "database-client.autoSync": true,
+  "database-client.capitalizeKeywordsWhenFormatting": true,
+  "database-client.queryWithSchema": true,
+  "database-client.highlightSQLBlock": true,
 
-  // =======================
-  // Miscellaneous/Other
-  // =======================
-  "jupyter.askForKernelRestart": false,
-  "mdb.useSampleDocsInCopilot": true,
-  "azureResourceGroups.selectedSubscriptions": [],
-  "chat.editing.alwaysSaveWithGeneratedChanges": true,
-  "workbench.editor.enablePreview": false,
-  "redhat.telemetry.enabled": true,
-  "zenMode.showTabs": "single",
-  "workbench.editor.showTabs": "single",
+  "[fish]": {
+    "editor.defaultFormatter": "bmalehorn.vscode-fish"
+  },
+
+  "[terraform]": {
+    "editor.defaultFormatter": "hashicorp.terraform"
+  },
+
+  // CSV
+  "rainbow_csv.virtual_alignment_mode": "manual",
+  "rainbow_csv.virtual_alignment_vertical_grid": true,
 
   // =======================
   // Visual/Theme/Color Settings
   // =======================
   "workbench.colorTheme": "Kanagawa Wave",
+
+  // Custom highlighting
+  "regionHighlighter.decorationStyle": "border",
+  "regionHighlighter.defaultTheme": "Default Color",
+  "todohighlight.keywords": [
+    {
+      "text": "NOTE:",
+      "color": "white",
+      "backgroundColor": "rgb(27, 103, 32)"
+    }
+  ],
+
   "peacock.favoriteColors": [
     {
       "name": "Kanagawa sumiInk0",
@@ -492,4 +558,18 @@
   "peacock.affectPanelBorder": true,
   "peacock.affectStatusAndTitleBorders": true,
   "peacock.affectTabActiveBorder": true
+
+  // =======================
+  // LLM sort instructions
+  // =======================
+  //
+  // Most of this settings.json file is sorted according to the following guidelines:
+  // general settings should go first, then language-specific settings, and purely
+  // aesthetic settings like colors should go last. However, there's a section at the
+  // end with unsorted settings. Re-arrange these into the appropriate spots in the
+  // file, possibly creating new sections as needed.
+
+  // =======================
+  // Unsorted
+  // =======================
 }
