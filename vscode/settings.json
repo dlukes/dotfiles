@@ -9,6 +9,9 @@
   // Workspace trust
   "security.workspace.trust.untrustedFiles": "open",
 
+  // Workbench / UI
+  "workbench.editor.showTabs": "none",
+
   // Editor behavior
   "editor.wordWrap": "off",
   "vim.textwidth": 88,
