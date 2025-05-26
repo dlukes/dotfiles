@@ -37,5 +37,79 @@
     "key": "cmd+right",
     "command": "-editor.action.inlineSuggest.acceptNextWord",
     "when": "inlineSuggestionVisible && !editorReadonly"
+  },
+  {
+    "key": "alt+a",
+    "command": "-continue.applyCodeFromChat"
+  },
+  {
+    "key": "ctrl+space",
+    "command": "editor.action.triggerSuggest",
+    "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly && !suggestWidgetVisible"
+  },
+  {
+    "key": "ctrl+space",
+    "command": "-editor.action.triggerSuggest",
+    "when": "editorHasCompletionItemProvider && textInputFocus && !editorReadonly && !suggestWidgetVisible"
+  },
+
+  // {
+  //   "key": "escape",
+  //   "command": "-extension.vim_escape",
+  //   "when": "vim.active && vim.mode == 'Normal'"
+  // },
+  // {
+  //   "key": "enter",
+  //   "command": "-extension.vim_enter",
+  //   "when": "vim.active && vim.mode == 'Normal'"
+  // },
+  // {
+  //   "key": "tab",
+  //   "command": "-extension.vim_tab",
+  //   "when": "vim.active && vim.mode == 'Normal'"
+  // },
+
+  // Make NES work with VSCodeVim, see tips here: https://github.com/VSCodeVim/Vim/issues/9459#issuecomment-2646423390
+  {
+    "key": "escape",
+    "command": "-extension.vim_escape",
+    "when": "editorTextFocus && vim.active && !inDebugRepl"
+  },
+  {
+    "key": "escape",
+    "command": "extension.vim_escape",
+    "when": "editorTextFocus && vim.active && !inDebugRepl && !testing.isPeekVisible && !testing.isInPeek && (vim.mode == 'Insert' || !notebookEditorFocused) && !inlineEditIsVisible && !suggestWidgetVisible && !findWidgetVisible && !dirtyDiffVisible"
+  },
+  {
+    "key": "escape",
+    "command": "runCommands",
+    "when": "vim.mode == 'Insert' && inlineEditIsVisible",
+    "args": {
+      "commands": ["editor.action.inlineSuggest.hide", "extension.vim_escape"]
+    }
+  },
+  {
+    "key": "escape",
+    "command": "runCommands",
+    "when": "vim.mode == 'Insert' && suggestWidgetVisible",
+    "args": {
+      "commands": ["hideSuggestWidget", "extension.vim_escape"]
+    }
+  },
+  {
+    "key": "escape",
+    "command": "-hideSuggestWidget",
+    "when": "suggestWidgetVisible && textInputFocus"
+  },
+  {
+    "key": "escape",
+    "command": "hideSuggestWidget",
+    "when": "suggestWidgetVisible && textInputFocus && !vim.active"
+  },
+  {
+    // Remove VSCodeVim's handling of tab to enable default handling of tab
+    // e.g. for inline suggestions.
+    "key": "tab",
+    "command": "-extension.vim_tab"
   }
 ]
