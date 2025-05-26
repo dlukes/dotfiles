@@ -8,5 +8,5 @@ set -euf
 brew install \
   fish git aspell \
   coreutils findutils gnu-sed gnu-tar gawk \
-  gcc readline openssl \
+  readline openssl \
   tidy-html5
