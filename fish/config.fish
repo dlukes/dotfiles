@@ -273,6 +273,45 @@ if test -x $java_home
     set -gx JAVA_HOME ($java_home)
 end
 
+# ------------------------------------------------------------- iTerm2 shell integration {{{1
+
+# NOTE: This should go after any prompt config (e.g. Starship), because it needs to wrap
+# the prompts in some additional magic. It should *not* go into a separate file under
+# fish/conf.d, because those are sourced *before* config.fish.
+
+# You will also have these commands:
+# imgcat filename
+#   Displays the image inline.
+# imgls
+#   Shows a directory listing with image thumbnails.
+# it2api
+#   Command-line utility to manipulate iTerm2.
+# it2attention start|stop|fireworks
+#   Gets your attention.
+# it2cat filename
+#   Prints a file and renders it natively
+# it2check
+#   Checks if the terminal is iTerm2.
+# it2copy [filename]
+#   Copies to the pasteboard.
+# it2dl filename
+#   Downloads the specified file, saving it in your Downloads folder.
+# it2setcolor ...
+#   Changes individual color settings or loads a color preset.
+# it2setkeylabel ...
+#   Changes Touch Bar function key labels.
+# it2tip
+#   iTerm2 usage tips
+# it2ul
+#   Uploads a file.
+# it2universion
+#   Sets the current unicode version.
+# it2profile
+#   Change iTerm2 session profile on the fly.
+
+test -e $HOME/.iterm2_shell_integration.fish
+and source $HOME/.iterm2_shell_integration.fish
+
 # -------------------------------------------------------------------------------- Abbrs {{{1
 
 abbr -a -- plo 'podman logs'
