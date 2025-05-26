@@ -104,7 +104,7 @@ if test (uname -s) = Darwin
         if type -q $brew
             $brew shellenv | source
             if test -d $cellar
-                set -gxp PATH $cellar/{coreutils,gnu-tar,grep,gawk,gnu-sed,findutils}/**/gnubin
+                set -gxp PATH $cellar/{coreutils,gnu-tar,grep,gawk,gnu-sed,findutils,make}/**/gnubin
             end
         else
             set -gx HOMEBREW_PREFIX
