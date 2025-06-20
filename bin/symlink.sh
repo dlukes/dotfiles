@@ -98,6 +98,9 @@ $action "$XDG_CONFIG_HOME" emacs/doom fish git python/pylintrc python/matplotlib
 $action "$XDG_CONFIG_HOME/nvim" nvim/init.lua snippets
 # Same for containers.
 $action "$XDG_CONFIG_HOME/containers" containers/containers.conf
+# uv also puts some other files in its config dir, so don't symlink the
+# full dir.
+$action "$XDG_CONFIG_HOME/uv" python/uv/uv.toml
 
 #-----------------------------------------------------------------------
 # Stuff belonging under $XDG_CONFIG_HOME or macOS equivalent
