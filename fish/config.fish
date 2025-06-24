@@ -48,6 +48,8 @@ source ~/.files/locale
 set -e main
 set -e alt
 
+set -p fish_function_path $XDG_CONFIG_HOME/fish/functions/local
+
 # --------------------------------------------------------------------------------- Fish {{{1
 
 # Variables migrated over from the (universal) fish_variables file, which should not be
